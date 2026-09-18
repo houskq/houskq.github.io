@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Reflex Challenge | HouskaCze_0</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      background: #050308;
+      color: white;
+      font-family: Arial, Helvetica, sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* =========================
+       BACKGROUND
+    ========================= */
+
+    body::before {
+      content: "";
+      position: fixed;
+      width: 600px;
+      height: 600px;
+      left: -250px;
+      top: -200px;
+
+      background: #7c2cff;
+      filter: blur(180px);
+      opacity: 0.22;
+
+      border-radius: 50%;
+      z-index: -3;
+
+      animation: float1 10s ease-in-out infinite alternate;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      width: 500px;
+      height: 500px;
+      right: -200px;
+      bottom: -150px;
+
+      background: #b000ff;
+      filter: blur(180px);
+      opacity: 0.16;
+
+      border-radius: 50%;
+      z-index: -3;
+
+      animation: float2 12s ease-in-out infinite alternate;
+    }
+
+    @keyframes float1 {
+      from {
+        transform: translate(0, 0);
+      }
+
+      to {
+        transform: translate(100px, 80px);
+      }
+    }
+
+    @keyframes float2 {
+      from {
+        transform: translate(0, 0);
+      }
+
+      to {
+        transform: translate(-100px, -80px);
+      }
+    }
+
+    /* =========================
+       NAV
+    ========================= */
+
+    nav {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+
+      transform: translateX(-50%);
+
+      width: min(1100px, calc(100% - 40px));
+      height: 65px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      padding: 0 25px;
+
+      background: rgba(20, 15, 28, 0.55);
+
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 22px;
+
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+
+      box-shadow:
+        0 10px 40px rgba(0,0,0,0.4),
+        0 0 30px rgba(124,44,255,0.08);
+
+      z-index: 100;
+    }
+
+    .logo {
+      font-size: 20px;
+      font-weight: 800;
+
+      background: linear-gradient(
+        90deg,
+        #ffffff,
+        #c084ff,
+        #7c2cff
+      );
+
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .back {
+      display: inline-block;
+
+      padding: 10px 15px;
+
+      color: rgba(255,255,255,0.75);
+      text-decoration: none;
+
+      border-radius: 14px;
+
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.025);
+
+      transition:
+        transform 0.25s ease,
+        color 0.25s ease,
+        background 0.25s ease,
+        box-shadow 0.25s ease;
+    }
+
+    .back:hover {
+      transform: scale(1.06);
+
+      color: white;
+
+      background: rgba(140,60,255,0.14);
+
+      box-shadow:
+        0 0 25px rgba(124,44,255,0.2);
+    }
+
+    /* =========================
+       MAIN
+    ========================= */
+
+    main {
+      width: min(1000px, calc(100% - 40px));
+      margin: auto;
+
+      padding-top: 145px;
+      padding-bottom: 80px;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 35px;
+    }
+
+    .badge {
+      display: inline-block;
+
+      padding: 9px 16px;
+      margin-bottom: 20px;
+
+      border: 1px solid rgba(180,120,255,0.3);
+      border-radius: 100px;
+
+      background: rgba(130,50,255,0.08);
+
+      color: #cda8ff;
+      font-size: 14px;
+
+      box-shadow:
+        0 0 30px rgba(130,50,255,0.12);
+    }
+
+    h1 {
+      font-size: clamp(45px, 8vw, 80px);
+      line-height: 1;
+
+      font-weight: 900;
+      letter-spacing: -4px;
+
+      background: linear-gradient(
+        120deg,
+        #ffffff 10%,
+        #d7b8ff 45%,
+        #7c2cff 85%
+      );
+
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+
+      filter:
+        drop-shadow(0 0 30px rgba(124,44,255,0.2));
+    }
+
+    .subtitle {
+      margin-top: 18px;
+
+      color: rgba(255,255,255,0.5);
+
+      font-size: 17px;
+      line-height: 1.6;
+    }
+
+    /* =========================
+       GAME CARD
+    ========================= */
+
+    .game-card {
+      padding: 25px;
+
+      background: rgba(255,255,255,0.045);
+
+      border: 1px solid rgba(255,255,255,0.09);
+
+      border-radius: 30px;
+
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+
+      box-shadow:
+        0 20px 70px rgba(0,0,0,0.35),
+        inset 0 0 30px rgba(255,255,255,0.015);
+    }
+
+    /* =========================
+       STATS
+    ========================= */
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+
+      margin-bottom: 20px;
+    }
+
+    .stat {
+      padding: 15px;
+
+      text-align: center;
+
+      background: rgba(255,255,255,0.035);
+
+      border: 1px solid rgba(255,255,255,0.06);
+
+      border-radius: 18px;
+    }
+
+    .stat-label {
+      display: block;
+
+      color: rgba(255,255,255,0.4);
+
+      font-size: 12px;
+      margin-bottom: 5px;
+    }
+
+    .stat-value {
+      font-size: 22px;
+      font-weight: 800;
+
+      color: #c084ff;
+    }
+
+    /* =========================
+       GAME AREA
+    ========================= */
+
+    .game-area {
+      position: relative;
+
+      width: 100%;
+      height: 480px;
+
+      overflow: hidden;
+
+      border-radius: 24px;
+
+      background:
+        radial-gradient(
+          circle at center,
+          rgba(124,44,255,0.08),
+          rgba(5,3,8,0.85) 65%
+        );
+
+      border: 1px solid rgba(255,255,255,0.08);
+
+      cursor: crosshair;
+    }
+
+    .game-area::before {
+      content: "";
+
+      position: absolute;
+      inset: 0;
+
+      background:
+        linear-gradient(
+          rgba(255,255,255,0.025) 1px,
+          transparent 1px
+        ),
+        linear-gradient(
+          90deg,
+          rgba(255,255,255,0.025) 1px,
+          transparent 1px
+        );
+
+      background-size: 40px 40px;
+
+      pointer-events: none;
+    }
+
+    /* =========================
+       START SCREEN
+    ========================= */
+
+    .start-screen {
+      position: absolute;
+      inset: 0;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      flex-direction: column;
+
+      text-align: center;
+
+      z-index: 5;
+    }
+
+    .start-icon {
+      font-size: 65px;
+      margin-bottom: 15px;
+
+      filter:
+        drop-shadow(0 0 20px rgba(160,90,255,0.6));
+    }
+
+    .start-screen h2 {
+      font-size: 32px;
+      margin-bottom: 10px;
+    }
+
+    .start-screen p {
+      max-width: 450px;
+
+      color: rgba(255,255,255,0.45);
+
+      line-height: 1.6;
+
+      margin-bottom: 25px;
+    }
+
+    /* =========================
+       BUTTON
+    ========================= */
+
+    .start-btn {
+      border: 1px solid rgba(180,120,255,0.35);
+
+      background: rgba(130,50,255,0.13);
+
+      color: white;
+
+      padding: 14px 28px;
+
+      border-radius: 16px;
+
+      font-size: 16px;
+      font-weight: 800;
+
+      cursor: pointer;
+
+      box-shadow:
+        0 0 30px rgba(124,44,255,0.18);
+
+      transition:
+        transform 0.25s ease,
+        background 0.25s ease,
+        box-shadow 0.25s ease;
+    }
+
+    .start-btn:hover {
+      transform: scale(1.06);
+
+      background: rgba(140,60,255,0.23);
+
+      box-shadow:
+        0 0 40px rgba(124,44,255,0.35);
+    }
+
+    /* =========================
+       CENTER MESSAGE
+    ========================= */
+
+    .message {
+      position: absolute;
+
+      left: 50%;
+      top: 50%;
+
+      transform: translate(-50%, -50%);
+
+      text-align: center;
+
+      pointer-events: none;
+
+      z-index: 2;
+    }
+
+    .message h2 {
+      font-size: 34px;
+      margin-bottom: 10px;
+    }
+
+    .message p {
+      color: rgba(255,255,255,0.45);
+    }
+
+    /* =========================
+       TARGET
+    ========================= */
+
+    .target {
+      position: absolute;
+
+      width: 75px;
+      height: 75px;
+
+      border-radius: 50%;
+
+      border: 2px solid rgba(255,255,255,0.8);
+
+      background:
+        radial-gradient(
+          circle,
+          #ffffff 0 8%,
+          #c084ff 9% 28%,
+          #7c2cff 29% 55%,
+          rgba(124,44,255,0.15) 56% 100%
+        );
+
+      box-shadow:
+        0 0 15px rgba(190,130,255,0.9),
+        0 0 45px rgba(124,44,255,0.6),
+        0 0 90px rgba(124,44,255,0.25);
+
+      cursor: pointer;
+
+      transform: translate(-50%, -50%) scale(1);
+
+      transition:
+        transform 0.12s ease,
+        filter 0.12s ease;
+
+      z-index: 10;
+
+      animation: targetPulse 0.8s ease-in-out infinite alternate;
+    }
+
+    .target:hover {
+      transform: translate(-50%, -50%) scale(1.12);
+
+      filter:
+        brightness(1.25);
+    }
+
+    @keyframes targetPulse {
+      from {
+        box-shadow:
+          0 0 15px rgba(190,130,255,0.9),
+          0 0 45px rgba(124,44,255,0.6),
+          0 0 90px rgba(124,44,255,0.25);
+      }
+
+      to {
+        box-shadow:
+          0 0 25px rgba(220,180,255,1),
+          0 0 65px rgba(124,44,255,0.8),
+          0 0 120px rgba(124,44,255,0.35);
+      }
+    }
+
+    /* =========================
+       RESULTS
+    ========================= */
+
+    .result-screen {
+      position: absolute;
+      inset: 0;
+
+      display: none;
+
+      align-items: center;
+      justify-content: center;
+
+      flex-direction: column;
+
+      text-align: center;
+
+      z-index: 20;
+
+      background: rgba(5,3,8,0.88);
+
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+    }
+
+    .result-screen.show {
+      display: flex;
+    }
+
+    .result-icon {
+      font-size: 65px;
+
+      margin-bottom: 10px;
+
+      filter:
+        drop-shadow(0 0 25px rgba(180,120,255,0.7));
+    }
+
+    .result-screen h2 {
+      font-size: 38px;
+      margin-bottom: 10px;
+    }
+
+    .result-time {
+      font-size: 50px;
+      font-weight: 900;
+
+      color: #c084ff;
+
+      text-shadow:
+        0 0 30px rgba(124,44,255,0.5);
+    }
+
+    .result-rarity {
+      margin-top: 8px;
+
+      font-size: 18px;
+      font-weight: 800;
+    }
+
+    .result-detail {
+      margin-top: 10px;
+
+      color: rgba(255,255,255,0.45);
+    }
+
+    .restart-btn {
+      margin-top: 25px;
+
+      border: 1px solid rgba(180,120,255,0.35);
+
+      background: rgba(130,50,255,0.13);
+
+      color: white;
+
+      padding: 13px 25px;
+
+      border-radius: 15px;
+
+      font-weight: 800;
+
+      cursor: pointer;
+
+      transition:
+        transform 0.25s ease,
+        background 0.25s ease;
+    }
+
+    .restart-btn:hover {
+      transform: scale(1.06);
+
+      background: rgba(140,60,255,0.23);
+    }
+
+    /* =========================
+       INSTRUCTIONS
+    ========================= */
+
+    .instructions {
+      margin-top: 18px;
+
+      text-align: center;
+
+      color: rgba(255,255,255,0.35);
+
+      font-size: 13px;
+    }
+
+    /* =========================
+       FOOTER
+    ========================= */
+
+    footer {
+      width: min(1000px, calc(100% - 40px));
+
+      margin: auto;
+
+      padding: 30px 0 45px;
+
+      text-align: center;
+
+      border-top: 1px solid rgba(255,255,255,0.07);
+
+      color: rgba(255,255,255,0.3);
+
+      font-size: 13px;
+    }
+
+    /* =========================
+       MOBILE
+    ========================= */
+
+    @media (max-width: 700px) {
+
+      nav {
+        width: calc(100% - 20px);
+        top: 10px;
+      }
+
+      main {
+        width: calc(100% - 20px);
+        padding-top: 115px;
+      }
+
+      .game-card {
+        padding: 12px;
+        border-radius: 22px;
+      }
+
+      .game-area {
+        height: 420px;
+      }
+
+      .stats {
+        gap: 8px;
+      }
+
+      .stat {
+        padding: 12px 5px;
+      }
+
+      .stat-value {
+        font-size: 18px;
+      }
+
+      .target {
+        width: 68px;
+        height: 68px;
+      }
+
+      h1 {
+        letter-spacing: -3px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+
+    }
+  </style>
+</head>
+
+<body>
+
+<nav>
+
+  <div class="logo">
+    HouskaCze_0
+  </div>
+
+  <a class="back" href="index.html">
+    ← Zpět na web
+  </a>
+
+</nav>
+
+
+<main>
+
+  <div class="header">
+
+    <div class="badge">
+      ⚡ MINI GAME
+    </div>
+
+    <h1>Reflex Challenge</h1>
+
+    <p class="subtitle">
+      Jak rychlé máš reflexy? Klikni na fialový orb co nejrychleji.
+    </p>
+
+  </div>
+
+
+  <div class="game-card">
+
+    <div class="stats">
+
+      <div class="stat">
+        <span class="stat-label">KOLO</span>
+        <span class="stat-value" id="round">0 / 5</span>
+      </div>
+
+      <div class="stat">
+        <span class="stat-label">POSLEDNÍ ČAS</span>
+        <span class="stat-value" id="lastTime">—</span>
+      </div>
+
+      <div class="stat">
+        <span class="stat-label">PRŮMĚR</span>
+        <span class="stat-value" id="average">—</span>
+      </div>
+
+    </div>
+
+
+    <div class="game-area" id="gameArea">
+
+      <div class="start-screen" id="startScreen">
+
+        <div class="start-icon">
+          🎯
+        </div>
+
+        <h2>Připraven?</h2>
+
+        <p>
+          Po startu chvíli počkej. Jakmile se objeví fialový orb,
+          klikni na něj co nejrychleji.
+        </p>
+
+        <button class="start-btn" id="startBtn">
+          ⚡ START
+        </button>
+
+      </div>
+
+
+      <div class="message" id="message" style="display:none;">
+        <h2>Připrav se...</h2>
+        <p>Orb se objeví každou chvíli.</p>
+      </div>
+
+
+      <div class="result-screen" id="resultScreen">
+
+        <div class="result-icon" id="resultIcon">
+          🏆
+        </div>
+
+        <h2>Hotovo!</h2>
+
+        <div class="result-time" id="resultTime">
+          0 ms
+        </div>
+
+        <div class="result-rarity" id="resultRarity">
+          COMMON
+        </div>
+
+        <div class="result-detail" id="resultDetail">
+          Průměr z 5 kol
+        </div>
+
+        <button class="restart-btn" id="restartBtn">
+          🔄 Hrát znovu
+        </button>
+
+      </div>
+
+    </div>
+
+    <div class="instructions">
+      🎯 Klikni pouze na orb. Každé kolo má jiné umístění.
+    </div>
+
+  </div>
+
+</main>
+
+
+<footer>
+  © 2026 HouskaCze_0 · Made with 💜
+</footer>
+
+
+<script>
+
+  const gameArea = document.getElementById("gameArea");
+
+  const startScreen = document.getElementById("startScreen");
+  const startBtn = document.getElementById("startBtn");
+
+  const message = document.getElementById("message");
+
+  const resultScreen =
+    document.getElementById("resultScreen");
+
+  const restartBtn =
+    document.getElementById("restartBtn");
+
+  const roundDisplay =
+    document.getElementById("round");
+
+  const lastTimeDisplay =
+    document.getElementById("lastTime");
+
+  const averageDisplay =
+    document.getElementById("average");
+
+  const resultTime =
+    document.getElementById("resultTime");
+
+  const resultRarity =
+    document.getElementById("resultRarity");
+
+  const resultIcon =
+    document.getElementById("resultIcon");
+
+  const resultDetail =
+    document.getElementById("resultDetail");
+
+
+  let round = 0;
+
+  let times = [];
+
+  let target = null;
+
+  let startTime = 0;
+
+  let spawnTimer = null;
+
+  const TOTAL_ROUNDS = 5;
+
+
+  /* =========================
+     START GAME
+  ========================= */
+
+  function startGame() {
+
+    clearTimeout(spawnTimer);
+
+    round = 0;
+    times = [];
+
+    target = null;
+    startTime = 0;
+
+    roundDisplay.textContent =
+      `0 / ${TOTAL_ROUNDS}`;
+
+    lastTimeDisplay.textContent = "—";
+
+    averageDisplay.textContent = "—";
+
+    resultScreen.classList.remove("show");
+
+    startScreen.style.display = "none";
+
+    message.style.display = "block";
+
+    scheduleTarget();
+
+  }
+
+
+  /* =========================
+     SPAWN TARGET
+  ========================= */
+
+  function scheduleTarget() {
+
+    clearTimeout(spawnTimer);
+
+    const delay =
+      700 + Math.random() * 1700;
+
+    spawnTimer =
+      setTimeout(spawnTarget, delay);
+
+  }
+
+
+  function spawnTarget() {
+
+    message.style.display = "none";
+
+    if (target) {
+      target.remove();
+    }
+
+    target =
+      document.createElement("div");
+
+    target.className = "target";
+
+    const areaRect =
+      gameArea.getBoundingClientRect();
+
+    const size = 75;
+
+    const padding = size / 2 + 10;
+
+    const x =
+      padding +
+      Math.random() *
+      (areaRect.width - padding * 2);
+
+    const y =
+      padding +
+      Math.random() *
+      (areaRect.height - padding * 2);
+
+    target.style.left = `${x}px`;
+    target.style.top = `${y}px`;
+
+    target.addEventListener(
+      "click",
+      hitTarget
+    );
+
+    gameArea.appendChild(target);
+
+    startTime = performance.now();
+
+  }
+
+
+  /* =========================
+     HIT
+  ========================= */
+
+  function hitTarget(event) {
+
+    event.stopPropagation();
+
+    const reaction =
+      Math.round(
+        performance.now() - startTime
+      );
+
+    times.push(reaction);
+
+    round++;
+
+    roundDisplay.textContent =
+      `${round} / ${TOTAL_ROUNDS}`;
+
+    lastTimeDisplay.textContent =
+      `${reaction} ms`;
+
+    const currentAverage =
+      Math.round(
+        times.reduce(
+          (sum, value) => sum + value,
+          0
+        ) / times.length
+      );
+
+    averageDisplay.textContent =
+      `${currentAverage} ms`;
+
+    target.remove();
+
+    target = null;
+
+    if (round >= TOTAL_ROUNDS) {
+
+      finishGame();
+
+      return;
+
+    }
+
+    message.style.display = "block";
+
+    message.querySelector("h2").textContent =
+      "Dobré!";
+
+    message.querySelector("p").textContent =
+      "Připrav se na další...";
+
+    scheduleTarget();
+
+  }
+
+
+  /* =========================
+     FINISH
+  ========================= */
+
+  function finishGame() {
+
+    clearTimeout(spawnTimer);
+
+    const average =
+      Math.round(
+        times.reduce(
+          (sum, value) => sum + value,
+          0
+        ) / times.length
+      );
+
+    resultTime.textContent =
+      `${average} ms`;
+
+    let rarity;
+    let icon;
+
+    if (average < 180) {
+
+      rarity = "⚡ MYTHIC";
+      icon = "👑";
+
+    } else if (average < 230) {
+
+      rarity = "💜 LEGENDARY";
+      icon = "🔥";
+
+    } else if (average < 300) {
+
+      rarity = "🔮 EPIC";
+      icon = "💎";
+
+    } else if (average < 400) {
+
+      rarity = "🟦 RARE";
+      icon = "⭐";
+
+    } else {
+
+      rarity = "⚪ COMMON";
+      icon = "🎯";
+
+    }
+
+    resultIcon.textContent = icon;
+
+    resultRarity.textContent = rarity;
+
+    resultDetail.textContent =
+      `Průměr z ${TOTAL_ROUNDS} kol · ${times.join(" ms · ")} ms`;
+
+    message.style.display = "none";
+
+    resultScreen.classList.add("show");
+
+  }
+
+
+  /* =========================
+     BUTTONS
+  ========================= */
+
+  startBtn.addEventListener(
+    "click",
+    startGame
+  );
+
+  restartBtn.addEventListener(
+    "click",
+    startGame
+  );
+
+
+  /* =========================
+     PREVENT ACCIDENTAL GAME
+  ========================= */
+
+  gameArea.addEventListener(
+    "click",
+    event => {
+
+      if (
+        target &&
+        event.target !== target
+      ) {
+
+        message.style.display = "block";
+
+        message.querySelector("h2").textContent =
+          "Vedle! 😭";
+
+        message.querySelector("p").textContent =
+          "Počkej na orb.";
+
+      }
+
+    }
+  );
+
+</script>
+
+</body>
+</html>
