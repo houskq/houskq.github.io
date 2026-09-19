@@ -3,547 +3,1100 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Survive from Minecraft</title>
+
+<title>Survive from Minecraft | Case Simulator</title>
 
 <style>
 *{
-    box-sizing:border-box;
     margin:0;
     padding:0;
+    box-sizing:border-box;
 }
 
 :root{
+    --bg:#07070c;
+    --panel:#10101a;
+    --panel2:#151521;
+    --border:rgba(255,255,255,.08);
+    --text:#f5f5ff;
+    --muted:#9292a8;
     --purple:#8b5cf6;
-    --purple2:#6d28d9;
-    --green:#55c83d;
-    --green2:#2e8b2b;
-    --gold:#ffd34e;
+    --purple2:#a855f7;
+    --green:#4ade80;
+    --gold:#facc15;
     --red:#ef4444;
-    --blue:#49a8ff;
-    --panel:rgba(15,15,24,.91);
+}
+
+html{
+    scroll-behavior:smooth;
 }
 
 body{
     min-height:100vh;
-    font-family:Arial,Helvetica,sans-serif;
-    color:white;
     background:
-        radial-gradient(circle at 50% -10%,#342064 0,#171322 35%,#09080d 75%);
+        radial-gradient(circle at 20% 0%,rgba(139,92,246,.13),transparent 30%),
+        radial-gradient(circle at 90% 20%,rgba(168,85,247,.08),transparent 25%),
+        linear-gradient(180deg,#07070c,#090912 55%,#06060b);
+    color:var(--text);
+    font-family:Inter,Segoe UI,Arial,sans-serif;
     overflow-x:hidden;
 }
 
-button{
-    font:inherit;
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    opacity:.035;
+    background-image:
+        linear-gradient(rgba(255,255,255,.5) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(255,255,255,.5) 1px,transparent 1px);
+    background-size:40px 40px;
 }
 
-#app{
-    width:min(1500px,96vw);
-    margin:auto;
-    padding:22px 0 50px;
-}
+/* =========================
+   TOP BAR
+========================= */
 
-/* ================= TOP ================= */
-
-.top{
+.topbar{
+    position:sticky;
+    top:0;
+    z-index:50;
+    height:72px;
     display:flex;
+    align-items:center;
     justify-content:space-between;
-    align-items:center;
-    gap:15px;
-    margin-bottom:16px;
-}
-
-.brand{
-    display:flex;
-    align-items:center;
-    gap:13px;
+    padding:0 32px;
+    background:rgba(7,7,12,.82);
+    backdrop-filter:blur(18px);
+    border-bottom:1px solid var(--border);
 }
 
 .logo{
-    width:55px;
-    height:55px;
-    border:3px solid #111;
-    background:
-        linear-gradient(135deg,#a855f7,#6d28d9);
-    box-shadow:
-        0 0 0 2px #8b5cf6,
-        0 8px 30px #0008;
-    display:grid;
-    place-items:center;
-    font-weight:1000;
-    font-size:27px;
-    text-shadow:3px 3px #000;
-}
-
-.title h1{
-    font-size:25px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    font-weight:900;
     letter-spacing:.5px;
 }
 
-.title span{
-    color:#a78bfa;
-    font-size:13px;
-}
-
-.resources{
-    display:flex;
-    gap:10px;
-    flex-wrap:wrap;
-    justify-content:flex-end;
-}
-
-.resource{
-    min-width:110px;
-    padding:9px 14px;
-    border-radius:10px;
-    border:1px solid #ffffff18;
-    background:#11101ae8;
-    box-shadow:0 8px 25px #0005;
-}
-
-.resource small{
-    display:block;
-    color:#aaa;
-    font-size:10px;
-    text-transform:uppercase;
-}
-
-.resource strong{
+.logo-icon{
+    width:38px;
+    height:38px;
+    border-radius:11px;
+    display:grid;
+    place-items:center;
+    background:linear-gradient(135deg,#8b5cf6,#5b21b6);
+    box-shadow:0 0 25px rgba(139,92,246,.35);
     font-size:20px;
 }
 
-.coin strong{color:var(--gold)}
-.mana strong{color:#61b8ff}
-.wave strong{color:#c49cff}
-
-/* ================= GAME ================= */
-
-.game-wrap{
-    border:2px solid #ffffff12;
-    background:#08080c;
-    border-radius:16px;
-    padding:8px;
-    box-shadow:
-        0 20px 70px #000b,
-        0 0 50px #7c3aed18;
-}
-
-#game{
-    position:relative;
-    width:100%;
-    aspect-ratio:16/7;
-    min-height:440px;
-    overflow:hidden;
-    border-radius:10px;
-    background:#79bce9;
-    image-rendering:pixelated;
-}
-
-canvas{
-    width:100%;
-    height:100%;
-    display:block;
-    image-rendering:pixelated;
-}
-
-/* wave badge */
-
-.wave-badge{
-    position:absolute;
-    top:16px;
-    left:50%;
-    transform:translateX(-50%);
-    z-index:20;
-    padding:9px 25px;
-    background:#111b;
-    border:2px solid #ffffff25;
-    clip-path:polygon(
-        8px 0,calc(100% - 8px) 0,
-        100% 8px,100% calc(100% - 8px),
-        calc(100% - 8px) 100%,8px 100%,
-        0 calc(100% - 8px),0 8px
-    );
-    text-align:center;
-    font-weight:900;
-    text-shadow:2px 2px #000;
-}
-
-.wave-badge small{
-    color:#aaa;
-    display:block;
-    font-size:10px;
-}
-
-#waveNumber{
-    color:#d8b4fe;
-    font-size:22px;
-}
-
-/* hp */
-
-.castle-hp{
-    position:absolute;
-    z-index:20;
-    left:25px;
-    top:18px;
-    width:245px;
-}
-
-.hp-label{
-    font-size:11px;
-    font-weight:900;
-    margin-bottom:4px;
-    text-shadow:2px 2px #000;
-}
-
-.hp-bg{
-    height:15px;
-    background:#260e13;
-    border:2px solid #111;
-    box-shadow:0 3px 0 #0007;
-}
-
-#hpFill{
-    height:100%;
-    width:100%;
-    background:linear-gradient(#62ef59,#249d28);
-    transition:width .25s;
-}
-
-#hpText{
-    position:absolute;
-    width:100%;
-    text-align:center;
-    top:19px;
-    font-size:10px;
-    font-weight:900;
-    text-shadow:1px 1px #000;
-}
-
-/* wave message */
-
-#waveMessage{
-    position:absolute;
-    z-index:30;
-    top:50%;
-    left:50%;
-    transform:translate(-50%,-50%) scale(.8);
-    opacity:0;
-    pointer-events:none;
-    padding:20px 40px;
-    background:#09090de8;
-    border:2px solid #a855f7;
-    box-shadow:0 0 60px #7c3aed66;
-    text-align:center;
-    transition:.25s;
-}
-
-#waveMessage.show{
-    opacity:1;
-    transform:translate(-50%,-50%) scale(1);
-}
-
-#waveMessage b{
-    font-size:35px;
-}
-
-#waveMessage span{
-    display:block;
-    color:#bbb;
-    margin-top:5px;
-}
-
-/* ================= CONTROLS ================= */
-
-.controls{
-    margin-top:12px;
-    display:grid;
-    grid-template-columns:1.1fr 1fr 1fr;
-    gap:12px;
-}
-
-.panel{
-    background:var(--panel);
-    border:1px solid #ffffff13;
-    border-radius:13px;
-    padding:15px;
-    box-shadow:0 12px 35px #0006;
-}
-
-.panel h2{
-    font-size:14px;
-    margin-bottom:12px;
-    color:#ddd;
-}
-
-.panel h2 span{
-    color:#a78bfa;
-}
-
-.main-button{
-    width:100%;
-    padding:14px;
-    border:0;
-    cursor:pointer;
+.logo span{
     color:#fff;
-    font-weight:1000;
-    font-size:16px;
-    background:
-        linear-gradient(#72d64d,#328e2d);
-    border:2px solid #173f18;
-    box-shadow:
-        inset 0 2px #b6ff98,
-        0 5px 0 #143c16,
-        0 12px 25px #0005;
-    transition:.1s;
 }
 
-.main-button:hover{
-    filter:brightness(1.12);
-}
-
-.main-button:active{
-    transform:translateY(4px);
-    box-shadow:inset 0 2px #b6ff98,0 1px 0 #143c16;
-}
-
-.main-button.running{
-    background:linear-gradient(#555,#292929);
-    cursor:not-allowed;
-}
-
-.upgrades{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:7px;
-}
-
-.upgrade{
-    border:1px solid #ffffff12;
-    background:#17151f;
-    color:#fff;
-    padding:9px;
-    cursor:pointer;
-    text-align:left;
-    border-radius:7px;
-}
-
-.upgrade:hover{
-    background:#211d2e;
-    border-color:#8b5cf655;
-}
-
-.upgrade b{
+.logo small{
     display:block;
-    font-size:12px;
-}
-
-.upgrade span{
-    color:#aaa;
+    color:#8e8ea3;
     font-size:10px;
+    font-weight:600;
+    margin-top:1px;
 }
 
-.upgrade strong{
-    display:block;
-    color:#ffd34e;
-    font-size:11px;
-    margin-top:5px;
-}
-
-.abilities{
-    display:grid;
-    grid-template-columns:1fr 1fr 1fr;
-    gap:7px;
-}
-
-.ability{
-    min-height:75px;
-    background:#16141e;
-    color:white;
-    border:1px solid #ffffff12;
-    border-radius:8px;
-    cursor:pointer;
-    position:relative;
-    overflow:hidden;
-}
-
-.ability:hover{
-    border-color:#a855f755;
-}
-
-.ability b{
-    display:block;
-    margin-top:7px;
-    font-size:11px;
-}
-
-.ability span{
-    display:block;
-    color:#aaa;
-    font-size:9px;
-    padding:2px 5px;
-}
-
-.cooldown{
-    position:absolute;
-    inset:auto 0 0;
-    height:0%;
-    background:#050509aa;
-    pointer-events:none;
-}
-
-/* ================= UNITS ================= */
-
-.units{
-    margin-top:12px;
-    display:grid;
-    grid-template-columns:repeat(5,1fr);
+.top-actions{
+    display:flex;
+    align-items:center;
     gap:10px;
 }
 
-.unit{
-    position:relative;
-    background:linear-gradient(145deg,#171520,#0f0e14);
-    border:1px solid #ffffff12;
+.coins{
+    height:42px;
+    padding:0 16px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    background:rgba(255,255,255,.045);
+    border:1px solid var(--border);
     border-radius:12px;
-    padding:13px;
-    min-height:170px;
-    box-shadow:0 10px 30px #0005;
+    font-weight:800;
 }
 
-.unit.locked{
-    filter:grayscale(1);
-    opacity:.5;
+.coin-icon{
+    width:20px;
+    height:20px;
+    border-radius:50%;
+    background:radial-gradient(circle at 35% 30%,#fff59a,#facc15 45%,#a16207);
+    box-shadow:0 0 10px rgba(250,204,21,.35);
 }
 
-.unit-icon{
-    height:55px;
+.nav-btn{
+    height:42px;
+    padding:0 15px;
+    border:1px solid var(--border);
+    background:rgba(255,255,255,.035);
+    color:#ddddec;
+    border-radius:12px;
+    cursor:pointer;
+    font-weight:700;
+    transition:.2s;
+}
+
+.nav-btn:hover{
+    background:rgba(139,92,246,.12);
+    border-color:rgba(139,92,246,.35);
+}
+
+/* =========================
+   MAIN
+========================= */
+
+.container{
+    width:min(1250px,calc(100% - 36px));
+    margin:auto;
+    padding:45px 0 80px;
+}
+
+.hero{
+    text-align:center;
+    margin-bottom:42px;
+}
+
+.hero-badge{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:8px 13px;
+    border-radius:999px;
+    border:1px solid rgba(139,92,246,.25);
+    background:rgba(139,92,246,.08);
+    color:#c4b5fd;
+    font-size:12px;
+    font-weight:800;
+    margin-bottom:18px;
+}
+
+.hero h1{
+    font-size:clamp(34px,6vw,68px);
+    line-height:.95;
+    font-weight:950;
+    letter-spacing:-3px;
+}
+
+.hero h1 span{
+    background:linear-gradient(90deg,#fff,#c4b5fd,#8b5cf6);
+    -webkit-background-clip:text;
+    color:transparent;
+}
+
+.hero p{
+    max-width:650px;
+    margin:18px auto 0;
+    color:var(--muted);
+    line-height:1.6;
+}
+
+/* =========================
+   CASE GRID
+========================= */
+
+.section-title{
+    display:flex;
+    justify-content:space-between;
+    align-items:end;
+    margin-bottom:18px;
+}
+
+.section-title h2{
+    font-size:22px;
+}
+
+.section-title span{
+    color:#77778e;
+    font-size:13px;
+}
+
+.case-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:17px;
+}
+
+.case{
+    position:relative;
+    min-height:290px;
+    padding:22px;
+    overflow:hidden;
+    border-radius:20px;
+    border:1px solid var(--border);
+    background:
+        linear-gradient(145deg,rgba(255,255,255,.055),rgba(255,255,255,.015)),
+        #0d0d15;
+    transition:
+        transform .25s,
+        border-color .25s,
+        box-shadow .25s;
+}
+
+.case:hover{
+    transform:translateY(-6px);
+    border-color:rgba(139,92,246,.38);
+    box-shadow:0 20px 60px rgba(0,0,0,.35),0 0 35px rgba(139,92,246,.08);
+}
+
+.case::after{
+    content:"";
+    position:absolute;
+    width:160px;
+    height:160px;
+    right:-50px;
+    top:-50px;
+    border-radius:50%;
+    background:var(--case-glow,rgba(139,92,246,.16));
+    filter:blur(35px);
+}
+
+.case-head{
+    position:relative;
+    z-index:2;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.case-name{
+    font-weight:900;
+    font-size:18px;
+}
+
+.case-price{
+    padding:6px 10px;
+    border-radius:8px;
+    background:rgba(255,255,255,.06);
+    color:#ddd;
+    font-size:12px;
+    font-weight:800;
+}
+
+.case-visual{
+    position:relative;
+    z-index:2;
+    height:125px;
     display:grid;
     place-items:center;
-    font-size:38px;
-    image-rendering:pixelated;
 }
 
-.unit h3{
-    font-size:13px;
-    margin-bottom:6px;
+.case-box{
+    width:105px;
+    height:105px;
+    position:relative;
+    transform:perspective(500px) rotateX(12deg) rotateY(-15deg);
+    filter:drop-shadow(0 20px 18px rgba(0,0,0,.5));
 }
 
-.unit p{
-    color:#888;
-    font-size:10px;
-    line-height:1.5;
-}
-
-.unit button{
-    width:100%;
-    margin-top:8px;
-    border:1px solid #ffffff12;
-    background:#24202f;
-    color:white;
-    padding:7px;
-    cursor:pointer;
-    border-radius:6px;
-    font-size:10px;
-    font-weight:900;
-}
-
-.unit button:hover{
-    background:#33284a;
-}
-
-.level{
+.case-front{
     position:absolute;
-    top:9px;
-    right:9px;
-    color:#d8b4fe;
-    font-size:10px;
+    left:0;
+    bottom:0;
+    width:82px;
+    height:76px;
+    border-radius:8px;
+    background:
+        linear-gradient(135deg,rgba(255,255,255,.15),transparent 40%),
+        var(--box-color,#65a30d);
+    border:3px solid rgba(0,0,0,.35);
+    box-shadow:
+        inset 0 0 0 4px rgba(255,255,255,.06),
+        inset 0 -12px 20px rgba(0,0,0,.18);
+}
+
+.case-top{
+    position:absolute;
+    left:2px;
+    top:12px;
+    width:83px;
+    height:35px;
+    transform:skewY(-22deg);
+    border-radius:7px;
+    background:var(--box-top,#84cc16);
+    border:3px solid rgba(0,0,0,.35);
+}
+
+.case-lock{
+    position:absolute;
+    left:31px;
+    top:37px;
+    width:20px;
+    height:24px;
+    border-radius:4px;
+    background:#e5e7eb;
+    border:3px solid #52525b;
+    z-index:3;
+}
+
+.case-lock::before{
+    content:"";
+    position:absolute;
+    left:4px;
+    top:-11px;
+    width:7px;
+    height:13px;
+    border:3px solid #52525b;
+    border-bottom:0;
+    border-radius:7px 7px 0 0;
+}
+
+.case-items{
+    position:relative;
+    z-index:2;
+    display:flex;
+    gap:6px;
+    flex-wrap:wrap;
+    min-height:34px;
+}
+
+.mini-item{
+    width:31px;
+    height:31px;
+    display:grid;
+    place-items:center;
+    border-radius:7px;
+    background:rgba(255,255,255,.05);
+    border:1px solid rgba(255,255,255,.07);
+    font-size:14px;
+}
+
+.case-bottom{
+    position:absolute;
+    z-index:2;
+    left:22px;
+    right:22px;
+    bottom:20px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+}
+
+.case-info{
+    color:#77778e;
+    font-size:11px;
+}
+
+.open-case-btn{
+    border:0;
+    border-radius:10px;
+    padding:10px 15px;
+    color:white;
+    background:linear-gradient(135deg,#7c3aed,#9333ea);
+    box-shadow:0 7px 20px rgba(124,58,237,.25);
+    font-weight:900;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.open-case-btn:hover{
+    transform:translateY(-1px);
+    box-shadow:0 10px 26px rgba(124,58,237,.38);
+}
+
+.open-case-btn:disabled{
+    opacity:.45;
+    cursor:not-allowed;
+    transform:none;
+}
+
+/* case colors */
+
+.case.grass{
+    --box-color:#65a30d;
+    --box-top:#84cc16;
+    --case-glow:rgba(132,204,22,.12);
+}
+
+.case.stone{
+    --box-color:#52525b;
+    --box-top:#71717a;
+    --case-glow:rgba(161,161,170,.12);
+}
+
+.case.nether{
+    --box-color:#7f1d1d;
+    --box-top:#991b1b;
+    --case-glow:rgba(239,68,68,.15);
+}
+
+.case.diamond{
+    --box-color:#0891b2;
+    --box-top:#22d3ee;
+    --case-glow:rgba(34,211,238,.14);
+}
+
+.case.end{
+    --box-color:#4c1d95;
+    --box-top:#6d28d9;
+    --case-glow:rgba(139,92,246,.18);
+}
+
+.case.legendary{
+    --box-color:#854d0e;
+    --box-top:#eab308;
+    --case-glow:rgba(250,204,21,.2);
+}
+
+/* =========================
+   STORAGE
+========================= */
+
+.storage{
+    margin-top:55px;
+}
+
+.storage-panel{
+    border:1px solid var(--border);
+    border-radius:20px;
+    background:rgba(255,255,255,.025);
+    overflow:hidden;
+}
+
+.storage-top{
+    padding:20px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    border-bottom:1px solid var(--border);
+}
+
+.storage-title{
     font-weight:900;
 }
 
-/* ================= LOG ================= */
+.storage-count{
+    color:#7e7e94;
+    font-size:13px;
+}
 
-.log{
-    margin-top:12px;
-    padding:10px 13px;
-    background:#09090d;
-    border:1px solid #ffffff0c;
-    border-radius:9px;
-    height:90px;
+.inventory{
+    padding:20px;
+    display:grid;
+    grid-template-columns:repeat(6,1fr);
+    gap:10px;
+}
+
+.inv-item{
+    min-height:145px;
+    position:relative;
+    padding:13px;
+    border-radius:13px;
+    background:rgba(255,255,255,.035);
+    border:1px solid rgba(255,255,255,.06);
     overflow:hidden;
-    font-family:monospace;
+}
+
+.inv-item:hover{
+    border-color:rgba(139,92,246,.35);
+}
+
+.item-icon{
+    height:72px;
+    display:grid;
+    place-items:center;
+}
+
+.item-pixel{
+    width:48px;
+    height:48px;
+    position:relative;
+    filter:drop-shadow(0 5px 10px rgba(0,0,0,.45));
+}
+
+/* pixel item shapes */
+
+.pixel-block{
+    width:42px;
+    height:42px;
+    border:3px solid rgba(0,0,0,.35);
+    box-shadow:inset 8px 8px rgba(255,255,255,.12),inset -7px -7px rgba(0,0,0,.15);
+}
+
+.dirt{background:#795548;}
+.grass{background:linear-gradient(#65a30d 0 27%,#795548 27%);}
+.stone-icon{background:#737373;}
+.iron{background:#d4d4d8;}
+.gold{background:#facc15;}
+.diamond-icon{background:#22d3ee;}
+.netherite{background:#52525b;}
+.emerald{background:#22c55e;}
+.obsidian{background:#312e81;}
+.tnt{background:#dc2626;}
+
+.sword-shape{
+    width:11px;
+    height:55px;
+    background:#d4d4d8;
+    transform:rotate(45deg);
+    position:absolute;
+    left:19px;
+    top:-2px;
+    box-shadow:
+        5px 5px 0 #737373,
+        -8px 29px 0 #78350f;
+}
+
+.sword-shape.diamond-sword{
+    background:#22d3ee;
+    box-shadow:
+        5px 5px 0 #67e8f9,
+        -8px 29px 0 #713f12;
+}
+
+.sword-shape.netherite-sword{
+    background:#71717a;
+    box-shadow:
+        5px 5px 0 #3f3f46,
+        -8px 29px 0 #713f12;
+}
+
+.apple-shape{
+    width:42px;
+    height:38px;
+    border-radius:42% 42% 48% 48%;
+    background:#dc2626;
+    box-shadow:inset 7px 5px rgba(255,255,255,.12);
+}
+
+.apple-shape::after{
+    content:"";
+    position:absolute;
+    width:8px;
+    height:13px;
+    background:#713f12;
+    left:22px;
+    top:-8px;
+    transform:rotate(15deg);
+}
+
+.pearl{
+    width:43px;
+    height:43px;
+    border-radius:50%;
+    background:radial-gradient(circle at 30% 25%,#d8b4fe,#7e22ce 55%,#2e1065);
+    box-shadow:0 0 18px rgba(168,85,247,.55);
+}
+
+.egg{
+    width:37px;
+    height:48px;
+    border-radius:48% 48% 45% 45%;
+    background:linear-gradient(135deg,#111827,#374151 55%,#111827);
+    transform:rotate(-8deg);
+    box-shadow:0 0 22px rgba(139,92,246,.45);
+}
+
+.elytra{
+    width:53px;
+    height:36px;
+    position:relative;
+}
+
+.elytra::before,
+.elytra::after{
+    content:"";
+    position:absolute;
+    top:5px;
+    width:25px;
+    height:34px;
+    background:#581c87;
+    border:3px solid #a855f7;
+}
+
+.elytra::before{
+    left:0;
+    transform:skewY(20deg);
+}
+
+.elytra::after{
+    right:0;
+    transform:skewY(-20deg);
+}
+
+.inv-name{
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    font-size:12px;
+    font-weight:800;
+}
+
+.inv-rarity{
+    font-size:10px;
+    margin-top:4px;
+    font-weight:800;
+}
+
+.inv-value{
+    color:#9999ac;
+    font-size:10px;
+    margin-top:3px;
+}
+
+.sell-btn{
+    margin-top:8px;
+    width:100%;
+    border:1px solid rgba(255,255,255,.08);
+    background:rgba(255,255,255,.045);
+    color:#ddd;
+    border-radius:7px;
+    padding:5px;
+    font-size:10px;
+    font-weight:800;
+    cursor:pointer;
+}
+
+.sell-btn:hover{
+    background:rgba(74,222,128,.1);
+    color:#86efac;
+}
+
+/* =========================
+   RARITY
+========================= */
+
+.common{color:#b7b7c5;}
+.uncommon{color:#4ade80;}
+.rare{color:#60a5fa;}
+.epic{color:#c084fc;}
+.legendary{color:#facc15;}
+.mythic{
+    color:#fb7185;
+    text-shadow:0 0 15px rgba(251,113,133,.7);
+}
+
+/* =========================
+   OPENING MODAL
+========================= */
+
+.modal{
+    position:fixed;
+    inset:0;
+    z-index:100;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    background:rgba(0,0,0,.82);
+    backdrop-filter:blur(12px);
+}
+
+.modal.active{
+    display:flex;
+}
+
+.opening-window{
+    width:min(1050px,100%);
+    background:
+        radial-gradient(circle at 50% 0%,rgba(139,92,246,.13),transparent 35%),
+        #0b0b13;
+    border:1px solid rgba(255,255,255,.1);
+    border-radius:24px;
+    box-shadow:0 40px 100px rgba(0,0,0,.7);
+    overflow:hidden;
+}
+
+.opening-head{
+    padding:20px 24px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    border-bottom:1px solid var(--border);
+}
+
+.opening-head strong{
+    font-size:17px;
+}
+
+.close{
+    width:35px;
+    height:35px;
+    border-radius:9px;
+    border:1px solid var(--border);
+    background:rgba(255,255,255,.04);
+    color:#aaa;
+    cursor:pointer;
+    font-size:18px;
+}
+
+.opening-content{
+    padding:28px 25px 34px;
+}
+
+.opening-case-name{
+    text-align:center;
+    color:#aaaabd;
+    font-size:12px;
+    font-weight:800;
+    letter-spacing:1px;
+    text-transform:uppercase;
+    margin-bottom:17px;
+}
+
+.reel-wrap{
+    position:relative;
+    width:100%;
+    height:180px;
+    overflow:hidden;
+    border-radius:15px;
+    background:#08080e;
+    border:1px solid rgba(255,255,255,.08);
+}
+
+.reel-wrap::before,
+.reel-wrap::after{
+    content:"";
+    position:absolute;
+    top:0;
+    bottom:0;
+    width:150px;
+    z-index:3;
+    pointer-events:none;
+}
+
+.reel-wrap::before{
+    left:0;
+    background:linear-gradient(90deg,#08080e,transparent);
+}
+
+.reel-wrap::after{
+    right:0;
+    background:linear-gradient(-90deg,#08080e,transparent);
+}
+
+.pointer{
+    position:absolute;
+    z-index:10;
+    left:50%;
+    top:-1px;
+    transform:translateX(-50%);
+    width:0;
+    height:0;
+    border-left:11px solid transparent;
+    border-right:11px solid transparent;
+    border-top:15px solid #fff;
+    filter:drop-shadow(0 2px 5px rgba(255,255,255,.35));
+}
+
+.pointer-bottom{
+    position:absolute;
+    z-index:10;
+    left:50%;
+    bottom:-1px;
+    transform:translateX(-50%) rotate(180deg);
+    width:0;
+    height:0;
+    border-left:11px solid transparent;
+    border-right:11px solid transparent;
+    border-top:15px solid #fff;
+}
+
+.reel{
+    position:absolute;
+    height:100%;
+    left:50%;
+    top:0;
+    display:flex;
+    align-items:center;
+    gap:9px;
+    will-change:transform;
+    transform:translateX(0);
+}
+
+.reel-card{
+    width:145px;
+    height:145px;
+    flex:0 0 145px;
+    position:relative;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    border-radius:12px;
+    background:
+        linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.015));
+    border:1px solid rgba(255,255,255,.07);
+}
+
+.reel-card::after{
+    content:"";
+    position:absolute;
+    bottom:0;
+    left:10%;
+    right:10%;
+    height:3px;
+    border-radius:5px;
+    background:currentColor;
+    opacity:.8;
+}
+
+.reel-card .item-icon{
+    height:72px;
+}
+
+.reel-card-name{
+    max-width:125px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
     font-size:11px;
-    color:#999;
+    font-weight:800;
+    color:#ddd;
 }
 
-.log div{
-    margin:3px 0;
+.reel-card-rarity{
+    font-size:9px;
+    font-weight:900;
+    margin-top:4px;
+    text-transform:uppercase;
 }
 
-.log .good{color:#71db67}
-.log .danger{color:#ff6868}
-.log .gold{color:#ffd34e}
-.log .rare{color:#c084fc}
+.opening-status{
+    text-align:center;
+    height:32px;
+    margin-top:15px;
+    color:#77778e;
+    font-size:12px;
+    font-weight:700;
+}
 
-/* ================= MOBILE ================= */
+.open-btn{
+    display:block;
+    margin:5px auto 0;
+    min-width:180px;
+    padding:13px 25px;
+    border:0;
+    border-radius:11px;
+    background:linear-gradient(135deg,#7c3aed,#9333ea);
+    color:white;
+    font-weight:900;
+    cursor:pointer;
+    box-shadow:0 12px 30px rgba(124,58,237,.28);
+}
 
-@media(max-width:1000px){
-    .controls{
-        grid-template-columns:1fr;
+.open-btn:disabled{
+    opacity:.5;
+    cursor:not-allowed;
+}
+
+/* =========================
+   RESULT
+========================= */
+
+.result-overlay{
+    position:fixed;
+    inset:0;
+    z-index:150;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    background:rgba(0,0,0,.72);
+    backdrop-filter:blur(14px);
+}
+
+.result-overlay.active{
+    display:flex;
+}
+
+.result{
+    width:min(430px,calc(100% - 30px));
+    padding:32px;
+    text-align:center;
+    border-radius:24px;
+    border:1px solid rgba(255,255,255,.1);
+    background:
+        radial-gradient(circle at 50% 10%,var(--result-glow),transparent 40%),
+        #0c0c14;
+    box-shadow:0 40px 100px rgba(0,0,0,.75);
+    animation:resultIn .45s cubic-bezier(.16,1,.3,1);
+}
+
+@keyframes resultIn{
+    from{
+        transform:translateY(25px) scale(.92);
+        opacity:0;
     }
+    to{
+        transform:translateY(0) scale(1);
+        opacity:1;
+    }
+}
 
-    .units{
+.result-small{
+    color:#8e8ea5;
+    font-size:11px;
+    font-weight:900;
+    letter-spacing:2px;
+}
+
+.result-icon{
+    height:145px;
+    display:grid;
+    place-items:center;
+    margin:5px 0;
+}
+
+.result-icon .item-pixel{
+    transform:scale(1.7);
+}
+
+.result-name{
+    font-size:25px;
+    font-weight:950;
+}
+
+.result-rarity{
+    margin-top:7px;
+    font-size:12px;
+    font-weight:950;
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+}
+
+.result-value{
+    margin-top:10px;
+    color:#aaaabc;
+    font-size:13px;
+}
+
+.result-buttons{
+    display:flex;
+    gap:9px;
+    margin-top:24px;
+}
+
+.result-buttons button{
+    flex:1;
+    padding:12px;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:900;
+}
+
+.keep-btn{
+    background:#fff;
+    color:#08080c;
+    border:0;
+}
+
+.sell-result-btn{
+    background:rgba(255,255,255,.05);
+    border:1px solid rgba(255,255,255,.1);
+    color:#ddd;
+}
+
+/* =========================
+   PARTICLES
+========================= */
+
+.particle{
+    position:fixed;
+    width:5px;
+    height:5px;
+    pointer-events:none;
+    z-index:200;
+    border-radius:1px;
+    animation:particleFly 1.2s ease-out forwards;
+}
+
+@keyframes particleFly{
+    from{
+        transform:translate(0,0) rotate(0deg);
+        opacity:1;
+    }
+    to{
+        transform:translate(var(--x),var(--y)) rotate(360deg);
+        opacity:0;
+    }
+}
+
+/* =========================
+   TOAST
+========================= */
+
+.toast{
+    position:fixed;
+    right:22px;
+    bottom:22px;
+    z-index:300;
+    padding:13px 17px;
+    border-radius:11px;
+    background:#15151f;
+    border:1px solid rgba(255,255,255,.1);
+    box-shadow:0 15px 40px rgba(0,0,0,.45);
+    font-size:12px;
+    font-weight:800;
+    transform:translateY(80px);
+    opacity:0;
+    transition:.3s;
+}
+
+.toast.show{
+    transform:translateY(0);
+    opacity:1;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:900px){
+    .case-grid{
         grid-template-columns:repeat(2,1fr);
     }
 
-    #game{
-        min-height:390px;
+    .inventory{
+        grid-template-columns:repeat(4,1fr);
     }
 }
 
-@media(max-width:600px){
-    #app{
-        width:98vw;
-        padding-top:10px;
+@media(max-width:650px){
+    .topbar{
+        padding:0 15px;
     }
 
-    .top{
-        align-items:flex-start;
-        flex-direction:column;
+    .logo-text{
+        display:none;
     }
 
-    .resources{
-        width:100%;
-        justify-content:flex-start;
+    .nav-btn{
+        display:none;
     }
 
-    .resource{
-        min-width:90px;
+    .container{
+        width:min(100% - 22px,1250px);
+        padding-top:30px;
     }
 
-    #game{
-        aspect-ratio:4/3;
-        min-height:400px;
+    .hero h1{
+        letter-spacing:-2px;
     }
 
-    .castle-hp{
-        left:10px;
-        width:170px;
-    }
-
-    .wave-badge{
-        padding:6px 13px;
-    }
-
-    #waveNumber{
-        font-size:17px;
-    }
-
-    .abilities{
+    .case-grid{
         grid-template-columns:1fr;
     }
 
-    .units{
-        grid-template-columns:1fr;
+    .inventory{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .reel-card{
+        width:115px;
+        flex-basis:115px;
+    }
+
+    .reel-wrap{
+        height:155px;
+    }
+
+    .reel-card{
+        height:125px;
     }
 }
 </style>
@@ -551,2401 +1104,1632 @@ canvas{
 
 <body>
 
-<div id="app">
+<header class="topbar">
 
-    <div class="top">
-
-        <div class="brand">
-            <div class="logo">H</div>
-
-            <div class="title">
-                <h1>Survive from Minecraft</h1>
-                <span>Castle Defense • HouskaCze_0</span>
-            </div>
+    <div class="logo">
+        <div class="logo-icon">◆</div>
+        <div class="logo-text">
+            <span>HouskaCze_0</span>
+            <small>CASE SIMULATOR</small>
         </div>
+    </div>
 
-        <div class="resources">
+    <div class="top-actions">
 
-            <div class="resource wave">
-                <small>Wave</small>
-                <strong id="topWave">0</strong>
-            </div>
+        <button class="nav-btn" onclick="scrollToStorage()">
+            🎒 Storage
+        </button>
 
-            <div class="resource coin">
-                <small>Coins</small>
-                <strong id="coins">100</strong>
-            </div>
-
-            <div class="resource mana">
-                <small>Mana</small>
-                <strong id="mana">100</strong>
-            </div>
-
+        <div class="coins">
+            <div class="coin-icon"></div>
+            <span id="coins">250</span>
         </div>
 
     </div>
 
+</header>
 
-    <div class="game-wrap">
+<main class="container">
 
-        <div id="game">
+    <section class="hero">
 
-            <canvas id="canvas"></canvas>
+        <div class="hero-badge">
+            ✦ MINECRAFT CASE SIMULATOR
+        </div>
 
-            <div class="castle-hp">
+        <h1>
+            Open.<br>
+            <span>Discover. Collect.</span>
+        </h1>
 
-                <div class="hp-label">
-                    🏰 CASTLE
+        <p>
+            Otevírej Minecraft cases, získej vzácné itemy,
+            ukládej je do Storage a prodávej své dropy za coiny.
+        </p>
+
+    </section>
+
+    <section>
+
+        <div class="section-title">
+            <h2>Cases</h2>
+            <span>Vyber si svůj case</span>
+        </div>
+
+        <div class="case-grid">
+
+            <!-- GRASS -->
+
+            <article class="case grass">
+
+                <div class="case-head">
+                    <div class="case-name">Grass Case</div>
+                    <div class="case-price">FREE</div>
                 </div>
 
-                <div class="hp-bg">
-                    <div id="hpFill"></div>
+                <div class="case-visual">
+                    <div class="case-box">
+                        <div class="case-top"></div>
+                        <div class="case-front"></div>
+                        <div class="case-lock"></div>
+                    </div>
                 </div>
 
-                <div id="hpText">
-                    1000 / 1000
+                <div class="case-items">
+                    <div class="mini-item">▦</div>
+                    <div class="mini-item">▰</div>
+                    <div class="mini-item">⚔</div>
+                    <div class="mini-item">●</div>
+                    <div class="mini-item">◆</div>
+                </div>
+
+                <div class="case-bottom">
+                    <div class="case-info">6 rarit • Free</div>
+
+                    <button
+                        class="open-case-btn"
+                        onclick="openCase('grass')">
+                        OPEN
+                    </button>
+                </div>
+
+            </article>
+
+            <!-- STONE -->
+
+            <article class="case stone">
+
+                <div class="case-head">
+                    <div class="case-name">Stone Case</div>
+                    <div class="case-price">250 🪙</div>
+                </div>
+
+                <div class="case-visual">
+                    <div class="case-box">
+                        <div class="case-top"></div>
+                        <div class="case-front"></div>
+                        <div class="case-lock"></div>
+                    </div>
+                </div>
+
+                <div class="case-items">
+                    <div class="mini-item">■</div>
+                    <div class="mini-item">⚒</div>
+                    <div class="mini-item">◆</div>
+                    <div class="mini-item">⬟</div>
+                    <div class="mini-item">⚔</div>
+                </div>
+
+                <div class="case-bottom">
+                    <div class="case-info">6 rarit</div>
+
+                    <button
+                        class="open-case-btn"
+                        onclick="openCase('stone')">
+                        250 🪙
+                    </button>
+                </div>
+
+            </article>
+
+            <!-- NETHER -->
+
+            <article class="case nether">
+
+                <div class="case-head">
+                    <div class="case-name">Nether Case</div>
+                    <div class="case-price">1,500 🪙</div>
+                </div>
+
+                <div class="case-visual">
+                    <div class="case-box">
+                        <div class="case-top"></div>
+                        <div class="case-front"></div>
+                        <div class="case-lock"></div>
+                    </div>
+                </div>
+
+                <div class="case-items">
+                    <div class="mini-item">🔥</div>
+                    <div class="mini-item">◆</div>
+                    <div class="mini-item">⬟</div>
+                    <div class="mini-item">◇</div>
+                    <div class="mini-item">⚔</div>
+                </div>
+
+                <div class="case-bottom">
+                    <div class="case-info">6 rarit</div>
+
+                    <button
+                        class="open-case-btn"
+                        onclick="openCase('nether')">
+                        1,500 🪙
+                    </button>
+                </div>
+
+            </article>
+
+            <!-- DIAMOND -->
+
+            <article class="case diamond">
+
+                <div class="case-head">
+                    <div class="case-name">Diamond Case</div>
+                    <div class="case-price">5,000 🪙</div>
+                </div>
+
+                <div class="case-visual">
+                    <div class="case-box">
+                        <div class="case-top"></div>
+                        <div class="case-front"></div>
+                        <div class="case-lock"></div>
+                    </div>
+                </div>
+
+                <div class="case-items">
+                    <div class="mini-item">◆</div>
+                    <div class="mini-item">⚔</div>
+                    <div class="mini-item">⬟</div>
+                    <div class="mini-item">◇</div>
+                    <div class="mini-item">★</div>
+                </div>
+
+                <div class="case-bottom">
+                    <div class="case-info">6 rarit</div>
+
+                    <button
+                        class="open-case-btn"
+                        onclick="openCase('diamond')">
+                        5,000 🪙
+                    </button>
+                </div>
+
+            </article>
+
+            <!-- END -->
+
+            <article class="case end">
+
+                <div class="case-head">
+                    <div class="case-name">End Case</div>
+                    <div class="case-price">25,000 🪙</div>
+                </div>
+
+                <div class="case-visual">
+                    <div class="case-box">
+                        <div class="case-top"></div>
+                        <div class="case-front"></div>
+                        <div class="case-lock"></div>
+                    </div>
+                </div>
+
+                <div class="case-items">
+                    <div class="mini-item">◉</div>
+                    <div class="mini-item">◇</div>
+                    <div class="mini-item">✦</div>
+                    <div class="mini-item">◆</div>
+                    <div class="mini-item">★</div>
+                </div>
+
+                <div class="case-bottom">
+                    <div class="case-info">6 rarit</div>
+
+                    <button
+                        class="open-case-btn"
+                        onclick="openCase('end')">
+                        25,000 🪙
+                    </button>
+                </div>
+
+            </article>
+
+            <!-- LEGENDARY -->
+
+            <article class="case legendary">
+
+                <div class="case-head">
+                    <div class="case-name">Legendary Case</div>
+                    <div class="case-price">100,000 🪙</div>
+                </div>
+
+                <div class="case-visual">
+                    <div class="case-box">
+                        <div class="case-top"></div>
+                        <div class="case-front"></div>
+                        <div class="case-lock"></div>
+                    </div>
+                </div>
+
+                <div class="case-items">
+                    <div class="mini-item">★</div>
+                    <div class="mini-item">⚔</div>
+                    <div class="mini-item">◇</div>
+                    <div class="mini-item">✦</div>
+                    <div class="mini-item">☄</div>
+                </div>
+
+                <div class="case-bottom">
+                    <div class="case-info">6 rarit • MAX</div>
+
+                    <button
+                        class="open-case-btn"
+                        onclick="openCase('legendary')">
+                        100,000 🪙
+                    </button>
+                </div>
+
+            </article>
+
+        </div>
+
+    </section>
+
+    <!-- STORAGE -->
+
+    <section class="storage" id="storage">
+
+        <div class="section-title">
+            <h2>Storage</h2>
+            <span id="storageCount">0 items</span>
+        </div>
+
+        <div class="storage-panel">
+
+            <div class="storage-top">
+
+                <div class="storage-title">
+                    Your Collection
+                </div>
+
+                <div class="storage-count">
+                    Itemy, které jsi získal
                 </div>
 
             </div>
 
-
-            <div class="wave-badge">
-
-                <small>CURRENT WAVE</small>
-
-                <div id="waveNumber">0</div>
-
-            </div>
-
-
-            <div id="waveMessage">
-                <b>WAVE 1</b>
-                <span>They are coming...</span>
+            <div
+                class="inventory"
+                id="inventory">
             </div>
 
         </div>
 
-    </div>
+    </section>
 
+</main>
 
-    <div class="controls">
+<!-- OPENING MODAL -->
 
-        <div class="panel">
+<div
+    class="modal"
+    id="openingModal">
 
-            <h2>⚔️ <span>Battle</span></h2>
+    <div class="opening-window">
 
-            <button id="startButton" class="main-button">
-                START WAVE
+        <div class="opening-head">
+
+            <strong id="openingTitle">
+                Opening Case
+            </strong>
+
+            <button
+                class="close"
+                onclick="closeOpening()">
+                ×
             </button>
-
-            <div style="margin-top:10px;color:#777;font-size:10px;">
-                Defeat every enemy before they destroy your castle.
-            </div>
 
         </div>
 
+        <div class="opening-content">
 
-        <div class="panel">
+            <div
+                class="opening-case-name"
+                id="openingSubtitle">
+                CASE OPENING
+            </div>
 
-            <h2>🏰 <span>Castle Upgrades</span></h2>
+            <div class="reel-wrap">
 
-            <div class="upgrades">
+                <div class="pointer"></div>
+                <div class="pointer-bottom"></div>
 
-                <button class="upgrade" onclick="upgradeCastle('hp')">
-                    <b>❤️ Reinforced Walls</b>
-                    <span>+250 Max HP</span>
-                    <strong id="costHp">100 🪙</strong>
-                </button>
-
-                <button class="upgrade" onclick="upgradeCastle('armor')">
-                    <b>🛡️ Armor</b>
-                    <span>-5% damage</span>
-                    <strong id="costArmor">150 🪙</strong>
-                </button>
-
-                <button class="upgrade" onclick="upgradeCastle('gold')">
-                    <b>🪙 Gold Mine</b>
-                    <span>More coins from kills</span>
-                    <strong id="costGold">200 🪙</strong>
-                </button>
-
-                <button class="upgrade" onclick="repairCastle()">
-                    <b>💚 Repair</b>
-                    <span>Restore 20% HP</span>
-                    <strong id="costRepair">75 🪙</strong>
-                </button>
+                <div
+                    class="reel"
+                    id="reel">
+                </div>
 
             </div>
 
-        </div>
-
-
-        <div class="panel">
-
-            <h2>✨ <span>Abilities</span></h2>
-
-            <div class="abilities">
-
-                <button class="ability" onclick="useAbility('volley')">
-                    🏹
-                    <b>Arrow Volley</b>
-                    <span>Hits 8 enemies</span>
-                    <div class="cooldown" id="cdVolley"></div>
-                </button>
-
-                <button class="ability" onclick="useAbility('meteor')">
-                    ☄️
-                    <b>Meteor</b>
-                    <span>Massive AOE</span>
-                    <div class="cooldown" id="cdMeteor"></div>
-                </button>
-
-                <button class="ability" onclick="useAbility('freeze')">
-                    ❄️
-                    <b>Freeze</b>
-                    <span>Stops enemies</span>
-                    <div class="cooldown" id="cdFreeze"></div>
-                </button>
-
+            <div
+                class="opening-status"
+                id="openingStatus">
+                Ready?
             </div>
 
-        </div>
-
-    </div>
-
-
-    <div class="units">
-
-        <div class="unit">
-
-            <div class="level" id="lvlArcher">LVL 1</div>
-
-            <div class="unit-icon">🏹</div>
-
-            <h3>Archer</h3>
-
-            <p>
-                Fast ranged attacker.
-                Fires arrows at the closest enemy.
-            </p>
-
-            <button onclick="upgradeUnit('archer')">
-                UPGRADE • <span id="costArcher">50</span> 🪙
-            </button>
-
-        </div>
-
-
-        <div class="unit">
-
-            <div class="level" id="lvlKnight">LVL 1</div>
-
-            <div class="unit-icon">🛡️</div>
-
-            <h3>Knight</h3>
-
-            <p>
-                Strong melee defender.
-                High damage against nearby enemies.
-            </p>
-
-            <button onclick="upgradeUnit('knight')">
-                UPGRADE • <span id="costKnight">60</span> 🪙
-            </button>
-
-        </div>
-
-
-        <div class="unit">
-
-            <div class="level" id="lvlMage">LVL 1</div>
-
-            <div class="unit-icon">🔥</div>
-
-            <h3>Blaze Mage</h3>
-
-            <p>
-                Launches fireballs and burns
-                groups of enemies.
-            </p>
-
-            <button onclick="upgradeUnit('mage')">
-                UPGRADE • <span id="costMage">80</span> 🪙
-            </button>
-
-        </div>
-
-
-        <div class="unit">
-
-            <div class="level" id="lvlIce">LVL 1</div>
-
-            <div class="unit-icon">❄️</div>
-
-            <h3>Ice Wizard</h3>
-
-            <p>
-                Slows enemies and can freeze
-                the entire battlefield.
-            </p>
-
-            <button onclick="upgradeUnit('ice')">
-                UPGRADE • <span id="costIce">90</span> 🪙
-            </button>
-
-        </div>
-
-
-        <div class="unit">
-
-            <div class="level" id="lvlNecro">LVL 1</div>
-
-            <div class="unit-icon">☠️</div>
-
-            <h3>Necromancer</h3>
-
-            <p>
-                Dark magic deals damage
-                and summons temporary undead.
-            </p>
-
-            <button onclick="upgradeUnit('necro')">
-                UPGRADE • <span id="costNecro">120</span> 🪙
+            <button
+                class="open-btn"
+                id="startOpeningBtn"
+                onclick="startOpening()">
+                OPEN CASE
             </button>
 
         </div>
 
     </div>
-
-
-    <div class="log" id="log"></div>
 
 </div>
 
+<!-- RESULT -->
+
+<div
+    class="result-overlay"
+    id="resultOverlay">
+
+    <div
+        class="result"
+        id="resultCard">
+
+        <div class="result-small">
+            YOU UNBOXED
+        </div>
+
+        <div
+            class="result-icon"
+            id="resultIcon">
+        </div>
+
+        <div
+            class="result-name"
+            id="resultName">
+            Diamond Sword
+        </div>
+
+        <div
+            class="result-rarity"
+            id="resultRarity">
+            LEGENDARY
+        </div>
+
+        <div
+            class="result-value"
+            id="resultValue">
+            Value: 10,000 🪙
+        </div>
+
+        <div class="result-buttons">
+
+            <button
+                class="keep-btn"
+                onclick="keepResult()">
+                KEEP
+            </button>
+
+            <button
+                class="sell-result-btn"
+                onclick="sellResult()">
+                SELL
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div
+    class="toast"
+    id="toast">
+</div>
 
 <script>
 
-/* ============================================================
-   SURVIVE FROM MINECRAFT 2.0
-   Canvas based engine
-============================================================ */
+/* =========================================================
+   GAME DATA
+========================================================= */
 
-const canvas = document.getElementById("canvas");
-const ctx = canvas.getContext("2d");
+const rarities = {
 
-const gameBox = document.getElementById("game");
+    common:{
+        name:"Common",
+        class:"common",
+        color:"#b7b7c5"
+    },
 
-let W = 1200;
-let H = 525;
+    uncommon:{
+        name:"Uncommon",
+        class:"uncommon",
+        color:"#4ade80"
+    },
 
-let dpr = Math.min(window.devicePixelRatio || 1, 2);
+    rare:{
+        name:"Rare",
+        class:"rare",
+        color:"#60a5fa"
+    },
 
-function resize(){
+    epic:{
+        name:"Epic",
+        class:"epic",
+        color:"#c084fc"
+    },
 
-    const rect = gameBox.getBoundingClientRect();
+    legendary:{
+        name:"Legendary",
+        class:"legendary",
+        color:"#facc15"
+    },
 
-    W = rect.width;
-    H = rect.height;
+    mythic:{
+        name:"MYTHIC",
+        class:"mythic",
+        color:"#fb7185"
+    }
 
-    canvas.width = W * dpr;
-    canvas.height = H * dpr;
+};
 
-    canvas.style.width = W+"px";
-    canvas.style.height = H+"px";
 
-    ctx.setTransform(dpr,0,0,dpr,0,0);
+/*
+    Probability values.
+    They add up to 100.
+*/
+
+const odds = {
+
+    common:50,
+    uncommon:25,
+    rare:15,
+    epic:8,
+    legendary:1.8,
+    mythic:.2
+
+};
+
+
+/* =========================================================
+   ITEM DATABASE
+========================================================= */
+
+const ITEMS = {
+
+grass:[
+
+    {name:"Dirt Block",rarity:"common",value:10,type:"dirt"},
+    {name:"Grass Block",rarity:"common",value:15,type:"grass"},
+    {name:"Cobblestone",rarity:"common",value:20,type:"stone"},
+    {name:"Stick",rarity:"common",value:25,type:"stick"},
+    {name:"Apple",rarity:"common",value:35,type:"apple"},
+
+    {name:"Stone Sword",rarity:"uncommon",value:70,type:"sword"},
+    {name:"Wooden Pickaxe",rarity:"uncommon",value:85,type:"pickaxe"},
+    {name:"Torch",rarity:"uncommon",value:95,type:"torch"},
+
+    {name:"Iron Ingot",rarity:"rare",value:250,type:"iron"},
+    {name:"Bow",rarity:"rare",value:300,type:"bow"},
+    {name:"Shield",rarity:"rare",value:350,type:"shield"},
+
+    {name:"Diamond",rarity:"epic",value:900,type:"diamond"},
+
+    {name:"Diamond Sword",rarity:"legendary",value:3000,type:"diamondSword"},
+
+    {name:"Enchanted Diamond Sword",rarity:"mythic",value:15000,type:"diamondSword"}
+
+],
+
+stone:[
+
+    {name:"Stone",rarity:"common",value:25,type:"stone"},
+    {name:"Coal",rarity:"common",value:30,type:"coal"},
+    {name:"Iron Nugget",rarity:"common",value:40,type:"iron"},
+
+    {name:"Iron Ingot",rarity:"uncommon",value:100,type:"iron"},
+    {name:"Iron Sword",rarity:"uncommon",value:140,type:"sword"},
+    {name:"Iron Pickaxe",rarity:"uncommon",value:170,type:"pickaxe"},
+
+    {name:"Gold Ingot",rarity:"rare",value:350,type:"gold"},
+    {name:"Shield",rarity:"rare",value:400,type:"shield"},
+    {name:"Enchanted Bow",rarity:"rare",value:500,type:"bow"},
+
+    {name:"Diamond",rarity:"epic",value:1200,type:"diamond"},
+
+    {name:"Diamond Armor",rarity:"legendary",value:6000,type:"armor"},
+
+    {name:"Netherite Sword",rarity:"mythic",value:25000,type:"netheriteSword"}
+
+],
+
+nether:[
+
+    {name:"Netherrack",rarity:"common",value:80,type:"stone"},
+    {name:"Soul Sand",rarity:"common",value:100,type:"stone"},
+    {name:"Quartz",rarity:"common",value:130,type:"quartz"},
+
+    {name:"Blaze Rod",rarity:"uncommon",value:300,type:"blaze"},
+    {name:"Gold Ingot",rarity:"uncommon",value:350,type:"gold"},
+    {name:"Magma Cream",rarity:"uncommon",value:450,type:"magma"},
+
+    {name:"Ghast Tear",rarity:"rare",value:1200,type:"pearl"},
+    {name:"Netherite Scrap",rarity:"rare",value:1800,type:"netherite"},
+
+    {name:"Netherite Ingot",rarity:"epic",value:5000,type:"netherite"},
+
+    {name:"Netherite Armor",rarity:"legendary",value:18000,type:"armor"},
+
+    {name:"Enchanted Netherite Sword",rarity:"mythic",value:75000,type:"netheriteSword"}
+
+],
+
+diamond:[
+
+    {name:"Diamond",rarity:"common",value:1000,type:"diamond"},
+
+    {name:"Diamond Pickaxe",rarity:"uncommon",value:1800,type:"pickaxe"},
+    {name:"Diamond Axe",rarity:"uncommon",value:2000,type:"pickaxe"},
+
+    {name:"Diamond Armor",rarity:"rare",value:5000,type:"armor"},
+    {name:"Enchanted Diamond Bow",rarity:"rare",value:6500,type:"bow"},
+
+    {name:"Enchanted Diamond Sword",rarity:"epic",value:9000,type:"diamondSword"},
+
+    {name:"Enchanted Diamond Armor",rarity:"legendary",value:25000,type:"armor"},
+
+    {name:"Netherite Ingot",rarity:"legendary",value:30000,type:"netherite"},
+
+    {name:"God Diamond Sword",rarity:"mythic",value:120000,type:"diamondSword"}
+
+],
+
+end:[
+
+    {name:"Ender Pearl",rarity:"common",value:3000,type:"pearl"},
+    {name:"Chorus Fruit",rarity:"common",value:3500,type:"apple"},
+
+    {name:"Shulker Shell",rarity:"uncommon",value:5000,type:"shell"},
+    {name:"Dragon Breath",rarity:"uncommon",value:6500,type:"pearl"},
+
+    {name:"Ender Eye",rarity:"rare",value:10000,type:"pearl"},
+
+    {name:"Elytra",rarity:"epic",value:25000,type:"elytra"},
+
+    {name:"Enchanted Elytra",rarity:"legendary",value:70000,type:"elytra"},
+
+    {name:"Dragon Egg",rarity:"mythic",value:250000,type:"egg"}
+
+],
+
+legendary:[
+
+    {name:"Diamond Block",rarity:"common",value:10000,type:"diamond"},
+
+    {name:"Netherite Ingot",rarity:"uncommon",value:30000,type:"netherite"},
+
+    {name:"Elytra",rarity:"rare",value:50000,type:"elytra"},
+
+    {name:"Enchanted Netherite Armor",rarity:"epic",value:100000,type:"armor"},
+
+    {name:"Dragon Egg",rarity:"legendary",value:250000,type:"egg"},
+
+    {name:"The Legendary Sword",rarity:"mythic",value:1000000,type:"netheriteSword"}
+
+]
+
+};
+
+
+/* =========================================================
+   CASE DATA
+========================================================= */
+
+const CASES = {
+
+grass:{
+    name:"Grass Case",
+    price:0
+},
+
+stone:{
+    name:"Stone Case",
+    price:250
+},
+
+nether:{
+    name:"Nether Case",
+    price:1500
+},
+
+diamond:{
+    name:"Diamond Case",
+    price:5000
+},
+
+end:{
+    name:"End Case",
+    price:25000
+},
+
+legendary:{
+    name:"Legendary Case",
+    price:100000
 }
 
-window.addEventListener("resize",resize);
-resize();
+};
 
 
-/* ============================================================
+/* =========================================================
    GAME STATE
-============================================================ */
+========================================================= */
 
-const state = {
+let coins =
+    Number(localStorage.getItem("sfm_coins")) || 250;
 
-    wave:0,
+let inventory =
+    JSON.parse(localStorage.getItem("sfm_inventory") || "[]");
 
-    coins:100,
-    mana:100,
+let currentCase = null;
+let currentResult = null;
+let opening = false;
 
-    castleHp:1000,
-    castleMaxHp:1000,
 
-    armor:0,
-    goldMultiplier:1,
-
-    kills:0,
-    bosses:0,
-
-    running:false,
-    spawnLeft:0,
-
-    enemies:[],
-    projectiles:[],
-    particles:[],
-    texts:[],
-
-    lastTime:performance.now(),
-
-    freezeUntil:0,
-
-    cooldowns:{
-        volley:0,
-        meteor:0,
-        freeze:0
-    },
-
-    castleLevel:1,
-
-    units:{
-        archer:{level:1,damage:22,cooldown:650,last:0},
-        knight:{level:1,damage:42,cooldown:1150,last:0},
-        mage:{level:1,damage:52,cooldown:1500,last:0},
-        ice:{level:1,damage:18,cooldown:1000,last:0},
-        necro:{level:1,damage:30,cooldown:1800,last:0}
-    }
-
-};
-
-
-/* ============================================================
-   PIXEL HELPERS
-============================================================ */
-
-function rect(x,y,w,h,c){
-    ctx.fillStyle=c;
-    ctx.fillRect(Math.round(x),Math.round(y),Math.round(w),Math.round(h));
-}
-
-function outlineRect(x,y,w,h,c){
-    ctx.strokeStyle=c;
-    ctx.lineWidth=2;
-    ctx.strokeRect(Math.round(x),Math.round(y),Math.round(w),Math.round(h));
-}
-
-function pixelText(text,x,y,size,color="#fff"){
-    ctx.font=`900 ${size}px monospace`;
-    ctx.fillStyle="#000";
-    ctx.fillText(text,x+2,y+2);
-    ctx.fillStyle=color;
-    ctx.fillText(text,x,y);
-}
-
-
-/* ============================================================
-   BACKGROUND
-============================================================ */
-
-function drawBackground(t){
-
-    const sky=ctx.createLinearGradient(0,0,0,H);
-
-    sky.addColorStop(0,"#72b7e8");
-    sky.addColorStop(.55,"#9ed2ed");
-    sky.addColorStop(1,"#bddca2");
-
-    ctx.fillStyle=sky;
-    ctx.fillRect(0,0,W,H);
-
-
-    /* sun */
-
-    rect(W*.78,60,55,55,"#fff1a3");
-    rect(W*.775,65,65,45,"#fff1a3");
-
-
-    /* clouds */
-
-    drawCloud(W*.27,65,1);
-    drawCloud(W*.53,100,.7);
-
-
-    /* distant mountains */
-
-    ctx.fillStyle="#789b8d";
-
-    ctx.beginPath();
-    ctx.moveTo(0,H*.45);
-    ctx.lineTo(W*.15,H*.25);
-    ctx.lineTo(W*.28,H*.45);
-    ctx.lineTo(W*.42,H*.23);
-    ctx.lineTo(W*.62,H*.45);
-    ctx.lineTo(W*.76,H*.28);
-    ctx.lineTo(W,H*.46);
-    ctx.lineTo(W,H);
-    ctx.lineTo(0,H);
-    ctx.closePath();
-    ctx.fill();
-
-
-    /* trees */
-
-    drawTree(W*.38,H*.35,.9);
-    drawTree(W*.55,H*.32,1.05);
-    drawTree(W*.68,H*.37,.8);
-
-
-    /* grass */
-
-    rect(0,H-95,W,95,"#4c9b38");
-    rect(0,H-88,W,10,"#75c84c");
-
-    /* dirt */
-
-    rect(0,H-70,W,70,"#7b4b2b");
-
-    /* dirt blocks */
-
-    for(let x=0;x<W;x+=45){
-
-        rect(x,H-67,43,21,
-            x%90===0 ? "#704224" : "#84522d"
-        );
-
-        rect(x+8,H-40,24,18,"#704224");
-    }
-
-
-    /* grass pixels */
-
-    for(let i=0;i<70;i++){
-
-        const x=Math.random()*W;
-        const y=H-92-Math.random()*12;
-
-        rect(x,y,2,8,"#2f762d");
-    }
-
-}
-
-
-function drawCloud(x,y,s){
-
-    rect(x,y,90*s,20*s,"#fff");
-    rect(x+20*s,y-15*s,55*s,30*s,"#fff");
-    rect(x+48*s,y-23*s,35*s,35*s,"#fff");
-}
-
-
-/* deterministic-ish decorative trees */
-
-function drawTree(x,y,s){
-
-    rect(x,y+45*s,20*s,80*s,"#694225");
-    rect(x-25*s,y+15*s,70*s,55*s,"#276c32");
-    rect(x-10*s,y-10*s,50*s,55*s,"#35833b");
-    rect(x+15*s,y+5*s,45*s,45*s,"#2b7435");
-}
-
-
-/* ============================================================
-   CASTLE
-============================================================ */
-
-function drawCastle(t){
-
-    const baseX=25;
-    const ground=H-91;
-
-    /* shadow */
-
-    rect(baseX+5,ground-7,270,12,"#0005");
-
-
-    /* main castle */
-
-    rect(baseX+70,ground-185,145,185,"#7d7d83");
-    rect(baseX+76,ground-178,133,178,"#929297");
-
-
-    /* brick pattern */
-
-    for(let y=ground-165;y<ground-5;y+=27){
-
-        for(let x=baseX+78;x<baseX+205;x+=32){
-
-            rect(x,y,29,24,
-                ((x+y)/32)%2
-                    ? "#7c7c82"
-                    : "#a0a0a2"
-            );
-
-        }
-
-    }
-
-
-    /* towers */
-
-    drawTower(baseX+8,ground-220);
-    drawTower(baseX+195,ground-220);
-
-
-    /* central roof */
-
-    rect(baseX+100,ground-222,85,15,"#3d3d42");
-
-    for(let x=baseX+98;x<baseX+190;x+=18){
-
-        rect(x,ground-238,14,18,"#4a4a50");
-
-    }
-
-
-    /* flag */
-
-    rect(baseX+139,ground-282,6,44,"#4a2a17");
-
-    ctx.fillStyle="#7c3aed";
-
-    ctx.beginPath();
-    ctx.moveTo(baseX+145,ground-280);
-    ctx.lineTo(baseX+190,ground-270);
-    ctx.lineTo(baseX+145,ground-258);
-    ctx.closePath();
-    ctx.fill();
-
-
-    /* door */
-
-    rect(baseX+119,ground-82,48,82,"#382316");
-    rect(baseX+127,ground-75,32,75,"#59361f");
-
-    rect(baseX+151,ground-41,5,5,"#e3bc55");
-
-
-    /* windows */
-
-    drawWindow(baseX+93,ground-145);
-    drawWindow(baseX+171,ground-145);
-
-
-    /* bridge */
-
-    rect(baseX+55,ground-5,185,8,"#55371f");
-
-}
-
-
-function drawTower(x,ground){
-
-    /* tower */
-
-    rect(x,ground-220,58,220,"#87878d");
-
-    for(let y=ground-200;y<ground;y+=28){
-
-        rect(x+4,y,50,23,"#a0a0a3");
-
-    }
-
-    /* battlements */
-
-    rect(x-4,ground-235,68,15,"#626268");
-
-    for(let i=0;i<5;i++){
-
-        rect(x+i*14,ground-247,10,14,"#696970");
-
-    }
-
-    /* tower window */
-
-    drawWindow(x+20,ground-150);
-
-}
-
-
-function drawWindow(x,y){
-
-    rect(x,y,24,31,"#202532");
-    rect(x+4,y+4,16,23,"#69b9dc");
-    rect(x+11,y+4,3,23,"#333");
-    rect(x+4,y+13,16,3,"#333");
-}
-
-
-/* ============================================================
-   SOLDIERS
-============================================================ */
-
-function drawSoldiers(t){
-
-    const ground=H-91;
-
-    drawArcher(170,ground-120,t);
-    drawKnight(225,ground-105,t);
-    drawMage(185,ground-175,t);
-    drawIce(105,ground-135,t);
-    drawNecro(260,ground-170,t);
-}
-
-
-function drawArcher(x,y,t){
-
-    const bob=Math.sin(t*.009)*2;
-
-    rect(x,y+18+bob,17,35,"#2d6e36");
-    rect(x-3,y+4+bob,23,20,"#b58b68");
-
-    rect(x-2,y+7+bob,21,7,"#5e3c27");
-
-    /* bow */
-
-    ctx.strokeStyle="#70431f";
-    ctx.lineWidth=3;
-
-    ctx.beginPath();
-    ctx.arc(x+25,y+28,20,-1.1,1.1);
-    ctx.stroke();
-
-    ctx.strokeStyle="#ddd";
-
-    ctx.beginPath();
-    ctx.moveTo(x+25,y+9);
-    ctx.lineTo(x+25,y+47);
-    ctx.stroke();
-
-    /* legs */
-
-    rect(x+2,y+52+bob,6,13,"#343b45");
-    rect(x+12,y+52-bob,6,13,"#343b45");
-}
-
-
-function drawKnight(x,y,t){
-
-    const bob=Math.sin(t*.006+2)*1.5;
-
-    rect(x,y+15+bob,25,39,"#70757c");
-    rect(x+3,y+2+bob,22,20,"#aeb5bb");
-
-    rect(x+8,y+8+bob,5,5,"#24282c");
-    rect(x+17,y+8+bob,5,5,"#24282c");
-
-    rect(x-8,y+18,8,25,"#9c9fa5");
-
-    rect(x+5,y+54+bob,7,14,"#30343a");
-    rect(x+17,y+54-bob,7,14,"#30343a");
-
-    /* sword */
-
-    rect(x+30,y+5,4,43,"#d9e2e5");
-    rect(x+26,y+5,12,5,"#79502b");
-}
-
-
-function drawMage(x,y,t){
-
-    const bob=Math.sin(t*.004)*3;
-
-    rect(x,y+22+bob,20,38,"#452277");
-    rect(x-2,y+5+bob,24,25,"#d1a878");
-
-    /* hood */
-
-    rect(x-5,y+2+bob,30,12,"#6d28a9");
-    rect(x,y-8+bob,20,14,"#7c3aed");
-
-    /* staff */
-
-    rect(x+27,y-15,4,76,"#654122");
-
-    rect(x+22,y-20,15,15,"#ff8b25");
-
-    ctx.globalAlpha=.5+.25*Math.sin(t*.01);
-    rect(x+24,y-22,11,11,"#ffd166");
-    ctx.globalAlpha=1;
-}
-
-
-function drawIce(x,y,t){
-
-    const bob=Math.sin(t*.005+1)*2;
-
-    rect(x,y+18+bob,22,40,"#315d91");
-    rect(x+1,y+2+bob,20,23,"#b8d5df");
-
-    rect(x-3,y+1+bob,28,8,"#63b5e8");
-
-    rect(x+4,y+58+bob,6,13,"#27384b");
-    rect(x+15,y+58-bob,6,13,"#27384b");
-
-    /* crystal */
-
-    ctx.fillStyle="#8ce8ff";
-    ctx.beginPath();
-    ctx.moveTo(x+27,y+17);
-    ctx.lineTo(x+38,y+27);
-    ctx.lineTo(x+27,y+37);
-    ctx.lineTo(x+16,y+27);
-    ctx.closePath();
-    ctx.fill();
-}
-
-
-function drawNecro(x,y,t){
-
-    const bob=Math.sin(t*.004+3)*3;
-
-    rect(x,y+25+bob,22,39,"#241d38");
-    rect(x-2,y+5+bob,27,24,"#302744");
-
-    rect(x+3,y+9+bob,6,6,"#b66cff");
-    rect(x+16,y+9+bob,6,6,"#b66cff");
-
-    rect(x+28,y-8,4,80,"#372516");
-
-    ctx.fillStyle="#8b5cf6";
-    ctx.beginPath();
-    ctx.arc(x+30,y-11,10,0,Math.PI*2);
-    ctx.fill();
-}
-
-
-/* ============================================================
-   ENEMY DRAWING
-============================================================ */
-
-function drawEnemy(e,t){
-
-    const x=e.x;
-    const y=e.y;
-    const bob=e.type==="spider"
-        ? Math.sin(t*.02+e.seed)*3
-        : Math.sin(t*.009+e.seed)*1.5;
-
-    ctx.save();
-
-    if(e.frozen){
-        ctx.globalAlpha=.75;
-    }
-
-    if(e.type==="zombie"){
-        drawZombie(x,y,bob,e);
-    }
-
-    if(e.type==="skeleton"){
-        drawSkeleton(x,y,bob,e);
-    }
-
-    if(e.type==="spider"){
-        drawSpider(x,y,bob,e);
-    }
-
-    if(e.type==="creeper"){
-        drawCreeper(x,y,bob,e,t);
-    }
-
-    if(e.type==="blaze"){
-        drawBlaze(x,y,bob,e,t);
-    }
-
-    if(e.type==="boss"){
-        drawBoss(x,y,bob,e,t);
-    }
-
-    ctx.restore();
-
-
-    /* health bar */
-
-    const bw=e.boss ? 90 : 48;
-
-    rect(x-bw/2,y-58,bw,6,"#220d12");
-    rect(
-        x-bw/2,
-        y-58,
-        bw*Math.max(0,e.hp/e.maxHp),
-        6,
-        e.boss ? "#a855f7" : "#45d34b"
-    );
-
-}
-
-
-function drawZombie(x,y,bob,e){
-
-    rect(x-13,y-42+bob,26,25,"#4b9c45");
-    rect(x-10,y-15+bob,20,37,"#356a9a");
-
-    rect(x-7,y-35+bob,6,6,"#222");
-    rect(x+3,y-35+bob,6,6,"#222");
-
-    rect(x-17,y-8+bob,7,28,"#4b9c45");
-    rect(x+10,y-8+bob,7,28,"#4b9c45");
-
-    rect(x-8,y+22+bob,7,17,"#293a5a");
-    rect(x+3,y+22-bob,7,17,"#293a5a");
-
-    /* arms */
-
-    rect(x-19,y-5+bob,6,25,"#4b9c45");
-    rect(x+13,y-5-bob,6,25,"#4b9c45");
-}
-
-
-function drawSkeleton(x,y,bob,e){
-
-    rect(x-11,y-42+bob,22,24,"#dedbd1");
-
-    rect(x-8,y-36+bob,5,5,"#202020");
-    rect(x+3,y-36+bob,5,5,"#202020");
-
-    rect(x-9,y-17+bob,18,34,"#ddd9cf");
-
-    /* ribs */
-
-    for(let i=0;i<3;i++){
-        rect(x-7,y-11+i*7+bob,14,3,"#77736d");
-    }
-
-    rect(x-18,y-10+bob,7,27,"#d7d4ca");
-    rect(x+11,y-10-bob,7,27,"#d7d4ca");
-
-    rect(x-7,y+18+bob,6,22,"#d7d4ca");
-    rect(x+2,y+18-bob,6,22,"#d7d4ca");
-
-    /* bow */
-
-    ctx.strokeStyle="#69451f";
-    ctx.lineWidth=3;
-
-    ctx.beginPath();
-    ctx.arc(x+20,y+2,17,-1.2,1.2);
-    ctx.stroke();
-
-    ctx.strokeStyle="#ddd";
-    ctx.beginPath();
-    ctx.moveTo(x+20,y-14);
-    ctx.lineTo(x+20,y+18);
-    ctx.stroke();
-}
-
-
-function drawSpider(x,y,bob,e){
-
-    rect(x-23,y-20+bob,46,25,"#292329");
-    rect(x-14,y-29+bob,28,28,"#3c303c");
-
-    rect(x-9,y-20+bob,6,6,"#ff3030");
-    rect(x+3,y-20+bob,6,6,"#ff3030");
-
-    ctx.strokeStyle="#272127";
-    ctx.lineWidth=6;
-
-    for(let i=-1;i<=1;i++){
-
-        ctx.beginPath();
-        ctx.moveTo(x-15,y-5);
-        ctx.lineTo(x-38,y+12+i*12);
-        ctx.stroke();
-
-        ctx.beginPath();
-        ctx.moveTo(x+15,y-5);
-        ctx.lineTo(x+38,y+12+i*12);
-        ctx.stroke();
-    }
-}
-
-
-function drawCreeper(x,y,bob,e,t){
-
-    let flash=e.charging && Math.floor(t/100)%2===0;
-
-    rect(
-        x-13,
-        y-50+bob,
-        27,
-        37,
-        flash ? "#eaffea" : "#55a83d"
-    );
-
-    rect(
-        x-12,
-        y-14+bob,
-        25,
-        28,
-        flash ? "#eaffea" : "#4b9638"
-    );
-
-    rect(x-7,y-43+bob,5,7,"#18201b");
-    rect(x+5,y-43+bob,5,7,"#18201b");
-
-    rect(x-3,y-36+bob,8,5,"#18201b");
-    rect(x-7,y-28+bob,6,8,"#18201b");
-    rect(x+2,y-28+bob,6,8,"#18201b");
-
-    rect(x-8,y+13+bob,7,19,"#34722c");
-    rect(x+3,y+13-bob,7,19,"#34722c");
-
-    if(e.charging){
-
-        ctx.globalAlpha=.35+.2*Math.sin(t*.03);
-
-        ctx.beginPath();
-        ctx.arc(x,y-20,42,0,Math.PI*2);
-        ctx.fillStyle="#eaff4f";
-        ctx.fill();
-
-        ctx.globalAlpha=1;
-
-        pixelText("!",x-5,y-63,17,"#fff27a");
-    }
-}
-
-
-function drawBlaze(x,y,bob,e,t){
-
-    const spin=t*.003;
-
-    rect(x-14,y-32+bob,28,34,"#e58c23");
-
-    rect(x-9,y-25+bob,6,6,"#fff06a");
-    rect(x+4,y-25+bob,6,6,"#fff06a");
-
-    for(let i=0;i<8;i++){
-
-        const a=spin+i*Math.PI/4;
-
-        const xx=x+Math.cos(a)*28;
-        const yy=y-17+Math.sin(a)*28;
-
-        rect(xx-5,yy-5,10,10,"#f0a52b");
-    }
-}
-
-
-function drawBoss(x,y,bob,e,t){
-
-    const glow=.4+.2*Math.sin(t*.006);
-
-    ctx.shadowColor="#a855f7";
-    ctx.shadowBlur=25;
-
-    rect(x-27,y-70+bob,54,60,"#39264d");
-    rect(x-31,y-12+bob,62,45,"#51346b");
-
-    ctx.shadowBlur=0;
-
-    rect(x-17,y-58+bob,8,8,"#ff4fd8");
-    rect(x+9,y-58+bob,8,8,"#ff4fd8");
-
-    rect(x-23,y-4+bob,10,37,"#674477");
-    rect(x+13,y-4-bob,10,37,"#674477");
-
-    rect(x-17,y+35+bob,12,25,"#29212f");
-    rect(x+5,y+35-bob,12,25,"#29212f");
-
-    /* crown */
-
-    rect(x-29,y-78,58,9,"#ffd34e");
-
-    for(let i=0;i<5;i++){
-        rect(x-25+i*12,y-88,8,12,"#ffd34e");
-    }
-
-    ctx.globalAlpha=glow;
-    ctx.beginPath();
-    ctx.arc(x,y-20,55,0,Math.PI*2);
-    ctx.strokeStyle="#c084fc";
-    ctx.lineWidth=3;
-    ctx.stroke();
-    ctx.globalAlpha=1;
-}
-
-
-/* ============================================================
-   PARTICLES
-============================================================ */
-
-function particle(x,y,color,size=4){
-
-    state.particles.push({
-
-        x,
-        y,
-
-        vx:(Math.random()-.5)*100,
-        vy:(Math.random()-.5)*100,
-
-        life:.5+Math.random()*.5,
-        max:.5+Math.random()*.5,
-
-        color,
-        size
-
-    });
-}
-
-
-function updateParticles(dt){
-
-    for(let i=state.particles.length-1;i>=0;i--){
-
-        const p=state.particles[i];
-
-        p.life-=dt;
-
-        p.x+=p.vx*dt;
-        p.y+=p.vy*dt;
-
-        p.vy+=120*dt;
-
-        if(p.life<=0){
-            state.particles.splice(i,1);
-        }
-    }
-}
-
-
-function drawParticles(){
-
-    for(const p of state.particles){
-
-        ctx.globalAlpha=Math.max(0,p.life/p.max);
-
-        rect(
-            p.x,
-            p.y,
-            p.size,
-            p.size,
-            p.color
-        );
-    }
-
-    ctx.globalAlpha=1;
-}
-
-
-/* ============================================================
-   FLOATING TEXT
-============================================================ */
-
-function floatingText(x,y,text,color){
-
-    state.texts.push({
-        x,y,
-        text,
-        color,
-        life:1
-    });
-}
-
-
-function updateTexts(dt){
-
-    for(let i=state.texts.length-1;i>=0;i--){
-
-        const p=state.texts[i];
-
-        p.life-=dt;
-        p.y-=35*dt;
-
-        if(p.life<=0){
-            state.texts.splice(i,1);
-        }
-    }
-}
-
-
-function drawTexts(){
-
-    for(const p of state.texts){
-
-        ctx.globalAlpha=p.life;
-
-        pixelText(
-            p.text,
-            p.x,
-            p.y,
-            14,
-            p.color
-        );
-    }
-
-    ctx.globalAlpha=1;
-}
-
-
-/* ============================================================
-   ENEMIES
-============================================================ */
-
-const enemyTypes={
-
-    zombie:{
-        hp:90,
-        speed:25,
-        damage:18,
-        reward:12
-    },
-
-    skeleton:{
-        hp:70,
-        speed:31,
-        damage:14,
-        reward:16
-    },
-
-    spider:{
-        hp:55,
-        speed:62,
-        damage:11,
-        reward:18
-    },
-
-    creeper:{
-        hp:110,
-        speed:29,
-        damage:90,
-        reward:25
-    },
-
-    blaze:{
-        hp:180,
-        speed:18,
-        damage:30,
-        reward:35
-    },
-
-    boss:{
-        hp:1800,
-        speed:12,
-        damage:75,
-        reward:300
-    }
-
-};
-
-
-function spawnEnemy(){
-
-    let type;
-
-    const r=Math.random();
-
-    if(state.wave>=12 && r<.025){
-        type="boss";
-    }
-    else if(state.wave>=8 && r<.13){
-        type="blaze";
-    }
-    else if(state.wave>=5 && r<.22){
-        type="creeper";
-    }
-    else if(state.wave>=3 && r<.40){
-        type="spider";
-    }
-    else if(state.wave>=2 && r<.62){
-        type="skeleton";
-    }
-    else{
-        type="zombie";
-    }
-
-    const base=enemyTypes[type];
-
-    const scale=1+(state.wave*.13);
-
-    const e={
-
-        type,
-
-        x:W+50+Math.random()*80,
-        y:H-92,
-
-        hp:base.hp*scale,
-        maxHp:base.hp*scale,
-
-        speed:base.speed*(1+state.wave*.012),
-        damage:base.damage*scale,
-
-        reward:Math.floor(base.reward*(1+state.wave*.04)),
-
-        seed:Math.random()*1000,
-
-        attacking:false,
-        charging:false,
-        attackTimer:0,
-
-        frozen:false,
-        slow:1,
-
-        boss:type==="boss"
-
-    };
-
-    state.enemies.push(e);
-
-    state.spawnLeft--;
-}
-
-
-/* ============================================================
-   PROJECTILES
-============================================================ */
-
-function projectile(x,y,target,damage,type){
-
-    state.projectiles.push({
-
-        x,y,
-        target,
-        damage,
-        type,
-        speed:type==="arrow"?600:430
-
-    });
-}
-
-
-function updateProjectiles(dt){
-
-    for(let i=state.projectiles.length-1;i>=0;i--){
-
-        const p=state.projectiles[i];
-
-        if(!p.target || p.target.dead){
-
-            state.projectiles.splice(i,1);
-            continue;
-        }
-
-        const tx=p.target.x;
-        const ty=p.target.y-25;
-
-        const dx=tx-p.x;
-        const dy=ty-p.y;
-
-        const dist=Math.hypot(dx,dy);
-
-        if(dist<18){
-
-            damageEnemy(p.target,p.damage,p.type);
-
-            state.projectiles.splice(i,1);
-
-            for(let j=0;j<4;j++){
-                particle(tx,ty,p.type==="fire"?"#ff7429":"#ddd",3);
-            }
-
-            continue;
-        }
-
-        p.x+=dx/dist*p.speed*dt;
-        p.y+=dy/dist*p.speed*dt;
-    }
-}
-
-
-function drawProjectiles(){
-
-    for(const p of state.projectiles){
-
-        if(p.type==="arrow"){
-
-            ctx.strokeStyle="#dedede";
-            ctx.lineWidth=3;
-
-            ctx.beginPath();
-            ctx.moveTo(p.x,p.y);
-            ctx.lineTo(p.x-12,p.y+2);
-            ctx.stroke();
-
-        }
-
-        if(p.type==="fire"){
-
-            ctx.fillStyle="#ff6a1a";
-            ctx.beginPath();
-            ctx.arc(p.x,p.y,7,0,Math.PI*2);
-            ctx.fill();
-
-            ctx.fillStyle="#ffd34e";
-            ctx.beginPath();
-            ctx.arc(p.x,p.y,3,0,Math.PI*2);
-            ctx.fill();
-        }
-
-        if(p.type==="ice"){
-
-            ctx.fillStyle="#8be9ff";
-            ctx.beginPath();
-            ctx.arc(p.x,p.y,6,0,Math.PI*2);
-            ctx.fill();
-        }
-    }
-}
-
-
-/* ============================================================
-   DAMAGE
-============================================================ */
-
-function damageEnemy(e,damage,type){
-
-    if(e.dead)return;
-
-    e.hp-=damage;
-
-    floatingText(
-        e.x-12,
-        e.y-65,
-        "-"+Math.floor(damage),
-        type==="fire" ? "#ff7a32" :
-        type==="ice" ? "#8be9ff" :
-        "#fff"
-    );
-
-    for(let i=0;i<3;i++){
-
-        particle(
-            e.x,
-            e.y-25,
-            type==="ice" ? "#8be9ff" : "#fff",
-            3
-        );
-    }
-
-    if(e.hp<=0){
-
-        e.dead=true;
-
-        state.kills++;
-
-        const reward=Math.floor(
-            e.reward*state.goldMultiplier
-        );
-
-        state.coins+=reward;
-
-        floatingText(
-            e.x,
-            e.y-85,
-            "+"+reward+" 🪙",
-            "#ffd34e"
-        );
-
-        if(e.boss){
-
-            state.bosses++;
-
-            addLog("👑 BOSS DEFEATED! +"+reward+" coins","rare");
-
-            for(let i=0;i<35;i++){
-
-                particle(
-                    e.x,
-                    e.y-30,
-                    "#c084fc",
-                    5
-                );
-            }
-
-        }
-
-    }
-}
-
-
-/* ============================================================
-   UNIT AI
-============================================================ */
-
-function closestEnemy(range=Infinity){
-
-    let best=null;
-    let distance=Infinity;
-
-    for(const e of state.enemies){
-
-        if(e.dead)continue;
-
-        const d=Math.abs(e.x-255);
-
-        if(d<distance && d<=range){
-
-            best=e;
-            distance=d;
-        }
-    }
-
-    return best;
-}
-
-
-function unitAttack(unitName,now){
-
-    const u=state.units[unitName];
-
-    if(now-u.last<u.cooldown)return;
-
-    let target;
-
-    if(unitName==="archer"){
-        target=closestEnemy(520);
-    }
-    else if(unitName==="knight"){
-        target=closestEnemy(260);
-    }
-    else if(unitName==="mage"){
-        target=closestEnemy(600);
-    }
-    else if(unitName==="ice"){
-        target=closestEnemy(500);
-    }
-    else{
-        target=closestEnemy(450);
-    }
-
-    if(!target)return;
-
-    u.last=now;
-
-    if(unitName==="archer"){
-
-        projectile(
-            205,
-            H-215,
-            target,
-            u.damage,
-            "arrow"
-        );
-    }
-
-    if(unitName==="knight"){
-
-        damageEnemy(
-            target,
-            u.damage,
-            "sword"
-        );
-
-        for(let i=0;i<5;i++)
-            particle(target.x,target.y-25,"#ddd",3);
-    }
-
-    if(unitName==="mage"){
-
-        projectile(
-            205,
-            H-270,
-            target,
-            u.damage,
-            "fire"
-        );
-    }
-
-    if(unitName==="ice"){
-
-        projectile(
-            130,
-            H-230,
-            target,
-            u.damage,
-            "ice"
-        );
-
-        target.slow=.45;
-        setTimeout(()=>{
-            if(target)target.slow=1;
-        },1800);
-    }
-
-    if(unitName==="necro"){
-
-        damageEnemy(
-            target,
-            u.damage,
-            "dark"
-        );
-
-        for(let i=0;i<7;i++)
-            particle(target.x,target.y-30,"#a855f7",3);
-    }
-}
-
-
-/* ============================================================
-   ENEMY UPDATE
-============================================================ */
-
-function updateEnemies(dt,now){
-
-    for(let i=state.enemies.length-1;i>=0;i--){
-
-        const e=state.enemies[i];
-
-        if(e.dead){
-
-            state.enemies.splice(i,1);
-            continue;
-        }
-
-        if(e.frozen || now<state.freezeUntil){
-            e.frozen=true;
-        }
-        else{
-            e.frozen=false;
-        }
-
-        const slow=e.frozen ? .05 : e.slow;
-
-        const castleX=295;
-
-        if(e.x>castleX){
-
-            e.x-=e.speed*slow*dt;
-
-            e.attacking=false;
-
-        }
-        else{
-
-            e.attacking=true;
-
-            e.attackTimer-=dt;
-
-            if(e.type==="creeper"){
-
-                if(!e.charging){
-
-                    e.charging=true;
-                    e.attackTimer=1.7;
-
-                }
-
-                if(e.attackTimer<=0){
-
-                    explodeCreeper(e);
-
-                    state.enemies.splice(i,1);
-                    continue;
-                }
-
-            }
-            else if(e.attackTimer<=0){
-
-                e.attackTimer=
-                    e.type==="boss"
-                    ? .7
-                    : 1;
-
-                const reduction=Math.max(
-                    .25,
-                    1-state.armor*.05
-                );
-
-                state.castleHp-=e.damage*reduction;
-
-                updateCastleUI();
-
-                for(let j=0;j<7;j++)
-                    particle(275,H-120,"#ff4848",4);
-
-                addLog(
-                    "💥 "+enemyName(e.type)+
-                    " hit the castle!",
-                    "danger"
-                );
-
-                if(state.castleHp<=0){
-
-                    state.castleHp=0;
-                    gameOver();
-
-                }
-            }
-
-        }
-
-    }
-
-}
-
-
-function explodeCreeper(e){
-
-    const radius=120;
-
-    for(let i=0;i<25;i++)
-        particle(e.x,e.y-25,"#b8ff4a",5);
-
-    const d=Math.abs(e.x-270);
-
-    if(d<radius){
-
-        const damage=150;
-
-        state.castleHp-=damage;
-
-        updateCastleUI();
-
-        floatingText(
-            250,
-            H-160,
-            "-"+damage+" HP",
-            "#ff4444"
-        );
-
-    }
-
-    addLog("💣 Creeper exploded!","danger");
-
-    if(state.castleHp<=0){
-        state.castleHp=0;
-        gameOver();
-    }
-}
-
-
-function enemyName(type){
-
-    return {
-        zombie:"Zombie",
-        skeleton:"Skeleton",
-        spider:"Spider",
-        creeper:"Creeper",
-        blaze:"Blaze",
-        boss:"BOSS"
-    }[type];
-}
-
-
-/* ============================================================
-   WAVE SYSTEM
-============================================================ */
-
-function startWave(){
-
-    if(state.running)return;
-
-    state.wave++;
-
-    state.running=true;
-
-    state.spawnLeft=
-        6+
-        state.wave*3+
-        Math.floor(state.wave/4)*4;
-
-    showWave(
-        "WAVE "+state.wave,
-        state.wave%5===0
-            ? "A dangerous wave approaches!"
-            : "They are coming..."
-    );
-
-    document.getElementById("startButton")
-        .classList.add("running");
-
-    document.getElementById("startButton")
-        .textContent="WAVE IN PROGRESS...";
-
-    addLog(
-        "⚔️ Wave "+state.wave+" started!",
-        "good"
-    );
-
-}
-
-
-function checkWaveEnd(){
-
-    if(
-        state.running &&
-        state.spawnLeft<=0 &&
-        state.enemies.length===0
-    ){
-
-        state.running=false;
-
-        const bonus=
-            60+
-            state.wave*15+
-            (state.wave%5===0?150:0);
-
-        state.coins+=bonus;
-
-        state.mana=Math.min(
-            100,
-            state.mana+25
-        );
-
-        addLog(
-            "🏆 Wave cleared! +"+bonus+" coins",
-            "gold"
-        );
-
-        document.getElementById("startButton")
-            .classList.remove("running");
-
-        document.getElementById("startButton")
-            .textContent="START NEXT WAVE";
-
-        save();
-
-        updateUI();
-    }
-
-}
-
-
-/* ============================================================
-   ABILITIES
-============================================================ */
-
-function useAbility(type){
-
-    if(!state.running)return;
-
-    const now=performance.now();
-
-    if(now<state.cooldowns[type]){
-
-        addLog("Ability is on cooldown!","danger");
-        return;
-    }
-
-    if(type==="volley"){
-
-        if(state.mana<20){
-
-            addLog("Not enough mana!","danger");
-            return;
-        }
-
-        state.mana-=20;
-
-        state.cooldowns.volley=now+8000;
-
-        const targets=state.enemies
-            .filter(e=>!e.dead)
-            .slice(0,8);
-
-        for(const e of targets){
-
-            damageEnemy(
-                e,
-                65+state.wave*4,
-                "arrow"
-            );
-
-            particle(e.x,e.y-30,"#fff",5);
-        }
-
-        addLog("🏹 ARROW VOLLEY!","good");
-    }
-
-
-    if(type==="meteor"){
-
-        if(state.mana<40){
-
-            addLog("Not enough mana!","danger");
-            return;
-        }
-
-        state.mana-=40;
-
-        state.cooldowns.meteor=now+14000;
-
-        const target=closestEnemy(9999);
-
-        if(target){
-
-            for(const e of state.enemies){
-
-                if(Math.abs(e.x-target.x)<130){
-
-                    damageEnemy(
-                        e,
-                        260+state.wave*12,
-                        "fire"
-                    );
-                }
-            }
-
-            for(let i=0;i<35;i++)
-                particle(
-                    target.x,
-                    target.y-40,
-                    "#ff7a24",
-                    5
-                );
-
-            addLog("☄️ METEOR STRIKE!","rare");
-        }
-    }
-
-
-    if(type==="freeze"){
-
-        if(state.mana<30){
-
-            addLog("Not enough mana!","danger");
-            return;
-        }
-
-        state.mana-=30;
-
-        state.cooldowns.freeze=now+18000;
-
-        state.freezeUntil=now+5000;
-
-        addLog("❄️ ALL ENEMIES FROZEN!","good");
-    }
-
-    updateUI();
-}
-
-
-/* ============================================================
-   UPGRADES
-============================================================ */
-
-function upgradeUnit(type){
-
-    const u=state.units[type];
-
-    const cost=Math.floor(
-        50*
-        Math.pow(1.42,u.level-1)
-    );
-
-    if(state.coins<cost){
-
-        addLog("Not enough coins!","danger");
-        return;
-    }
-
-    state.coins-=cost;
-
-    u.level++;
-
-    u.damage=Math.floor(u.damage*1.24);
-
-    u.cooldown=Math.max(
-        300,
-        u.cooldown*.96
-    );
-
-    addLog(
-        "⬆️ "+unitDisplay(type)+
-        " upgraded to LVL "+u.level,
-        "good"
-    );
-
-    save();
-    updateUI();
-}
-
-
-function upgradeCastle(type){
-
-    if(type==="hp"){
-
-        const cost=100*state.castleLevel;
-
-        if(state.coins<cost){
-
-            addLog("Not enough coins!","danger");
-            return;
-        }
-
-        state.coins-=cost;
-
-        state.castleMaxHp+=250;
-        state.castleHp+=250;
-
-        state.castleLevel++;
-
-        addLog("🏰 Castle reinforced!","good");
-    }
-
-
-    if(type==="armor"){
-
-        const cost=150*(state.armor+1);
-
-        if(state.coins<cost)return;
-
-        state.coins-=cost;
-        state.armor++;
-
-        addLog("🛡️ Castle armor upgraded!","good");
-    }
-
-
-    if(type==="gold"){
-
-        const cost=200*
-            Math.floor(state.goldMultiplier);
-
-        if(state.coins<cost)return;
-
-        state.coins-=cost;
-
-        state.goldMultiplier+=.15;
-
-        addLog("🪙 Gold income increased!","gold");
-    }
-
-    save();
-    updateUI();
-}
-
-
-function repairCastle(){
-
-    const cost=75;
-
-    if(state.coins<cost){
-
-        addLog("Not enough coins!","danger");
-        return;
-    }
-
-    if(state.castleHp>=state.castleMaxHp){
-
-        addLog("Castle is already full HP.","danger");
-        return;
-    }
-
-    state.coins-=cost;
-
-    state.castleHp=Math.min(
-        state.castleMaxHp,
-        state.castleHp+state.castleMaxHp*.2
-    );
-
-    addLog("💚 Castle repaired!","good");
-
-    updateUI();
-    save();
-}
-
-
-function unitDisplay(type){
-
-    return {
-        archer:"Archer",
-        knight:"Knight",
-        mage:"Blaze Mage",
-        ice:"Ice Wizard",
-        necro:"Necromancer"
-    }[type];
-}
-
-
-/* ============================================================
-   UI
-============================================================ */
-
-function updateCastleUI(){
-
-    const pct=
-        Math.max(
-            0,
-            state.castleHp/state.castleMaxHp*100
-        );
-
-    document.getElementById("hpFill")
-        .style.width=pct+"%";
-
-    document.getElementById("hpText")
-        .textContent=
-        Math.ceil(state.castleHp)+
-        " / "+
-        state.castleMaxHp;
-}
-
-
-function updateUI(){
-
-    document.getElementById("coins")
-        .textContent=Math.floor(state.coins);
-
-    document.getElementById("mana")
-        .textContent=Math.floor(state.mana);
-
-    document.getElementById("topWave")
-        .textContent=state.wave;
-
-    document.getElementById("waveNumber")
-        .textContent=state.wave;
-
-    updateCastleUI();
-
-
-    for(const type of Object.keys(state.units)){
-
-        const u=state.units[type];
-
-        const id=type.charAt(0).toUpperCase()+type.slice(1);
-
-        document.getElementById("lvl"+id)
-            .textContent="LVL "+u.level;
-
-        const cost=Math.floor(
-            50*
-            Math.pow(1.42,u.level-1)
-        );
-
-        document.getElementById("cost"+id)
-            .textContent=cost;
-    }
-
-
-    document.getElementById("costHp")
-        .textContent=(100*state.castleLevel)+" 🪙";
-
-    document.getElementById("costArmor")
-        .textContent=(150*(state.armor+1))+" 🪙";
-
-    document.getElementById("costGold")
-        .textContent=
-        (200*Math.floor(state.goldMultiplier))+" 🪙";
-
-
-    const now=performance.now();
-
-    const cds={
-        volley:"cdVolley",
-        meteor:"cdMeteor",
-        freeze:"cdFreeze"
-    };
-
-    const durations={
-        volley:8000,
-        meteor:14000,
-        freeze:18000
-    };
-
-    for(const key in cds){
-
-        const remaining=
-            Math.max(
-                0,
-                state.cooldowns[key]-now
-            );
-
-        const pct=
-            remaining/durations[key]*100;
-
-        document.getElementById(cds[key])
-            .style.height=pct+"%";
-    }
-}
-
-
-function showWave(title,subtitle){
-
-    const el=document.getElementById("waveMessage");
-
-    el.querySelector("b").textContent=title;
-    el.querySelector("span").textContent=subtitle;
-
-    el.classList.add("show");
-
-    setTimeout(()=>{
-        el.classList.remove("show");
-    },1800);
-}
-
-
-function addLog(text,className=""){
-
-    const log=document.getElementById("log");
-
-    const line=document.createElement("div");
-
-    line.className=className;
-    line.textContent=text;
-
-    log.prepend(line);
-
-    while(log.children.length>8){
-        log.lastChild.remove();
-    }
-}
-
-
-/* ============================================================
-   GAME OVER
-============================================================ */
-
-function gameOver(){
-
-    state.running=false;
-
-    document.getElementById("startButton")
-        .classList.remove("running");
-
-    document.getElementById("startButton")
-        .textContent="TRY AGAIN";
-
-    addLog(
-        "☠️ YOUR CASTLE HAS FALLEN.",
-        "danger"
-    );
-
-    showWave(
-        "CASTLE DESTROYED",
-        "Press START to try again."
-    );
-
-    save();
-}
-
-
-/* ============================================================
+/* =========================================================
    SAVE
-============================================================ */
-
-const SAVE_KEY="houskaSurviveMinecraft2";
+========================================================= */
 
 function save(){
 
-    try{
-
-        localStorage.setItem(
-            SAVE_KEY,
-            JSON.stringify({
-
-                wave:state.wave,
-                coins:state.coins,
-                mana:state.mana,
-
-                castleHp:state.castleHp,
-                castleMaxHp:state.castleMaxHp,
-
-                armor:state.armor,
-                goldMultiplier:state.goldMultiplier,
-
-                kills:state.kills,
-                bosses:state.bosses,
-
-                castleLevel:state.castleLevel,
-
-                units:state.units
-
-            })
-        );
-
-    }catch(e){}
-}
-
-
-function load(){
-
-    try{
-
-        const raw=
-            localStorage.getItem(SAVE_KEY);
-
-        if(!raw)return;
-
-        const d=JSON.parse(raw);
-
-        Object.assign(
-            state,
-            d
-        );
-
-        state.running=false;
-        state.enemies=[];
-        state.projectiles=[];
-        state.particles=[];
-        state.texts=[];
-
-        addLog(
-            "💾 Save loaded.",
-            "good"
-        );
-
-    }catch(e){
-
-        console.warn(e);
-
-    }
-}
-
-
-function resetGame(){
-
-    localStorage.removeItem(SAVE_KEY);
-    location.reload();
-
-}
-
-
-/* ============================================================
-   SPAWN TIMER
-============================================================ */
-
-let spawnTimer=0;
-
-function spawnController(dt){
-
-    if(!state.running)return;
-
-    spawnTimer-=dt;
-
-    if(
-        state.spawnLeft>0 &&
-        spawnTimer<=0
-    ){
-
-        spawnEnemy();
-
-        spawnTimer=
-            Math.max(
-                .25,
-                .95-state.wave*.018
-            );
-    }
-}
-
-
-/* ============================================================
-   MAIN LOOP
-============================================================ */
-
-function update(dt,now){
-
-    spawnController(dt);
-
-    updateEnemies(dt,now);
-
-    updateProjectiles(dt);
-
-    updateParticles(dt);
-
-    updateTexts(dt);
-
-
-    if(state.running){
-
-        unitAttack("archer",now);
-        unitAttack("knight",now);
-        unitAttack("mage",now);
-        unitAttack("ice",now);
-        unitAttack("necro",now);
-    }
-
-
-    checkWaveEnd();
-
-    updateUI();
-}
-
-
-function render(now){
-
-    ctx.clearRect(0,0,W,H);
-
-    drawBackground(now);
-
-    drawCastle(now);
-
-    drawSoldiers(now);
-
-
-    for(const e of state.enemies){
-
-        drawEnemy(e,now);
-
-    }
-
-
-    drawProjectiles();
-
-    drawParticles();
-
-    drawTexts();
-
-
-    /* ground lane */
-
-    ctx.globalAlpha=.15;
-
-    rect(
-        290,
-        H-105,
-        W-290,
-        4,
-        "#fff"
+    localStorage.setItem(
+        "sfm_coins",
+        String(coins)
     );
 
-    ctx.globalAlpha=1;
+    localStorage.setItem(
+        "sfm_inventory",
+        JSON.stringify(inventory)
+    );
+
 }
 
 
-function loop(now){
+/* =========================================================
+   UI
+========================================================= */
 
-    let dt=(now-state.lastTime)/1000;
+function updateUI(){
 
-    state.lastTime=now;
+    document.getElementById("coins").textContent =
+        coins.toLocaleString("en-US");
 
-    dt=Math.min(dt,.05);
+    renderInventory();
 
-    update(dt,now);
-
-    render(now);
-
-    requestAnimationFrame(loop);
 }
 
+updateUI();
 
-/* ============================================================
-   START
-============================================================ */
 
-document.getElementById("startButton")
-    .addEventListener("click",()=>{
+/* =========================================================
+   RANDOM RARITY
+========================================================= */
 
-        if(!state.running){
+function rollRarity(){
 
-            if(state.castleHp<=0){
+    const random =
+        Math.random() * 100;
 
-                state.castleHp=state.castleMaxHp;
+    let total = 0;
 
-                addLog(
-                    "🏰 Castle restored.",
-                    "good"
-                );
-            }
+    for(const key of Object.keys(odds)){
 
-            startWave();
+        total += odds[key];
+
+        if(random <= total){
+            return key;
         }
+
+    }
+
+    return "common";
+
+}
+
+
+/* =========================================================
+   GET ITEM
+========================================================= */
+
+function getRandomItem(caseId){
+
+    const items =
+        ITEMS[caseId];
+
+    const rarity =
+        rollRarity();
+
+    const matching =
+        items.filter(
+            item => item.rarity === rarity
+        );
+
+    if(matching.length){
+        return matching[
+            Math.floor(Math.random()*matching.length)
+        ];
+    }
+
+    return items[
+        Math.floor(Math.random()*items.length)
+    ];
+
+}
+
+
+/* =========================================================
+   ITEM ICON
+========================================================= */
+
+function itemIcon(item){
+
+    const type =
+        item.type || "stone";
+
+    if(type === "dirt")
+        return `<div class="item-pixel pixel-block dirt"></div>`;
+
+    if(type === "grass")
+        return `<div class="item-pixel pixel-block grass"></div>`;
+
+    if(type === "stone")
+        return `<div class="item-pixel pixel-block stone-icon"></div>`;
+
+    if(type === "iron")
+        return `<div class="item-pixel pixel-block iron"></div>`;
+
+    if(type === "gold")
+        return `<div class="item-pixel pixel-block gold"></div>`;
+
+    if(type === "diamond")
+        return `<div class="item-pixel pixel-block diamond-icon"></div>`;
+
+    if(type === "netherite")
+        return `<div class="item-pixel pixel-block netherite"></div>`;
+
+    if(type === "emerald")
+        return `<div class="item-pixel pixel-block emerald"></div>`;
+
+    if(type === "obsidian")
+        return `<div class="item-pixel pixel-block obsidian"></div>`;
+
+    if(type === "tnt")
+        return `<div class="item-pixel pixel-block tnt"></div>`;
+
+    if(type === "apple")
+        return `<div class="item-pixel apple-shape"></div>`;
+
+    if(type === "pearl")
+        return `<div class="item-pixel pearl"></div>`;
+
+    if(type === "egg")
+        return `<div class="item-pixel egg"></div>`;
+
+    if(type === "elytra")
+        return `<div class="item-pixel elytra"></div>`;
+
+    if(
+        type === "sword" ||
+        type === "diamondSword" ||
+        type === "netheriteSword"
+    ){
+
+        let cls = "sword-shape";
+
+        if(type === "diamondSword")
+            cls += " diamond-sword";
+
+        if(type === "netheriteSword")
+            cls += " netherite-sword";
+
+        return `<div class="item-pixel"><div class="${cls}"></div></div>`;
+
+    }
+
+    return `<div class="item-pixel pixel-block stone-icon"></div>`;
+
+}
+
+
+/* =========================================================
+   OPEN CASE
+========================================================= */
+
+function openCase(caseId){
+
+    if(opening)
+        return;
+
+    const selected =
+        CASES[caseId];
+
+    if(coins < selected.price){
+
+        toast(
+            "Nemáš dost coinů na tento case."
+        );
+
+        return;
+
+    }
+
+    currentCase = caseId;
+
+    document.getElementById("openingModal")
+        .classList.add("active");
+
+    document.getElementById("openingTitle")
+        .textContent =
+        selected.name;
+
+    document.getElementById("openingSubtitle")
+        .textContent =
+        "CASE OPENING • ODDS READY";
+
+    document.getElementById("openingStatus")
+        .textContent =
+        "Připraveno k otevření.";
+
+    document.getElementById("startOpeningBtn")
+        .disabled = false;
+
+    document.getElementById("startOpeningBtn")
+        .textContent =
+        selected.price === 0
+        ? "OPEN FREE"
+        : `OPEN • ${selected.price.toLocaleString()} 🪙`;
+
+    buildReel(null);
+
+}
+
+
+/* =========================================================
+   CLOSE
+========================================================= */
+
+function closeOpening(){
+
+    if(opening)
+        return;
+
+    document.getElementById("openingModal")
+        .classList.remove("active");
+
+}
+
+
+/* =========================================================
+   BUILD REEL
+========================================================= */
+
+function buildReel(winner){
+
+    const reel =
+        document.getElementById("reel");
+
+    reel.innerHTML = "";
+
+    const amount = 70;
+
+    let winnerIndex = 54;
+
+    for(let i=0;i<amount;i++){
+
+        let item;
+
+        if(
+            winner &&
+            i === winnerIndex
+        ){
+
+            item = winner;
+
+        }else{
+
+            item =
+                getRandomItem(currentCase);
+
+        }
+
+        const card =
+            document.createElement("div");
+
+        card.className =
+            `reel-card ${rarities[item.rarity].class}`;
+
+        card.style.color =
+            rarities[item.rarity].color;
+
+        card.innerHTML = `
+
+            <div class="item-icon">
+                ${itemIcon(item)}
+            </div>
+
+            <div class="reel-card-name">
+                ${item.name}
+            </div>
+
+            <div class="reel-card-rarity">
+                ${rarities[item.rarity].name}
+            </div>
+
+        `;
+
+        reel.appendChild(card);
+
+    }
+
+    /*
+        Put reel back to initial position.
+    */
+
+    reel.style.transition = "none";
+
+    reel.style.transform =
+        "translateX(0px)";
+
+}
+
+
+/* =========================================================
+   START OPENING
+========================================================= */
+
+function startOpening(){
+
+    if(opening)
+        return;
+
+    if(!currentCase)
+        return;
+
+    const selected =
+        CASES[currentCase];
+
+    if(coins < selected.price){
+
+        toast("Nemáš dost coinů.");
+
+        return;
+
+    }
+
+    opening = true;
+
+    coins -= selected.price;
+
+    save();
+    updateUI();
+
+    document.getElementById("startOpeningBtn")
+        .disabled = true;
+
+    document.getElementById("openingStatus")
+        .textContent =
+        "Opening...";
+
+    /*
+        IMPORTANT:
+        Result is determined BEFORE animation.
+    */
+
+    currentResult =
+        getRandomItem(currentCase);
+
+    buildReel(currentResult);
+
+    const reel =
+        document.getElementById("reel");
+
+    const cardWidth = 145;
+    const gap = 9;
+
+    /*
+        On mobile cards are smaller.
+        Center is still approximately calculated
+        from actual reel width.
+    */
+
+    const cards =
+        reel.querySelectorAll(".reel-card");
+
+    const winnerIndex = 54;
+
+    const winner =
+        cards[winnerIndex];
+
+    const reelRect =
+        reel.parentElement.getBoundingClientRect();
+
+    const winnerWidth =
+        winner.getBoundingClientRect().width;
+
+    const targetCenter =
+        reelRect.width / 2;
+
+    const winnerCenter =
+        winnerIndex * (cardWidth + gap)
+        + winnerWidth / 2;
+
+    let translate =
+        targetCenter - winnerCenter;
+
+    /*
+        Add slight random final offset
+        for natural stopping.
+    */
+
+    translate +=
+        (Math.random() * 10) - 5;
+
+    requestAnimationFrame(()=>{
+
+        requestAnimationFrame(()=>{
+
+            reel.style.transition =
+                "transform 6.2s cubic-bezier(.08,.74,.11,1)";
+
+            reel.style.transform =
+                `translateX(${translate}px)`;
+
+        });
 
     });
 
+    /*
+        Reveal after animation.
+    */
 
-load();
-updateUI();
+    setTimeout(()=>{
 
-addLog(
-    "🏰 Welcome to Survive from Minecraft.",
-    "good"
-);
+        opening = false;
 
-addLog(
-    "⚔️ Defend your castle and survive.",
-    ""
-);
+        document.getElementById("openingStatus")
+            .textContent =
+            "Drop získán!";
 
-requestAnimationFrame(loop);
+        playRevealSound(
+            currentResult.rarity
+        );
+
+        createParticles(
+            rarities[currentResult.rarity].color
+        );
+
+        setTimeout(
+            showResult,
+            650
+        );
+
+    },6500);
+
+}
 
 
-/* autosave */
+/* =========================================================
+   RESULT
+========================================================= */
 
-setInterval(save,10000);
+function showResult(){
+
+    const item =
+        currentResult;
+
+    const data =
+        rarities[item.rarity];
+
+    document.getElementById("resultOverlay")
+        .classList.add("active");
+
+    document.getElementById("resultIcon")
+        .innerHTML =
+        itemIcon(item);
+
+    document.getElementById("resultName")
+        .textContent =
+        item.name;
+
+    const rarity =
+        document.getElementById("resultRarity");
+
+    rarity.textContent =
+        data.name;
+
+    rarity.className =
+        `result-rarity ${data.class}`;
+
+    document.getElementById("resultValue")
+        .textContent =
+        `Value: ${item.value.toLocaleString()} 🪙`;
+
+    document.getElementById("resultCard")
+        .style.setProperty(
+            "--result-glow",
+            `${data.color}22`
+        );
+
+}
+
+
+/* =========================================================
+   KEEP
+========================================================= */
+
+function keepResult(){
+
+    if(!currentResult)
+        return;
+
+    inventory.push({
+        ...currentResult,
+        id:Date.now() +
+            Math.random()
+    });
+
+    save();
+
+    updateUI();
+
+    closeResult();
+
+    toast(
+        `${currentResult.name} uložen do Storage.`
+    );
+
+}
+
+
+/* =========================================================
+   SELL RESULT
+========================================================= */
+
+function sellResult(){
+
+    if(!currentResult)
+        return;
+
+    coins +=
+        currentResult.value;
+
+    save();
+
+    updateUI();
+
+    const name =
+        currentResult.name;
+
+    currentResult = null;
+
+    closeResult();
+
+    toast(
+        `Prodáno za ${coins.toLocaleString()} 🪙`
+    );
+
+}
+
+
+/* =========================================================
+   CLOSE RESULT
+========================================================= */
+
+function closeResult(){
+
+    document.getElementById("resultOverlay")
+        .classList.remove("active");
+
+    document.getElementById("openingModal")
+        .classList.remove("active");
+
+    currentResult = null;
+    currentCase = null;
+
+}
+
+
+/* =========================================================
+   INVENTORY
+========================================================= */
+
+function renderInventory(){
+
+    const inventoryElement =
+        document.getElementById("inventory");
+
+    const count =
+        document.getElementById("storageCount");
+
+    count.textContent =
+        `${inventory.length} item${inventory.length === 1 ? "" : "s"}`;
+
+    if(!inventory.length){
+
+        inventoryElement.innerHTML = `
+
+            <div style="
+                grid-column:1/-1;
+                padding:55px 20px;
+                text-align:center;
+                color:#77778e;
+            ">
+
+                <div style="
+                    font-size:35px;
+                    margin-bottom:10px;
+                ">
+                    🎒
+                </div>
+
+                <strong>
+                    Storage je zatím prázdný
+                </strong>
+
+                <div style="
+                    margin-top:7px;
+                    font-size:12px;
+                ">
+                    Otevři svůj první case.
+                </div>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+    inventoryElement.innerHTML =
+        inventory.map(
+            (item,index)=>`
+
+                <div class="inv-item">
+
+                    <div
+                        class="item-icon"
+                        style="height:75px"
+                    >
+                        ${itemIcon(item)}
+                    </div>
+
+                    <div class="inv-name">
+                        ${item.name}
+                    </div>
+
+                    <div class="inv-rarity ${rarities[item.rarity].class}">
+                        ${rarities[item.rarity].name}
+                    </div>
+
+                    <div class="inv-value">
+                        ${item.value.toLocaleString()} 🪙
+                    </div>
+
+                    <button
+                        class="sell-btn"
+                        onclick="sellInventoryItem(${index})"
+                    >
+                        SELL
+                    </button>
+
+                </div>
+
+            `
+        ).join("");
+
+}
+
+
+/* =========================================================
+   SELL INVENTORY
+========================================================= */
+
+function sellInventoryItem(index){
+
+    const item =
+        inventory[index];
+
+    if(!item)
+        return;
+
+    coins +=
+        item.value;
+
+    inventory.splice(index,1);
+
+    save();
+    updateUI();
+
+    toast(
+        `${item.name} prodán za ${item.value.toLocaleString()} 🪙`
+    );
+
+}
+
+
+/* =========================================================
+   SCROLL
+========================================================= */
+
+function scrollToStorage(){
+
+    document.getElementById("storage")
+        .scrollIntoView({
+            behavior:"smooth"
+        });
+
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+let toastTimeout;
+
+function toast(message){
+
+    const element =
+        document.getElementById("toast");
+
+    element.textContent =
+        message;
+
+    element.classList.add("show");
+
+    clearTimeout(toastTimeout);
+
+    toastTimeout =
+        setTimeout(()=>{
+
+            element.classList.remove("show");
+
+        },2500);
+
+}
+
+
+/* =========================================================
+   PARTICLES
+========================================================= */
+
+function createParticles(color){
+
+    for(let i=0;i<35;i++){
+
+        const p =
+            document.createElement("div");
+
+        p.className =
+            "particle";
+
+        p.style.background =
+            color;
+
+        p.style.left =
+            `${50 + (Math.random()*12-6)}%`;
+
+        p.style.top =
+            `${50 + (Math.random()*12-6)}%`;
+
+        p.style.setProperty(
+            "--x",
+            `${Math.random()*500-250}px`
+        );
+
+        p.style.setProperty(
+            "--y",
+            `${Math.random()*500-250}px`
+        );
+
+        document.body.appendChild(p);
+
+        setTimeout(
+            ()=>p.remove(),
+            1300
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   AUDIO
+========================================================= */
+
+let audioContext = null;
+
+function getAudio(){
+
+    if(!audioContext){
+
+        audioContext =
+            new (
+                window.AudioContext ||
+                window.webkitAudioContext
+            )();
+
+    }
+
+    return audioContext;
+
+}
+
+
+function tone(
+    frequency,
+    duration,
+    type="sine",
+    volume=.035
+){
+
+    try{
+
+        const ctx =
+            getAudio();
+
+        const oscillator =
+            ctx.createOscillator();
+
+        const gain =
+            ctx.createGain();
+
+        oscillator.type =
+            type;
+
+        oscillator.frequency.value =
+            frequency;
+
+        gain.gain.setValueAtTime(
+            volume,
+            ctx.currentTime
+        );
+
+        gain.gain.exponentialRampToValueAtTime(
+            .001,
+            ctx.currentTime + duration
+        );
+
+        oscillator.connect(gain);
+        gain.connect(ctx.destination);
+
+        oscillator.start();
+
+        oscillator.stop(
+            ctx.currentTime + duration
+        );
+
+    }catch(e){}
+
+}
+
+
+/*
+    Small tick sequence during reel.
+*/
+
+let tickTimer = null;
+
+function startTicks(){
+
+    let ticks = 0;
+
+    clearInterval(tickTimer);
+
+    tickTimer =
+        setInterval(()=>{
+
+            tone(
+                450 + ticks * 3,
+                .035,
+                "square",
+                .018
+            );
+
+            ticks++;
+
+            if(ticks > 25){
+
+                clearInterval(tickTimer);
+
+            }
+
+        },145);
+
+}
+
+
+/* =========================================================
+   REVEAL SOUND
+========================================================= */
+
+function playRevealSound(rarity){
+
+    if(rarity === "mythic"){
+
+        tone(180,.15,"sawtooth",.05);
+
+        setTimeout(
+            ()=>tone(360,.25,"sine",.055),
+            130
+        );
+
+        setTimeout(
+            ()=>tone(720,.4,"sine",.06),
+            280
+        );
+
+        return;
+
+    }
+
+    if(rarity === "legendary"){
+
+        tone(300,.12,"sine",.04);
+
+        setTimeout(
+            ()=>tone(600,.3,"sine",.05),
+            130
+        );
+
+        return;
+
+    }
+
+    if(rarity === "epic"){
+
+        tone(350,.1,"sine",.035);
+
+        setTimeout(
+            ()=>tone(700,.22,"sine",.04),
+            100
+        );
+
+        return;
+
+    }
+
+    tone(
+        440,
+        .16,
+        "sine",
+        .03
+    );
+
+}
+
+
+/* =========================================================
+   START TICKS WHEN OPENING
+========================================================= */
+
+const originalStartOpening =
+    startOpening;
 
 </script>
 
