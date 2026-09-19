@@ -1,0 +1,4153 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Survive from Minecraft</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #07050d;
+      --panel: rgba(18, 14, 29, 0.86);
+      --panel2: rgba(30, 22, 45, 0.9);
+      --border: rgba(190, 130, 255, 0.18);
+      --purple: #9b4dff;
+      --purple2: #c084ff;
+      --text: #fff;
+      --muted: rgba(255,255,255,.55);
+      --green: #48ff91;
+      --red: #ff4d67;
+      --gold: #ffd34d;
+      --blue: #55b8ff;
+    }
+
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(120,40,255,.14), transparent 30%),
+        radial-gradient(circle at 80% 80%, rgba(180,30,255,.10), transparent 30%),
+        #07050d;
+      color: white;
+      font-family: Arial, Helvetica, sans-serif;
+      overflow-x: hidden;
+    }
+
+    button {
+      font-family: inherit;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    /* =========================
+       TOP BAR
+    ========================= */
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 25px;
+      background: rgba(8, 6, 14, .84);
+      border-bottom: 1px solid rgba(255,255,255,.07);
+      backdrop-filter: blur(22px);
+    }
+
+    .logo {
+      font-size: 22px;
+      font-weight: 900;
+      background: linear-gradient(90deg, white, #c084ff, #7c2cff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .resources {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .resource {
+      min-width: 105px;
+      padding: 9px 13px;
+      border-radius: 13px;
+      background: rgba(255,255,255,.045);
+      border: 1px solid rgba(255,255,255,.08);
+    }
+
+    .resource small {
+      display: block;
+      color: var(--muted);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .resource strong {
+      font-size: 16px;
+    }
+
+    .coins {
+      color: var(--gold);
+    }
+
+    .emeralds {
+      color: #55ff9b;
+    }
+
+    .mana {
+      color: #61c5ff;
+    }
+
+    /* =========================
+       MAIN
+    ========================= */
+
+    .game {
+      width: min(1450px, calc(100% - 30px));
+      margin: 20px auto 50px;
+    }
+
+    /* =========================
+       HUD
+    ========================= */
+
+    .hud {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr 1fr;
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+
+    .hud-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 16px 20px;
+      box-shadow: 0 15px 50px rgba(0,0,0,.25);
+    }
+
+    .hud-title {
+      color: var(--muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .wave-number {
+      font-size: 30px;
+      font-weight: 900;
+      margin-top: 4px;
+    }
+
+    .wave-boss {
+      color: #ff5c70;
+    }
+
+    .castle-hp {
+      margin-top: 7px;
+    }
+
+    .bar {
+      width: 100%;
+      height: 13px;
+      background: rgba(0,0,0,.45);
+      border-radius: 100px;
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%;
+      width: 100%;
+      border-radius: inherit;
+      transition: width .25s ease;
+    }
+
+    .hp-fill {
+      background: linear-gradient(90deg, #ff334f, #ff7d5a);
+      box-shadow: 0 0 15px rgba(255,60,80,.35);
+    }
+
+    .mana-fill {
+      background: linear-gradient(90deg, #258dff, #65d7ff);
+    }
+
+    .hp-text {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .wave-center {
+      text-align: center;
+    }
+
+    .wave-progress {
+      margin-top: 10px;
+      height: 8px;
+      background: rgba(255,255,255,.07);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .wave-progress-fill {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, #7c2cff, #c084ff);
+      transition: width .2s;
+    }
+
+    /* =========================
+       BATTLEFIELD
+    ========================= */
+
+    .battlefield {
+      position: relative;
+      min-height: 530px;
+      overflow: hidden;
+      border-radius: 28px;
+      border: 1px solid rgba(180,120,255,.2);
+      background:
+        linear-gradient(to bottom,
+        rgba(35,25,55,.85) 0%,
+        rgba(16,35,25,.95) 55%,
+        rgba(11,18,13,1) 100%);
+      box-shadow:
+        0 30px 100px rgba(0,0,0,.5),
+        inset 0 0 100px rgba(124,44,255,.06);
+    }
+
+    .sky {
+      position: absolute;
+      inset: 0 0 45%;
+      background:
+        radial-gradient(circle at 75% 25%, rgba(180,110,255,.15), transparent 15%),
+        radial-gradient(circle at 20% 30%, rgba(80,150,255,.1), transparent 18%);
+      pointer-events: none;
+    }
+
+    .moon {
+      position: absolute;
+      top: 55px;
+      right: 12%;
+      width: 65px;
+      height: 65px;
+      border-radius: 50%;
+      background: #e9dcff;
+      box-shadow: 0 0 45px rgba(220,200,255,.35);
+      opacity: .8;
+    }
+
+    .cloud {
+      position: absolute;
+      width: 150px;
+      height: 35px;
+      border-radius: 100px;
+      background: rgba(255,255,255,.045);
+    }
+
+    .cloud.one {
+      top: 100px;
+      left: 15%;
+    }
+
+    .cloud.two {
+      top: 160px;
+      right: 20%;
+      transform: scale(.7);
+    }
+
+    .ground {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 115px;
+      background:
+        repeating-linear-gradient(
+          90deg,
+          rgba(70,100,60,.15) 0px,
+          rgba(70,100,60,.15) 30px,
+          transparent 30px,
+          transparent 60px
+        ),
+        linear-gradient(#182519, #0c120d);
+      border-top: 4px solid #24361f;
+    }
+
+    /* =========================
+       CASTLE
+    ========================= */
+
+    .castle {
+      position: absolute;
+      left: 50%;
+      bottom: 85px;
+      transform: translateX(-50%);
+      width: 240px;
+      height: 250px;
+      z-index: 20;
+    }
+
+    .castle-wall {
+      position: absolute;
+      left: 25px;
+      right: 25px;
+      bottom: 0;
+      height: 175px;
+      background:
+        repeating-linear-gradient(
+          0deg,
+          rgba(255,255,255,.035) 0 23px,
+          transparent 23px 46px
+        ),
+        linear-gradient(90deg, #3c3548, #61566d, #393343);
+      border: 4px solid #26202f;
+      border-radius: 8px 8px 2px 2px;
+      box-shadow: 0 15px 30px rgba(0,0,0,.45);
+    }
+
+    .castle-tower {
+      position: absolute;
+      bottom: 0;
+      width: 65px;
+      height: 220px;
+      background: linear-gradient(90deg, #38313f, #66596e, #39323f);
+      border: 4px solid #26202f;
+      z-index: 2;
+    }
+
+    .castle-tower.left {
+      left: 0;
+    }
+
+    .castle-tower.right {
+      right: 0;
+    }
+
+    .tower-top {
+      position: absolute;
+      top: -32px;
+      left: -6px;
+      width: 69px;
+      height: 35px;
+      background: #4e4555;
+      border: 4px solid #26202f;
+      clip-path: polygon(
+        0 100%, 0 35%, 15% 35%, 15% 0,
+        35% 0, 35% 35%, 55% 35%, 55% 0,
+        75% 0, 75% 35%, 100% 35%, 100% 100%
+      );
+    }
+
+    .castle-door {
+      position: absolute;
+      left: 50%;
+      bottom: 0;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 105px;
+      border-radius: 35px 35px 0 0;
+      background: #1b1522;
+      border: 4px solid #27202f;
+    }
+
+    .castle-flag {
+      position: absolute;
+      left: 50%;
+      top: -30px;
+      width: 4px;
+      height: 75px;
+      background: #2b2431;
+      z-index: 10;
+    }
+
+    .castle-flag::after {
+      content: "S";
+      position: absolute;
+      left: 3px;
+      top: 0;
+      width: 45px;
+      height: 30px;
+      display: grid;
+      place-items: center;
+      color: white;
+      font-weight: 900;
+      background: linear-gradient(135deg, #7c2cff, #c084ff);
+      clip-path: polygon(0 0, 100% 0, 80% 100%, 0 75%);
+    }
+
+    .castle-damage {
+      animation: castleShake .25s;
+    }
+
+    @keyframes castleShake {
+      0%,100% { transform: translateX(-50%); }
+      25% { transform: translateX(calc(-50% - 7px)); }
+      75% { transform: translateX(calc(-50% + 7px)); }
+    }
+
+    /* =========================
+       UNITS
+    ========================= */
+
+    .unit {
+      position: absolute;
+      bottom: 125px;
+      width: 60px;
+      height: 90px;
+      z-index: 30;
+      text-align: center;
+      transition: left .4s;
+    }
+
+    .unit-emoji {
+      font-size: 48px;
+      filter: drop-shadow(0 8px 10px rgba(0,0,0,.5));
+    }
+
+    .unit-name {
+      font-size: 9px;
+      font-weight: 800;
+      margin-top: -2px;
+    }
+
+    .unit-bar {
+      width: 58px;
+      height: 5px;
+      margin: 3px auto;
+      background: rgba(0,0,0,.5);
+      border-radius: 5px;
+      overflow: hidden;
+    }
+
+    .unit-bar-fill {
+      width: 100%;
+      height: 100%;
+      background: #48ff91;
+    }
+
+    .unit.archer {
+      left: calc(50% - 250px);
+    }
+
+    .unit.knight {
+      left: calc(50% - 105px);
+    }
+
+    .unit.mage {
+      left: calc(50% + 55px);
+    }
+
+    .unit.ice {
+      left: calc(50% + 200px);
+    }
+
+    /* =========================
+       ENEMIES
+    ========================= */
+
+    .enemy {
+      position: absolute;
+      bottom: 100px;
+      width: 62px;
+      height: 95px;
+      z-index: 25;
+      text-align: center;
+      transition: left .08s linear;
+    }
+
+    .enemy-icon {
+      font-size: 48px;
+      filter: drop-shadow(0 8px 8px rgba(0,0,0,.55));
+    }
+
+    .enemy-name {
+      font-size: 8px;
+      font-weight: 900;
+      color: rgba(255,255,255,.7);
+    }
+
+    .enemy-hp {
+      width: 60px;
+      height: 6px;
+      margin-top: 2px;
+      background: rgba(0,0,0,.65);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .enemy-hp-fill {
+      width: 100%;
+      height: 100%;
+      background: #ff405a;
+      transition: width .15s;
+    }
+
+    .enemy.boss {
+      transform: scale(1.55);
+      transform-origin: bottom center;
+    }
+
+    .enemy.boss .enemy-icon {
+      filter:
+        drop-shadow(0 0 15px rgba(255,30,70,.5))
+        drop-shadow(0 8px 10px rgba(0,0,0,.6));
+    }
+
+    /* =========================
+       PROJECTILES
+    ========================= */
+
+    .projectile {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      z-index: 50;
+      pointer-events: none;
+    }
+
+    .arrow-projectile {
+      background: #f0d28c;
+      box-shadow: 0 0 10px #ffe9ae;
+    }
+
+    .fire-projectile {
+      width: 18px;
+      height: 18px;
+      background: #ff642f;
+      box-shadow: 0 0 20px #ff4d00;
+    }
+
+    .ice-projectile {
+      background: #7edcff;
+      box-shadow: 0 0 18px #43c8ff;
+    }
+
+    /* =========================
+       DAMAGE
+    ========================= */
+
+    .damage-number {
+      position: absolute;
+      z-index: 100;
+      font-weight: 900;
+      font-size: 18px;
+      pointer-events: none;
+      animation: damageFloat .8s forwards;
+    }
+
+    .damage-normal {
+      color: white;
+    }
+
+    .damage-crit {
+      color: #ffe45c;
+      font-size: 24px;
+    }
+
+    @keyframes damageFloat {
+      0% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(-55px) scale(1.15);
+      }
+    }
+
+    /* =========================
+       CONTROLS
+    ========================= */
+
+    .controls {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      position: absolute;
+      bottom: 18px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 200;
+    }
+
+    .btn {
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(15,10,25,.88);
+      color: white;
+      border-radius: 13px;
+      padding: 12px 20px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: .2s;
+      backdrop-filter: blur(15px);
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      border-color: rgba(180,120,255,.5);
+      box-shadow: 0 0 25px rgba(124,44,255,.2);
+    }
+
+    .btn.primary {
+      background: linear-gradient(135deg, #6e20df, #a54dff);
+      border-color: rgba(255,255,255,.18);
+    }
+
+    .btn.danger {
+      background: rgba(255,50,70,.12);
+      color: #ff7889;
+    }
+
+    /* =========================
+       PANELS
+    ========================= */
+
+    .panels {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr 1fr;
+      gap: 15px;
+      margin-top: 15px;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 15px 60px rgba(0,0,0,.3);
+    }
+
+    .panel h2 {
+      font-size: 18px;
+      margin-bottom: 15px;
+    }
+
+    .panel-subtitle {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: -10px;
+      margin-bottom: 15px;
+    }
+
+    .unit-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .unit-card {
+      padding: 13px;
+      border-radius: 15px;
+      background: rgba(255,255,255,.035);
+      border: 1px solid rgba(255,255,255,.07);
+      cursor: pointer;
+      transition: .2s;
+    }
+
+    .unit-card:hover,
+    .unit-card.selected {
+      border-color: rgba(170,100,255,.45);
+      background: rgba(130,60,255,.1);
+    }
+
+    .unit-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .unit-card-icon {
+      font-size: 30px;
+    }
+
+    .unit-card h3 {
+      font-size: 14px;
+    }
+
+    .unit-card small {
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    .level {
+      color: #c084ff;
+      font-weight: 800;
+    }
+
+    /* =========================
+       UPGRADES
+    ========================= */
+
+    .upgrade-list {
+      display: grid;
+      gap: 9px;
+    }
+
+    .upgrade {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px;
+      background: rgba(255,255,255,.035);
+      border-radius: 13px;
+      border: 1px solid rgba(255,255,255,.06);
+    }
+
+    .upgrade-info strong {
+      display: block;
+      font-size: 13px;
+    }
+
+    .upgrade-info span {
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    .upgrade button {
+      border: 0;
+      border-radius: 9px;
+      padding: 8px 10px;
+      color: white;
+      background: #7130c8;
+      font-size: 11px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .upgrade button:disabled {
+      opacity: .35;
+      cursor: not-allowed;
+    }
+
+    /* =========================
+       ABILITY
+    ========================= */
+
+    .ability-box {
+      padding: 15px;
+      border-radius: 15px;
+      background:
+        radial-gradient(circle at top right, rgba(150,70,255,.16), transparent 45%),
+        rgba(255,255,255,.035);
+      border: 1px solid rgba(180,120,255,.15);
+    }
+
+    .ability-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .ability-title h3 {
+      font-size: 15px;
+    }
+
+    .ability-description {
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.5;
+      margin: 8px 0 12px;
+    }
+
+    .ability-btn {
+      width: 100%;
+      padding: 10px;
+      border: 0;
+      border-radius: 10px;
+      color: white;
+      background: linear-gradient(135deg,#6d24d9,#9d4cff);
+      cursor: pointer;
+      font-weight: 900;
+    }
+
+    .ability-btn:disabled {
+      opacity: .35;
+      cursor: not-allowed;
+    }
+
+    /* =========================
+       SKILLS
+    ========================= */
+
+    .skill-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .skill {
+      padding: 12px 7px;
+      text-align: center;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,.07);
+      background: rgba(255,255,255,.03);
+      cursor: pointer;
+      transition: .2s;
+    }
+
+    .skill:hover {
+      background: rgba(124,44,255,.12);
+    }
+
+    .skill.active {
+      border-color: #a75cff;
+      background: rgba(124,44,255,.17);
+    }
+
+    .skill-icon {
+      font-size: 24px;
+    }
+
+    .skill-name {
+      font-size: 9px;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    /* =========================
+       LOG
+    ========================= */
+
+    .combat-log {
+      margin-top: 15px;
+      max-height: 145px;
+      overflow-y: auto;
+      font-size: 11px;
+      color: rgba(255,255,255,.5);
+    }
+
+    .log-entry {
+      padding: 5px 0;
+      border-bottom: 1px solid rgba(255,255,255,.035);
+    }
+
+    .log-entry strong {
+      color: white;
+    }
+
+    /* =========================
+       MODALS
+    ========================= */
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      z-index: 5000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: rgba(0,0,0,.72);
+      backdrop-filter: blur(10px);
+    }
+
+    .modal-box {
+      width: min(550px, 100%);
+      background: #110c1a;
+      border: 1px solid rgba(180,120,255,.3);
+      border-radius: 25px;
+      padding: 35px;
+      text-align: center;
+      box-shadow: 0 30px 100px rgba(0,0,0,.7);
+    }
+
+    .modal-box h2 {
+      font-size: 35px;
+      margin-bottom: 12px;
+    }
+
+    .modal-box p {
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 25px;
+    }
+
+    .reward {
+      display: flex;
+      justify-content: center;
+      gap: 25px;
+      margin-bottom: 25px;
+      font-size: 18px;
+    }
+
+    /* =========================
+       RESPONSIVE
+    ========================= */
+
+    @media(max-width: 1100px) {
+      .panels {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .panels .panel:first-child {
+        grid-column: span 2;
+      }
+    }
+
+    @media(max-width: 800px) {
+      .topbar {
+        height: auto;
+        padding: 12px;
+        gap: 10px;
+        flex-direction: column;
+      }
+
+      .resources {
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+
+      .resource {
+        min-width: 90px;
+      }
+
+      .hud {
+        grid-template-columns: 1fr;
+      }
+
+      .battlefield {
+        min-height: 480px;
+      }
+
+      .panels {
+        grid-template-columns: 1fr;
+      }
+
+      .panels .panel:first-child {
+        grid-column: auto;
+      }
+
+      .unit.archer {
+        left: calc(50% - 180px);
+      }
+
+      .unit.knight {
+        left: calc(50% - 80px);
+      }
+
+      .unit.mage {
+        left: calc(50% + 20px);
+      }
+
+      .unit.ice {
+        left: calc(50% + 100px);
+      }
+
+      .castle {
+        transform: translateX(-50%) scale(.82);
+        transform-origin: bottom center;
+      }
+    }
+
+    @media(max-width: 500px) {
+      .game {
+        width: calc(100% - 12px);
+        margin-top: 8px;
+      }
+
+      .battlefield {
+        min-height: 430px;
+      }
+
+      .unit {
+        transform: scale(.72);
+        transform-origin: bottom center;
+      }
+
+      .enemy {
+        transform: scale(.72);
+        transform-origin: bottom center;
+      }
+
+      .enemy.boss {
+        transform: scale(1.1);
+      }
+
+      .controls {
+        width: calc(100% - 20px);
+      }
+
+      .controls .btn {
+        flex: 1;
+        padding: 10px 7px;
+        font-size: 11px;
+      }
+
+      .skill-grid {
+        grid-template-columns: repeat(2,1fr);
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header class="topbar">
+
+  <div class="logo">
+    🧟 SURVIVE FROM MINECRAFT
+  </div>
+
+  <div class="resources">
+
+    <div class="resource">
+      <small>Coins</small>
+      <strong class="coins" id="coins">0 🪙</strong>
+    </div>
+
+    <div class="resource">
+      <small>Emeralds</small>
+      <strong class="emeralds" id="emeralds">0 💎</strong>
+    </div>
+
+    <div class="resource">
+      <small>Mana</small>
+      <strong class="mana" id="mana">100 🔮</strong>
+    </div>
+
+  </div>
+
+</header>
+
+
+<main class="game">
+
+  <!-- HUD -->
+
+  <section class="hud">
+
+    <div class="hud-card">
+
+      <div class="hud-title">
+        Castle
+      </div>
+
+      <div class="wave-number">
+        🏰 <span id="castleHpNumber">1000</span>
+      </div>
+
+      <div class="castle-hp">
+
+        <div class="bar">
+          <div
+            class="bar-fill hp-fill"
+            id="castleHpBar">
+          </div>
+        </div>
+
+        <div class="hp-text">
+          <span>Castle HP</span>
+          <span id="castleHpText">1000 / 1000</span>
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="hud-card wave-center">
+
+      <div class="hud-title">
+        Current Wave
+      </div>
+
+      <div class="wave-number" id="waveText">
+        Wave 0
+      </div>
+
+      <div
+        class="wave-progress">
+
+        <div
+          class="wave-progress-fill"
+          id="waveProgress">
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="hud-card">
+
+      <div class="hud-title">
+        Mana
+      </div>
+
+      <div class="wave-number">
+        🔮 <span id="manaNumber">100</span>
+      </div>
+
+      <div class="castle-hp">
+
+        <div class="bar">
+          <div
+            class="bar-fill mana-fill"
+            id="manaBar">
+          </div>
+        </div>
+
+        <div class="hp-text">
+          <span>Mana regeneration</span>
+          <span>+2 / sec</span>
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- BATTLE -->
+
+  <section class="battlefield" id="battlefield">
+
+    <div class="sky"></div>
+
+    <div class="moon"></div>
+
+    <div class="cloud one"></div>
+    <div class="cloud two"></div>
+
+    <div class="ground"></div>
+
+
+    <!-- CASTLE -->
+
+    <div class="castle" id="castle">
+
+      <div class="castle-flag"></div>
+
+      <div class="castle-tower left">
+        <div class="tower-top"></div>
+      </div>
+
+      <div class="castle-tower right">
+        <div class="tower-top"></div>
+      </div>
+
+      <div class="castle-wall"></div>
+
+      <div class="castle-door"></div>
+
+    </div>
+
+
+    <!-- UNITS -->
+
+    <div class="unit archer" id="unitArcher">
+
+      <div class="unit-icon">
+        <div class="unit-emoji">🏹</div>
+      </div>
+
+      <div class="unit-name">ARCHER</div>
+
+      <div class="unit-bar">
+        <div class="unit-bar-fill"></div>
+      </div>
+
+    </div>
+
+
+    <div class="unit knight" id="unitKnight">
+
+      <div class="unit-icon">
+        <div class="unit-emoji">🛡️</div>
+      </div>
+
+      <div class="unit-name">KNIGHT</div>
+
+      <div class="unit-bar">
+        <div class="unit-bar-fill"></div>
+      </div>
+
+    </div>
+
+
+    <div class="unit mage" id="unitMage">
+
+      <div class="unit-icon">
+        <div class="unit-emoji">🔥</div>
+      </div>
+
+      <div class="unit-name">BLAZE MAGE</div>
+
+      <div class="unit-bar">
+        <div class="unit-bar-fill"></div>
+      </div>
+
+    </div>
+
+
+    <div class="unit ice" id="unitIce">
+
+      <div class="unit-icon">
+        <div class="unit-emoji">❄️</div>
+      </div>
+
+      <div class="unit-name">ICE WIZARD</div>
+
+      <div class="unit-bar">
+        <div class="unit-bar-fill"></div>
+      </div>
+
+    </div>
+
+
+    <!-- CONTROLS -->
+
+    <div class="controls">
+
+      <button
+        class="btn primary"
+        id="startWaveBtn"
+        onclick="startWave()">
+        ⚔️ START WAVE
+      </button>
+
+      <button
+        class="btn"
+        onclick="togglePause()">
+        ⏸️ PAUSE
+      </button>
+
+    </div>
+
+  </section>
+
+
+  <!-- PANELS -->
+
+  <section class="panels">
+
+
+    <!-- SOLDIERS -->
+
+    <div class="panel">
+
+      <h2>⚔️ Soldiers</h2>
+
+      <div class="panel-subtitle">
+        Vyber vojáka a vylepšuj jeho schopnosti.
+      </div>
+
+      <div class="unit-grid">
+
+        <div
+          class="unit-card selected"
+          id="cardArcher"
+          onclick="selectUnit('archer')">
+
+          <div class="unit-card-top">
+
+            <div class="unit-card-icon">
+              🏹
+            </div>
+
+            <div>
+              <h3>Archer</h3>
+              <small>
+                                <span
+                                  class="level"
+                                  id="archerLevel">
+                                    Level 1
+                                </span>
+              </small>
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div
+          class="unit-card"
+          id="cardKnight"
+          onclick="selectUnit('knight')">
+
+          <div class="unit-card-top">
+
+            <div class="unit-card-icon">
+              🛡️
+            </div>
+
+            <div>
+              <h3>Knight</h3>
+              <small>
+                                <span
+                                  class="level"
+                                  id="knightLevel">
+                                    Level 1
+                                </span>
+              </small>
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div
+          class="unit-card"
+          id="cardMage"
+          onclick="selectUnit('mage')">
+
+          <div class="unit-card-top">
+
+            <div class="unit-card-icon">
+              🔥
+            </div>
+
+            <div>
+              <h3>Blaze Mage</h3>
+              <small>
+                                <span
+                                  class="level"
+                                  id="mageLevel">
+                                    Level 1
+                                </span>
+              </small>
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div
+          class="unit-card"
+          id="cardIce"
+          onclick="selectUnit('ice')">
+
+          <div class="unit-card-top">
+
+            <div class="unit-card-icon">
+              ❄️
+            </div>
+
+            <div>
+              <h3>Ice Wizard</h3>
+              <small>
+                                <span
+                                  class="level"
+                                  id="iceLevel">
+                                    Level 1
+                                </span>
+              </small>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- UPGRADES -->
+
+    <div class="panel">
+
+      <h2>⬆️ Upgrades</h2>
+
+      <div
+        class="panel-subtitle"
+        id="selectedUnitText">
+        Archer
+      </div>
+
+      <div class="upgrade-list">
+
+        <div class="upgrade">
+
+          <div class="upgrade-info">
+            <strong>⚔️ Damage</strong>
+            <span id="damageStat">
+                            +10 damage
+                        </span>
+          </div>
+
+          <button
+            id="damageButton"
+            onclick="upgradeSelected('damage')">
+            50 🪙
+          </button>
+
+        </div>
+
+
+        <div class="upgrade">
+
+          <div class="upgrade-info">
+            <strong>⚡ Attack Speed</strong>
+            <span id="speedStat">
+                            Faster attacks
+                        </span>
+          </div>
+
+          <button
+            id="speedButton"
+            onclick="upgradeSelected('speed')">
+            75 🪙
+          </button>
+
+        </div>
+
+
+        <div class="upgrade">
+
+          <div class="upgrade-info">
+            <strong>🎯 Range</strong>
+            <span id="rangeStat">
+                            + range
+                        </span>
+          </div>
+
+          <button
+            id="rangeButton"
+            onclick="upgradeSelected('range')">
+            60 🪙
+          </button>
+
+        </div>
+
+
+        <div class="upgrade">
+
+          <div class="upgrade-info">
+            <strong>✨ Ability</strong>
+            <span id="abilityStat">
+                            Stronger ability
+                        </span>
+          </div>
+
+          <button
+            id="abilityUpgradeButton"
+            onclick="upgradeSelected('ability')">
+            100 🪙
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- ABILITIES -->
+
+    <div class="panel">
+
+      <h2>✨ Ability</h2>
+
+      <div class="ability-box">
+
+        <div class="ability-title">
+
+          <h3 id="abilityName">
+            Multi Shot
+          </h3>
+
+          <span id="abilityCooldown">
+                        READY
+                    </span>
+
+        </div>
+
+        <div
+          class="ability-description"
+          id="abilityDescription">
+
+          Archer vystřelí několik šípů
+          najednou a zasáhne více nepřátel.
+        </div>
+
+        <button
+          class="ability-btn"
+          id="abilityButton"
+          onclick="useAbility()">
+
+          ⚡ USE ABILITY
+
+        </button>
+
+      </div>
+
+
+      <h2 style="margin-top:20px;">
+        🌳 Skill Tree
+      </h2>
+
+      <div class="skill-grid">
+
+        <div
+          class="skill"
+          onclick="buySkill('damage')">
+
+          <div class="skill-icon">
+            ⚔️
+          </div>
+
+          <div class="skill-name">
+            Damage
+          </div>
+
+        </div>
+
+
+        <div
+          class="skill"
+          onclick="buySkill('speed')">
+
+          <div class="skill-icon">
+            ⚡
+          </div>
+
+          <div class="skill-name">
+            Attack Speed
+          </div>
+
+        </div>
+
+
+        <div
+          class="skill"
+          onclick="buySkill('hp')">
+
+          <div class="skill-icon">
+            ❤️
+          </div>
+
+          <div class="skill-name">
+            Castle HP
+          </div>
+
+        </div>
+
+
+        <div
+          class="skill"
+          onclick="buySkill('gold')">
+
+          <div class="skill-icon">
+            🪙
+          </div>
+
+          <div class="skill-name">
+            Gold
+          </div>
+
+        </div>
+
+
+        <div
+          class="skill"
+          onclick="buySkill('crit')">
+
+          <div class="skill-icon">
+            💥
+          </div>
+
+          <div class="skill-name">
+            Crit
+          </div>
+
+        </div>
+
+
+        <div
+          class="skill"
+          onclick="buySkill('mana')">
+
+          <div class="skill-icon">
+            🔮
+          </div>
+
+          <div class="skill-name">
+            Mana
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- CASTLE UPGRADES -->
+
+  <section class="panel" style="margin-top:15px;">
+
+    <h2>🏰 Castle Upgrades</h2>
+
+    <div class="upgrade-list">
+
+      <div class="upgrade">
+
+        <div class="upgrade-info">
+          <strong>❤️ Max HP</strong>
+          <span id="castleUpgradeText">
+                        Increase castle health
+                    </span>
+        </div>
+
+        <button
+          onclick="upgradeCastle('hp')"
+          id="castleHpButton">
+          150 🪙
+        </button>
+
+      </div>
+
+
+      <div class="upgrade">
+
+        <div class="upgrade-info">
+          <strong>🛡️ Armor</strong>
+          <span>
+                        Reduce incoming damage
+                    </span>
+        </div>
+
+        <button
+          onclick="upgradeCastle('armor')"
+          id="armorButton">
+          200 🪙
+        </button>
+
+      </div>
+
+
+      <div class="upgrade">
+
+        <div class="upgrade-info">
+          <strong>🪙 Coin Income</strong>
+          <span>
+                        More coins from kills
+                    </span>
+        </div>
+
+        <button
+          onclick="upgradeCastle('gold')"
+          id="goldButton">
+          250 🪙
+        </button>
+
+      </div>
+
+
+      <div class="upgrade">
+
+        <div class="upgrade-info">
+          <strong>🔮 Mana</strong>
+          <span>
+                        Increase max mana
+                    </span>
+        </div>
+
+        <button
+          onclick="upgradeCastle('mana')"
+          id="manaUpgradeButton">
+          300 🪙
+        </button>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- COMBAT LOG -->
+
+  <section class="panel">
+
+    <h2>📜 Combat Log</h2>
+
+    <div
+      class="combat-log"
+      id="combatLog">
+    </div>
+
+  </section>
+
+
+  <!-- RESET -->
+
+  <section style="text-align:center; padding:25px 0;">
+
+    <button
+      class="btn danger"
+      onclick="resetProgress()">
+
+      ⚠️ RESET PROGRESS
+
+    </button>
+
+  </section>
+
+</main>
+
+
+<!-- GAME OVER -->
+
+<div
+  class="modal hidden"
+  id="gameOverModal">
+
+  <div class="modal-box">
+
+    <h2>💀 GAME OVER</h2>
+
+    <p>
+      Tvůj hrad padl.
+      Dokázal jsi přežít:
+    </p>
+
+    <div
+      style="font-size:45px;font-weight:900;color:#c084ff;"
+      id="gameOverWave">
+
+      Wave 0
+
+    </div>
+
+    <div class="reward">
+
+            <span>
+                💀 <b id="gameOverKills">0</b>
+            </span>
+
+      <span>
+                🪙 <b id="gameOverCoins">0</b>
+            </span>
+
+    </div>
+
+    <button
+      class="btn primary"
+      onclick="restartGame()">
+
+      🔄 PLAY AGAIN
+
+    </button>
+
+  </div>
+
+</div>
+
+
+<!-- BOSS -->
+
+<div
+  class="modal hidden"
+  id="bossModal">
+
+  <div class="modal-box">
+
+    <h2 style="color:#ff6075;">
+      👑 BOSS WAVE
+    </h2>
+
+    <p>
+      Přichází extrémně silný nepřítel!
+      Připrav svou obranu.
+    </p>
+
+    <div style="font-size:65px;margin-bottom:20px;">
+      👹
+    </div>
+
+    <button
+      class="btn primary"
+      onclick="closeBossModal()">
+
+      ⚔️ FIGHT
+
+    </button>
+
+  </div>
+
+</div>
+
+
+<script>
+
+  /* =========================================================
+     SAVE DATA
+  ========================================================= */
+
+  const SAVE_KEY = "surviveFromMinecraftSave_v1";
+
+
+  let game = {
+
+    coins: 500,
+    emeralds: 5,
+
+    wave: 0,
+    kills: 0,
+
+    castle: {
+      hp: 1000,
+      maxHp: 1000,
+      armor: 0,
+      goldBonus: 0,
+      manaMax: 100
+    },
+
+    mana: 100,
+
+    paused: false,
+    waveRunning: false,
+    gameOver: false,
+
+    units: {
+
+      archer: {
+        level: 1,
+        damage: 18,
+        speed: 1.7,
+        range: 500,
+        abilityLevel: 1,
+        cooldown: 0
+      },
+
+      knight: {
+        level: 1,
+        damage: 28,
+        speed: 1.1,
+        range: 250,
+        abilityLevel: 1,
+        cooldown: 0
+      },
+
+      mage: {
+        level: 1,
+        damage: 35,
+        speed: 1.25,
+        range: 500,
+        abilityLevel: 1,
+        cooldown: 0
+      },
+
+      ice: {
+        level: 1,
+        damage: 22,
+        speed: 1.35,
+        range: 500,
+        abilityLevel: 1,
+        cooldown: 0
+      }
+
+    },
+
+    skills: {
+      damage: 0,
+      speed: 0,
+      hp: 0,
+      gold: 0,
+      crit: 0,
+      mana: 0
+    },
+
+    towers: {
+      archer: 1,
+      cannon: 0,
+      magic: 0,
+      tesla: 0,
+      fire: 0
+    }
+
+  };
+
+
+  function saveGame() {
+
+    localStorage.setItem(
+      SAVE_KEY,
+      JSON.stringify(game)
+    );
+
+  }
+
+
+  function loadGame() {
+
+    const saved =
+      localStorage.getItem(SAVE_KEY);
+
+    if (!saved) return;
+
+    try {
+
+      const data = JSON.parse(saved);
+
+      game = {
+        ...game,
+        ...data,
+        castle: {
+          ...game.castle,
+          ...(data.castle || {})
+        },
+        units: {
+          ...game.units,
+          ...(data.units || {})
+        },
+        skills: {
+          ...game.skills,
+          ...(data.skills || {})
+        },
+        towers: {
+          ...game.towers,
+          ...(data.towers || {})
+        }
+      };
+
+    } catch(e) {
+
+      console.log("Save error", e);
+
+    }
+
+  }
+
+
+  /* =========================================================
+     DOM
+  ========================================================= */
+
+  const battlefield =
+    document.getElementById("battlefield");
+
+  const castle =
+    document.getElementById("castle");
+
+
+  /* =========================================================
+     UNIT SELECTION
+  ========================================================= */
+
+  let selectedUnit = "archer";
+
+
+  const unitNames = {
+
+    archer: "Archer",
+    knight: "Knight",
+    mage: "Blaze Mage",
+    ice: "Ice Wizard"
+
+  };
+
+
+  const abilities = {
+
+    archer: {
+      name: "Multi Shot",
+      description:
+        "Archer vystřelí několik šípů najednou.",
+      mana: 20,
+      cooldown: 8
+    },
+
+    knight: {
+      name: "Shield Bash",
+      description:
+        "Knight udeří štítem a omráčí nepřátele.",
+      mana: 25,
+      cooldown: 10
+    },
+
+    mage: {
+      name: "Meteor",
+      description:
+        "Obrovský meteor zasáhne skupinu nepřátel.",
+      mana: 35,
+      cooldown: 14
+    },
+
+    ice: {
+      name: "Freeze",
+      description:
+        "Zmrazí nepřátele na několik sekund.",
+      mana: 30,
+      cooldown: 12
+    }
+
+  };
+
+
+  function selectUnit(unit) {
+
+    selectedUnit = unit;
+
+    document
+      .querySelectorAll(".unit-card")
+      .forEach(card =>
+        card.classList.remove("selected")
+      );
+
+    document
+      .getElementById("card" +
+        unit.charAt(0).toUpperCase() +
+        unit.slice(1))
+      .classList.add("selected");
+
+    updateUpgradePanel();
+
+  }
+
+
+  /* =========================================================
+     UI UPDATE
+  ========================================================= */
+
+  function updateUI() {
+
+    document.getElementById("coins")
+      .textContent =
+      Math.floor(game.coins) + " 🪙";
+
+    document.getElementById("emeralds")
+      .textContent =
+      game.emeralds + " 💎";
+
+    document.getElementById("mana")
+      .textContent =
+      Math.floor(game.mana) + " 🔮";
+
+    document.getElementById("manaNumber")
+      .textContent =
+      Math.floor(game.mana);
+
+    document.getElementById("manaBar")
+      .style.width =
+      Math.max(
+        0,
+        Math.min(
+          100,
+          game.mana /
+          game.castle.manaMax *
+          100
+        )
+      ) + "%";
+
+
+    document.getElementById("castleHpNumber")
+      .textContent =
+      Math.max(
+        0,
+        Math.floor(game.castle.hp)
+      );
+
+    document.getElementById("castleHpText")
+      .textContent =
+      Math.max(
+        0,
+        Math.floor(game.castle.hp)
+      ) +
+      " / " +
+      game.castle.maxHp;
+
+
+    document.getElementById("castleHpBar")
+      .style.width =
+      Math.max(
+        0,
+        game.castle.hp /
+        game.castle.maxHp *
+        100
+      ) + "%";
+
+
+    document.getElementById("waveText")
+      .textContent =
+      "Wave " + game.wave;
+
+
+    updateLevels();
+    updateUpgradePanel();
+
+  }
+
+
+  function updateLevels() {
+
+    document.getElementById("archerLevel")
+      .textContent =
+      "Level " +
+      game.units.archer.level;
+
+    document.getElementById("knightLevel")
+      .textContent =
+      "Level " +
+      game.units.knight.level;
+
+    document.getElementById("mageLevel")
+      .textContent =
+      "Level " +
+      game.units.mage.level;
+
+    document.getElementById("iceLevel")
+      .textContent =
+      "Level " +
+      game.units.ice.level;
+
+  }
+
+
+  /* =========================================================
+     UPGRADE PANEL
+  ========================================================= */
+
+  function updateUpgradePanel() {
+
+    const u =
+      game.units[selectedUnit];
+
+    document.getElementById("selectedUnitText")
+      .textContent =
+      unitNames[selectedUnit] +
+      " • Level " +
+      u.level;
+
+
+    document.getElementById("damageStat")
+      .textContent =
+      "Damage: " +
+      Math.floor(u.damage);
+
+
+    document.getElementById("speedStat")
+      .textContent =
+      "Attack speed: " +
+      u.speed.toFixed(2);
+
+
+    document.getElementById("rangeStat")
+      .textContent =
+      "Range: " +
+      Math.floor(u.range);
+
+
+    document.getElementById("abilityStat")
+      .textContent =
+      "Ability Lv. " +
+      u.abilityLevel;
+
+
+    const damageCost =
+      upgradeCost(selectedUnit, "damage");
+
+    const speedCost =
+      upgradeCost(selectedUnit, "speed");
+
+    const rangeCost =
+      upgradeCost(selectedUnit, "range");
+
+    const abilityCost =
+      upgradeCost(selectedUnit, "ability");
+
+
+    document.getElementById("damageButton")
+      .textContent =
+      damageCost + " 🪙";
+
+    document.getElementById("speedButton")
+      .textContent =
+      speedCost + " 🪙";
+
+    document.getElementById("rangeButton")
+      .textContent =
+      rangeCost + " 🪙";
+
+    document.getElementById("abilityUpgradeButton")
+      .textContent =
+      abilityCost + " 🪙";
+
+
+    const ability =
+      abilities[selectedUnit];
+
+    document.getElementById("abilityName")
+      .textContent =
+      ability.name +
+      " Lv." +
+      u.abilityLevel;
+
+    document.getElementById("abilityDescription")
+      .textContent =
+      ability.description;
+
+
+    updateButtonStates();
+
+  }
+
+
+  function upgradeCost(unit, type) {
+
+    const level =
+      game.units[unit].level;
+
+    const abilityLevel =
+      game.units[unit].abilityLevel;
+
+    if (type === "damage")
+      return Math.floor(50 * Math.pow(1.18, level - 1));
+
+    if (type === "speed")
+      return Math.floor(75 * Math.pow(1.2, level - 1));
+
+    if (type === "range")
+      return Math.floor(60 * Math.pow(1.19, level - 1));
+
+    if (type === "ability")
+      return Math.floor(100 * Math.pow(1.28, abilityLevel - 1));
+
+  }
+
+
+  function upgradeSelected(type) {
+
+    const u =
+      game.units[selectedUnit];
+
+    const cost =
+      upgradeCost(selectedUnit, type);
+
+    if (game.coins < cost) {
+
+      log("❌ Nemáš dostatek Coins.");
+
+      return;
+
+    }
+
+    game.coins -= cost;
+
+    if (type === "damage") {
+
+      u.damage += 7;
+      u.level++;
+
+    }
+
+    if (type === "speed") {
+
+      u.speed += .12;
+      u.level++;
+
+    }
+
+    if (type === "range") {
+
+      u.range += 35;
+      u.level++;
+
+    }
+
+    if (type === "ability") {
+
+      u.abilityLevel++;
+      u.level++;
+
+    }
+
+    log(
+      "⬆️ " +
+      unitNames[selectedUnit] +
+      " byl vylepšen."
+    );
+
+    saveGame();
+    updateUI();
+
+  }
+
+
+  /* =========================================================
+     CASTLE UPGRADES
+  ========================================================= */
+
+  function upgradeCastle(type) {
+
+    let cost = 0;
+
+    if (type === "hp")
+      cost =
+        Math.floor(
+          150 *
+          Math.pow(1.25,
+            game.castle.maxHp /
+            1000 - 1)
+        );
+
+    if (type === "armor")
+      cost =
+        Math.floor(
+          200 *
+          Math.pow(
+            1.3,
+            game.castle.armor
+          )
+        );
+
+    if (type === "gold")
+      cost =
+        Math.floor(
+          250 *
+          Math.pow(
+            1.25,
+            game.castle.goldBonus
+          )
+        );
+
+    if (type === "mana")
+      cost =
+        Math.floor(
+          300 *
+          Math.pow(
+            1.3,
+            (game.castle.manaMax - 100) / 25
+          )
+        );
+
+
+    if (game.coins < cost) {
+
+      log("❌ Nemáš dostatek Coins.");
+
+      return;
+
+    }
+
+    game.coins -= cost;
+
+
+    if (type === "hp") {
+
+      game.castle.maxHp += 150;
+      game.castle.hp += 150;
+
+    }
+
+    if (type === "armor") {
+
+      game.castle.armor++;
+
+    }
+
+    if (type === "gold") {
+
+      game.castle.goldBonus++;
+
+    }
+
+    if (type === "mana") {
+
+      game.castle.manaMax += 25;
+      game.mana += 25;
+
+    }
+
+    log("🏰 Castle upgrade zakoupen.");
+
+    saveGame();
+    updateUI();
+
+  }
+
+
+  /* =========================================================
+     SKILL TREE
+  ========================================================= */
+
+  function buySkill(type) {
+
+    const cost =
+      500 +
+      game.skills[type] * 350;
+
+    if (game.coins < cost) {
+
+      log(
+        "❌ Skill stojí " +
+        cost +
+        " Coins."
+      );
+
+      return;
+
+    }
+
+    game.coins -= cost;
+
+    game.skills[type]++;
+
+    if (type === "hp") {
+
+      game.castle.maxHp += 75;
+      game.castle.hp += 75;
+
+    }
+
+    if (type === "mana") {
+
+      game.castle.manaMax += 10;
+
+    }
+
+    log(
+      "🌳 Skill Tree: " +
+      type +
+      " Lv." +
+      game.skills[type]
+    );
+
+    saveGame();
+    updateUI();
+
+  }
+
+
+  /* =========================================================
+     WAVE SYSTEM
+  ========================================================= */
+
+  let enemies = [];
+
+  let enemyId = 0;
+
+  let waveKills = 0;
+
+  let waveTotal = 0;
+
+
+  function startWave() {
+
+    if (game.waveRunning || game.gameOver)
+      return;
+
+    game.wave++;
+
+    game.waveRunning = true;
+
+    waveKills = 0;
+
+    const count =
+      7 +
+      game.wave * 3;
+
+    waveTotal = count;
+
+    if (game.wave % 10 === 0) {
+
+      document
+        .getElementById("bossModal")
+        .classList.remove("hidden");
+
+    }
+
+    log(
+      "🌊 Wave " +
+      game.wave +
+      " začíná!"
+    );
+
+    document
+      .getElementById("startWaveBtn")
+      .disabled = true;
+
+    spawnWaveEnemies();
+
+    saveGame();
+    updateUI();
+
+  }
+
+
+  function spawnWaveEnemies() {
+
+    let spawned = 0;
+
+    const interval =
+      setInterval(() => {
+
+        if (game.gameOver) {
+
+          clearInterval(interval);
+          return;
+
+        }
+
+        spawnEnemy();
+
+        spawned++;
+
+        if (spawned >= waveTotal) {
+
+          clearInterval(interval);
+
+        }
+
+      }, 850);
+
+  }
+
+
+  function getEnemyType() {
+
+    const r =
+      Math.random();
+
+    if (game.wave >= 25 && r < .10)
+      return "wither";
+
+    if (game.wave >= 18 && r < .20)
+      return "blaze";
+
+    if (game.wave >= 12 && r < .30)
+      return "enderman";
+
+    if (game.wave >= 8 && r < .45)
+      return "creeper";
+
+    if (game.wave >= 5 && r < .60)
+      return "spider";
+
+    if (game.wave >= 3 && r < .75)
+      return "skeleton";
+
+    return "zombie";
+
+  }
+
+
+  const enemyTypes = {
+
+    zombie: {
+      name: "Zombie",
+      icon: "🧟",
+      hp: 70,
+      damage: 9,
+      speed: .35,
+      reward: 10
+    },
+
+    skeleton: {
+      name: "Skeleton",
+      icon: "💀",
+      hp: 110,
+      damage: 13,
+      speed: .48,
+      reward: 15
+    },
+
+    spider: {
+      name: "Spider",
+      icon: "🕷️",
+      hp: 85,
+      damage: 10,
+      speed: .72,
+      reward: 20
+    },
+
+    creeper: {
+      name: "Creeper",
+      icon: "💣",
+      hp: 170,
+      damage: 40,
+      speed: .42,
+      reward: 30
+    },
+
+    enderman: {
+      name: "Enderman",
+      icon: "👾",
+      hp: 450,
+      damage: 28,
+      speed: .55,
+      reward: 75
+    },
+
+    blaze: {
+      name: "Blaze",
+      icon: "🔥",
+      hp: 600,
+      damage: 35,
+      speed: .38,
+      reward: 100
+    },
+
+    wither: {
+      name: "Wither Skeleton",
+      icon: "☠️",
+      hp: 950,
+      damage: 55,
+      speed: .32,
+      reward: 160
+    },
+
+    boss: {
+      name: "BOSS",
+      icon: "👹",
+      hp: 6000,
+      damage: 120,
+      speed: .20,
+      reward: 1200,
+      boss: true
+    }
+
+  };
+
+
+  function spawnEnemy() {
+
+    let type =
+      getEnemyType();
+
+    if (
+      game.wave % 10 === 0 &&
+      waveKills === 0 &&
+      !enemies.some(e => e.boss)
+    ) {
+
+      if (
+        Math.random() < .35
+      ) {
+
+        type = "boss";
+
+      }
+
+    }
+
+    const data =
+      enemyTypes[type];
+
+    const scale =
+      1 +
+      (game.wave - 1) * .075;
+
+    const enemy = {
+
+      id: enemyId++,
+
+      type,
+
+      x: -80 -
+
+        Math.random() * 100,
+
+      hp:
+        data.hp * scale,
+
+      maxHp:
+        data.hp * scale,
+
+      damage:
+        data.damage *
+        (1 + game.wave * .045),
+
+      speed:
+        data.speed *
+        (1 + game.wave * .008),
+
+      reward:
+        Math.floor(
+          data.reward *
+          (1 + game.wave * .02)
+        ),
+
+      boss:
+        !!data.boss,
+
+      slowed: 0,
+
+      attackTimer: 0,
+
+      element: null
+
+    };
+
+
+    enemies.push(enemy);
+
+    createEnemyElement(enemy);
+
+  }
+
+
+  /* =========================================================
+     ENEMY ELEMENT
+  ========================================================= */
+
+  function createEnemyElement(enemy) {
+
+    const el =
+      document.createElement("div");
+
+    el.className =
+      "enemy" +
+      (enemy.boss ? " boss" : "");
+
+    el.id =
+      "enemy-" + enemy.id;
+
+    el.innerHTML = `
+
+        <div class="enemy-icon">
+            ${enemyTypes[enemy.type].icon}
+        </div>
+
+        <div class="enemy-name">
+            ${enemyTypes[enemy.type].name}
+        </div>
+
+        <div class="enemy-hp">
+            <div
+                class="enemy-hp-fill"
+                id="enemy-hp-${enemy.id}">
+            </div>
+        </div>
+    `;
+
+    battlefield.appendChild(el);
+
+    enemy.element = el;
+
+    if (enemy.boss) {
+
+      enemy.element.style.bottom = "105px";
+
+      log(
+        "👑 BOSS se objevil!"
+      );
+
+    }
+
+  }
+
+
+  /* =========================================================
+     GAME LOOP
+  ========================================================= */
+
+  let lastTime =
+    performance.now();
+
+
+  function gameLoop(now) {
+
+    const dt =
+      Math.min(
+        0.05,
+        (now - lastTime) / 1000
+      );
+
+    lastTime = now;
+
+    if (
+      !game.paused &&
+      !game.gameOver
+    ) {
+
+      updateEnemies(dt);
+
+      updateSoldiers(dt);
+
+      updateCooldowns(dt);
+
+      regenerateMana(dt);
+
+    }
+
+    requestAnimationFrame(gameLoop);
+
+  }
+
+
+  requestAnimationFrame(gameLoop);
+
+
+  /* =========================================================
+     ENEMIES UPDATE
+  ========================================================= */
+
+  function updateEnemies(dt) {
+
+    for (
+      let i = enemies.length - 1;
+      i >= 0;
+      i--
+    ) {
+
+      const enemy =
+        enemies[i];
+
+      if (enemy.hp <= 0)
+        continue;
+
+
+      if (enemy.slowed > 0) {
+
+        enemy.slowed -= dt;
+
+      }
+
+
+      const speedMultiplier =
+        enemy.slowed > 0
+          ? .35
+          : 1;
+
+
+      enemy.x +=
+        enemy.speed *
+        speedMultiplier *
+        dt *
+        100;
+
+
+      if (enemy.x > 48) {
+
+        enemy.x = 48;
+
+        enemy.attackTimer -= dt;
+
+        if (enemy.attackTimer <= 0) {
+
+          damageCastle(enemy);
+
+          enemy.attackTimer =
+            enemy.boss
+              ? 1
+              : 1.35;
+
+        }
+
+      }
+
+
+      enemy.element.style.left =
+        enemy.x + "%";
+
+    }
+
+  }
+
+
+  /* =========================================================
+     CASTLE DAMAGE
+  ========================================================= */
+
+  function damageCastle(enemy) {
+
+    let damage =
+      enemy.damage;
+
+    damage *=
+      Math.max(
+        .2,
+        1 -
+        game.castle.armor * .07
+      );
+
+    game.castle.hp -= damage;
+
+    castle.classList.remove(
+      "castle-damage"
+    );
+
+    void castle.offsetWidth;
+
+    castle.classList.add(
+      "castle-damage"
+    );
+
+    spawnDamageNumber(
+      castle,
+      Math.floor(damage),
+      true
+    );
+
+    if (enemy.type === "creeper") {
+
+      log(
+        "💥 Creeper explodoval u hradu!"
+      );
+
+      enemy.hp = 0;
+
+    }
+
+
+    if (game.castle.hp <= 0) {
+
+      game.castle.hp = 0;
+
+      endGame();
+
+    }
+
+    updateUI();
+
+  }
+
+
+  /* =========================================================
+     SOLDIER ATTACK
+  ========================================================= */
+
+  const attackTimers = {
+
+    archer: 0,
+    knight: 0,
+    mage: 0,
+    ice: 0
+
+  };
+
+
+  function updateSoldiers(dt) {
+
+    const types =
+      ["archer", "knight", "mage", "ice"];
+
+
+    for (const type of types) {
+
+      if (
+        attackTimers[type] > 0
+      ) {
+
+        attackTimers[type] -= dt;
+
+        continue;
+
+      }
+
+
+      const unit =
+        game.units[type];
+
+
+      const target =
+        findTarget(unit.range);
+
+
+      if (!target)
+        continue;
+
+
+      attackUnit(
+        type,
+        target
+      );
+
+
+      attackTimers[type] =
+        1 /
+        (
+          unit.speed *
+          (
+            1 +
+            game.skills.speed * .05
+          )
+        );
+
+    }
+
+  }
+
+
+  function findTarget(range) {
+
+    if (enemies.length === 0)
+      return null;
+
+
+    let best = null;
+
+    let bestDistance = Infinity;
+
+
+    for (const enemy of enemies) {
+
+      if (enemy.hp <= 0)
+        continue;
+
+
+      const distance =
+        Math.abs(
+          enemy.x - 50
+        ) * 10;
+
+
+      if (
+        distance <= range &&
+        distance < bestDistance
+      ) {
+
+        best = enemy;
+
+        bestDistance = distance;
+
+      }
+
+    }
+
+    return best;
+
+  }
+
+
+  /* =========================================================
+     ATTACK
+  ========================================================= */
+
+  function attackUnit(type, target) {
+
+    const unit =
+      game.units[type];
+
+
+    let damage =
+      unit.damage *
+      (
+        1 +
+        game.skills.damage * .08
+      );
+
+
+    let crit = false;
+
+
+    if (
+      Math.random() <
+      game.skills.crit * .03
+    ) {
+
+      damage *= 2;
+
+      crit = true;
+
+    }
+
+
+    if (type === "knight") {
+
+      damage *= 1.15;
+
+    }
+
+
+    if (type === "mage") {
+
+      createProjectile(
+        type,
+        target
+      );
+
+      setTimeout(() => {
+
+        areaDamage(
+          target,
+          damage,
+          70
+        );
+
+      }, 250);
+
+      return;
+
+    }
+
+
+    if (type === "ice") {
+
+      createProjectile(
+        type,
+        target
+      );
+
+      setTimeout(() => {
+
+        damageEnemy(
+          target,
+          damage,
+          crit
+        );
+
+        target.slowed = 2.5;
+
+      }, 220);
+
+      return;
+
+    }
+
+
+    createProjectile(
+      type,
+      target
+    );
+
+
+    setTimeout(() => {
+
+      damageEnemy(
+        target,
+        damage,
+        crit
+      );
+
+    }, 180);
+
+  }
+
+
+  /* =========================================================
+     PROJECTILES
+  ========================================================= */
+
+  function createProjectile(
+    type,
+    target
+  ) {
+
+    const projectile =
+      document.createElement("div");
+
+    projectile.className =
+      "projectile " +
+      (
+        type === "archer"
+          ? "arrow-projectile"
+          : type === "mage"
+            ? "fire-projectile"
+            : "ice-projectile"
+      );
+
+
+    const startX =
+      battlefield.clientWidth / 2;
+
+    const startY =
+      battlefield.clientHeight - 190;
+
+
+    projectile.style.left =
+      startX + "px";
+
+    projectile.style.top =
+      startY + "px";
+
+
+    battlefield.appendChild(
+      projectile
+    );
+
+
+    const targetX =
+      (
+        target.x / 100
+      ) *
+      battlefield.clientWidth;
+
+
+    const targetY =
+      battlefield.clientHeight - 190;
+
+
+    const duration =
+      type === "mage"
+        ? 300
+        : 220;
+
+
+    projectile.animate(
+      [
+        {
+          transform:
+            "translate(0,0)"
+        },
+        {
+          transform:
+            `translate(
+                        ${targetX - startX}px,
+                        ${targetY - startY}px
+                    )`
+        }
+      ],
+      {
+        duration,
+        easing: "ease-out"
+      }
+    );
+
+
+    setTimeout(() => {
+
+      projectile.remove();
+
+    }, duration + 20);
+
+  }
+
+
+  /* =========================================================
+     DAMAGE ENEMY
+  ========================================================= */
+
+  function damageEnemy(
+    enemy,
+    damage,
+    crit = false
+  ) {
+
+    if (!enemy || enemy.hp <= 0)
+      return;
+
+
+    enemy.hp -= damage;
+
+
+    updateEnemyHealth(
+      enemy
+    );
+
+
+    spawnDamageNumber(
+      enemy.element,
+      Math.floor(damage),
+      crit
+    );
+
+
+    if (enemy.hp <= 0) {
+
+      killEnemy(enemy);
+
+    }
+
+  }
+
+
+  function areaDamage(
+    target,
+    damage,
+    radius
+  ) {
+
+    for (const enemy of enemies) {
+
+      if (enemy.hp <= 0)
+        continue;
+
+
+      const distance =
+        Math.abs(
+          enemy.x -
+          target.x
+        ) * 10;
+
+
+      if (
+        distance <= radius
+      ) {
+
+        damageEnemy(
+          enemy,
+          damage
+        );
+
+      }
+
+    }
+
+  }
+
+
+  function updateEnemyHealth(enemy) {
+
+    const bar =
+      document.getElementById(
+        "enemy-hp-" +
+        enemy.id
+      );
+
+    if (!bar)
+      return;
+
+
+    bar.style.width =
+      Math.max(
+        0,
+        enemy.hp /
+        enemy.maxHp *
+        100
+      ) + "%";
+
+  }
+
+
+  /* =========================================================
+     KILL
+  ========================================================= */
+
+  function killEnemy(enemy) {
+
+    if (enemy.hp < 0)
+      enemy.hp = 0;
+
+
+    const reward =
+      enemy.reward *
+      (
+        1 +
+        game.castle.goldBonus * .08 +
+        game.skills.gold * .06
+      );
+
+
+    game.coins +=
+      Math.floor(reward);
+
+
+    game.kills++;
+
+    waveKills++;
+
+
+    if (enemy.boss) {
+
+      game.emeralds += 3;
+
+      log(
+        "👑 BOSS PORAŽEN! +3 Emeralds"
+      );
+
+    }
+
+
+    if (enemy.type === "creeper") {
+
+      createExplosion(
+        enemy
+      );
+
+    }
+
+
+    if (enemy.element) {
+
+      enemy.element.remove();
+
+    }
+
+
+    const index =
+      enemies.indexOf(enemy);
+
+
+    if (index !== -1) {
+
+      enemies.splice(
+        index,
+        1
+      );
+
+    }
+
+
+    checkWaveComplete();
+
+    updateWaveProgress();
+
+    updateUI();
+
+  }
+
+
+  /* =========================================================
+     WAVE COMPLETE
+  ========================================================= */
+
+  function checkWaveComplete() {
+
+    if (
+      !game.waveRunning
+    )
+      return;
+
+
+    if (
+      enemies.length === 0 &&
+      waveKills >= waveTotal
+    ) {
+
+      game.waveRunning = false;
+
+
+      const bonus =
+        50 +
+        game.wave * 10;
+
+
+      game.coins += bonus;
+
+
+      log(
+        "🏆 Wave " +
+        game.wave +
+        " dokončena! +" +
+        bonus +
+        " Coins"
+      );
+
+
+      document
+        .getElementById(
+          "startWaveBtn"
+        )
+        .disabled = false;
+
+
+      updateWaveProgress();
+
+      saveGame();
+
+      updateUI();
+
+    }
+
+  }
+
+
+  function updateWaveProgress() {
+
+    if (waveTotal <= 0)
+      return;
+
+
+    const percent =
+      Math.min(
+        100,
+        waveKills /
+        waveTotal *
+        100
+      );
+
+
+    document
+      .getElementById(
+        "waveProgress"
+      )
+      .style.width =
+      percent + "%";
+
+  }
+
+
+  /* =========================================================
+     ABILITIES
+  ========================================================= */
+
+  function useAbility() {
+
+    if (
+      game.gameOver ||
+      !game.waveRunning
+    ) {
+
+      log(
+        "❌ Ability můžeš použít během wave."
+      );
+
+      return;
+
+    }
+
+
+    const unit =
+      game.units[selectedUnit];
+
+    const ability =
+      abilities[selectedUnit];
+
+
+    if (unit.cooldown > 0) {
+
+      return;
+
+    }
+
+
+    if (
+      game.mana <
+      ability.mana
+    ) {
+
+      log(
+        "🔮 Nemáš dostatek many."
+      );
+
+      return;
+
+    }
+
+
+    game.mana -=
+      ability.mana;
+
+
+    unit.cooldown =
+      ability.cooldown;
+
+
+    if (selectedUnit === "archer") {
+
+      multiShot();
+
+    }
+
+    if (selectedUnit === "knight") {
+
+      shieldBash();
+
+    }
+
+    if (selectedUnit === "mage") {
+
+      meteor();
+
+    }
+
+    if (selectedUnit === "ice") {
+
+      freezeAll();
+
+    }
+
+
+    updateUI();
+
+  }
+
+
+  function multiShot() {
+
+    const targets =
+      enemies
+        .filter(e => e.hp > 0)
+        .slice(0, 5);
+
+
+    for (const enemy of targets) {
+
+      damageEnemy(
+        enemy,
+        game.units.archer.damage *
+        (
+          2 +
+          game.units.archer.abilityLevel * .2
+        )
+      );
+
+    }
+
+
+    log(
+      "🏹 ARCHER použil MULTI SHOT!"
+    );
+
+  }
+
+
+  function shieldBash() {
+
+    const targets =
+      enemies.filter(
+        e =>
+          e.hp > 0 &&
+          e.x > 35
+      );
+
+
+    for (const enemy of targets) {
+
+      damageEnemy(
+        enemy,
+        game.units.knight.damage *
+        (
+          2 +
+          game.units.knight.abilityLevel * .2
+        )
+      );
+
+      enemy.slowed = 2;
+
+    }
+
+
+    log(
+      "🛡️ KNIGHT použil SHIELD BASH!"
+    );
+
+  }
+
+
+  function meteor() {
+
+    const target =
+      enemies.find(
+        e => e.hp > 0
+      );
+
+
+    if (!target)
+      return;
+
+
+    areaDamage(
+      target,
+      game.units.mage.damage *
+      (
+        4 +
+        game.units.mage.abilityLevel
+      ),
+      130
+    );
+
+
+    createExplosion(
+      target
+    );
+
+
+    log(
+      "🔥 BLAZE MAGE použil METEOR!"
+    );
+
+  }
+
+
+  function freezeAll() {
+
+    for (const enemy of enemies) {
+
+      if (enemy.hp > 0) {
+
+        enemy.slowed =
+          5 +
+          game.units.ice.abilityLevel;
+
+      }
+
+    }
+
+
+    log(
+      "❄️ ICE WIZARD zmrazil nepřátele!"
+    );
+
+  }
+
+
+  /* =========================================================
+     COOLDOWNS
+  ========================================================= */
+
+  function updateCooldowns(dt) {
+
+    for (
+      const type in game.units
+      ) {
+
+      const unit =
+        game.units[type];
+
+      if (
+        unit.cooldown > 0
+      ) {
+
+        unit.cooldown -= dt;
+
+        if (
+          unit.cooldown < 0
+        ) {
+
+          unit.cooldown = 0;
+
+        }
+
+      }
+
+    }
+
+
+    const ability =
+      abilities[selectedUnit];
+
+    const selected =
+      game.units[selectedUnit];
+
+
+    const button =
+      document.getElementById(
+        "abilityButton"
+      );
+
+
+    if (
+      selected.cooldown > 0
+    ) {
+
+      button.disabled = true;
+
+      button.textContent =
+        "⏳ " +
+        selected.cooldown.toFixed(1) +
+        "s";
+
+      document
+        .getElementById(
+          "abilityCooldown"
+        )
+        .textContent =
+        selected.cooldown.toFixed(1) +
+        "s";
+
+    } else {
+
+      button.disabled = false;
+
+      button.textContent =
+        "⚡ USE ABILITY";
+
+      document
+        .getElementById(
+          "abilityCooldown"
+        )
+        .textContent =
+        "READY";
+
+    }
+
+  }
+
+
+  function regenerateMana(dt) {
+
+    game.mana +=
+      (
+        2 +
+        game.skills.mana * .3
+      ) *
+      dt;
+
+
+    game.mana =
+      Math.min(
+        game.castle.manaMax,
+        game.mana
+      );
+
+  }
+
+
+  /* =========================================================
+     VISUAL EFFECTS
+  ========================================================= */
+
+  function spawnDamageNumber(
+    target,
+    damage,
+    crit = false
+  ) {
+
+    const rect =
+      target.getBoundingClientRect();
+
+    const fieldRect =
+      battlefield.getBoundingClientRect();
+
+
+    const el =
+      document.createElement("div");
+
+    el.className =
+      "damage-number " +
+      (
+        crit
+          ? "damage-crit"
+          : "damage-normal"
+      );
+
+
+    el.textContent =
+      "-" +
+      damage;
+
+
+    el.style.left =
+      (
+        rect.left -
+        fieldRect.left +
+        rect.width / 2
+      ) + "px";
+
+
+    el.style.top =
+      (
+        rect.top -
+        fieldRect.top
+      ) + "px";
+
+
+    battlefield.appendChild(
+      el
+    );
+
+
+    setTimeout(() => {
+
+      el.remove();
+
+    }, 850);
+
+  }
+
+
+  function createExplosion(target) {
+
+    const rect =
+      target.element
+        ?.getBoundingClientRect();
+
+
+    if (!rect)
+      return;
+
+
+    const fieldRect =
+      battlefield.getBoundingClientRect();
+
+
+    const el =
+      document.createElement("div");
+
+
+    el.style.position =
+      "absolute";
+
+    el.style.left =
+      (
+        rect.left -
+        fieldRect.left
+      ) + "px";
+
+    el.style.top =
+      (
+        rect.top -
+        fieldRect.top
+      ) + "px";
+
+    el.style.width = "70px";
+
+    el.style.height = "70px";
+
+    el.style.borderRadius = "50%";
+
+    el.style.background =
+      "radial-gradient(circle, #fff, #ff6b2c, transparent)";
+
+    el.style.pointerEvents =
+      "none";
+
+    el.style.zIndex =
+      "150";
+
+
+    battlefield.appendChild(
+      el
+    );
+
+
+    el.animate(
+      [
+        {
+          transform: "scale(.2)",
+          opacity: 1
+        },
+        {
+          transform: "scale(2)",
+          opacity: 0
+        }
+      ],
+      {
+        duration: 500
+      }
+    );
+
+
+    setTimeout(() => {
+
+      el.remove();
+
+    }, 520);
+
+  }
+
+
+  /* =========================================================
+     LOG
+  ========================================================= */
+
+  function log(message) {
+
+    const logBox =
+      document.getElementById(
+        "combatLog"
+      );
+
+
+    const entry =
+      document.createElement("div");
+
+    entry.className =
+      "log-entry";
+
+    entry.innerHTML =
+      message;
+
+
+    logBox.prepend(
+      entry
+    );
+
+
+    while (
+      logBox.children.length >
+      25
+      ) {
+
+      logBox.lastChild.remove();
+
+    }
+
+  }
+
+
+  /* =========================================================
+     GAME OVER
+  ========================================================= */
+
+  function endGame() {
+
+    game.gameOver = true;
+
+    game.waveRunning = false;
+
+
+    document
+      .getElementById(
+        "gameOverWave"
+      )
+      .textContent =
+      "Wave " +
+      game.wave;
+
+
+    document
+      .getElementById(
+        "gameOverKills"
+      )
+      .textContent =
+      game.kills;
+
+
+    document
+      .getElementById(
+        "gameOverCoins"
+      )
+      .textContent =
+      Math.floor(game.coins);
+
+
+    document
+      .getElementById(
+        "gameOverModal"
+      )
+      .classList.remove(
+      "hidden"
+    );
+
+
+    log(
+      "💀 TVŮJ HRAD PADL!"
+    );
+
+  }
+
+
+  function restartGame() {
+
+    game.gameOver = false;
+
+    game.waveRunning = false;
+
+    game.wave = 0;
+
+    game.kills = 0;
+
+    game.castle.hp =
+      game.castle.maxHp;
+
+
+    game.mana =
+      game.castle.manaMax;
+
+
+    enemies.forEach(
+      e =>
+        e.element?.remove()
+    );
+
+
+    enemies = [];
+
+
+    document
+      .getElementById(
+        "gameOverModal"
+      )
+      .classList.add(
+      "hidden"
+    );
+
+
+    document
+      .getElementById(
+        "startWaveBtn"
+      )
+      .disabled = false;
+
+
+    updateUI();
+
+  }
+
+
+  /* =========================================================
+     BOSS MODAL
+  ========================================================= */
+
+  function closeBossModal() {
+
+    document
+      .getElementById(
+        "bossModal"
+      )
+      .classList.add(
+      "hidden"
+    );
+
+  }
+
+
+  /* =========================================================
+     PAUSE
+  ========================================================= */
+
+  function togglePause() {
+
+    game.paused =
+      !game.paused;
+
+
+    log(
+      game.paused
+        ? "⏸️ Hra pozastavena."
+        : "▶️ Hra pokračuje."
+    );
+
+  }
+
+
+  /* =========================================================
+     RESET
+  ========================================================= */
+
+  function resetProgress() {
+
+    const confirmed =
+      confirm(
+        "Opravdu chceš smazat celý progress?"
+      );
+
+
+    if (!confirmed)
+      return;
+
+
+    localStorage.removeItem(
+      SAVE_KEY
+    );
+
+
+    location.reload();
+
+  }
+
+
+  /* =========================================================
+     START
+  ========================================================= */
+
+  loadGame();
+
+  updateUI();
+
+  log(
+    "🧟 Vítej v Survive from Minecraft!"
+  );
+
+  log(
+    "🏰 Braň svůj hrad a přežij co nejvíce vln."
+  );
+
+  log(
+    "💡 Vylepšuj vojáky, schopnosti a hrad."
+  );
+
+
+</script>
+
+</body>
+</html>
