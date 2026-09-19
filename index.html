@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="cs">
 <head>
@@ -23,10 +24,6 @@
       font-family: Arial, Helvetica, sans-serif;
       overflow-x: hidden;
     }
-
-    /* =========================
-       BACKGROUND
-    ========================= */
 
     body::before {
       content: "";
@@ -59,69 +56,41 @@
     }
 
     @keyframes float1 {
-      from {
-        transform: translate(0, 0);
-      }
-
-      to {
-        transform: translate(100px, 80px);
-      }
+      from { transform: translate(0, 0); }
+      to { transform: translate(100px, 80px); }
     }
 
     @keyframes float2 {
-      from {
-        transform: translate(0, 0);
-      }
-
-      to {
-        transform: translate(-100px, -80px);
-      }
+      from { transform: translate(0, 0); }
+      to { transform: translate(-100px, -80px); }
     }
-
-    /* =========================
-       NAVBAR
-    ========================= */
 
     nav {
       position: fixed;
       top: 20px;
       left: 50%;
       transform: translateX(-50%);
-
       width: min(1100px, calc(100% - 40px));
       height: 65px;
-
       display: flex;
       align-items: center;
       justify-content: space-between;
-
       padding: 0 25px;
-
       background: rgba(20, 15, 28, 0.55);
       border: 1px solid rgba(255,255,255,0.1);
       border-radius: 22px;
-
       backdrop-filter: blur(25px);
       -webkit-backdrop-filter: blur(25px);
-
       box-shadow:
         0 10px 40px rgba(0,0,0,0.4),
         0 0 30px rgba(124,44,255,0.08);
-
       z-index: 100;
     }
 
     .logo {
       font-size: 20px;
       font-weight: 800;
-
-      background: linear-gradient(
-        90deg,
-        #ffffff,
-        #c084ff,
-        #7c2cff
-      );
-
+      background: linear-gradient(90deg, #ffffff, #c084ff, #7c2cff);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
@@ -132,26 +101,16 @@
       gap: 8px;
     }
 
-    /* =========================
-       VŠECHNY ODKAZY
-    ========================= */
-
     nav a {
       display: inline-block;
-
       text-decoration: none;
       color: rgba(255,255,255,0.75);
-
       padding: 10px 15px;
       border-radius: 14px;
-
       border: 1px solid transparent;
-
       background: rgba(255,255,255,0.025);
-
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
-
       transition:
         transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1),
         color 0.25s ease,
@@ -162,31 +121,20 @@
 
     nav a:hover {
       color: white;
-
       background: rgba(140,60,255,0.14);
-
       border-color: rgba(180,120,255,0.28);
-
       box-shadow:
         0 0 25px rgba(124,44,255,0.2),
         inset 0 0 15px rgba(255,255,255,0.03);
-
       transform: scale(1.06);
     }
 
-    /* =========================
-       HERO
-    ========================= */
-
     .hero {
       min-height: 100vh;
-
       display: flex;
       align-items: center;
       justify-content: center;
-
       text-align: center;
-
       padding: 120px 20px 80px;
     }
 
@@ -196,20 +144,14 @@
 
     .badge {
       display: inline-block;
-
       padding: 9px 16px;
       margin-bottom: 25px;
-
       border: 1px solid rgba(180,120,255,0.3);
       border-radius: 100px;
-
       background: rgba(130,50,255,0.08);
-
       color: #cda8ff;
       font-size: 14px;
-
       box-shadow: 0 0 30px rgba(130,50,255,0.12);
-
       transition:
         transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1),
         box-shadow 0.25s ease,
@@ -218,46 +160,26 @@
 
     .badge:hover {
       transform: scale(1.045);
-
       background: rgba(130,50,255,0.13);
-
-      box-shadow:
-        0 0 35px rgba(130,50,255,0.2);
+      box-shadow: 0 0 35px rgba(130,50,255,0.2);
     }
-
-    /* =========================
-       INTERAKTIVNÍ HOUSKACZE_0
-    ========================= */
 
     .hero h1 {
       font-size: clamp(55px, 9vw, 110px);
       line-height: 0.95;
       font-weight: 900;
       letter-spacing: -5px;
-
-      background: linear-gradient(
-        120deg,
-        #ffffff 10%,
-        #d7b8ff 45%,
-        #7c2cff 85%
-      );
-
+      background: linear-gradient(120deg, #ffffff 10%, #d7b8ff 45%, #7c2cff 85%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-
       text-shadow: 0 0 80px rgba(124,44,255,0.2);
-
       display: inline-flex;
       align-items: center;
       justify-content: center;
-
       white-space: nowrap;
-
       cursor: default;
-
       transform: scale(1);
       transform-origin: center center;
-
       transition:
         transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1),
         filter 0.28s ease;
@@ -265,21 +187,16 @@
 
     .hero h1.title-hover {
       transform: scale(1.045);
-      filter:
-        drop-shadow(0 0 18px rgba(124,44,255,0.25));
+      filter: drop-shadow(0 0 18px rgba(124,44,255,0.25));
     }
 
     .interactive-letter {
       display: inline-block;
-
       transform: scale(1);
-
       transform-origin: center center;
-
       transition:
         transform 0.18s cubic-bezier(0.2, 0.8, 0.2, 1),
         filter 0.18s ease;
-
       will-change: transform, filter;
     }
 
@@ -291,9 +208,7 @@
 
     .hero p {
       margin: 30px auto;
-
       max-width: 650px;
-
       color: rgba(255,255,255,0.55);
       font-size: 19px;
       line-height: 1.7;
@@ -306,38 +221,24 @@
       flex-wrap: wrap;
     }
 
-    /* =========================
-       GLASS BUTTON
-    ========================= */
-
     .btn,
     .watch {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-
       padding: 13px 20px;
-
       min-width: 150px;
-
       border-radius: 16px;
-
       text-decoration: none;
       color: rgba(255,255,255,0.9);
-
       background: rgba(255,255,255,0.055);
-
       border: 1px solid rgba(255,255,255,0.12);
-
       backdrop-filter: blur(18px);
       -webkit-backdrop-filter: blur(18px);
-
       box-shadow:
         0 8px 30px rgba(0,0,0,0.2),
         inset 0 0 20px rgba(255,255,255,0.025);
-
       font-weight: 700;
-
       transition:
         transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1),
         color 0.25s ease,
@@ -349,13 +250,9 @@
     .btn:hover,
     .watch:hover {
       transform: scale(1.045);
-
       color: white;
-
       background: rgba(140,60,255,0.16);
-
       border-color: rgba(180,120,255,0.35);
-
       box-shadow:
         0 10px 35px rgba(0,0,0,0.3),
         0 0 30px rgba(140,60,255,0.25),
@@ -374,22 +271,15 @@
 
     .btn.secondary:hover {
       background: rgba(140,60,255,0.13);
-
       border-color: rgba(180,120,255,0.3);
-
       box-shadow:
         0 10px 35px rgba(0,0,0,0.25),
         0 0 25px rgba(140,60,255,0.2);
     }
 
-    /* =========================
-       SECTIONS
-    ========================= */
-
     section {
       width: min(1100px, calc(100% - 40px));
       margin: auto;
-
       padding: 120px 0;
     }
 
@@ -399,12 +289,10 @@
 
     .section-title span {
       display: inline-block;
-
       color: #a970ff;
       font-size: 14px;
       text-transform: uppercase;
       letter-spacing: 3px;
-
       transition:
         transform 0.25s ease,
         text-shadow 0.25s ease;
@@ -417,18 +305,10 @@
 
     .section-title h2 {
       margin-top: 10px;
-
       font-size: clamp(35px, 5vw, 55px);
-
-      background: linear-gradient(
-        90deg,
-        white,
-        #b982ff
-      );
-
+      background: linear-gradient(90deg, white, #b982ff);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-
       transition:
         transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1),
         filter 0.25s ease;
@@ -436,28 +316,18 @@
 
     .section-title h2:hover {
       transform: scale(1.025);
-      filter:
-        drop-shadow(0 0 15px rgba(124,44,255,0.3));
+      filter: drop-shadow(0 0 15px rgba(124,44,255,0.3));
     }
-
-    /* =========================
-       GLASS CARD
-    ========================= */
 
     .glass {
       background: rgba(255,255,255,0.045);
-
       border: 1px solid rgba(255,255,255,0.09);
-
       border-radius: 28px;
-
       backdrop-filter: blur(25px);
       -webkit-backdrop-filter: blur(25px);
-
       box-shadow:
         0 20px 70px rgba(0,0,0,0.3),
         inset 0 0 30px rgba(255,255,255,0.015);
-
       transition:
         transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1),
         border-color 0.28s ease,
@@ -466,17 +336,11 @@
 
     .glass:hover {
       transform: scale(1.025);
-
       border-color: rgba(170,100,255,0.25);
-
       box-shadow:
         0 25px 75px rgba(0,0,0,0.4),
         0 0 50px rgba(130,50,255,0.1);
     }
-
-    /* =========================
-       ABOUT
-    ========================= */
 
     .about {
       display: grid;
@@ -491,7 +355,6 @@
     .about-card h3 {
       font-size: 28px;
       margin-bottom: 20px;
-
       transition:
         transform 0.25s ease,
         text-shadow 0.25s ease;
@@ -517,11 +380,9 @@
 
     .stat {
       padding: 20px;
-
       background: rgba(255,255,255,0.035);
       border-radius: 18px;
       border: 1px solid rgba(255,255,255,0.06);
-
       transition:
         transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1),
         background 0.25s ease,
@@ -531,13 +392,9 @@
 
     .stat:hover {
       transform: scale(1.045);
-
       background: rgba(140,60,255,0.08);
-
       border-color: rgba(180,120,255,0.2);
-
-      box-shadow:
-        0 0 25px rgba(124,44,255,0.1);
+      box-shadow: 0 0 25px rgba(124,44,255,0.1);
     }
 
     .stat strong {
@@ -551,10 +408,6 @@
       font-size: 13px;
     }
 
-    /* =========================
-       PROJECTS
-    ========================= */
-
     .projects {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -564,34 +417,26 @@
     .project {
       padding: 30px;
       min-height: 250px;
-
       position: relative;
       overflow: hidden;
     }
 
     .project::before {
       content: "";
-
       position: absolute;
-
       width: 150px;
       height: 150px;
-
       right: -70px;
       top: -70px;
-
       background: #7c2cff;
       filter: blur(70px);
-
       opacity: 0.25;
-
       pointer-events: none;
     }
 
     .project-icon {
       font-size: 35px;
       margin-bottom: 25px;
-
       transition:
         transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1),
         filter 0.25s ease;
@@ -599,14 +444,12 @@
 
     .project:hover .project-icon {
       transform: scale(1.12);
-      filter:
-        drop-shadow(0 0 12px rgba(180,120,255,0.45));
+      filter: drop-shadow(0 0 12px rgba(180,120,255,0.45));
     }
 
     .project h3 {
       font-size: 22px;
       margin-bottom: 12px;
-
       transition: transform 0.25s ease;
     }
 
@@ -620,10 +463,6 @@
       font-size: 14px;
     }
 
-    /* =========================
-       GAME CARD SPECIAL
-    ========================= */
-
     .game-project {
       background:
         radial-gradient(
@@ -632,7 +471,6 @@
           transparent 45%
         ),
         rgba(255,255,255,0.045);
-
       border-color: rgba(160,90,255,0.16);
     }
 
@@ -641,32 +479,23 @@
       position: absolute;
       right: 20px;
       bottom: 18px;
-
       font-size: 11px;
       font-weight: 900;
       letter-spacing: 2px;
-
       color: rgba(192,132,255,0.45);
-
       pointer-events: none;
     }
 
     .game-project:hover {
       border-color: rgba(180,120,255,0.4);
-
       box-shadow:
         0 25px 75px rgba(0,0,0,0.4),
         0 0 55px rgba(124,44,255,0.18);
     }
 
     .game-project .project-icon {
-      filter:
-        drop-shadow(0 0 10px rgba(124,44,255,0.3));
+      filter: drop-shadow(0 0 10px rgba(124,44,255,0.3));
     }
-
-    /* =========================
-       PROJECT LINKS
-    ========================= */
 
     .watch {
       margin-top: 20px;
@@ -675,45 +504,31 @@
       font-size: 14px;
     }
 
-    /* =========================
-       COMMUNITY
-    ========================= */
-
     .community {
       padding: 60px 40px;
-
       text-align: center;
-
       position: relative;
       overflow: hidden;
     }
 
     .community::before {
       content: "";
-
       position: absolute;
       width: 400px;
       height: 200px;
-
       left: 50%;
       top: 50%;
-
       transform: translate(-50%, -50%);
-
       background: #7c2cff;
       filter: blur(130px);
-
       opacity: 0.15;
-
       pointer-events: none;
     }
 
     .community h2 {
       position: relative;
-
       font-size: clamp(35px, 5vw, 55px);
       margin-bottom: 20px;
-
       transition:
         transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1),
         text-shadow 0.25s ease;
@@ -721,17 +536,13 @@
 
     .community h2:hover {
       transform: scale(1.025);
-
-      text-shadow:
-        0 0 25px rgba(170,100,255,0.3);
+      text-shadow: 0 0 25px rgba(170,100,255,0.3);
     }
 
     .community p {
       position: relative;
-
       max-width: 600px;
       margin: auto auto 30px;
-
       color: rgba(255,255,255,0.5);
       line-height: 1.7;
     }
@@ -740,32 +551,21 @@
       position: relative;
     }
 
-    /* =========================
-       FOOTER
-    ========================= */
-
     footer {
       width: min(1100px, calc(100% - 40px));
-
       margin: auto;
-
       padding: 35px 0 50px;
-
       display: flex;
       justify-content: space-between;
       align-items: center;
-
       border-top: 1px solid rgba(255,255,255,0.07);
-
       color: rgba(255,255,255,0.35);
       font-size: 13px;
     }
 
     footer strong {
       display: inline-block;
-
       color: rgba(255,255,255,0.7);
-
       transition:
         transform 0.25s ease,
         color 0.25s ease;
@@ -776,12 +576,7 @@
       color: white;
     }
 
-    /* =========================
-       HOVER EFEKTY POUZE PRO MYŠ
-    ========================= */
-
     @media (hover: hover) and (pointer: fine) {
-
       .glass,
       .btn,
       .watch,
@@ -797,27 +592,15 @@
       footer strong {
         will-change: transform;
       }
-
     }
 
-    /* =========================
-       TABLET
-    ========================= */
-
     @media (max-width: 1000px) {
-
       .projects {
         grid-template-columns: repeat(2, 1fr);
       }
-
     }
 
-    /* =========================
-       MOBILE
-    ========================= */
-
     @media (max-width: 800px) {
-
       nav {
         width: calc(100% - 20px);
         top: 10px;
@@ -850,12 +633,7 @@
       }
     }
 
-    /* =========================
-       REDUCED MOTION
-    ========================= */
-
     @media (prefers-reduced-motion: reduce) {
-
       *,
       *::before,
       *::after {
@@ -863,7 +641,6 @@
         transition-duration: 0.01ms !important;
         animation-duration: 0.01ms !important;
       }
-
     }
   </style>
 </head>
@@ -996,8 +773,6 @@
 
     <div class="projects">
 
-      <!-- MINECRAFT -->
-
       <div class="glass project">
 
         <div class="project-icon">⛏️</div>
@@ -1017,8 +792,6 @@
 
       </div>
 
-      <!-- VLASTNÍ PROJEKTY -->
-
       <div class="glass project">
 
         <div class="project-icon">💻</div>
@@ -1031,8 +804,6 @@
         </p>
 
       </div>
-
-      <!-- YOUTUBE -->
 
       <div class="glass project">
 
@@ -1052,8 +823,6 @@
         </a>
 
       </div>
-
-      <!-- REFLEX CHALLENGE -->
 
       <div class="glass project game-project">
 
@@ -1089,7 +858,7 @@
 
         <a
           class="watch"
-          href="youtuber-game.html">
+          href="https://houskq.github.io/youtuber-game.html">
           🎮 Zahrát si
         </a>
 
@@ -1173,19 +942,9 @@
     const letters =
       [...title.querySelectorAll(".interactive-letter")];
 
-    /* =========================
-       CELÝ NADPIS
-    ========================= */
-
     title.addEventListener("mouseenter", () => {
-
       title.classList.add("title-hover");
-
     });
-
-    /* =========================
-       POHYB KURZORU
-    ========================= */
 
     title.addEventListener("mousemove", event => {
 
@@ -1218,22 +977,14 @@
           `scale(${scale})`;
 
         if (strength > 0.65) {
-
           letter.classList.add("glow");
-
         } else {
-
           letter.classList.remove("glow");
-
         }
 
       });
 
     });
-
-    /* =========================
-       RESET
-    ========================= */
 
     title.addEventListener("mouseleave", () => {
 
@@ -1255,3 +1006,4 @@
 
 </body>
 </html>
+```
