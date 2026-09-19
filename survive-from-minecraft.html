@@ -1,4151 +1,3046 @@
 <!DOCTYPE html>
 <html lang="cs">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Survive from Minecraft</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Survive from Minecraft</title>
 
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
 
-    :root {
-      --bg: #07050d;
-      --panel: rgba(18, 14, 29, 0.86);
-      --panel2: rgba(30, 22, 45, 0.9);
-      --border: rgba(190, 130, 255, 0.18);
-      --purple: #9b4dff;
-      --purple2: #c084ff;
-      --text: #fff;
-      --muted: rgba(255,255,255,.55);
-      --green: #48ff91;
-      --red: #ff4d67;
-      --gold: #ffd34d;
-      --blue: #55b8ff;
-    }
+body{
+    background:#080b0d;
+    color:white;
+    font-family:Arial,Helvetica,sans-serif;
+    overflow-x:hidden;
+    image-rendering:pixelated;
+}
 
-    body {
-      min-height: 100vh;
-      background:
-        radial-gradient(circle at 20% 20%, rgba(120,40,255,.14), transparent 30%),
-        radial-gradient(circle at 80% 80%, rgba(180,30,255,.10), transparent 30%),
-        #07050d;
-      color: white;
-      font-family: Arial, Helvetica, sans-serif;
-      overflow-x: hidden;
-    }
+button{
+    font-family:inherit;
+}
 
-    button {
-      font-family: inherit;
-    }
+.game{
+    min-height:100vh;
+    background:
+        radial-gradient(circle at 50% 0%,rgba(85,255,110,.08),transparent 35%),
+        linear-gradient(#071015,#101416);
+}
 
-    .hidden {
-      display: none !important;
-    }
+/* =========================
+   TOP BAR
+========================= */
 
-    /* =========================
-       TOP BAR
-    ========================= */
+.topbar{
+    height:76px;
+    padding:12px 22px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    background:rgba(8,10,12,.94);
+    border-bottom:3px solid #242a2d;
+    position:sticky;
+    top:0;
+    z-index:50;
+    box-shadow:0 5px 25px rgba(0,0,0,.45);
+}
 
-    .topbar {
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      height: 72px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 25px;
-      background: rgba(8, 6, 14, .84);
-      border-bottom: 1px solid rgba(255,255,255,.07);
-      backdrop-filter: blur(22px);
-    }
+.logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
 
-    .logo {
-      font-size: 22px;
-      font-weight: 900;
-      background: linear-gradient(90deg, white, #c084ff, #7c2cff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
+.logo-icon{
+    width:45px;
+    height:45px;
+    background:#4caf50;
+    border:4px solid #2b672d;
+    box-shadow:
+        inset 0 -8px rgba(0,0,0,.2),
+        0 4px 0 #101510;
+    position:relative;
+}
 
-    .resources {
-      display: flex;
-      gap: 12px;
-      align-items: center;
-    }
+.logo-icon::before{
+    content:"";
+    position:absolute;
+    width:10px;
+    height:10px;
+    background:#1f351f;
+    left:8px;
+    top:12px;
+    box-shadow:19px 0 #1f351f;
+}
 
-    .resource {
-      min-width: 105px;
-      padding: 9px 13px;
-      border-radius: 13px;
-      background: rgba(255,255,255,.045);
-      border: 1px solid rgba(255,255,255,.08);
-    }
+.logo-text h1{
+    font-size:20px;
+    letter-spacing:1px;
+}
 
-    .resource small {
-      display: block;
-      color: var(--muted);
-      font-size: 10px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
+.logo-text span{
+    color:#7dff83;
+    font-size:11px;
+    font-weight:bold;
+}
 
-    .resource strong {
-      font-size: 16px;
-    }
+.stats{
+    display:flex;
+    gap:12px;
+}
 
-    .coins {
-      color: var(--gold);
-    }
+.statbox{
+    min-width:110px;
+    padding:8px 13px;
+    background:#171c1e;
+    border:2px solid #30383b;
+    box-shadow:inset 0 -4px rgba(0,0,0,.2);
+}
 
-    .emeralds {
-      color: #55ff9b;
-    }
+.statbox small{
+    display:block;
+    color:#8d999d;
+    font-size:10px;
+    text-transform:uppercase;
+    font-weight:bold;
+}
 
-    .mana {
-      color: #61c5ff;
-    }
+.statbox strong{
+    display:block;
+    margin-top:3px;
+    font-size:17px;
+}
 
-    /* =========================
-       MAIN
-    ========================= */
+.coins{
+    color:#ffd83d;
+}
 
-    .game {
-      width: min(1450px, calc(100% - 30px));
-      margin: 20px auto 50px;
-    }
+.wave{
+    color:#7dff83;
+}
 
-    /* =========================
-       HUD
-    ========================= */
+.mana{
+    color:#6dc8ff;
+}
 
-    .hud {
-      display: grid;
-      grid-template-columns: 1fr 1.4fr 1fr;
-      gap: 15px;
-      margin-bottom: 15px;
-    }
+/* =========================
+   GAME AREA
+========================= */
 
-    .hud-card {
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 16px 20px;
-      box-shadow: 0 15px 50px rgba(0,0,0,.25);
-    }
+.game-wrap{
+    width:min(1450px,96%);
+    margin:auto;
+    padding:18px 0 30px;
+}
 
-    .hud-title {
-      color: var(--muted);
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-    }
-
-    .wave-number {
-      font-size: 30px;
-      font-weight: 900;
-      margin-top: 4px;
-    }
-
-    .wave-boss {
-      color: #ff5c70;
-    }
-
-    .castle-hp {
-      margin-top: 7px;
-    }
-
-    .bar {
-      width: 100%;
-      height: 13px;
-      background: rgba(0,0,0,.45);
-      border-radius: 100px;
-      overflow: hidden;
-    }
-
-    .bar-fill {
-      height: 100%;
-      width: 100%;
-      border-radius: inherit;
-      transition: width .25s ease;
-    }
-
-    .hp-fill {
-      background: linear-gradient(90deg, #ff334f, #ff7d5a);
-      box-shadow: 0 0 15px rgba(255,60,80,.35);
-    }
-
-    .mana-fill {
-      background: linear-gradient(90deg, #258dff, #65d7ff);
-    }
-
-    .hp-text {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 5px;
-      color: var(--muted);
-      font-size: 12px;
-    }
-
-    .wave-center {
-      text-align: center;
-    }
-
-    .wave-progress {
-      margin-top: 10px;
-      height: 8px;
-      background: rgba(255,255,255,.07);
-      border-radius: 10px;
-      overflow: hidden;
-    }
-
-    .wave-progress-fill {
-      width: 0%;
-      height: 100%;
-      background: linear-gradient(90deg, #7c2cff, #c084ff);
-      transition: width .2s;
-    }
-
-    /* =========================
-       BATTLEFIELD
-    ========================= */
-
-    .battlefield {
-      position: relative;
-      min-height: 530px;
-      overflow: hidden;
-      border-radius: 28px;
-      border: 1px solid rgba(180,120,255,.2);
-      background:
-        linear-gradient(to bottom,
-        rgba(35,25,55,.85) 0%,
-        rgba(16,35,25,.95) 55%,
-        rgba(11,18,13,1) 100%);
-      box-shadow:
-        0 30px 100px rgba(0,0,0,.5),
-        inset 0 0 100px rgba(124,44,255,.06);
-    }
-
-    .sky {
-      position: absolute;
-      inset: 0 0 45%;
-      background:
-        radial-gradient(circle at 75% 25%, rgba(180,110,255,.15), transparent 15%),
-        radial-gradient(circle at 20% 30%, rgba(80,150,255,.1), transparent 18%);
-      pointer-events: none;
-    }
-
-    .moon {
-      position: absolute;
-      top: 55px;
-      right: 12%;
-      width: 65px;
-      height: 65px;
-      border-radius: 50%;
-      background: #e9dcff;
-      box-shadow: 0 0 45px rgba(220,200,255,.35);
-      opacity: .8;
-    }
-
-    .cloud {
-      position: absolute;
-      width: 150px;
-      height: 35px;
-      border-radius: 100px;
-      background: rgba(255,255,255,.045);
-    }
-
-    .cloud.one {
-      top: 100px;
-      left: 15%;
-    }
-
-    .cloud.two {
-      top: 160px;
-      right: 20%;
-      transform: scale(.7);
-    }
-
-    .ground {
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      height: 115px;
-      background:
-        repeating-linear-gradient(
-          90deg,
-          rgba(70,100,60,.15) 0px,
-          rgba(70,100,60,.15) 30px,
-          transparent 30px,
-          transparent 60px
+.arena{
+    position:relative;
+    height:570px;
+    overflow:hidden;
+    border:4px solid #242b2d;
+    background:
+        linear-gradient(
+            rgba(255,255,255,.025) 1px,
+            transparent 1px
         ),
-        linear-gradient(#182519, #0c120d);
-      border-top: 4px solid #24361f;
-    }
-
-    /* =========================
-       CASTLE
-    ========================= */
-
-    .castle {
-      position: absolute;
-      left: 50%;
-      bottom: 85px;
-      transform: translateX(-50%);
-      width: 240px;
-      height: 250px;
-      z-index: 20;
-    }
-
-    .castle-wall {
-      position: absolute;
-      left: 25px;
-      right: 25px;
-      bottom: 0;
-      height: 175px;
-      background:
-        repeating-linear-gradient(
-          0deg,
-          rgba(255,255,255,.035) 0 23px,
-          transparent 23px 46px
+        linear-gradient(
+            90deg,
+            rgba(255,255,255,.025) 1px,
+            transparent 1px
         ),
-        linear-gradient(90deg, #3c3548, #61566d, #393343);
-      border: 4px solid #26202f;
-      border-radius: 8px 8px 2px 2px;
-      box-shadow: 0 15px 30px rgba(0,0,0,.45);
-    }
-
-    .castle-tower {
-      position: absolute;
-      bottom: 0;
-      width: 65px;
-      height: 220px;
-      background: linear-gradient(90deg, #38313f, #66596e, #39323f);
-      border: 4px solid #26202f;
-      z-index: 2;
-    }
-
-    .castle-tower.left {
-      left: 0;
-    }
-
-    .castle-tower.right {
-      right: 0;
-    }
-
-    .tower-top {
-      position: absolute;
-      top: -32px;
-      left: -6px;
-      width: 69px;
-      height: 35px;
-      background: #4e4555;
-      border: 4px solid #26202f;
-      clip-path: polygon(
-        0 100%, 0 35%, 15% 35%, 15% 0,
-        35% 0, 35% 35%, 55% 35%, 55% 0,
-        75% 0, 75% 35%, 100% 35%, 100% 100%
-      );
-    }
-
-    .castle-door {
-      position: absolute;
-      left: 50%;
-      bottom: 0;
-      transform: translateX(-50%);
-      width: 60px;
-      height: 105px;
-      border-radius: 35px 35px 0 0;
-      background: #1b1522;
-      border: 4px solid #27202f;
-    }
-
-    .castle-flag {
-      position: absolute;
-      left: 50%;
-      top: -30px;
-      width: 4px;
-      height: 75px;
-      background: #2b2431;
-      z-index: 10;
-    }
-
-    .castle-flag::after {
-      content: "S";
-      position: absolute;
-      left: 3px;
-      top: 0;
-      width: 45px;
-      height: 30px;
-      display: grid;
-      place-items: center;
-      color: white;
-      font-weight: 900;
-      background: linear-gradient(135deg, #7c2cff, #c084ff);
-      clip-path: polygon(0 0, 100% 0, 80% 100%, 0 75%);
-    }
-
-    .castle-damage {
-      animation: castleShake .25s;
-    }
-
-    @keyframes castleShake {
-      0%,100% { transform: translateX(-50%); }
-      25% { transform: translateX(calc(-50% - 7px)); }
-      75% { transform: translateX(calc(-50% + 7px)); }
-    }
-
-    /* =========================
-       UNITS
-    ========================= */
-
-    .unit {
-      position: absolute;
-      bottom: 125px;
-      width: 60px;
-      height: 90px;
-      z-index: 30;
-      text-align: center;
-      transition: left .4s;
-    }
-
-    .unit-emoji {
-      font-size: 48px;
-      filter: drop-shadow(0 8px 10px rgba(0,0,0,.5));
-    }
-
-    .unit-name {
-      font-size: 9px;
-      font-weight: 800;
-      margin-top: -2px;
-    }
-
-    .unit-bar {
-      width: 58px;
-      height: 5px;
-      margin: 3px auto;
-      background: rgba(0,0,0,.5);
-      border-radius: 5px;
-      overflow: hidden;
-    }
-
-    .unit-bar-fill {
-      width: 100%;
-      height: 100%;
-      background: #48ff91;
-    }
-
-    .unit.archer {
-      left: calc(50% - 250px);
-    }
-
-    .unit.knight {
-      left: calc(50% - 105px);
-    }
-
-    .unit.mage {
-      left: calc(50% + 55px);
-    }
-
-    .unit.ice {
-      left: calc(50% + 200px);
-    }
-
-    /* =========================
-       ENEMIES
-    ========================= */
-
-    .enemy {
-      position: absolute;
-      bottom: 100px;
-      width: 62px;
-      height: 95px;
-      z-index: 25;
-      text-align: center;
-      transition: left .08s linear;
-    }
-
-    .enemy-icon {
-      font-size: 48px;
-      filter: drop-shadow(0 8px 8px rgba(0,0,0,.55));
-    }
-
-    .enemy-name {
-      font-size: 8px;
-      font-weight: 900;
-      color: rgba(255,255,255,.7);
-    }
-
-    .enemy-hp {
-      width: 60px;
-      height: 6px;
-      margin-top: 2px;
-      background: rgba(0,0,0,.65);
-      border-radius: 6px;
-      overflow: hidden;
-    }
-
-    .enemy-hp-fill {
-      width: 100%;
-      height: 100%;
-      background: #ff405a;
-      transition: width .15s;
-    }
-
-    .enemy.boss {
-      transform: scale(1.55);
-      transform-origin: bottom center;
-    }
-
-    .enemy.boss .enemy-icon {
-      filter:
-        drop-shadow(0 0 15px rgba(255,30,70,.5))
-        drop-shadow(0 8px 10px rgba(0,0,0,.6));
-    }
-
-    /* =========================
-       PROJECTILES
-    ========================= */
-
-    .projectile {
-      position: absolute;
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      z-index: 50;
-      pointer-events: none;
-    }
-
-    .arrow-projectile {
-      background: #f0d28c;
-      box-shadow: 0 0 10px #ffe9ae;
-    }
-
-    .fire-projectile {
-      width: 18px;
-      height: 18px;
-      background: #ff642f;
-      box-shadow: 0 0 20px #ff4d00;
-    }
-
-    .ice-projectile {
-      background: #7edcff;
-      box-shadow: 0 0 18px #43c8ff;
-    }
-
-    /* =========================
-       DAMAGE
-    ========================= */
-
-    .damage-number {
-      position: absolute;
-      z-index: 100;
-      font-weight: 900;
-      font-size: 18px;
-      pointer-events: none;
-      animation: damageFloat .8s forwards;
-    }
-
-    .damage-normal {
-      color: white;
-    }
-
-    .damage-crit {
-      color: #ffe45c;
-      font-size: 24px;
-    }
-
-    @keyframes damageFloat {
-      0% {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
-      100% {
-        opacity: 0;
-        transform: translateY(-55px) scale(1.15);
-      }
-    }
-
-    /* =========================
-       CONTROLS
-    ========================= */
-
-    .controls {
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      position: absolute;
-      bottom: 18px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 200;
-    }
-
-    .btn {
-      border: 1px solid rgba(255,255,255,.14);
-      background: rgba(15,10,25,.88);
-      color: white;
-      border-radius: 13px;
-      padding: 12px 20px;
-      font-weight: 800;
-      cursor: pointer;
-      transition: .2s;
-      backdrop-filter: blur(15px);
-    }
-
-    .btn:hover {
-      transform: translateY(-2px);
-      border-color: rgba(180,120,255,.5);
-      box-shadow: 0 0 25px rgba(124,44,255,.2);
-    }
-
-    .btn.primary {
-      background: linear-gradient(135deg, #6e20df, #a54dff);
-      border-color: rgba(255,255,255,.18);
-    }
-
-    .btn.danger {
-      background: rgba(255,50,70,.12);
-      color: #ff7889;
-    }
-
-    /* =========================
-       PANELS
-    ========================= */
-
-    .panels {
-      display: grid;
-      grid-template-columns: 1.2fr 1fr 1fr;
-      gap: 15px;
-      margin-top: 15px;
-    }
-
-    .panel {
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 20px;
-      box-shadow: 0 15px 60px rgba(0,0,0,.3);
-    }
-
-    .panel h2 {
-      font-size: 18px;
-      margin-bottom: 15px;
-    }
-
-    .panel-subtitle {
-      color: var(--muted);
-      font-size: 12px;
-      margin-top: -10px;
-      margin-bottom: 15px;
-    }
-
-    .unit-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-    }
-
-    .unit-card {
-      padding: 13px;
-      border-radius: 15px;
-      background: rgba(255,255,255,.035);
-      border: 1px solid rgba(255,255,255,.07);
-      cursor: pointer;
-      transition: .2s;
-    }
-
-    .unit-card:hover,
-    .unit-card.selected {
-      border-color: rgba(170,100,255,.45);
-      background: rgba(130,60,255,.1);
-    }
-
-    .unit-card-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .unit-card-icon {
-      font-size: 30px;
-    }
-
-    .unit-card h3 {
-      font-size: 14px;
-    }
-
-    .unit-card small {
-      color: var(--muted);
-      font-size: 10px;
-    }
-
-    .level {
-      color: #c084ff;
-      font-weight: 800;
-    }
-
-    /* =========================
-       UPGRADES
-    ========================= */
-
-    .upgrade-list {
-      display: grid;
-      gap: 9px;
-    }
-
-    .upgrade {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 12px;
-      background: rgba(255,255,255,.035);
-      border-radius: 13px;
-      border: 1px solid rgba(255,255,255,.06);
-    }
-
-    .upgrade-info strong {
-      display: block;
-      font-size: 13px;
-    }
-
-    .upgrade-info span {
-      color: var(--muted);
-      font-size: 10px;
-    }
-
-    .upgrade button {
-      border: 0;
-      border-radius: 9px;
-      padding: 8px 10px;
-      color: white;
-      background: #7130c8;
-      font-size: 11px;
-      font-weight: 800;
-      cursor: pointer;
-    }
-
-    .upgrade button:disabled {
-      opacity: .35;
-      cursor: not-allowed;
-    }
-
-    /* =========================
-       ABILITY
-    ========================= */
-
-    .ability-box {
-      padding: 15px;
-      border-radius: 15px;
-      background:
-        radial-gradient(circle at top right, rgba(150,70,255,.16), transparent 45%),
-        rgba(255,255,255,.035);
-      border: 1px solid rgba(180,120,255,.15);
-    }
-
-    .ability-title {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .ability-title h3 {
-      font-size: 15px;
-    }
-
-    .ability-description {
-      color: var(--muted);
-      font-size: 11px;
-      line-height: 1.5;
-      margin: 8px 0 12px;
-    }
-
-    .ability-btn {
-      width: 100%;
-      padding: 10px;
-      border: 0;
-      border-radius: 10px;
-      color: white;
-      background: linear-gradient(135deg,#6d24d9,#9d4cff);
-      cursor: pointer;
-      font-weight: 900;
-    }
-
-    .ability-btn:disabled {
-      opacity: .35;
-      cursor: not-allowed;
-    }
-
-    /* =========================
-       SKILLS
-    ========================= */
-
-    .skill-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-    }
-
-    .skill {
-      padding: 12px 7px;
-      text-align: center;
-      border-radius: 12px;
-      border: 1px solid rgba(255,255,255,.07);
-      background: rgba(255,255,255,.03);
-      cursor: pointer;
-      transition: .2s;
-    }
-
-    .skill:hover {
-      background: rgba(124,44,255,.12);
-    }
-
-    .skill.active {
-      border-color: #a75cff;
-      background: rgba(124,44,255,.17);
-    }
-
-    .skill-icon {
-      font-size: 24px;
-    }
-
-    .skill-name {
-      font-size: 9px;
-      color: var(--muted);
-      margin-top: 4px;
-    }
-
-    /* =========================
-       LOG
-    ========================= */
-
-    .combat-log {
-      margin-top: 15px;
-      max-height: 145px;
-      overflow-y: auto;
-      font-size: 11px;
-      color: rgba(255,255,255,.5);
-    }
-
-    .log-entry {
-      padding: 5px 0;
-      border-bottom: 1px solid rgba(255,255,255,.035);
-    }
-
-    .log-entry strong {
-      color: white;
-    }
-
-    /* =========================
-       MODALS
-    ========================= */
-
-    .modal {
-      position: fixed;
-      inset: 0;
-      z-index: 5000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      background: rgba(0,0,0,.72);
-      backdrop-filter: blur(10px);
-    }
-
-    .modal-box {
-      width: min(550px, 100%);
-      background: #110c1a;
-      border: 1px solid rgba(180,120,255,.3);
-      border-radius: 25px;
-      padding: 35px;
-      text-align: center;
-      box-shadow: 0 30px 100px rgba(0,0,0,.7);
-    }
-
-    .modal-box h2 {
-      font-size: 35px;
-      margin-bottom: 12px;
-    }
-
-    .modal-box p {
-      color: var(--muted);
-      line-height: 1.6;
-      margin-bottom: 25px;
-    }
-
-    .reward {
-      display: flex;
-      justify-content: center;
-      gap: 25px;
-      margin-bottom: 25px;
-      font-size: 18px;
-    }
-
-    /* =========================
-       RESPONSIVE
-    ========================= */
-
-    @media(max-width: 1100px) {
-      .panels {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .panels .panel:first-child {
-        grid-column: span 2;
-      }
-    }
-
-    @media(max-width: 800px) {
-      .topbar {
-        height: auto;
-        padding: 12px;
-        gap: 10px;
-        flex-direction: column;
-      }
-
-      .resources {
-        width: 100%;
-        justify-content: center;
-        flex-wrap: wrap;
-      }
-
-      .resource {
-        min-width: 90px;
-      }
-
-      .hud {
-        grid-template-columns: 1fr;
-      }
-
-      .battlefield {
-        min-height: 480px;
-      }
-
-      .panels {
-        grid-template-columns: 1fr;
-      }
-
-      .panels .panel:first-child {
-        grid-column: auto;
-      }
-
-      .unit.archer {
-        left: calc(50% - 180px);
-      }
-
-      .unit.knight {
-        left: calc(50% - 80px);
-      }
-
-      .unit.mage {
-        left: calc(50% + 20px);
-      }
-
-      .unit.ice {
-        left: calc(50% + 100px);
-      }
-
-      .castle {
-        transform: translateX(-50%) scale(.82);
-        transform-origin: bottom center;
-      }
-    }
-
-    @media(max-width: 500px) {
-      .game {
-        width: calc(100% - 12px);
-        margin-top: 8px;
-      }
-
-      .battlefield {
-        min-height: 430px;
-      }
-
-      .unit {
-        transform: scale(.72);
-        transform-origin: bottom center;
-      }
-
-      .enemy {
-        transform: scale(.72);
-        transform-origin: bottom center;
-      }
-
-      .enemy.boss {
-        transform: scale(1.1);
-      }
-
-      .controls {
-        width: calc(100% - 20px);
-      }
-
-      .controls .btn {
-        flex: 1;
-        padding: 10px 7px;
-        font-size: 11px;
-      }
-
-      .skill-grid {
-        grid-template-columns: repeat(2,1fr);
-      }
-    }
-  </style>
+        #202729;
+    background-size:32px 32px;
+    box-shadow:
+        0 20px 50px rgba(0,0,0,.55),
+        inset 0 0 100px rgba(0,0,0,.5);
+}
+
+/* SKY */
+
+.sky{
+    position:absolute;
+    left:0;
+    top:0;
+    width:100%;
+    height:67%;
+    background:
+        linear-gradient(
+            to bottom,
+            #182f3a,
+            #31545b 60%,
+            #6b7e72
+        );
+}
+
+.moon{
+    position:absolute;
+    width:58px;
+    height:58px;
+    right:12%;
+    top:50px;
+    background:#e8e5bd;
+    box-shadow:
+        0 0 35px rgba(255,245,180,.35);
+}
+
+.cloud{
+    position:absolute;
+    height:18px;
+    background:rgba(190,220,215,.16);
+    box-shadow:
+        30px 0 rgba(190,220,215,.16),
+        60px 0 rgba(190,220,215,.16),
+        90px 0 rgba(190,220,215,.16);
+}
+
+.cloud.c1{
+    width:60px;
+    top:90px;
+    left:34%;
+}
+
+.cloud.c2{
+    width:70px;
+    top:160px;
+    right:25%;
+}
+
+/* BACKGROUND TREES */
+
+.tree{
+    position:absolute;
+    bottom:205px;
+    width:90px;
+    height:170px;
+}
+
+.tree::before{
+    content:"";
+    position:absolute;
+    width:28px;
+    height:100px;
+    bottom:0;
+    left:31px;
+    background:
+        linear-gradient(
+            90deg,
+            #4b2e1c,
+            #70452a,
+            #3b2518
+        );
+    border:4px solid #2b1b12;
+}
+
+.tree::after{
+    content:"";
+    position:absolute;
+    width:90px;
+    height:100px;
+    bottom:65px;
+    left:0;
+    background:#237b31;
+    border:5px solid #174f22;
+    box-shadow:
+        25px -25px #2c8c39,
+        55px 0 #1f6d2b,
+        10px 25px #318f3c;
+}
+
+.tree1{left:24%}
+.tree2{left:44%;transform:scale(.75)}
+.tree3{right:18%;transform:scale(.9)}
+
+/* GROUND */
+
+.ground{
+    position:absolute;
+    bottom:0;
+    left:0;
+    width:100%;
+    height:210px;
+    background:
+        linear-gradient(
+            #51a63d 0 28px,
+            #754c2b 28px 100%
+        );
+    border-top:8px solid #2c6829;
+}
+
+.ground::before{
+    content:"";
+    position:absolute;
+    left:0;
+    top:35px;
+    width:100%;
+    height:100%;
+    background:
+        repeating-linear-gradient(
+            90deg,
+            rgba(0,0,0,.12) 0 32px,
+            transparent 32px 64px
+        ),
+        repeating-linear-gradient(
+            0deg,
+            rgba(0,0,0,.08) 0 32px,
+            transparent 32px 64px
+        );
+}
+
+/* =========================
+   CASTLE
+========================= */
+
+.castle{
+    position:absolute;
+    left:35px;
+    bottom:115px;
+    width:245px;
+    height:340px;
+    z-index:10;
+}
+
+.castle-main{
+    position:absolute;
+    left:40px;
+    bottom:0;
+    width:165px;
+    height:230px;
+    background:
+        linear-gradient(
+            90deg,
+            #555b5d,
+            #777d7f 45%,
+            #4b5153
+        );
+    border:6px solid #292e30;
+    box-shadow:
+        inset 15px 0 rgba(255,255,255,.06),
+        15px 15px 0 rgba(0,0,0,.25);
+}
+
+.castle-main::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+        repeating-linear-gradient(
+            0deg,
+            transparent 0 29px,
+            rgba(0,0,0,.2) 29px 33px
+        ),
+        repeating-linear-gradient(
+            90deg,
+            transparent 0 39px,
+            rgba(0,0,0,.15) 39px 43px
+        );
+}
+
+.tower{
+    position:absolute;
+    bottom:0;
+    width:58px;
+    height:285px;
+    background:#686e70;
+    border:6px solid #292e30;
+    z-index:2;
+}
+
+.tower.left{
+    left:0;
+}
+
+.tower.right{
+    right:0;
+}
+
+.tower-top{
+    position:absolute;
+    top:-42px;
+    left:-10px;
+    width:70px;
+    height:48px;
+    background:#454b4d;
+    border:6px solid #292e30;
+}
+
+.tower-top::before{
+    content:"";
+    position:absolute;
+    top:-20px;
+    left:-6px;
+    width:12px;
+    height:20px;
+    background:#34393b;
+    box-shadow:
+        23px 0 #34393b,
+        46px 0 #34393b;
+}
+
+.window{
+    position:absolute;
+    width:18px;
+    height:30px;
+    background:#11191c;
+    border:4px solid #292e30;
+    left:50%;
+    transform:translateX(-50%);
+}
+
+.window.w1{top:65px}
+.window.w2{top:135px}
+
+.door{
+    position:absolute;
+    bottom:0;
+    left:50%;
+    transform:translateX(-50%);
+    width:52px;
+    height:78px;
+    background:#432818;
+    border:6px solid #28190f;
+}
+
+.door::after{
+    content:"";
+    position:absolute;
+    width:8px;
+    height:8px;
+    right:8px;
+    top:38px;
+    background:#e3b72e;
+}
+
+/* =========================
+   SOLDIERS
+========================= */
+
+.soldier{
+    position:absolute;
+    z-index:20;
+    width:55px;
+    height:90px;
+    bottom:190px;
+    left:205px;
+    transform-origin:bottom center;
+    transition:transform .15s;
+}
+
+.soldier.knight{
+    left:150px;
+    bottom:175px;
+}
+
+.soldier.mage{
+    left:210px;
+    bottom:300px;
+}
+
+.soldier.archer{
+    left:215px;
+    bottom:245px;
+}
+
+.soldier-body{
+    position:absolute;
+    width:35px;
+    height:43px;
+    bottom:0;
+    left:10px;
+    background:#4d80c9;
+    border:4px solid #20272b;
+}
+
+.soldier-head{
+    position:absolute;
+    width:37px;
+    height:37px;
+    left:9px;
+    top:0;
+    background:#bd8758;
+    border:4px solid #20272b;
+}
+
+.soldier-head::before{
+    content:"";
+    position:absolute;
+    left:5px;
+    top:8px;
+    width:8px;
+    height:8px;
+    background:#202020;
+    box-shadow:14px 0 #202020;
+}
+
+.soldier-weapon{
+    position:absolute;
+    right:-12px;
+    top:35px;
+    width:10px;
+    height:55px;
+    background:#cfd4d5;
+    border:3px solid #4c5255;
+    transform:rotate(35deg);
+}
+
+.knight .soldier-body{
+    background:#777d82;
+}
+
+.knight .soldier-head{
+    background:#73797d;
+}
+
+.knight .soldier-weapon{
+    background:#d7d9d9;
+}
+
+.mage .soldier-body{
+    background:#713bb5;
+}
+
+.mage .soldier-head{
+    background:#bd8758;
+}
+
+.mage .soldier-weapon{
+    width:8px;
+    height:55px;
+    background:#5a381c;
+    transform:rotate(-15deg);
+}
+
+.archer .soldier-body{
+    background:#3e7c43;
+}
+
+.archer .soldier-weapon{
+    width:8px;
+    height:45px;
+    background:#5a381c;
+}
+
+/* =========================
+   CANVAS
+========================= */
+
+#battleCanvas{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    z-index:15;
+    pointer-events:none;
+}
+
+/* =========================
+   CASTLE HP
+========================= */
+
+.castle-hp{
+    position:absolute;
+    left:40px;
+    bottom:75px;
+    width:205px;
+    z-index:30;
+}
+
+.hp-label{
+    font-size:11px;
+    font-weight:bold;
+    margin-bottom:4px;
+    text-shadow:2px 2px #000;
+}
+
+.hp-bar{
+    width:100%;
+    height:18px;
+    background:#241416;
+    border:3px solid #111;
+}
+
+.hp-fill{
+    height:100%;
+    width:100%;
+    background:#44c53e;
+    transition:width .2s;
+}
+
+/* =========================
+   WAVE MESSAGE
+========================= */
+
+.wave-message{
+    position:absolute;
+    top:25px;
+    left:50%;
+    transform:translateX(-50%);
+    z-index:35;
+    padding:10px 22px;
+    background:rgba(10,12,13,.85);
+    border:3px solid #343b3e;
+    font-weight:900;
+    letter-spacing:2px;
+    opacity:0;
+    transition:.25s;
+}
+
+.wave-message.show{
+    opacity:1;
+}
+
+/* =========================
+   CONTROLS
+========================= */
+
+.controls{
+    margin-top:18px;
+    display:grid;
+    grid-template-columns:1.1fr 1fr 1fr 1fr;
+    gap:14px;
+}
+
+.panel{
+    background:#121719;
+    border:3px solid #2c3437;
+    padding:16px;
+    box-shadow:
+        0 8px 20px rgba(0,0,0,.35),
+        inset 0 -5px rgba(0,0,0,.15);
+}
+
+.panel-title{
+    font-size:12px;
+    color:#7dff83;
+    text-transform:uppercase;
+    letter-spacing:2px;
+    margin-bottom:10px;
+    font-weight:bold;
+}
+
+.big-button{
+    width:100%;
+    padding:15px;
+    background:#4caf50;
+    border:4px solid #276629;
+    color:white;
+    font-size:17px;
+    font-weight:900;
+    cursor:pointer;
+    box-shadow:0 5px 0 #183c19;
+    transition:.1s;
+}
+
+.big-button:hover{
+    filter:brightness(1.15);
+}
+
+.big-button:active{
+    transform:translateY(4px);
+    box-shadow:0 1px 0 #183c19;
+}
+
+.big-button:disabled{
+    filter:grayscale(1);
+    cursor:not-allowed;
+    opacity:.5;
+}
+
+.upgrade-list{
+    display:flex;
+    flex-direction:column;
+    gap:7px;
+}
+
+.upgrade{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+    padding:8px;
+    background:#1b2123;
+    border:2px solid #343c3f;
+}
+
+.upgrade-name{
+    font-size:12px;
+    font-weight:bold;
+}
+
+.upgrade-info{
+    font-size:10px;
+    color:#7f8a8e;
+}
+
+.upgrade button{
+    border:2px solid #735d19;
+    background:#b99724;
+    color:#fff;
+    padding:6px 8px;
+    font-size:10px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.upgrade button:hover{
+    background:#d1af2f;
+}
+
+/* =========================
+   SOLDIER CARDS
+========================= */
+
+.soldier-cards{
+    margin-top:18px;
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:12px;
+}
+
+.soldier-card{
+    background:#121719;
+    border:3px solid #2c3437;
+    padding:14px;
+    position:relative;
+    overflow:hidden;
+}
+
+.soldier-card.active{
+    border-color:#7dff83;
+    box-shadow:0 0 20px rgba(125,255,131,.12);
+}
+
+.card-icon{
+    width:48px;
+    height:48px;
+    margin-bottom:9px;
+    background:#272e31;
+    border:3px solid #41494c;
+    position:relative;
+}
+
+.card-icon::before{
+    content:"";
+    position:absolute;
+    width:25px;
+    height:25px;
+    left:9px;
+    top:8px;
+    background:#bd8758;
+    border:3px solid #20272b;
+}
+
+.archer-icon::after{
+    content:"🏹";
+    position:absolute;
+    font-size:20px;
+    right:-10px;
+    bottom:-9px;
+}
+
+.knight-icon::after{
+    content:"⚔";
+    position:absolute;
+    font-size:20px;
+    right:-8px;
+    bottom:-8px;
+}
+
+.mage-icon::after{
+    content:"🔥";
+    position:absolute;
+    font-size:20px;
+    right:-9px;
+    bottom:-9px;
+}
+
+.ice-icon::after{
+    content:"❄";
+    position:absolute;
+    font-size:20px;
+    right:-9px;
+    bottom:-9px;
+}
+
+.necro-icon::after{
+    content:"☠";
+    position:absolute;
+    font-size:20px;
+    right:-9px;
+    bottom:-9px;
+}
+
+.soldier-card h3{
+    font-size:14px;
+}
+
+.soldier-card p{
+    color:#7e8a8e;
+    font-size:10px;
+    margin-top:4px;
+    line-height:1.5;
+}
+
+.card-level{
+    margin-top:9px;
+    color:#ffd83d;
+    font-weight:bold;
+    font-size:11px;
+}
+
+.ability{
+    margin-top:6px;
+    padding:6px;
+    background:#1c2426;
+    border-left:3px solid #7dff83;
+    font-size:10px;
+}
+
+.card-button{
+    margin-top:9px;
+    width:100%;
+    padding:7px;
+    border:2px solid #394245;
+    background:#242c2f;
+    color:#fff;
+    font-size:10px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.card-button:hover{
+    background:#303a3d;
+}
+
+/* =========================
+   LOG
+========================= */
+
+.log{
+    margin-top:18px;
+    padding:12px;
+    background:#090c0d;
+    border:3px solid #252c2f;
+    height:90px;
+    overflow:auto;
+    font-family:monospace;
+    font-size:11px;
+    color:#829095;
+}
+
+.log div{
+    margin-bottom:4px;
+}
+
+.log .good{
+    color:#7dff83;
+}
+
+.log .bad{
+    color:#ff7373;
+}
+
+.log .gold{
+    color:#ffd83d;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:1100px){
+
+    .controls{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .soldier-cards{
+        grid-template-columns:repeat(3,1fr);
+    }
+}
+
+@media(max-width:750px){
+
+    .topbar{
+        height:auto;
+        flex-direction:column;
+        gap:10px;
+    }
+
+    .stats{
+        width:100%;
+        justify-content:center;
+        flex-wrap:wrap;
+    }
+
+    .statbox{
+        min-width:90px;
+    }
+
+    .arena{
+        height:500px;
+    }
+
+    .castle{
+        transform:scale(.72);
+        transform-origin:bottom left;
+    }
+
+    .soldier{
+        transform:scale(.75);
+        transform-origin:bottom left;
+    }
+
+    .controls{
+        grid-template-columns:1fr;
+    }
+
+    .soldier-cards{
+        grid-template-columns:1fr 1fr;
+    }
+}
+
+@media(max-width:450px){
+
+    .soldier-cards{
+        grid-template-columns:1fr;
+    }
+
+    .logo-text h1{
+        font-size:16px;
+    }
+
+    .arena{
+        height:450px;
+    }
+}
+</style>
 </head>
 
 <body>
 
+<div class="game">
+
 <header class="topbar">
 
-  <div class="logo">
-    🧟 SURVIVE FROM MINECRAFT
-  </div>
+    <div class="logo">
 
-  <div class="resources">
+        <div class="logo-icon"></div>
 
-    <div class="resource">
-      <small>Coins</small>
-      <strong class="coins" id="coins">0 🪙</strong>
+        <div class="logo-text">
+            <h1>SURVIVE FROM MINECRAFT</h1>
+            <span>CASTLE DEFENSE</span>
+        </div>
+
     </div>
 
-    <div class="resource">
-      <small>Emeralds</small>
-      <strong class="emeralds" id="emeralds">0 💎</strong>
-    </div>
+    <div class="stats">
 
-    <div class="resource">
-      <small>Mana</small>
-      <strong class="mana" id="mana">100 🔮</strong>
-    </div>
+        <div class="statbox">
+            <small>Wave</small>
+            <strong class="wave" id="waveText">0</strong>
+        </div>
 
-  </div>
+        <div class="statbox">
+            <small>Coins</small>
+            <strong class="coins" id="coinsText">100</strong>
+        </div>
+
+        <div class="statbox">
+            <small>Mana</small>
+            <strong class="mana" id="manaText">100</strong>
+        </div>
+
+    </div>
 
 </header>
 
 
-<main class="game">
+<main class="game-wrap">
 
-  <!-- HUD -->
-
-  <section class="hud">
-
-    <div class="hud-card">
-
-      <div class="hud-title">
-        Castle
-      </div>
-
-      <div class="wave-number">
-        🏰 <span id="castleHpNumber">1000</span>
-      </div>
-
-      <div class="castle-hp">
-
-        <div class="bar">
-          <div
-            class="bar-fill hp-fill"
-            id="castleHpBar">
-          </div>
-        </div>
-
-        <div class="hp-text">
-          <span>Castle HP</span>
-          <span id="castleHpText">1000 / 1000</span>
-        </div>
-
-      </div>
-
-    </div>
-
-
-    <div class="hud-card wave-center">
-
-      <div class="hud-title">
-        Current Wave
-      </div>
-
-      <div class="wave-number" id="waveText">
-        Wave 0
-      </div>
-
-      <div
-        class="wave-progress">
-
-        <div
-          class="wave-progress-fill"
-          id="waveProgress">
-        </div>
-
-      </div>
-
-    </div>
-
-
-    <div class="hud-card">
-
-      <div class="hud-title">
-        Mana
-      </div>
-
-      <div class="wave-number">
-        🔮 <span id="manaNumber">100</span>
-      </div>
-
-      <div class="castle-hp">
-
-        <div class="bar">
-          <div
-            class="bar-fill mana-fill"
-            id="manaBar">
-          </div>
-        </div>
-
-        <div class="hp-text">
-          <span>Mana regeneration</span>
-          <span>+2 / sec</span>
-        </div>
-
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <!-- BATTLE -->
-
-  <section class="battlefield" id="battlefield">
+<section class="arena" id="arena">
 
     <div class="sky"></div>
 
     <div class="moon"></div>
 
-    <div class="cloud one"></div>
-    <div class="cloud two"></div>
+    <div class="cloud c1"></div>
+    <div class="cloud c2"></div>
+
+    <div class="tree tree1"></div>
+    <div class="tree tree2"></div>
+    <div class="tree tree3"></div>
 
     <div class="ground"></div>
 
 
     <!-- CASTLE -->
 
-    <div class="castle" id="castle">
+    <div class="castle">
 
-      <div class="castle-flag"></div>
+        <div class="tower left">
+            <div class="tower-top"></div>
+            <div class="window w1"></div>
+            <div class="window w2"></div>
+        </div>
 
-      <div class="castle-tower left">
-        <div class="tower-top"></div>
-      </div>
+        <div class="castle-main">
+            <div class="window" style="top:55px;"></div>
+            <div class="window" style="top:115px;"></div>
+            <div class="door"></div>
+        </div>
 
-      <div class="castle-tower right">
-        <div class="tower-top"></div>
-      </div>
-
-      <div class="castle-wall"></div>
-
-      <div class="castle-door"></div>
-
-    </div>
-
-
-    <!-- UNITS -->
-
-    <div class="unit archer" id="unitArcher">
-
-      <div class="unit-icon">
-        <div class="unit-emoji">🏹</div>
-      </div>
-
-      <div class="unit-name">ARCHER</div>
-
-      <div class="unit-bar">
-        <div class="unit-bar-fill"></div>
-      </div>
+        <div class="tower right">
+            <div class="tower-top"></div>
+            <div class="window w1"></div>
+            <div class="window w2"></div>
+        </div>
 
     </div>
-
-
-    <div class="unit knight" id="unitKnight">
-
-      <div class="unit-icon">
-        <div class="unit-emoji">🛡️</div>
-      </div>
-
-      <div class="unit-name">KNIGHT</div>
-
-      <div class="unit-bar">
-        <div class="unit-bar-fill"></div>
-      </div>
-
-    </div>
-
-
-    <div class="unit mage" id="unitMage">
-
-      <div class="unit-icon">
-        <div class="unit-emoji">🔥</div>
-      </div>
-
-      <div class="unit-name">BLAZE MAGE</div>
-
-      <div class="unit-bar">
-        <div class="unit-bar-fill"></div>
-      </div>
-
-    </div>
-
-
-    <div class="unit ice" id="unitIce">
-
-      <div class="unit-icon">
-        <div class="unit-emoji">❄️</div>
-      </div>
-
-      <div class="unit-name">ICE WIZARD</div>
-
-      <div class="unit-bar">
-        <div class="unit-bar-fill"></div>
-      </div>
-
-    </div>
-
-
-    <!-- CONTROLS -->
-
-    <div class="controls">
-
-      <button
-        class="btn primary"
-        id="startWaveBtn"
-        onclick="startWave()">
-        ⚔️ START WAVE
-      </button>
-
-      <button
-        class="btn"
-        onclick="togglePause()">
-        ⏸️ PAUSE
-      </button>
-
-    </div>
-
-  </section>
-
-
-  <!-- PANELS -->
-
-  <section class="panels">
 
 
     <!-- SOLDIERS -->
 
-    <div class="panel">
+    <div class="soldier archer">
 
-      <h2>⚔️ Soldiers</h2>
-
-      <div class="panel-subtitle">
-        Vyber vojáka a vylepšuj jeho schopnosti.
-      </div>
-
-      <div class="unit-grid">
-
-        <div
-          class="unit-card selected"
-          id="cardArcher"
-          onclick="selectUnit('archer')">
-
-          <div class="unit-card-top">
-
-            <div class="unit-card-icon">
-              🏹
-            </div>
-
-            <div>
-              <h3>Archer</h3>
-              <small>
-                                <span
-                                  class="level"
-                                  id="archerLevel">
-                                    Level 1
-                                </span>
-              </small>
-            </div>
-
-          </div>
-
-        </div>
-
-
-        <div
-          class="unit-card"
-          id="cardKnight"
-          onclick="selectUnit('knight')">
-
-          <div class="unit-card-top">
-
-            <div class="unit-card-icon">
-              🛡️
-            </div>
-
-            <div>
-              <h3>Knight</h3>
-              <small>
-                                <span
-                                  class="level"
-                                  id="knightLevel">
-                                    Level 1
-                                </span>
-              </small>
-            </div>
-
-          </div>
-
-        </div>
-
-
-        <div
-          class="unit-card"
-          id="cardMage"
-          onclick="selectUnit('mage')">
-
-          <div class="unit-card-top">
-
-            <div class="unit-card-icon">
-              🔥
-            </div>
-
-            <div>
-              <h3>Blaze Mage</h3>
-              <small>
-                                <span
-                                  class="level"
-                                  id="mageLevel">
-                                    Level 1
-                                </span>
-              </small>
-            </div>
-
-          </div>
-
-        </div>
-
-
-        <div
-          class="unit-card"
-          id="cardIce"
-          onclick="selectUnit('ice')">
-
-          <div class="unit-card-top">
-
-            <div class="unit-card-icon">
-              ❄️
-            </div>
-
-            <div>
-              <h3>Ice Wizard</h3>
-              <small>
-                                <span
-                                  class="level"
-                                  id="iceLevel">
-                                    Level 1
-                                </span>
-              </small>
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
+        <div class="soldier-head"></div>
+        <div class="soldier-body"></div>
+        <div class="soldier-weapon"></div>
 
     </div>
 
 
-    <!-- UPGRADES -->
+    <div class="soldier knight">
+
+        <div class="soldier-head"></div>
+        <div class="soldier-body"></div>
+        <div class="soldier-weapon"></div>
+
+    </div>
+
+
+    <div class="soldier mage">
+
+        <div class="soldier-head"></div>
+        <div class="soldier-body"></div>
+        <div class="soldier-weapon"></div>
+
+    </div>
+
+
+    <canvas id="battleCanvas"></canvas>
+
+
+    <div class="castle-hp">
+
+        <div class="hp-label">
+            🏰 CASTLE HP
+            <span id="castleHpText">1000 / 1000</span>
+        </div>
+
+        <div class="hp-bar">
+            <div class="hp-fill" id="castleHpFill"></div>
+        </div>
+
+    </div>
+
+
+    <div class="wave-message" id="waveMessage">
+        WAVE STARTED
+    </div>
+
+</section>
+
+
+<!-- CONTROL PANELS -->
+
+<div class="controls">
 
     <div class="panel">
 
-      <h2>⬆️ Upgrades</h2>
-
-      <div
-        class="panel-subtitle"
-        id="selectedUnitText">
-        Archer
-      </div>
-
-      <div class="upgrade-list">
-
-        <div class="upgrade">
-
-          <div class="upgrade-info">
-            <strong>⚔️ Damage</strong>
-            <span id="damageStat">
-                            +10 damage
-                        </span>
-          </div>
-
-          <button
-            id="damageButton"
-            onclick="upgradeSelected('damage')">
-            50 🪙
-          </button>
-
+        <div class="panel-title">
+            ⚔️ Battle
         </div>
 
+        <button
+            class="big-button"
+            id="startWave">
+            ▶ START WAVE
+        </button>
 
-        <div class="upgrade">
-
-          <div class="upgrade-info">
-            <strong>⚡ Attack Speed</strong>
-            <span id="speedStat">
-                            Faster attacks
-                        </span>
-          </div>
-
-          <button
-            id="speedButton"
-            onclick="upgradeSelected('speed')">
-            75 🪙
-          </button>
-
+        <div style="margin-top:12px;color:#768286;font-size:11px;line-height:1.5;">
+            Monstra přichází z pravé strany.
+            Braň svůj hrad, zabíjej nepřátele a získávej coiny.
         </div>
-
-
-        <div class="upgrade">
-
-          <div class="upgrade-info">
-            <strong>🎯 Range</strong>
-            <span id="rangeStat">
-                            + range
-                        </span>
-          </div>
-
-          <button
-            id="rangeButton"
-            onclick="upgradeSelected('range')">
-            60 🪙
-          </button>
-
-        </div>
-
-
-        <div class="upgrade">
-
-          <div class="upgrade-info">
-            <strong>✨ Ability</strong>
-            <span id="abilityStat">
-                            Stronger ability
-                        </span>
-          </div>
-
-          <button
-            id="abilityUpgradeButton"
-            onclick="upgradeSelected('ability')">
-            100 🪙
-          </button>
-
-        </div>
-
-      </div>
 
     </div>
 
-
-    <!-- ABILITIES -->
 
     <div class="panel">
 
-      <h2>✨ Ability</h2>
-
-      <div class="ability-box">
-
-        <div class="ability-title">
-
-          <h3 id="abilityName">
-            Multi Shot
-          </h3>
-
-          <span id="abilityCooldown">
-                        READY
-                    </span>
-
+        <div class="panel-title">
+            🏰 Castle Upgrades
         </div>
 
-        <div
-          class="ability-description"
-          id="abilityDescription">
+        <div class="upgrade-list">
 
-          Archer vystřelí několik šípů
-          najednou a zasáhne více nepřátel.
-        </div>
+            <div class="upgrade">
+                <div>
+                    <div class="upgrade-name">❤️ Max HP</div>
+                    <div class="upgrade-info" id="hpUpgradeInfo">+200 HP</div>
+                </div>
+                <button onclick="upgradeCastle('hp')">UPGRADE</button>
+            </div>
 
-        <button
-          class="ability-btn"
-          id="abilityButton"
-          onclick="useAbility()">
+            <div class="upgrade">
+                <div>
+                    <div class="upgrade-name">🛡️ Armor</div>
+                    <div class="upgrade-info" id="armorUpgradeInfo">+5 defense</div>
+                </div>
+                <button onclick="upgradeCastle('armor')">UPGRADE</button>
+            </div>
 
-          ⚡ USE ABILITY
-
-        </button>
-
-      </div>
-
-
-      <h2 style="margin-top:20px;">
-        🌳 Skill Tree
-      </h2>
-
-      <div class="skill-grid">
-
-        <div
-          class="skill"
-          onclick="buySkill('damage')">
-
-          <div class="skill-icon">
-            ⚔️
-          </div>
-
-          <div class="skill-name">
-            Damage
-          </div>
+            <div class="upgrade">
+                <div>
+                    <div class="upgrade-name">💰 Gold</div>
+                    <div class="upgrade-info">+10% coin income</div>
+                </div>
+                <button onclick="upgradeCastle('gold')">UPGRADE</button>
+            </div>
 
         </div>
-
-
-        <div
-          class="skill"
-          onclick="buySkill('speed')">
-
-          <div class="skill-icon">
-            ⚡
-          </div>
-
-          <div class="skill-name">
-            Attack Speed
-          </div>
-
-        </div>
-
-
-        <div
-          class="skill"
-          onclick="buySkill('hp')">
-
-          <div class="skill-icon">
-            ❤️
-          </div>
-
-          <div class="skill-name">
-            Castle HP
-          </div>
-
-        </div>
-
-
-        <div
-          class="skill"
-          onclick="buySkill('gold')">
-
-          <div class="skill-icon">
-            🪙
-          </div>
-
-          <div class="skill-name">
-            Gold
-          </div>
-
-        </div>
-
-
-        <div
-          class="skill"
-          onclick="buySkill('crit')">
-
-          <div class="skill-icon">
-            💥
-          </div>
-
-          <div class="skill-name">
-            Crit
-          </div>
-
-        </div>
-
-
-        <div
-          class="skill"
-          onclick="buySkill('mana')">
-
-          <div class="skill-icon">
-            🔮
-          </div>
-
-          <div class="skill-name">
-            Mana
-          </div>
-
-        </div>
-
-      </div>
 
     </div>
 
-  </section>
 
+    <div class="panel">
 
-  <!-- CASTLE UPGRADES -->
-
-  <section class="panel" style="margin-top:15px;">
-
-    <h2>🏰 Castle Upgrades</h2>
-
-    <div class="upgrade-list">
-
-      <div class="upgrade">
-
-        <div class="upgrade-info">
-          <strong>❤️ Max HP</strong>
-          <span id="castleUpgradeText">
-                        Increase castle health
-                    </span>
+        <div class="panel-title">
+            ⚡ Abilities
         </div>
 
-        <button
-          onclick="upgradeCastle('hp')"
-          id="castleHpButton">
-          150 🪙
-        </button>
+        <div class="upgrade-list">
 
-      </div>
+            <div class="upgrade">
+                <div>
+                    <div class="upgrade-name">🏹 Multi Shot</div>
+                    <div class="upgrade-info">Archer special</div>
+                </div>
+                <button onclick="useAbility('archer')">USE</button>
+            </div>
 
+            <div class="upgrade">
+                <div>
+                    <div class="upgrade-name">🔥 Meteor</div>
+                    <div class="upgrade-info">AOE damage</div>
+                </div>
+                <button onclick="useAbility('mage')">USE</button>
+            </div>
 
-      <div class="upgrade">
+            <div class="upgrade">
+                <div>
+                    <div class="upgrade-name">❄ Freeze</div>
+                    <div class="upgrade-info">Slow enemies</div>
+                </div>
+                <button onclick="useAbility('ice')">USE</button>
+            </div>
 
-        <div class="upgrade-info">
-          <strong>🛡️ Armor</strong>
-          <span>
-                        Reduce incoming damage
-                    </span>
         </div>
-
-        <button
-          onclick="upgradeCastle('armor')"
-          id="armorButton">
-          200 🪙
-        </button>
-
-      </div>
-
-
-      <div class="upgrade">
-
-        <div class="upgrade-info">
-          <strong>🪙 Coin Income</strong>
-          <span>
-                        More coins from kills
-                    </span>
-        </div>
-
-        <button
-          onclick="upgradeCastle('gold')"
-          id="goldButton">
-          250 🪙
-        </button>
-
-      </div>
-
-
-      <div class="upgrade">
-
-        <div class="upgrade-info">
-          <strong>🔮 Mana</strong>
-          <span>
-                        Increase max mana
-                    </span>
-        </div>
-
-        <button
-          onclick="upgradeCastle('mana')"
-          id="manaUpgradeButton">
-          300 🪙
-        </button>
-
-      </div>
 
     </div>
 
-  </section>
 
+    <div class="panel">
 
-  <!-- COMBAT LOG -->
+        <div class="panel-title">
+            📈 Progress
+        </div>
 
-  <section class="panel">
+        <div style="font-size:12px;line-height:1.9;color:#8b969a;">
 
-    <h2>📜 Combat Log</h2>
+            Kills:
+            <strong id="killsText" style="color:white;">0</strong>
 
-    <div
-      class="combat-log"
-      id="combatLog">
-    </div>
+            <br>
 
-  </section>
+            Bosses:
+            <strong id="bossText" style="color:#ff7373;">0</strong>
 
+            <br>
 
-  <!-- RESET -->
+            Castle level:
+            <strong id="castleLevelText" style="color:#7dff83;">1</strong>
 
-  <section style="text-align:center; padding:25px 0;">
+            <br>
 
-    <button
-      class="btn danger"
-      onclick="resetProgress()">
+            Damage:
+            <strong id="totalDamageText" style="color:#ffd83d;">0</strong>
 
-      ⚠️ RESET PROGRESS
-
-    </button>
-
-  </section>
-
-</main>
-
-
-<!-- GAME OVER -->
-
-<div
-  class="modal hidden"
-  id="gameOverModal">
-
-  <div class="modal-box">
-
-    <h2>💀 GAME OVER</h2>
-
-    <p>
-      Tvůj hrad padl.
-      Dokázal jsi přežít:
-    </p>
-
-    <div
-      style="font-size:45px;font-weight:900;color:#c084ff;"
-      id="gameOverWave">
-
-      Wave 0
+        </div>
 
     </div>
-
-    <div class="reward">
-
-            <span>
-                💀 <b id="gameOverKills">0</b>
-            </span>
-
-      <span>
-                🪙 <b id="gameOverCoins">0</b>
-            </span>
-
-    </div>
-
-    <button
-      class="btn primary"
-      onclick="restartGame()">
-
-      🔄 PLAY AGAIN
-
-    </button>
-
-  </div>
 
 </div>
 
 
-<!-- BOSS -->
+<!-- SOLDIERS -->
 
-<div
-  class="modal hidden"
-  id="bossModal">
+<div class="soldier-cards">
 
-  <div class="modal-box">
+    <div class="soldier-card active">
 
-    <h2 style="color:#ff6075;">
-      👑 BOSS WAVE
-    </h2>
+        <div class="card-icon archer-icon"></div>
 
-    <p>
-      Přichází extrémně silný nepřítel!
-      Připrav svou obranu.
-    </p>
+        <h3>Archer</h3>
 
-    <div style="font-size:65px;margin-bottom:20px;">
-      👹
+        <p>
+            Rychlý ranged voják.
+            Útočí z dálky.
+        </p>
+
+        <div class="card-level">
+            LEVEL <span id="archerLevel">1</span>
+        </div>
+
+        <div class="ability">
+            🏹 Multi Shot
+        </div>
+
+        <button
+            class="card-button"
+            onclick="upgradeSoldier('archer')">
+            ⬆ UPGRADE
+        </button>
+
     </div>
 
-    <button
-      class="btn primary"
-      onclick="closeBossModal()">
 
-      ⚔️ FIGHT
+    <div class="soldier-card">
 
-    </button>
+        <div class="card-icon knight-icon"></div>
 
-  </div>
+        <h3>Knight</h3>
+
+        <p>
+            Tank s vysokým HP
+            a silným útokem.
+        </p>
+
+        <div class="card-level">
+            LEVEL <span id="knightLevel">1</span>
+        </div>
+
+        <div class="ability">
+            🛡️ Shield Bash
+        </div>
+
+        <button
+            class="card-button"
+            onclick="upgradeSoldier('knight')">
+            ⬆ UPGRADE
+        </button>
+
+    </div>
+
+
+    <div class="soldier-card">
+
+        <div class="card-icon mage-icon"></div>
+
+        <h3>Blaze Mage</h3>
+
+        <p>
+            Kouzelník používající
+            ohnivé projektily.
+        </p>
+
+        <div class="card-level">
+            LEVEL <span id="mageLevel">1</span>
+        </div>
+
+        <div class="ability">
+            🔥 Meteor
+        </div>
+
+        <button
+            class="card-button"
+            onclick="upgradeSoldier('mage')">
+            ⬆ UPGRADE
+        </button>
+
+    </div>
+
+
+    <div class="soldier-card">
+
+        <div class="card-icon ice-icon"></div>
+
+        <h3>Ice Wizard</h3>
+
+        <p>
+            Zpomaluje nepřátele
+            ledovými kouzly.
+        </p>
+
+        <div class="card-level">
+            LEVEL <span id="iceLevel">1</span>
+        </div>
+
+        <div class="ability">
+            ❄️ Freeze
+        </div>
+
+        <button
+            class="card-button"
+            onclick="upgradeSoldier('ice')">
+            ⬆ UPGRADE
+        </button>
+
+    </div>
+
+
+    <div class="soldier-card">
+
+        <div class="card-icon necro-icon"></div>
+
+        <h3>Necromancer</h3>
+
+        <p>
+            Vytváří dočasné
+            zombie spojence.
+        </p>
+
+        <div class="card-level">
+            LEVEL <span id="necroLevel">1</span>
+        </div>
+
+        <div class="ability">
+            ☠️ Raise Dead
+        </div>
+
+        <button
+            class="card-button"
+            onclick="upgradeSoldier('necro')">
+            ⬆ UPGRADE
+        </button>
+
+    </div>
+
+</div>
+
+
+<div class="log" id="log"></div>
+
+</main>
 
 </div>
 
 
 <script>
 
-  /* =========================================================
-     SAVE DATA
-  ========================================================= */
+/* =========================================================
+   GAME DATA
+========================================================= */
 
-  const SAVE_KEY = "surviveFromMinecraftSave_v1";
+const canvas = document.getElementById("battleCanvas");
+const ctx = canvas.getContext("2d");
+
+let W = 0;
+let H = 0;
+
+function resizeCanvas(){
+
+    const rect = canvas.getBoundingClientRect();
+
+    W = canvas.width = rect.width;
+    H = canvas.height = rect.height;
+
+}
+
+window.addEventListener("resize", resizeCanvas);
+resizeCanvas();
 
 
-  let game = {
+const game = {
 
-    coins: 500,
-    emeralds: 5,
+    wave:0,
 
-    wave: 0,
-    kills: 0,
+    coins:100,
 
-    castle: {
-      hp: 1000,
-      maxHp: 1000,
-      armor: 0,
-      goldBonus: 0,
-      manaMax: 100
-    },
+    mana:100,
 
-    mana: 100,
+    kills:0,
 
-    paused: false,
-    waveRunning: false,
-    gameOver: false,
+    bosses:0,
 
-    units: {
+    castleLevel:1,
 
-      archer: {
-        level: 1,
-        damage: 18,
-        speed: 1.7,
-        range: 500,
-        abilityLevel: 1,
-        cooldown: 0
-      },
+    castleHp:1000,
 
-      knight: {
-        level: 1,
-        damage: 28,
-        speed: 1.1,
-        range: 250,
-        abilityLevel: 1,
-        cooldown: 0
-      },
+    castleMaxHp:1000,
 
-      mage: {
-        level: 1,
-        damage: 35,
-        speed: 1.25,
-        range: 500,
-        abilityLevel: 1,
-        cooldown: 0
-      },
+    armor:0,
 
-      ice: {
-        level: 1,
-        damage: 22,
-        speed: 1.35,
-        range: 500,
-        abilityLevel: 1,
-        cooldown: 0
-      }
+    goldMultiplier:1,
 
-    },
+    running:false,
 
-    skills: {
-      damage: 0,
-      speed: 0,
-      hp: 0,
-      gold: 0,
-      crit: 0,
-      mana: 0
-    },
+    waveEnemies:[],
 
-    towers: {
-      archer: 1,
-      cannon: 0,
-      magic: 0,
-      tesla: 0,
-      fire: 0
+    projectiles:[],
+
+    effects:[],
+
+    lastTime:0,
+
+    lastAttack:0,
+
+    spawnTimer:0,
+
+    enemiesKilledThisWave:0,
+
+    enemiesThisWave:0,
+
+    soldiers:{
+
+        archer:{
+            level:1,
+            damage:25,
+            speed:900,
+            range:380
+        },
+
+        knight:{
+            level:1,
+            damage:45,
+            speed:1300,
+            range:180
+        },
+
+        mage:{
+            level:1,
+            damage:55,
+            speed:1700,
+            range:450
+        },
+
+        ice:{
+            level:1,
+            damage:18,
+            speed:1200,
+            range:400
+        },
+
+        necro:{
+            level:1,
+            damage:30,
+            speed:1800,
+            range:350
+        }
+
     }
 
-  };
+};
 
 
-  function saveGame() {
+/* =========================================================
+   SAVE / LOAD
+========================================================= */
+
+function saveGame(){
 
     localStorage.setItem(
-      SAVE_KEY,
-      JSON.stringify(game)
+        "surviveFromMinecraftSave",
+        JSON.stringify(game)
     );
 
-  }
+}
 
-
-  function loadGame() {
+function loadGame(){
 
     const saved =
-      localStorage.getItem(SAVE_KEY);
-
-    if (!saved) return;
-
-    try {
-
-      const data = JSON.parse(saved);
-
-      game = {
-        ...game,
-        ...data,
-        castle: {
-          ...game.castle,
-          ...(data.castle || {})
-        },
-        units: {
-          ...game.units,
-          ...(data.units || {})
-        },
-        skills: {
-          ...game.skills,
-          ...(data.skills || {})
-        },
-        towers: {
-          ...game.towers,
-          ...(data.towers || {})
-        }
-      };
-
-    } catch(e) {
-
-      console.log("Save error", e);
-
-    }
-
-  }
-
-
-  /* =========================================================
-     DOM
-  ========================================================= */
-
-  const battlefield =
-    document.getElementById("battlefield");
-
-  const castle =
-    document.getElementById("castle");
-
-
-  /* =========================================================
-     UNIT SELECTION
-  ========================================================= */
-
-  let selectedUnit = "archer";
-
-
-  const unitNames = {
-
-    archer: "Archer",
-    knight: "Knight",
-    mage: "Blaze Mage",
-    ice: "Ice Wizard"
-
-  };
-
-
-  const abilities = {
-
-    archer: {
-      name: "Multi Shot",
-      description:
-        "Archer vystřelí několik šípů najednou.",
-      mana: 20,
-      cooldown: 8
-    },
-
-    knight: {
-      name: "Shield Bash",
-      description:
-        "Knight udeří štítem a omráčí nepřátele.",
-      mana: 25,
-      cooldown: 10
-    },
-
-    mage: {
-      name: "Meteor",
-      description:
-        "Obrovský meteor zasáhne skupinu nepřátel.",
-      mana: 35,
-      cooldown: 14
-    },
-
-    ice: {
-      name: "Freeze",
-      description:
-        "Zmrazí nepřátele na několik sekund.",
-      mana: 30,
-      cooldown: 12
-    }
-
-  };
-
-
-  function selectUnit(unit) {
-
-    selectedUnit = unit;
-
-    document
-      .querySelectorAll(".unit-card")
-      .forEach(card =>
-        card.classList.remove("selected")
-      );
-
-    document
-      .getElementById("card" +
-        unit.charAt(0).toUpperCase() +
-        unit.slice(1))
-      .classList.add("selected");
-
-    updateUpgradePanel();
-
-  }
-
-
-  /* =========================================================
-     UI UPDATE
-  ========================================================= */
-
-  function updateUI() {
-
-    document.getElementById("coins")
-      .textContent =
-      Math.floor(game.coins) + " 🪙";
-
-    document.getElementById("emeralds")
-      .textContent =
-      game.emeralds + " 💎";
-
-    document.getElementById("mana")
-      .textContent =
-      Math.floor(game.mana) + " 🔮";
-
-    document.getElementById("manaNumber")
-      .textContent =
-      Math.floor(game.mana);
-
-    document.getElementById("manaBar")
-      .style.width =
-      Math.max(
-        0,
-        Math.min(
-          100,
-          game.mana /
-          game.castle.manaMax *
-          100
-        )
-      ) + "%";
-
-
-    document.getElementById("castleHpNumber")
-      .textContent =
-      Math.max(
-        0,
-        Math.floor(game.castle.hp)
-      );
-
-    document.getElementById("castleHpText")
-      .textContent =
-      Math.max(
-        0,
-        Math.floor(game.castle.hp)
-      ) +
-      " / " +
-      game.castle.maxHp;
-
-
-    document.getElementById("castleHpBar")
-      .style.width =
-      Math.max(
-        0,
-        game.castle.hp /
-        game.castle.maxHp *
-        100
-      ) + "%";
-
-
-    document.getElementById("waveText")
-      .textContent =
-      "Wave " + game.wave;
-
-
-    updateLevels();
-    updateUpgradePanel();
-
-  }
-
-
-  function updateLevels() {
-
-    document.getElementById("archerLevel")
-      .textContent =
-      "Level " +
-      game.units.archer.level;
-
-    document.getElementById("knightLevel")
-      .textContent =
-      "Level " +
-      game.units.knight.level;
-
-    document.getElementById("mageLevel")
-      .textContent =
-      "Level " +
-      game.units.mage.level;
-
-    document.getElementById("iceLevel")
-      .textContent =
-      "Level " +
-      game.units.ice.level;
-
-  }
-
-
-  /* =========================================================
-     UPGRADE PANEL
-  ========================================================= */
-
-  function updateUpgradePanel() {
-
-    const u =
-      game.units[selectedUnit];
-
-    document.getElementById("selectedUnitText")
-      .textContent =
-      unitNames[selectedUnit] +
-      " • Level " +
-      u.level;
-
-
-    document.getElementById("damageStat")
-      .textContent =
-      "Damage: " +
-      Math.floor(u.damage);
-
-
-    document.getElementById("speedStat")
-      .textContent =
-      "Attack speed: " +
-      u.speed.toFixed(2);
-
-
-    document.getElementById("rangeStat")
-      .textContent =
-      "Range: " +
-      Math.floor(u.range);
-
-
-    document.getElementById("abilityStat")
-      .textContent =
-      "Ability Lv. " +
-      u.abilityLevel;
-
-
-    const damageCost =
-      upgradeCost(selectedUnit, "damage");
-
-    const speedCost =
-      upgradeCost(selectedUnit, "speed");
-
-    const rangeCost =
-      upgradeCost(selectedUnit, "range");
-
-    const abilityCost =
-      upgradeCost(selectedUnit, "ability");
-
-
-    document.getElementById("damageButton")
-      .textContent =
-      damageCost + " 🪙";
-
-    document.getElementById("speedButton")
-      .textContent =
-      speedCost + " 🪙";
-
-    document.getElementById("rangeButton")
-      .textContent =
-      rangeCost + " 🪙";
-
-    document.getElementById("abilityUpgradeButton")
-      .textContent =
-      abilityCost + " 🪙";
-
-
-    const ability =
-      abilities[selectedUnit];
-
-    document.getElementById("abilityName")
-      .textContent =
-      ability.name +
-      " Lv." +
-      u.abilityLevel;
-
-    document.getElementById("abilityDescription")
-      .textContent =
-      ability.description;
-
-
-    updateButtonStates();
-
-  }
-
-
-  function upgradeCost(unit, type) {
-
-    const level =
-      game.units[unit].level;
-
-    const abilityLevel =
-      game.units[unit].abilityLevel;
-
-    if (type === "damage")
-      return Math.floor(50 * Math.pow(1.18, level - 1));
-
-    if (type === "speed")
-      return Math.floor(75 * Math.pow(1.2, level - 1));
-
-    if (type === "range")
-      return Math.floor(60 * Math.pow(1.19, level - 1));
-
-    if (type === "ability")
-      return Math.floor(100 * Math.pow(1.28, abilityLevel - 1));
-
-  }
-
-
-  function upgradeSelected(type) {
-
-    const u =
-      game.units[selectedUnit];
-
-    const cost =
-      upgradeCost(selectedUnit, type);
-
-    if (game.coins < cost) {
-
-      log("❌ Nemáš dostatek Coins.");
-
-      return;
-
-    }
-
-    game.coins -= cost;
-
-    if (type === "damage") {
-
-      u.damage += 7;
-      u.level++;
-
-    }
-
-    if (type === "speed") {
-
-      u.speed += .12;
-      u.level++;
-
-    }
-
-    if (type === "range") {
-
-      u.range += 35;
-      u.level++;
-
-    }
-
-    if (type === "ability") {
-
-      u.abilityLevel++;
-      u.level++;
-
-    }
-
-    log(
-      "⬆️ " +
-      unitNames[selectedUnit] +
-      " byl vylepšen."
-    );
-
-    saveGame();
-    updateUI();
-
-  }
-
-
-  /* =========================================================
-     CASTLE UPGRADES
-  ========================================================= */
-
-  function upgradeCastle(type) {
-
-    let cost = 0;
-
-    if (type === "hp")
-      cost =
-        Math.floor(
-          150 *
-          Math.pow(1.25,
-            game.castle.maxHp /
-            1000 - 1)
+        localStorage.getItem(
+            "surviveFromMinecraftSave"
         );
 
-    if (type === "armor")
-      cost =
-        Math.floor(
-          200 *
-          Math.pow(
-            1.3,
-            game.castle.armor
-          )
-        );
+    if(!saved) return;
 
-    if (type === "gold")
-      cost =
-        Math.floor(
-          250 *
-          Math.pow(
-            1.25,
-            game.castle.goldBonus
-          )
-        );
+    try{
 
-    if (type === "mana")
-      cost =
-        Math.floor(
-          300 *
-          Math.pow(
-            1.3,
-            (game.castle.manaMax - 100) / 25
-          )
-        );
+        const data = JSON.parse(saved);
 
+        Object.assign(game,data);
 
-    if (game.coins < cost) {
+        if(!game.waveEnemies) game.waveEnemies=[];
+        if(!game.projectiles) game.projectiles=[];
+        if(!game.effects) game.effects=[];
 
-      log("❌ Nemáš dostatek Coins.");
+        game.running=false;
 
-      return;
+    }catch(e){
+
+        console.log("Save error");
 
     }
 
-    game.coins -= cost;
+}
+
+loadGame();
 
 
-    if (type === "hp") {
+/* =========================================================
+   UI
+========================================================= */
 
-      game.castle.maxHp += 150;
-      game.castle.hp += 150;
+function updateUI(){
 
+    document.getElementById("waveText").textContent =
+        game.wave;
+
+    document.getElementById("coinsText").textContent =
+        Math.floor(game.coins);
+
+    document.getElementById("manaText").textContent =
+        Math.floor(game.mana);
+
+    document.getElementById("killsText").textContent =
+        game.kills;
+
+    document.getElementById("bossText").textContent =
+        game.bosses;
+
+    document.getElementById("castleLevelText").textContent =
+        game.castleLevel;
+
+    document.getElementById("castleHpText").textContent =
+        `${Math.max(0,Math.floor(game.castleHp))} / ${game.castleMaxHp}`;
+
+    document.getElementById("castleHpFill").style.width =
+        `${Math.max(0,game.castleHp / game.castleMaxHp * 100)}%`;
+
+    document.getElementById("archerLevel").textContent =
+        game.soldiers.archer.level;
+
+    document.getElementById("knightLevel").textContent =
+        game.soldiers.knight.level;
+
+    document.getElementById("mageLevel").textContent =
+        game.soldiers.mage.level;
+
+    document.getElementById("iceLevel").textContent =
+        game.soldiers.ice.level;
+
+    document.getElementById("necroLevel").textContent =
+        game.soldiers.necro.level;
+
+    let totalDamage = 0;
+
+    Object.values(game.soldiers).forEach(s=>{
+        totalDamage += s.damage;
+    });
+
+    document.getElementById("totalDamageText").textContent =
+        Math.floor(totalDamage);
+
+}
+
+
+function log(message,type=""){
+
+    const box = document.getElementById("log");
+
+    const line = document.createElement("div");
+
+    if(type) line.className=type;
+
+    line.textContent =
+        `[${new Date().toLocaleTimeString()}] ${message}`;
+
+    box.prepend(line);
+
+    while(box.children.length > 20){
+        box.lastChild.remove();
     }
 
-    if (type === "armor") {
-
-      game.castle.armor++;
-
-    }
-
-    if (type === "gold") {
-
-      game.castle.goldBonus++;
-
-    }
-
-    if (type === "mana") {
-
-      game.castle.manaMax += 25;
-      game.mana += 25;
-
-    }
-
-    log("🏰 Castle upgrade zakoupen.");
-
-    saveGame();
-    updateUI();
-
-  }
+}
 
 
-  /* =========================================================
-     SKILL TREE
-  ========================================================= */
+/* =========================================================
+   WAVES
+========================================================= */
 
-  function buySkill(type) {
+function startWave(){
 
-    const cost =
-      500 +
-      game.skills[type] * 350;
+    if(game.running) return;
 
-    if (game.coins < cost) {
+    if(game.castleHp <= 0){
 
-      log(
-        "❌ Skill stojí " +
-        cost +
-        " Coins."
-      );
+        resetGame();
 
-      return;
+        return;
 
     }
-
-    game.coins -= cost;
-
-    game.skills[type]++;
-
-    if (type === "hp") {
-
-      game.castle.maxHp += 75;
-      game.castle.hp += 75;
-
-    }
-
-    if (type === "mana") {
-
-      game.castle.manaMax += 10;
-
-    }
-
-    log(
-      "🌳 Skill Tree: " +
-      type +
-      " Lv." +
-      game.skills[type]
-    );
-
-    saveGame();
-    updateUI();
-
-  }
-
-
-  /* =========================================================
-     WAVE SYSTEM
-  ========================================================= */
-
-  let enemies = [];
-
-  let enemyId = 0;
-
-  let waveKills = 0;
-
-  let waveTotal = 0;
-
-
-  function startWave() {
-
-    if (game.waveRunning || game.gameOver)
-      return;
 
     game.wave++;
 
-    game.waveRunning = true;
+    game.running=true;
 
-    waveKills = 0;
+    game.waveEnemies=[];
+
+    game.projectiles=[];
+
+    game.enemiesKilledThisWave=0;
 
     const count =
-      7 +
-      game.wave * 3;
+        5 + game.wave * 2;
 
-    waveTotal = count;
+    game.enemiesThisWave=count;
 
-    if (game.wave % 10 === 0) {
+    document.getElementById("startWave").disabled=true;
 
-      document
-        .getElementById("bossModal")
-        .classList.remove("hidden");
-
-    }
-
-    log(
-      "🌊 Wave " +
-      game.wave +
-      " začíná!"
+    showWaveMessage(
+        `WAVE ${game.wave}`
     );
 
-    document
-      .getElementById("startWaveBtn")
-      .disabled = true;
+    log(
+        `Wave ${game.wave} začíná! Přichází ${count} nepřátel.`,
+        "good"
+    );
 
-    spawnWaveEnemies();
-
-    saveGame();
-    updateUI();
-
-  }
+}
 
 
-  function spawnWaveEnemies() {
-
-    let spawned = 0;
-
-    const interval =
-      setInterval(() => {
-
-        if (game.gameOver) {
-
-          clearInterval(interval);
-          return;
-
-        }
-
-        spawnEnemy();
-
-        spawned++;
-
-        if (spawned >= waveTotal) {
-
-          clearInterval(interval);
-
-        }
-
-      }, 850);
-
-  }
+document.getElementById("startWave")
+    .addEventListener("click",startWave);
 
 
-  function getEnemyType() {
+function showWaveMessage(text){
 
-    const r =
-      Math.random();
+    const el =
+        document.getElementById("waveMessage");
 
-    if (game.wave >= 25 && r < .10)
-      return "wither";
+    el.textContent=text;
 
-    if (game.wave >= 18 && r < .20)
-      return "blaze";
+    el.classList.add("show");
 
-    if (game.wave >= 12 && r < .30)
-      return "enderman";
+    setTimeout(()=>{
+        el.classList.remove("show");
+    },1800);
 
-    if (game.wave >= 8 && r < .45)
-      return "creeper";
+}
 
-    if (game.wave >= 5 && r < .60)
-      return "spider";
 
-    if (game.wave >= 3 && r < .75)
-      return "skeleton";
+/* =========================================================
+   ENEMY TYPES
+========================================================= */
+
+function enemyType(){
+
+    const roll =
+        Math.random();
+
+    if(game.wave >= 10 && roll < .04)
+        return "boss";
+
+    if(game.wave >= 7 && roll < .14)
+        return "blaze";
+
+    if(game.wave >= 5 && roll < .25)
+        return "creeper";
+
+    if(game.wave >= 3 && roll < .42)
+        return "spider";
+
+    if(roll < .68)
+        return "skeleton";
 
     return "zombie";
 
-  }
+}
 
 
-  const enemyTypes = {
+function createEnemy(){
 
-    zombie: {
-      name: "Zombie",
-      icon: "🧟",
-      hp: 70,
-      damage: 9,
-      speed: .35,
-      reward: 10
-    },
-
-    skeleton: {
-      name: "Skeleton",
-      icon: "💀",
-      hp: 110,
-      damage: 13,
-      speed: .48,
-      reward: 15
-    },
-
-    spider: {
-      name: "Spider",
-      icon: "🕷️",
-      hp: 85,
-      damage: 10,
-      speed: .72,
-      reward: 20
-    },
-
-    creeper: {
-      name: "Creeper",
-      icon: "💣",
-      hp: 170,
-      damage: 40,
-      speed: .42,
-      reward: 30
-    },
-
-    enderman: {
-      name: "Enderman",
-      icon: "👾",
-      hp: 450,
-      damage: 28,
-      speed: .55,
-      reward: 75
-    },
-
-    blaze: {
-      name: "Blaze",
-      icon: "🔥",
-      hp: 600,
-      damage: 35,
-      speed: .38,
-      reward: 100
-    },
-
-    wither: {
-      name: "Wither Skeleton",
-      icon: "☠️",
-      hp: 950,
-      damage: 55,
-      speed: .32,
-      reward: 160
-    },
-
-    boss: {
-      name: "BOSS",
-      icon: "👹",
-      hp: 6000,
-      damage: 120,
-      speed: .20,
-      reward: 1200,
-      boss: true
-    }
-
-  };
-
-
-  function spawnEnemy() {
-
-    let type =
-      getEnemyType();
-
-    if (
-      game.wave % 10 === 0 &&
-      waveKills === 0 &&
-      !enemies.some(e => e.boss)
-    ) {
-
-      if (
-        Math.random() < .35
-      ) {
-
-        type = "boss";
-
-      }
-
-    }
-
-    const data =
-      enemyTypes[type];
+    const type =
+        enemyType();
 
     const scale =
-      1 +
-      (game.wave - 1) * .075;
+        1 + game.wave * .12;
 
-    const enemy = {
+    let enemy = {
 
-      id: enemyId++,
+        type,
 
-      type,
+        x:W + 50,
 
-      x: -80 -
+        y:350 + Math.random()*45,
 
-        Math.random() * 100,
+        hp:100 * scale,
 
-      hp:
-        data.hp * scale,
+        maxHp:100 * scale,
 
-      maxHp:
-        data.hp * scale,
+        speed:18 + Math.random()*8,
 
-      damage:
-        data.damage *
-        (1 + game.wave * .045),
+        damage:12 + game.wave * 1.5,
 
-      speed:
-        data.speed *
-        (1 + game.wave * .008),
+        attackTimer:0,
 
-      reward:
-        Math.floor(
-          data.reward *
-          (1 + game.wave * .02)
-        ),
+        attackSpeed:1100,
 
-      boss:
-        !!data.boss,
+        reward:10,
 
-      slowed: 0,
+        size:45,
 
-      attackTimer: 0,
+        frozen:0,
 
-      element: null
+        hitFlash:0
 
     };
 
 
-    enemies.push(enemy);
+    if(type==="skeleton"){
 
-    createEnemyElement(enemy);
-
-  }
-
-
-  /* =========================================================
-     ENEMY ELEMENT
-  ========================================================= */
-
-  function createEnemyElement(enemy) {
-
-    const el =
-      document.createElement("div");
-
-    el.className =
-      "enemy" +
-      (enemy.boss ? " boss" : "");
-
-    el.id =
-      "enemy-" + enemy.id;
-
-    el.innerHTML = `
-
-        <div class="enemy-icon">
-            ${enemyTypes[enemy.type].icon}
-        </div>
-
-        <div class="enemy-name">
-            ${enemyTypes[enemy.type].name}
-        </div>
-
-        <div class="enemy-hp">
-            <div
-                class="enemy-hp-fill"
-                id="enemy-hp-${enemy.id}">
-            </div>
-        </div>
-    `;
-
-    battlefield.appendChild(el);
-
-    enemy.element = el;
-
-    if (enemy.boss) {
-
-      enemy.element.style.bottom = "105px";
-
-      log(
-        "👑 BOSS se objevil!"
-      );
+        enemy.hp*=.75;
+        enemy.maxHp*=.75;
+        enemy.speed+=7;
+        enemy.damage*=.8;
+        enemy.reward=12;
 
     }
 
-  }
 
+    if(type==="spider"){
 
-  /* =========================================================
-     GAME LOOP
-  ========================================================= */
-
-  let lastTime =
-    performance.now();
-
-
-  function gameLoop(now) {
-
-    const dt =
-      Math.min(
-        0.05,
-        (now - lastTime) / 1000
-      );
-
-    lastTime = now;
-
-    if (
-      !game.paused &&
-      !game.gameOver
-    ) {
-
-      updateEnemies(dt);
-
-      updateSoldiers(dt);
-
-      updateCooldowns(dt);
-
-      regenerateMana(dt);
+        enemy.hp*=.55;
+        enemy.maxHp*=.55;
+        enemy.speed+=18;
+        enemy.damage*=.7;
+        enemy.reward=15;
 
     }
 
-    requestAnimationFrame(gameLoop);
 
-  }
+    if(type==="creeper"){
 
+        enemy.hp*=1.25;
+        enemy.maxHp*=1.25;
+        enemy.speed-=4;
+        enemy.damage*=2.5;
+        enemy.reward=25;
+        enemy.attackSpeed=1800;
 
-  requestAnimationFrame(gameLoop);
-
-
-  /* =========================================================
-     ENEMIES UPDATE
-  ========================================================= */
-
-  function updateEnemies(dt) {
-
-    for (
-      let i = enemies.length - 1;
-      i >= 0;
-      i--
-    ) {
-
-      const enemy =
-        enemies[i];
-
-      if (enemy.hp <= 0)
-        continue;
+    }
 
 
-      if (enemy.slowed > 0) {
+    if(type==="blaze"){
 
-        enemy.slowed -= dt;
+        enemy.hp*=1.5;
+        enemy.maxHp*=1.5;
+        enemy.speed+=3;
+        enemy.damage*=1.4;
+        enemy.reward=30;
 
-      }
-
-
-      const speedMultiplier =
-        enemy.slowed > 0
-          ? .35
-          : 1;
+    }
 
 
-      enemy.x +=
-        enemy.speed *
-        speedMultiplier *
-        dt *
-        100;
+    if(type==="boss"){
+
+        enemy.hp*=10;
+        enemy.maxHp*=10;
+        enemy.speed-=7;
+        enemy.damage*=3;
+        enemy.reward=150;
+        enemy.size=75;
+        enemy.attackSpeed=1500;
+
+    }
+
+    game.waveEnemies.push(enemy);
+
+}
 
 
-      if (enemy.x > 48) {
+/* =========================================================
+   SPAWN
+========================================================= */
 
-        enemy.x = 48;
+function spawnEnemies(delta){
 
-        enemy.attackTimer -= dt;
+    if(!game.running) return;
 
-        if (enemy.attackTimer <= 0) {
+    game.spawnTimer += delta;
 
-          damageCastle(enemy);
+    const spawnEvery =
+        Math.max(
+            400,
+            1200 - game.wave*30
+        );
 
-          enemy.attackTimer =
-            enemy.boss
-              ? 1
-              : 1.35;
+    if(
+        game.spawnTimer >= spawnEvery &&
+        game.enemiesThisWave >
+        game.enemiesKilledThisWave +
+        game.waveEnemies.length
+    ){
+
+        createEnemy();
+
+        game.spawnTimer=0;
+
+    }
+
+}
+
+
+/* =========================================================
+   DRAW BLOCK
+========================================================= */
+
+function block(x,y,w,h,base,dark,light){
+
+    ctx.fillStyle=dark;
+    ctx.fillRect(x,y,w,h);
+
+    ctx.fillStyle=base;
+    ctx.fillRect(
+        x+4,
+        y+4,
+        w-8,
+        h-8
+    );
+
+    ctx.fillStyle=light;
+    ctx.fillRect(
+        x+4,
+        y+4,
+        w-8,
+        5
+    );
+
+}
+
+
+/* =========================================================
+   DRAW ZOMBIE
+========================================================= */
+
+function drawZombie(e){
+
+    const x=e.x;
+    const y=e.y;
+    const s=e.size;
+
+    /* legs */
+
+    ctx.fillStyle="#283c2b";
+    ctx.fillRect(
+        x-12,
+        y+20,
+        10,
+        25
+    );
+
+    ctx.fillRect(
+        x+2,
+        y+20,
+        10,
+        25
+    );
+
+    /* body */
+
+    block(
+        x-16,
+        y-18,
+        32,
+        40,
+        "#3d963e",
+        "#1d5423",
+        "#5fbf55"
+    );
+
+    /* head */
+
+    block(
+        x-18,
+        y-48,
+        36,
+        32,
+        "#5aa84f",
+        "#244b25",
+        "#73c969"
+    );
+
+    /* eyes */
+
+    ctx.fillStyle="#111";
+
+    ctx.fillRect(
+        x-10,
+        y-37,
+        7,
+        6
+    );
+
+    ctx.fillRect(
+        x+4,
+        y-37,
+        7,
+        6
+    );
+
+}
+
+
+/* =========================================================
+   DRAW SKELETON
+========================================================= */
+
+function drawSkeleton(e){
+
+    const x=e.x;
+    const y=e.y;
+
+    ctx.fillStyle="#d7d7ca";
+
+    ctx.fillRect(
+        x-13,
+        y-46,
+        26,
+        29
+    );
+
+    ctx.fillRect(
+        x-10,
+        y-15,
+        20,
+        38
+    );
+
+    ctx.fillRect(
+        x-16,
+        y-10,
+        7,
+        35
+    );
+
+    ctx.fillRect(
+        x+9,
+        y-10,
+        7,
+        35
+    );
+
+    ctx.fillRect(
+        x-10,
+        y+21,
+        7,
+        25
+    );
+
+    ctx.fillRect(
+        x+4,
+        y+21,
+        7,
+        25
+    );
+
+    ctx.fillStyle="#171717";
+
+    ctx.fillRect(
+        x-8,
+        y-36,
+        6,
+        6
+    );
+
+    ctx.fillRect(
+        x+3,
+        y-36,
+        6,
+        6
+    );
+
+}
+
+
+/* =========================================================
+   DRAW SPIDER
+========================================================= */
+
+function drawSpider(e){
+
+    const x=e.x;
+    const y=e.y;
+
+    ctx.fillStyle="#151515";
+
+    ctx.fillRect(
+        x-22,
+        y-15,
+        44,
+        30
+    );
+
+    ctx.fillStyle="#b32e2e";
+
+    ctx.fillRect(
+        x-12,
+        y-7,
+        8,
+        8
+    );
+
+    ctx.fillRect(
+        x+5,
+        y-7,
+        8,
+        8
+    );
+
+    ctx.strokeStyle="#151515";
+    ctx.lineWidth=6;
+
+    for(let i=-1;i<=1;i++){
+
+        ctx.beginPath();
+        ctx.moveTo(x-10,y);
+        ctx.lineTo(x-35,y+15+i*12);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(x+10,y);
+        ctx.lineTo(x+35,y+15+i*12);
+        ctx.stroke();
+
+    }
+
+}
+
+
+/* =========================================================
+   DRAW CREEPER
+========================================================= */
+
+function drawCreeper(e){
+
+    const x=e.x;
+    const y=e.y;
+
+    block(
+        x-16,
+        y-48,
+        32,
+        34,
+        "#54a93f",
+        "#275b24",
+        "#6bcf4c"
+    );
+
+    ctx.fillStyle="#101b10";
+
+    ctx.fillRect(
+        x-10,
+        y-38,
+        7,
+        7
+    );
+
+    ctx.fillRect(
+        x+4,
+        y-38,
+        7,
+        7
+    );
+
+    ctx.fillRect(
+        x-5,
+        y-27,
+        10,
+        8
+    );
+
+    ctx.fillRect(
+        x-13,
+        y-16,
+        10,
+        38
+    );
+
+    ctx.fillRect(
+        x+3,
+        y-16,
+        10,
+        38
+    );
+
+}
+
+
+/* =========================================================
+   DRAW BLAZE
+========================================================= */
+
+function drawBlaze(e){
+
+    const x=e.x;
+    const y=e.y;
+
+    ctx.fillStyle="#e5a02e";
+
+    ctx.fillRect(
+        x-18,
+        y-28,
+        36,
+        36
+    );
+
+    ctx.fillStyle="#ffd45b";
+
+    ctx.fillRect(
+        x-11,
+        y-21,
+        7,
+        7
+    );
+
+    ctx.fillRect(
+        x+4,
+        y-21,
+        7,
+        7
+    );
+
+    for(let i=0;i<8;i++){
+
+        const angle =
+            (i/8)*Math.PI*2 +
+            performance.now()/1000;
+
+        const ox =
+            Math.cos(angle)*30;
+
+        const oy =
+            Math.sin(angle)*30;
+
+        ctx.fillStyle="#d96d22";
+
+        ctx.fillRect(
+            x+ox-4,
+            y+oy-4,
+            8,
+            8
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   DRAW BOSS
+========================================================= */
+
+function drawBoss(e){
+
+    const x=e.x;
+    const y=e.y;
+
+    block(
+        x-30,
+        y-75,
+        60,
+        55,
+        "#555b60",
+        "#25292c",
+        "#747c81"
+    );
+
+    block(
+        x-32,
+        y-20,
+        64,
+        70,
+        "#555b60",
+        "#25292c",
+        "#747c81"
+    );
+
+    ctx.fillStyle="#9cff61";
+
+    ctx.fillRect(
+        x-19,
+        y-58,
+        10,
+        10
+    );
+
+    ctx.fillRect(
+        x+9,
+        y-58,
+        10,
+        10
+    );
+
+    ctx.fillStyle="#b52f2f";
+
+    ctx.fillRect(
+        x-8,
+        y-34,
+        16,
+        8
+    );
+
+}
+
+
+/* =========================================================
+   DRAW ENEMIES
+========================================================= */
+
+function drawEnemy(e){
+
+    ctx.save();
+
+    if(e.hitFlash > 0){
+
+        ctx.globalAlpha =
+            .55 +
+            Math.sin(performance.now()/40)*.45;
+
+    }
+
+    if(e.type==="zombie")
+        drawZombie(e);
+
+    if(e.type==="skeleton")
+        drawSkeleton(e);
+
+    if(e.type==="spider")
+        drawSpider(e);
+
+    if(e.type==="creeper")
+        drawCreeper(e);
+
+    if(e.type==="blaze")
+        drawBlaze(e);
+
+    if(e.type==="boss")
+        drawBoss(e);
+
+    ctx.restore();
+
+
+    /* HP BAR */
+
+    const width =
+        e.type==="boss" ? 100 : 55;
+
+    ctx.fillStyle="#241719";
+
+    ctx.fillRect(
+        e.x-width/2,
+        e.y-e.size-15,
+        width,
+        8
+    );
+
+    ctx.fillStyle =
+        e.type==="boss"
+        ? "#ff3b3b"
+        : "#44d34a";
+
+    ctx.fillRect(
+        e.x-width/2,
+        e.y-e.size-15,
+        width*(e.hp/e.maxHp),
+        8
+    );
+
+}
+
+
+/* =========================================================
+   ATTACK SYSTEM
+========================================================= */
+
+function findTarget(range){
+
+    let target=null;
+    let nearest=Infinity;
+
+    game.waveEnemies.forEach(e=>{
+
+        const distance =
+            e.x - 250;
+
+        if(
+            distance > 0 &&
+            distance <= range &&
+            e.hp > 0 &&
+            distance < nearest
+        ){
+
+            nearest=distance;
+            target=e;
 
         }
 
-      }
+    });
 
+    return target;
 
-      enemy.element.style.left =
-        enemy.x + "%";
+}
 
-    }
 
-  }
+function soldierAttack(){
 
+    const now =
+        performance.now();
 
-  /* =========================================================
-     CASTLE DAMAGE
-  ========================================================= */
+    for(const [type,soldier] of Object.entries(game.soldiers)){
 
-  function damageCastle(enemy) {
+        if(
+            !soldier.lastAttack ||
+            now-soldier.lastAttack >= soldier.speed
+        ){
 
-    let damage =
-      enemy.damage;
+            const target =
+                findTarget(soldier.range);
 
-    damage *=
-      Math.max(
-        .2,
-        1 -
-        game.castle.armor * .07
-      );
+            if(!target) continue;
 
-    game.castle.hp -= damage;
+            soldier.lastAttack=now;
 
-    castle.classList.remove(
-      "castle-damage"
-    );
+            game.projectiles.push({
 
-    void castle.offsetWidth;
+                x:255,
 
-    castle.classList.add(
-      "castle-damage"
-    );
+                y:
+                    type==="mage"
+                    ? 285
+                    : type==="archer"
+                    ? 335
+                    : 365,
 
-    spawnDamageNumber(
-      castle,
-      Math.floor(damage),
-      true
-    );
+                target,
 
-    if (enemy.type === "creeper") {
+                damage:soldier.damage,
 
-      log(
-        "💥 Creeper explodoval u hradu!"
-      );
+                type
 
-      enemy.hp = 0;
+            });
 
-    }
-
-
-    if (game.castle.hp <= 0) {
-
-      game.castle.hp = 0;
-
-      endGame();
-
-    }
-
-    updateUI();
-
-  }
-
-
-  /* =========================================================
-     SOLDIER ATTACK
-  ========================================================= */
-
-  const attackTimers = {
-
-    archer: 0,
-    knight: 0,
-    mage: 0,
-    ice: 0
-
-  };
-
-
-  function updateSoldiers(dt) {
-
-    const types =
-      ["archer", "knight", "mage", "ice"];
-
-
-    for (const type of types) {
-
-      if (
-        attackTimers[type] > 0
-      ) {
-
-        attackTimers[type] -= dt;
-
-        continue;
-
-      }
-
-
-      const unit =
-        game.units[type];
-
-
-      const target =
-        findTarget(unit.range);
-
-
-      if (!target)
-        continue;
-
-
-      attackUnit(
-        type,
-        target
-      );
-
-
-      attackTimers[type] =
-        1 /
-        (
-          unit.speed *
-          (
-            1 +
-            game.skills.speed * .05
-          )
-        );
-
-    }
-
-  }
-
-
-  function findTarget(range) {
-
-    if (enemies.length === 0)
-      return null;
-
-
-    let best = null;
-
-    let bestDistance = Infinity;
-
-
-    for (const enemy of enemies) {
-
-      if (enemy.hp <= 0)
-        continue;
-
-
-      const distance =
-        Math.abs(
-          enemy.x - 50
-        ) * 10;
-
-
-      if (
-        distance <= range &&
-        distance < bestDistance
-      ) {
-
-        best = enemy;
-
-        bestDistance = distance;
-
-      }
-
-    }
-
-    return best;
-
-  }
-
-
-  /* =========================================================
-     ATTACK
-  ========================================================= */
-
-  function attackUnit(type, target) {
-
-    const unit =
-      game.units[type];
-
-
-    let damage =
-      unit.damage *
-      (
-        1 +
-        game.skills.damage * .08
-      );
-
-
-    let crit = false;
-
-
-    if (
-      Math.random() <
-      game.skills.crit * .03
-    ) {
-
-      damage *= 2;
-
-      crit = true;
-
-    }
-
-
-    if (type === "knight") {
-
-      damage *= 1.15;
-
-    }
-
-
-    if (type === "mage") {
-
-      createProjectile(
-        type,
-        target
-      );
-
-      setTimeout(() => {
-
-        areaDamage(
-          target,
-          damage,
-          70
-        );
-
-      }, 250);
-
-      return;
-
-    }
-
-
-    if (type === "ice") {
-
-      createProjectile(
-        type,
-        target
-      );
-
-      setTimeout(() => {
-
-        damageEnemy(
-          target,
-          damage,
-          crit
-        );
-
-        target.slowed = 2.5;
-
-      }, 220);
-
-      return;
-
-    }
-
-
-    createProjectile(
-      type,
-      target
-    );
-
-
-    setTimeout(() => {
-
-      damageEnemy(
-        target,
-        damage,
-        crit
-      );
-
-    }, 180);
-
-  }
-
-
-  /* =========================================================
-     PROJECTILES
-  ========================================================= */
-
-  function createProjectile(
-    type,
-    target
-  ) {
-
-    const projectile =
-      document.createElement("div");
-
-    projectile.className =
-      "projectile " +
-      (
-        type === "archer"
-          ? "arrow-projectile"
-          : type === "mage"
-            ? "fire-projectile"
-            : "ice-projectile"
-      );
-
-
-    const startX =
-      battlefield.clientWidth / 2;
-
-    const startY =
-      battlefield.clientHeight - 190;
-
-
-    projectile.style.left =
-      startX + "px";
-
-    projectile.style.top =
-      startY + "px";
-
-
-    battlefield.appendChild(
-      projectile
-    );
-
-
-    const targetX =
-      (
-        target.x / 100
-      ) *
-      battlefield.clientWidth;
-
-
-    const targetY =
-      battlefield.clientHeight - 190;
-
-
-    const duration =
-      type === "mage"
-        ? 300
-        : 220;
-
-
-    projectile.animate(
-      [
-        {
-          transform:
-            "translate(0,0)"
-        },
-        {
-          transform:
-            `translate(
-                        ${targetX - startX}px,
-                        ${targetY - startY}px
-                    )`
         }
-      ],
-      {
-        duration,
-        easing: "ease-out"
-      }
-    );
-
-
-    setTimeout(() => {
-
-      projectile.remove();
-
-    }, duration + 20);
-
-  }
-
-
-  /* =========================================================
-     DAMAGE ENEMY
-  ========================================================= */
-
-  function damageEnemy(
-    enemy,
-    damage,
-    crit = false
-  ) {
-
-    if (!enemy || enemy.hp <= 0)
-      return;
-
-
-    enemy.hp -= damage;
-
-
-    updateEnemyHealth(
-      enemy
-    );
-
-
-    spawnDamageNumber(
-      enemy.element,
-      Math.floor(damage),
-      crit
-    );
-
-
-    if (enemy.hp <= 0) {
-
-      killEnemy(enemy);
 
     }
 
-  }
+}
 
 
-  function areaDamage(
-    target,
-    damage,
-    radius
-  ) {
+/* =========================================================
+   PROJECTILES
+========================================================= */
 
-    for (const enemy of enemies) {
+function updateProjectiles(delta){
 
-      if (enemy.hp <= 0)
-        continue;
+    game.projectiles =
+        game.projectiles.filter(p=>{
+
+            if(!p.target || p.target.hp<=0)
+                return false;
+
+            const dx =
+                p.target.x-p.x;
+
+            const dy =
+                p.target.y-p.y;
+
+            const distance =
+                Math.hypot(dx,dy);
+
+            const speed=650;
+
+            if(distance < speed*delta/1000){
+
+                hitEnemy(
+                    p.target,
+                    p.damage,
+                    p.type
+                );
+
+                return false;
+
+            }
+
+            p.x +=
+                dx/distance *
+                speed *
+                delta/1000;
+
+            p.y +=
+                dy/distance *
+                speed *
+                delta/1000;
+
+            return true;
+
+        });
+
+}
 
 
-      const distance =
-        Math.abs(
-          enemy.x -
-          target.x
-        ) * 10;
+function drawProjectiles(){
 
+    game.projectiles.forEach(p=>{
 
-      if (
-        distance <= radius
-      ) {
+        ctx.fillStyle =
+            p.type==="mage"
+            ? "#ff7b1a"
+            : p.type==="ice"
+            ? "#70ddff"
+            : "#e7d08a";
 
-        damageEnemy(
-          enemy,
-          damage
+        const size =
+            p.type==="mage" ? 9 : 5;
+
+        ctx.fillRect(
+            p.x-size/2,
+            p.y-size/2,
+            size,
+            size
         );
 
-      }
+    });
+
+}
+
+
+/* =========================================================
+   DAMAGE
+========================================================= */
+
+function hitEnemy(enemy,damage,type){
+
+    if(!enemy || enemy.hp<=0)
+        return;
+
+    enemy.hp-=damage;
+
+    enemy.hitFlash=.1;
+
+    createHitEffect(
+        enemy.x,
+        enemy.y-25,
+        type
+    );
+
+    if(type==="ice"){
+
+        enemy.frozen=2000;
 
     }
 
-  }
+    if(enemy.hp<=0){
+
+        killEnemy(enemy);
+
+    }
+
+}
 
 
-  function updateEnemyHealth(enemy) {
+function killEnemy(enemy){
 
-    const bar =
-      document.getElementById(
-        "enemy-hp-" +
-        enemy.id
-      );
+    if(enemy.dead) return;
 
-    if (!bar)
-      return;
-
-
-    bar.style.width =
-      Math.max(
-        0,
-        enemy.hp /
-        enemy.maxHp *
-        100
-      ) + "%";
-
-  }
-
-
-  /* =========================================================
-     KILL
-  ========================================================= */
-
-  function killEnemy(enemy) {
-
-    if (enemy.hp < 0)
-      enemy.hp = 0;
-
-
-    const reward =
-      enemy.reward *
-      (
-        1 +
-        game.castle.goldBonus * .08 +
-        game.skills.gold * .06
-      );
-
-
-    game.coins +=
-      Math.floor(reward);
-
+    enemy.dead=true;
 
     game.kills++;
 
-    waveKills++;
+    game.enemiesKilledThisWave++;
 
+    game.coins +=
+        enemy.reward *
+        game.goldMultiplier;
 
-    if (enemy.boss) {
+    if(enemy.type==="boss"){
 
-      game.emeralds += 3;
+        game.bosses++;
 
-      log(
-        "👑 BOSS PORAŽEN! +3 Emeralds"
-      );
+        log(
+            "👑 BOSS PORAŽEN! +" +
+            enemy.reward +
+            " coins",
+            "gold"
+        );
 
-    }
+    }else{
 
-
-    if (enemy.type === "creeper") {
-
-      createExplosion(
-        enemy
-      );
-
-    }
-
-
-    if (enemy.element) {
-
-      enemy.element.remove();
+        log(
+            `${enemy.type.toUpperCase()} poražen. +${enemy.reward} coins`,
+            "good"
+        );
 
     }
 
-
-    const index =
-      enemies.indexOf(enemy);
-
-
-    if (index !== -1) {
-
-      enemies.splice(
-        index,
-        1
-      );
-
-    }
-
-
-    checkWaveComplete();
-
-    updateWaveProgress();
-
-    updateUI();
-
-  }
-
-
-  /* =========================================================
-     WAVE COMPLETE
-  ========================================================= */
-
-  function checkWaveComplete() {
-
-    if (
-      !game.waveRunning
-    )
-      return;
-
-
-    if (
-      enemies.length === 0 &&
-      waveKills >= waveTotal
-    ) {
-
-      game.waveRunning = false;
-
-
-      const bonus =
-        50 +
-        game.wave * 10;
-
-
-      game.coins += bonus;
-
-
-      log(
-        "🏆 Wave " +
-        game.wave +
-        " dokončena! +" +
-        bonus +
-        " Coins"
-      );
-
-
-      document
-        .getElementById(
-          "startWaveBtn"
-        )
-        .disabled = false;
-
-
-      updateWaveProgress();
-
-      saveGame();
-
-      updateUI();
-
-    }
-
-  }
-
-
-  function updateWaveProgress() {
-
-    if (waveTotal <= 0)
-      return;
-
-
-    const percent =
-      Math.min(
-        100,
-        waveKills /
-        waveTotal *
-        100
-      );
-
-
-    document
-      .getElementById(
-        "waveProgress"
-      )
-      .style.width =
-      percent + "%";
-
-  }
-
-
-  /* =========================================================
-     ABILITIES
-  ========================================================= */
-
-  function useAbility() {
-
-    if (
-      game.gameOver ||
-      !game.waveRunning
-    ) {
-
-      log(
-        "❌ Ability můžeš použít během wave."
-      );
-
-      return;
-
-    }
-
-
-    const unit =
-      game.units[selectedUnit];
-
-    const ability =
-      abilities[selectedUnit];
-
-
-    if (unit.cooldown > 0) {
-
-      return;
-
-    }
-
-
-    if (
-      game.mana <
-      ability.mana
-    ) {
-
-      log(
-        "🔮 Nemáš dostatek many."
-      );
-
-      return;
-
-    }
-
-
-    game.mana -=
-      ability.mana;
-
-
-    unit.cooldown =
-      ability.cooldown;
-
-
-    if (selectedUnit === "archer") {
-
-      multiShot();
-
-    }
-
-    if (selectedUnit === "knight") {
-
-      shieldBash();
-
-    }
-
-    if (selectedUnit === "mage") {
-
-      meteor();
-
-    }
-
-    if (selectedUnit === "ice") {
-
-      freezeAll();
-
-    }
-
-
-    updateUI();
-
-  }
-
-
-  function multiShot() {
-
-    const targets =
-      enemies
-        .filter(e => e.hp > 0)
-        .slice(0, 5);
-
-
-    for (const enemy of targets) {
-
-      damageEnemy(
-        enemy,
-        game.units.archer.damage *
-        (
-          2 +
-          game.units.archer.abilityLevel * .2
-        )
-      );
-
-    }
-
-
-    log(
-      "🏹 ARCHER použil MULTI SHOT!"
+    createHitEffect(
+        enemy.x,
+        enemy.y-20,
+        "death"
     );
 
-  }
+}
 
 
-  function shieldBash() {
+/* =========================================================
+   ENEMY MOVEMENT
+========================================================= */
 
-    const targets =
-      enemies.filter(
-        e =>
-          e.hp > 0 &&
-          e.x > 35
-      );
+function updateEnemies(delta){
 
+    game.waveEnemies.forEach(e=>{
 
-    for (const enemy of targets) {
+        if(e.dead) return;
 
-      damageEnemy(
-        enemy,
-        game.units.knight.damage *
-        (
-          2 +
-          game.units.knight.abilityLevel * .2
-        )
-      );
+        if(e.hitFlash>0)
+            e.hitFlash-=delta/1000;
 
-      enemy.slowed = 2;
+        if(e.frozen>0){
 
-    }
-
-
-    log(
-      "🛡️ KNIGHT použil SHIELD BASH!"
-    );
-
-  }
-
-
-  function meteor() {
-
-    const target =
-      enemies.find(
-        e => e.hp > 0
-      );
-
-
-    if (!target)
-      return;
-
-
-    areaDamage(
-      target,
-      game.units.mage.damage *
-      (
-        4 +
-        game.units.mage.abilityLevel
-      ),
-      130
-    );
-
-
-    createExplosion(
-      target
-    );
-
-
-    log(
-      "🔥 BLAZE MAGE použil METEOR!"
-    );
-
-  }
-
-
-  function freezeAll() {
-
-    for (const enemy of enemies) {
-
-      if (enemy.hp > 0) {
-
-        enemy.slowed =
-          5 +
-          game.units.ice.abilityLevel;
-
-      }
-
-    }
-
-
-    log(
-      "❄️ ICE WIZARD zmrazil nepřátele!"
-    );
-
-  }
-
-
-  /* =========================================================
-     COOLDOWNS
-  ========================================================= */
-
-  function updateCooldowns(dt) {
-
-    for (
-      const type in game.units
-      ) {
-
-      const unit =
-        game.units[type];
-
-      if (
-        unit.cooldown > 0
-      ) {
-
-        unit.cooldown -= dt;
-
-        if (
-          unit.cooldown < 0
-        ) {
-
-          unit.cooldown = 0;
+            e.frozen-=delta;
 
         }
 
-      }
+        const speedMultiplier =
+            e.frozen>0 ? .25 : 1;
 
-    }
+        if(e.x > 265){
 
+            e.x -=
+                e.speed *
+                speedMultiplier *
+                delta/1000;
 
-    const ability =
-      abilities[selectedUnit];
+        }else{
 
-    const selected =
-      game.units[selectedUnit];
+            e.attackTimer+=delta;
 
+            if(e.attackTimer>=e.attackSpeed){
 
-    const button =
-      document.getElementById(
-        "abilityButton"
-      );
+                e.attackTimer=0;
 
+                const damage =
+                    Math.max(
+                        1,
+                        e.damage-game.armor
+                    );
 
-    if (
-      selected.cooldown > 0
-    ) {
+                game.castleHp-=damage;
 
-      button.disabled = true;
+                createHitEffect(
+                    130,
+                    380,
+                    "castle"
+                );
 
-      button.textContent =
-        "⏳ " +
-        selected.cooldown.toFixed(1) +
-        "s";
+                log(
+                    `🏰 Hrad dostal ${Math.floor(damage)} damage!`,
+                    "bad"
+                );
 
-      document
-        .getElementById(
-          "abilityCooldown"
-        )
-        .textContent =
-        selected.cooldown.toFixed(1) +
-        "s";
+            }
 
-    } else {
-
-      button.disabled = false;
-
-      button.textContent =
-        "⚡ USE ABILITY";
-
-      document
-        .getElementById(
-          "abilityCooldown"
-        )
-        .textContent =
-        "READY";
-
-    }
-
-  }
-
-
-  function regenerateMana(dt) {
-
-    game.mana +=
-      (
-        2 +
-        game.skills.mana * .3
-      ) *
-      dt;
-
-
-    game.mana =
-      Math.min(
-        game.castle.manaMax,
-        game.mana
-      );
-
-  }
-
-
-  /* =========================================================
-     VISUAL EFFECTS
-  ========================================================= */
-
-  function spawnDamageNumber(
-    target,
-    damage,
-    crit = false
-  ) {
-
-    const rect =
-      target.getBoundingClientRect();
-
-    const fieldRect =
-      battlefield.getBoundingClientRect();
-
-
-    const el =
-      document.createElement("div");
-
-    el.className =
-      "damage-number " +
-      (
-        crit
-          ? "damage-crit"
-          : "damage-normal"
-      );
-
-
-    el.textContent =
-      "-" +
-      damage;
-
-
-    el.style.left =
-      (
-        rect.left -
-        fieldRect.left +
-        rect.width / 2
-      ) + "px";
-
-
-    el.style.top =
-      (
-        rect.top -
-        fieldRect.top
-      ) + "px";
-
-
-    battlefield.appendChild(
-      el
-    );
-
-
-    setTimeout(() => {
-
-      el.remove();
-
-    }, 850);
-
-  }
-
-
-  function createExplosion(target) {
-
-    const rect =
-      target.element
-        ?.getBoundingClientRect();
-
-
-    if (!rect)
-      return;
-
-
-    const fieldRect =
-      battlefield.getBoundingClientRect();
-
-
-    const el =
-      document.createElement("div");
-
-
-    el.style.position =
-      "absolute";
-
-    el.style.left =
-      (
-        rect.left -
-        fieldRect.left
-      ) + "px";
-
-    el.style.top =
-      (
-        rect.top -
-        fieldRect.top
-      ) + "px";
-
-    el.style.width = "70px";
-
-    el.style.height = "70px";
-
-    el.style.borderRadius = "50%";
-
-    el.style.background =
-      "radial-gradient(circle, #fff, #ff6b2c, transparent)";
-
-    el.style.pointerEvents =
-      "none";
-
-    el.style.zIndex =
-      "150";
-
-
-    battlefield.appendChild(
-      el
-    );
-
-
-    el.animate(
-      [
-        {
-          transform: "scale(.2)",
-          opacity: 1
-        },
-        {
-          transform: "scale(2)",
-          opacity: 0
         }
-      ],
-      {
-        duration: 500
-      }
-    );
+
+    });
 
 
-    setTimeout(() => {
-
-      el.remove();
-
-    }, 520);
-
-  }
+    game.waveEnemies =
+        game.waveEnemies.filter(e=>!e.dead);
 
 
-  /* =========================================================
-     LOG
-  ========================================================= */
+    if(
+        game.running &&
+        game.enemiesKilledThisWave >=
+        game.enemiesThisWave &&
+        game.waveEnemies.length===0
+    ){
 
-  function log(message) {
-
-    const logBox =
-      document.getElementById(
-        "combatLog"
-      );
-
-
-    const entry =
-      document.createElement("div");
-
-    entry.className =
-      "log-entry";
-
-    entry.innerHTML =
-      message;
-
-
-    logBox.prepend(
-      entry
-    );
-
-
-    while (
-      logBox.children.length >
-      25
-      ) {
-
-      logBox.lastChild.remove();
+        endWave();
 
     }
 
-  }
+}
 
 
-  /* =========================================================
-     GAME OVER
-  ========================================================= */
+/* =========================================================
+   END WAVE
+========================================================= */
 
-  function endGame() {
+function endWave(){
 
-    game.gameOver = true;
+    game.running=false;
 
-    game.waveRunning = false;
+    game.mana=
+        Math.min(
+            100,
+            game.mana+20
+        );
 
+    const bonus =
+        50 + game.wave*10;
 
-    document
-      .getElementById(
-        "gameOverWave"
-      )
-      .textContent =
-      "Wave " +
-      game.wave;
+    game.coins+=bonus;
 
+    document.getElementById("startWave").disabled=false;
 
-    document
-      .getElementById(
-        "gameOverKills"
-      )
-      .textContent =
-      game.kills;
-
-
-    document
-      .getElementById(
-        "gameOverCoins"
-      )
-      .textContent =
-      Math.floor(game.coins);
-
-
-    document
-      .getElementById(
-        "gameOverModal"
-      )
-      .classList.remove(
-      "hidden"
+    showWaveMessage(
+        "WAVE COMPLETE!"
     );
-
 
     log(
-      "💀 TVŮJ HRAD PADL!"
+        `Wave dokončena! Bonus +${bonus} coins.`,
+        "gold"
     );
 
-  }
+    saveGame();
+
+}
 
 
-  function restartGame() {
+/* =========================================================
+   EFFECTS
+========================================================= */
 
-    game.gameOver = false;
+function createHitEffect(x,y,type){
 
-    game.waveRunning = false;
+    game.effects.push({
 
-    game.wave = 0;
+        x,
+        y,
+        life:0,
+        maxLife:500,
+        type
 
-    game.kills = 0;
+    });
 
-    game.castle.hp =
-      game.castle.maxHp;
-
-
-    game.mana =
-      game.castle.manaMax;
+}
 
 
-    enemies.forEach(
-      e =>
-        e.element?.remove()
+function updateEffects(delta){
+
+    game.effects =
+        game.effects.filter(e=>{
+
+            e.life+=delta;
+
+            return e.life<e.maxLife;
+
+        });
+
+}
+
+
+function drawEffects(){
+
+    game.effects.forEach(e=>{
+
+        const progress =
+            e.life/e.maxLife;
+
+        const size =
+            10 + progress*25;
+
+        ctx.globalAlpha =
+            1-progress;
+
+        ctx.fillStyle =
+            e.type==="castle"
+            ? "#ff3d3d"
+            : e.type==="mage"
+            ? "#ff8a2b"
+            : e.type==="ice"
+            ? "#70eaff"
+            : e.type==="death"
+            ? "#d6d6d6"
+            : "#fff";
+
+        ctx.fillRect(
+            e.x-size/2,
+            e.y-size/2,
+            size,
+            size
+        );
+
+        ctx.globalAlpha=1;
+
+    });
+
+}
+
+
+/* =========================================================
+   UPGRADES
+========================================================= */
+
+function upgradeSoldier(type){
+
+    const soldier =
+        game.soldiers[type];
+
+    const cost =
+        Math.floor(
+            50 *
+            Math.pow(1.45,soldier.level-1)
+        );
+
+    if(game.coins<cost){
+
+        log(
+            `Potřebuješ ${cost} coins.`,
+            "bad"
+        );
+
+        return;
+
+    }
+
+    game.coins-=cost;
+
+    soldier.level++;
+
+    soldier.damage=
+        Math.floor(
+            soldier.damage*1.25
+        );
+
+    soldier.speed=
+        Math.max(
+            400,
+            Math.floor(
+                soldier.speed*.95
+            )
+        );
+
+    log(
+        `${type} upgraded na level ${soldier.level}!`,
+        "good"
     );
 
+    updateUI();
+    saveGame();
 
-    enemies = [];
-
-
-    document
-      .getElementById(
-        "gameOverModal"
-      )
-      .classList.add(
-      "hidden"
-    );
+}
 
 
-    document
-      .getElementById(
-        "startWaveBtn"
-      )
-      .disabled = false;
+function upgradeCastle(type){
 
+    let cost;
+
+    if(type==="hp"){
+
+        cost=
+            100 *
+            game.castleLevel;
+
+        if(game.coins<cost){
+
+            log("Nemáš dost coinů.","bad");
+            return;
+
+        }
+
+        game.coins-=cost;
+
+        game.castleLevel++;
+
+        game.castleMaxHp+=200;
+
+        game.castleHp=
+            Math.min(
+                game.castleMaxHp,
+                game.castleHp+200
+            );
+
+        log(
+            "🏰 Hrad má nyní více HP!",
+            "good"
+        );
+
+    }
+
+
+    if(type==="armor"){
+
+        cost=
+            150 *
+            (game.armor+1);
+
+        if(game.coins<cost){
+
+            log("Nemáš dost coinů.","bad");
+            return;
+
+        }
+
+        game.coins-=cost;
+
+        game.armor+=5;
+
+        log(
+            "🛡️ Obrana hradu zvýšena!",
+            "good"
+        );
+
+    }
+
+
+    if(type==="gold"){
+
+        cost=
+            200 *
+            Math.floor(game.goldMultiplier);
+
+        if(game.coins<cost){
+
+            log("Nemáš dost coinů.","bad");
+            return;
+
+        }
+
+        game.coins-=cost;
+
+        game.goldMultiplier+=.1;
+
+        log(
+            "💰 Gold income zvýšen!",
+            "gold"
+        );
+
+    }
+
+    updateUI();
+    saveGame();
+
+}
+
+
+/* =========================================================
+   ABILITIES
+========================================================= */
+
+function useAbility(type){
+
+    if(game.mana<30){
+
+        log(
+            "Nemáš dost many!",
+            "bad"
+        );
+
+        return;
+
+    }
+
+    game.mana-=30;
+
+    if(type==="archer"){
+
+        game.waveEnemies
+            .slice(0,3)
+            .forEach(e=>{
+
+                hitEnemy(
+                    e,
+                    game.soldiers.archer.damage*2,
+                    "archer"
+                );
+
+            });
+
+        log(
+            "🏹 ARCHER: MULTI SHOT!",
+            "good"
+        );
+
+    }
+
+
+    if(type==="mage"){
+
+        const target =
+            findTarget(500);
+
+        if(target){
+
+            game.waveEnemies.forEach(e=>{
+
+                if(
+                    Math.abs(e.x-target.x)<110
+                ){
+
+                    hitEnemy(
+                        e,
+                        game.soldiers.mage.damage*3,
+                        "mage"
+                    );
+
+                }
+
+            });
+
+        }
+
+        log(
+            "🔥 MAGE: METEOR!",
+            "good"
+        );
+
+    }
+
+
+    if(type==="ice"){
+
+        game.waveEnemies.forEach(e=>{
+
+            e.frozen=4000;
+
+        });
+
+        log(
+            "❄️ ICE WIZARD: FREEZE!",
+            "good"
+        );
+
+    }
 
     updateUI();
 
-  }
+}
 
 
-  /* =========================================================
-     BOSS MODAL
-  ========================================================= */
+/* =========================================================
+   GAME OVER
+========================================================= */
 
-  function closeBossModal() {
+function checkGameOver(){
 
-    document
-      .getElementById(
-        "bossModal"
-      )
-      .classList.add(
-      "hidden"
+    if(game.castleHp>0)
+        return;
+
+    game.castleHp=0;
+
+    game.running=false;
+
+    document.getElementById(
+        "startWave"
+    ).disabled=false;
+
+    showWaveMessage(
+        "CASTLE DESTROYED"
     );
-
-  }
-
-
-  /* =========================================================
-     PAUSE
-  ========================================================= */
-
-  function togglePause() {
-
-    game.paused =
-      !game.paused;
-
 
     log(
-      game.paused
-        ? "⏸️ Hra pozastavena."
-        : "▶️ Hra pokračuje."
+        "💀 Tvůj hrad byl zničen!",
+        "bad"
     );
 
-  }
+}
 
 
-  /* =========================================================
-     RESET
-  ========================================================= */
+/* =========================================================
+   RESET
+========================================================= */
 
-  function resetProgress() {
-
-    const confirmed =
-      confirm(
-        "Opravdu chceš smazat celý progress?"
-      );
-
-
-    if (!confirmed)
-      return;
-
+function resetGame(){
 
     localStorage.removeItem(
-      SAVE_KEY
+        "surviveFromMinecraftSave"
     );
-
 
     location.reload();
 
-  }
+}
 
 
-  /* =========================================================
-     START
-  ========================================================= */
+/* =========================================================
+   MAIN LOOP
+========================================================= */
 
-  loadGame();
+function gameLoop(timestamp){
 
-  updateUI();
+    const delta =
+        Math.min(
+            50,
+            timestamp-game.lastTime || 16
+        );
 
-  log(
-    "🧟 Vítej v Survive from Minecraft!"
-  );
+    game.lastTime=timestamp;
 
-  log(
-    "🏰 Braň svůj hrad a přežij co nejvíce vln."
-  );
 
-  log(
-    "💡 Vylepšuj vojáky, schopnosti a hrad."
-  );
+    spawnEnemies(delta);
 
+    updateEnemies(delta);
+
+    soldierAttack();
+
+    updateProjectiles(delta);
+
+    updateEffects(delta);
+
+
+    ctx.clearRect(
+        0,
+        0,
+        W,
+        H
+    );
+
+
+    game.waveEnemies.forEach(
+        drawEnemy
+    );
+
+    drawProjectiles();
+
+    drawEffects();
+
+
+    checkGameOver();
+
+    updateUI();
+
+
+    requestAnimationFrame(
+        gameLoop
+    );
+
+}
+
+
+requestAnimationFrame(
+    gameLoop
+);
+
+
+/* =========================================================
+   START
+========================================================= */
+
+log(
+    "Vítej v Survive from Minecraft!",
+    "good"
+);
+
+log(
+    "Braň svůj hrad před hordami mobů."
+);
+
+updateUI();
 
 </script>
 
