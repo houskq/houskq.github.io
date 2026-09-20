@@ -1616,6 +1616,207 @@ header{
     }
 }
 
+/* =========================================================
+   PREMIUM RESULT SCREEN V6
+========================================================= */
+
+.result-box{
+    width:min(1120px,96vw);
+    margin:22px auto 0;
+    padding:28px;
+    border-radius:26px;
+    background:
+        radial-gradient(circle at 50% 0%, rgba(139,92,246,.18), transparent 42%),
+        linear-gradient(145deg, rgba(22,26,45,.98), rgba(8,10,18,.98));
+    border:1px solid rgba(255,255,255,.12);
+    box-shadow:
+        0 30px 90px rgba(0,0,0,.55),
+        inset 0 1px 0 rgba(255,255,255,.06),
+        0 0 55px rgba(139,92,246,.08);
+    position:relative;
+    overflow:hidden;
+}
+
+.result-box::before{
+    content:"";
+    position:absolute;
+    inset:-2px;
+    border-radius:28px;
+    pointer-events:none;
+    background:
+        linear-gradient(
+            110deg,
+            transparent 15%,
+            rgba(255,255,255,.07) 35%,
+            transparent 55%
+        );
+    background-size:220% 100%;
+    animation:resultShine 4.5s linear infinite;
+}
+
+.result-box > *{
+    position:relative;
+    z-index:1;
+}
+
+@keyframes resultShine{
+    0%{background-position:220% 0}
+    100%{background-position:-220% 0}
+}
+
+.result-rarity{
+    display:inline-flex !important;
+    align-items:center;
+    justify-content:center;
+    padding:7px 14px;
+    border-radius:999px;
+    background:rgba(255,255,255,.055);
+    border:1px solid rgba(255,255,255,.1);
+    box-shadow:0 0 22px rgba(255,255,255,.05);
+}
+
+.result-item-name{
+    margin-top:10px;
+    text-shadow:0 0 24px rgba(255,255,255,.12);
+}
+
+.result-image{
+    width:220px;
+    height:220px;
+    margin:4px auto 0;
+    filter:
+        drop-shadow(0 0 16px rgba(255,255,255,.12))
+        drop-shadow(0 20px 35px rgba(0,0,0,.55));
+}
+
+.result-value{
+    font-size:20px;
+    padding:8px 16px;
+    border-radius:12px;
+    background:rgba(255,216,77,.06);
+    border:1px solid rgba(255,216,77,.15);
+}
+
+.multiple-results{
+    grid-template-columns:
+        repeat(auto-fit,minmax(170px,1fr));
+    gap:15px;
+    max-height:420px;
+    margin:14px 0 0;
+}
+
+.reward-card{
+    position:relative;
+    overflow:hidden;
+    background:
+        radial-gradient(circle at 50% 0%, rgba(139,92,246,.12), transparent 55%),
+        linear-gradient(145deg,#181d31,#0c0f1a);
+    border:1px solid rgba(255,255,255,.1);
+    border-radius:18px;
+    padding:16px 12px;
+    box-shadow:
+        0 12px 30px rgba(0,0,0,.25),
+        inset 0 1px 0 rgba(255,255,255,.04);
+    transition:.2s;
+}
+
+.reward-card:hover{
+    transform:translateY(-4px) scale(1.015);
+    border-color:rgba(139,92,246,.45);
+    box-shadow:
+        0 18px 38px rgba(0,0,0,.35),
+        0 0 25px rgba(139,92,246,.1);
+}
+
+.reward-card img{
+    width:115px;
+    height:115px;
+    filter:drop-shadow(0 12px 20px rgba(0,0,0,.45));
+}
+
+.multiple-total{
+    display:inline-block !important;
+    margin:18px auto 0;
+    padding:10px 17px;
+    border-radius:12px;
+    background:rgba(255,216,77,.06);
+    border:1px solid rgba(255,216,77,.14);
+    font-size:18px;
+}
+
+.result-actions{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(180px,1fr));
+    gap:12px;
+    width:min(620px,100%);
+    margin:22px auto 0;
+}
+
+.result-action{
+    border:none;
+    border-radius:13px;
+    padding:14px 18px;
+    color:white;
+    font-weight:1000;
+    font-size:14px;
+    cursor:pointer;
+    transition:.18s;
+    border:1px solid rgba(255,255,255,.1);
+    box-shadow:0 10px 25px rgba(0,0,0,.22);
+}
+
+.result-action:hover{
+    transform:translateY(-2px);
+    filter:brightness(1.12);
+}
+
+.result-action:active{
+    transform:translateY(0) scale(.98);
+}
+
+.result-action.sell{
+    background:linear-gradient(135deg,#19a86b,#08784a);
+    border-color:rgba(74,255,165,.25);
+}
+
+.result-action.continue{
+    background:linear-gradient(135deg,#8b5cf6,#5b3cc4);
+    border-color:rgba(190,160,255,.3);
+}
+
+.result-action.open-again{
+    grid-column:1/-1;
+    background:linear-gradient(135deg,#2c78ff,#694cff);
+    border-color:rgba(120,170,255,.3);
+}
+
+.sell-preview{
+    color:#8fffc1;
+    font-size:13px;
+    font-weight:800;
+    margin-top:7px;
+}
+
+@media(max-width:700px){
+    .result-box{
+        padding:20px 14px;
+        border-radius:20px;
+    }
+
+    .result-image{
+        width:170px;
+        height:170px;
+    }
+
+    .result-actions{
+        grid-template-columns:1fr;
+    }
+
+    .result-action.open-again{
+        grid-column:auto;
+    }
+}
+
 
 /* =========================================================
    RARITY COLORS
@@ -2088,6 +2289,13 @@ header{
                 +0 coins
             </div>
 
+            <div
+                class="sell-preview"
+                id="sellPreview"
+            >
+                💰 Výhru můžeš prodat rovnou tady.
+            </div>
+
             <!--
                 Pro 2× až 5× se používá tento grid.
                 U 1× zůstává skrytý.
@@ -2105,12 +2313,33 @@ header{
                 style="display:none;"
             ></div>
 
-            <button
-                class="close-result"
-                id="closeResult"
-            >
-                POKRAČOVAT
-            </button>
+            <div class="result-actions" id="resultActions">
+
+                <button
+                    class="result-action sell"
+                    id="sellResult"
+                    type="button"
+                >
+                    💰 PRODAT
+                </button>
+
+                <button
+                    class="result-action continue"
+                    id="continueResult"
+                    type="button"
+                >
+                    ➡️ POKRAČOVAT
+                </button>
+
+                <button
+                    class="result-action open-again"
+                    id="openAgainResult"
+                    type="button"
+                >
+                    🔄 OTEVŘÍT ZNOVU
+                </button>
+
+            </div>
 
         </div>
 
@@ -2185,6 +2414,14 @@ let casesOpened = 0;
 let currentOpening = false;
 
 let autoOpenTimer = null;
+
+/*
+    Výsledky právě zobrazené v reward screenu.
+    Díky tomu lze výhru prodat bez návštěvy inventáře.
+*/
+let pendingResults = [];
+let pendingCaseId = "";
+let pendingResultResolver = null;
 
 
 /* =========================================================
@@ -4470,36 +4707,87 @@ async function openCase(
     }
 
 
-    await showOpening(
-        results,
-        caseData
-    );
+    const resultAction =
+        await showOpening(
+            results,
+            caseData
+        );
 
 
     /*
-        Až PO animaci přidáme výhry
-        do inventáře.
+        Reward screen rozhodne, co s právě
+        získanými itemy udělat.
+
+        SELL:
+            itemy nejdou do inventáře,
+            jejich hodnota jde rovnou do coinů.
+
+        CONTINUE:
+            itemy se přidají do inventáře.
+
+        OPEN_AGAIN:
+            itemy se uloží do inventáře a
+            stejná case se hned otevře znovu.
     */
 
-    results.forEach(
-        item => {
-
-            addInventory(
-                item
-            );
-
-        }
-    );
+    const rewardTotal =
+        results.reduce(
+            (sum, item) =>
+                sum + Number(item.value || 0),
+            0
+        );
 
 
-    saveLocal();
+    if(resultAction === "sell"){
 
-    renderAll();
+        coins +=
+            rewardTotal;
 
-    await saveCloud();
+        saveLocal();
+
+        renderAll();
+
+        await saveCloud();
+
+        toast(
+            `💰 Výhra prodána za 🪙 ${money(rewardTotal)}`
+        );
+
+    }else{
+
+        results.forEach(
+            item => {
+
+                addInventory(
+                    item
+                );
+
+            }
+        );
+
+        saveLocal();
+
+        renderAll();
+
+        await saveCloud();
+
+    }
+
 
     currentOpening =
         false;
+
+
+    if(resultAction === "openAgain"){
+
+        await sleep(120);
+
+        await openCase(
+            caseId,
+            false
+        );
+
+    }
 
 }
 
@@ -4671,6 +4959,14 @@ async function showOpening(
     caseData
 ){
 
+    pendingResults =
+        results.map(
+            item => normalizeItem(item)
+        );
+
+    pendingCaseId =
+        caseData.id;
+
     const overlay =
         $("openingOverlay");
 
@@ -4718,6 +5014,9 @@ async function showOpening(
         "";
 
     $("resultValue").style.display =
+        "";
+
+    $("sellPreview").style.display =
         "";
 
 
@@ -4970,6 +5269,9 @@ async function animateReel(
 
 function showResult(item){
 
+    pendingResults =
+        [normalizeItem(item)];
+
     $("resultRarity").style.display =
         "";
 
@@ -5011,6 +5313,9 @@ function showResult(item){
         "🪙 " +
         money(item.value);
 
+    $("sellPreview").textContent =
+        `💰 Prodat rovnou za 🪙 ${money(item.value)}`;
+
 
     $("multipleResults").style.display =
         "none";
@@ -5027,6 +5332,11 @@ function showResult(item){
 ========================================================= */
 
 function showMultipleResults(results){
+
+    pendingResults =
+        results.map(
+            item => normalizeItem(item)
+        );
 
     /*
         Schováme single-result UI.
@@ -5149,11 +5459,14 @@ function showMultipleResults(results){
     totalElement.textContent =
         `Celková hodnota: 🪙 ${money(total)}`;
 
+    $("sellPreview").textContent =
+        `💰 Prodat všechny odměny rovnou za 🪙 ${money(total)}`;
+
 }
 
 
 /* =========================================================
-   RESULT CLOSE PROMISE
+   RESULT ACTIONS
 ========================================================= */
 
 function waitForResultClose(){
@@ -5161,16 +5474,41 @@ function waitForResultClose(){
     return new Promise(
         resolve => {
 
-            const button =
-                $("closeResult");
+            const sellButton =
+                $("sellResult");
+
+            const continueButton =
+                $("continueResult");
+
+            const openAgainButton =
+                $("openAgainResult");
 
 
-            const handler =
-                () => {
+            const finish =
+                action => {
 
-                    button.removeEventListener(
+                    if(pendingResultResolver !== null){
+
+                        return;
+
+                    }
+
+                    pendingResultResolver =
+                        resolve;
+
+                    sellButton.removeEventListener(
                         "click",
-                        handler
+                        sellHandler
+                    );
+
+                    continueButton.removeEventListener(
+                        "click",
+                        continueHandler
+                    );
+
+                    openAgainButton.removeEventListener(
+                        "click",
+                        openAgainHandler
                     );
 
 
@@ -5179,27 +5517,93 @@ function waitForResultClose(){
                             "show"
                         );
 
-
                     $("resultBox")
                         .classList.remove(
                             "show"
                         );
 
-
                     $("openingReels")
                         .innerHTML =
                         "";
 
+                    pendingResults =
+                        [];
 
-                    resolve();
+                    pendingCaseId =
+                        "";
+
+                    const resolver =
+                        pendingResultResolver;
+
+                    pendingResultResolver =
+                        null;
+
+                    resolver(action);
 
                 };
 
 
-            button.addEventListener(
+            const sellHandler =
+                () => {
+
+                    const total =
+                        pendingResults.reduce(
+                            (sum,item) =>
+                                sum +
+                                Number(
+                                    item.value || 0
+                                ),
+                            0
+                        );
+
+                    sellButton.textContent =
+                        `💰 PRODAT — 🪙 ${money(total)}`;
+
+                    finish("sell");
+
+                };
+
+
+            const continueHandler =
+                () => {
+
+                    finish("continue");
+
+                };
+
+
+            const openAgainHandler =
+                () => {
+
+                    finish("openAgain");
+
+                };
+
+
+            sellButton.addEventListener(
                 "click",
-                handler
+                sellHandler
             );
+
+            continueButton.addEventListener(
+                "click",
+                continueHandler
+            );
+
+            openAgainButton.addEventListener(
+                "click",
+                openAgainHandler
+            );
+
+
+            /*
+                Pro jistotu reset textu po každém
+                novém reward screenu.
+            */
+            sellButton.textContent =
+                pendingResults.length > 1
+                ? "💰 PRODAT VŠE"
+                : "💰 PRODAT";
 
         }
     );
