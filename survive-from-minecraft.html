@@ -5135,44 +5135,123 @@ function animateNumber(element, target, duration=900){
 
 async function playRareDropCinematic(item){
     const rarity = String(item?.rarity || "").toLowerCase();
+
     if(rarity !== "legendary" && rarity !== "mythic") return;
 
     const root = document.createElement("div");
     root.className = `v8-cinematic ${rarity}`;
-    const color = rarity === "mythic" ? "#c56cff" : "#ffd84d";
-    const title = rarity === "mythic" ? "MYTHIC" : "LEGENDARY";
 
+    const color = rarity === "mythic" ? "#c56cff" : "#ffd84d";
+    const title = rarity === "mythic" ? "✦ MYTHIC DROP ✦" : "★ LEGENDARY DROP ★";
+
+    /* ---------------------------------------------------------
+       CINEMATIC HTML
+    --------------------------------------------------------- */
     root.innerHTML = `
         <div class="v8-cinema-flash"></div>
-        <div class="v8-cinema-content" style="color:${color}">
-            <div class="v8-cinema-rarity">${title}</div>
-            <div class="v8-cinema-item">${escapeHtml(item.name)}</div>
-            <img class="v8-cinema-image" src="${escapeAttr(item.texture || "")}" alt="">
-            <div class="v8-cinema-value">+🪙 0</div>
+
+        <div class="v8-cinema-particles"></div>
+
+        <div class="v8-cinema-content">
+            <div class="v8-cinema-rarity" style="color:${color}">
+                ${title}
+            </div>
+
+            <img
+                class="v8-cinema-image"
+                alt=""
+            >
+
+            <div
+                class="v8-cinema-item"
+                style="color:${color}"
+            >
+                ${escapeHtml(item?.name || "UNKNOWN")}
+            </div>
+
+            <div class="v8-cinema-value">
+                +🪙 0
+            </div>
         </div>
     `;
+
     document.body.appendChild(root);
-    spawnCinemaParticles(root,color,rarity === "mythic" ? 85 : 50);
+
+    /* ---------------------------------------------------------
+       IMAGE – nastavujeme přes DOM, ne přes HTML atribut
+       => žádný problém s escapeAttr()
+    --------------------------------------------------------- */
+    const image = root.querySelector(".v8-cinema-image");
+
+    if(image){
+        image.src = String(item?.texture || "");
+        image.alt = String(item?.name || "");
+    }
+
+    /* ---------------------------------------------------------
+       PARTICLES
+    --------------------------------------------------------- */
+    const particles = root.querySelector(".v8-cinema-particles");
+
+    if(particles){
+        spawnCinemaParticles(
+            root,
+            color,
+            rarity === "mythic" ? 85 : 50
+        );
+    }
+
+    /* ---------------------------------------------------------
+       SCREEN SHAKE
+    --------------------------------------------------------- */
     document.body.classList.add("v8-shake");
-    setTimeout(()=>document.body.classList.remove("v8-shake"),600);
 
-    root.classList.add("active");
-    await sleep(rarity === "mythic" ? 1050 : 850);
+    setTimeout(() => {
+        document.body.classList.remove("v8-shake");
+    }, 600);
 
+    /* ---------------------------------------------------------
+       SHOW
+    --------------------------------------------------------- */
+    requestAnimationFrame(() => {
+        root.classList.add("active");
+    });
+
+    await sleep(
+        rarity === "mythic" ? 1050 : 850
+    );
+
+    /* ---------------------------------------------------------
+       ANIMACE HODNOTY
+    --------------------------------------------------------- */
     const valueEl = root.querySelector(".v8-cinema-value");
-    animateNumber(valueEl,Number(item.value||0),rarity === "mythic" ? 1150 : 850);
-    await sleep(rarity === "mythic" ? 1300 : 1000);
 
+    if(valueEl){
+        animateNumber(
+            valueEl,
+            Number(item?.value || 0),
+            rarity === "mythic" ? 1150 : 850
+        );
+    }
+
+    await sleep(
+        rarity === "mythic" ? 1300 : 1000
+    );
+
+    /* ---------------------------------------------------------
+       FADE OUT
+    --------------------------------------------------------- */
     root.style.transition = "opacity .35s ease";
     root.style.opacity = "0";
+
     await sleep(380);
+
     root.remove();
 }
 
 /* =========================================================
    SHOW OPENING
 ========================================================= */
-
 async function showOpening(
     results,
     caseData
