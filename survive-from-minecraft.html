@@ -1,34 +1,35 @@
 <!DOCTYPE html>
 <html lang="cs">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
 
 <title>HouskaCze_0 | Minecraft Case Opening V5</title>
 
+
+<!-- =========================================================
+     SUPABASE
+========================================================= -->
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+
 <style>
+
+/* =========================================================
+   RESET
+========================================================= */
+
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
-}
-
-:root{
-    --bg:#07060b;
-    --panel:#100e18;
-    --panel2:#171321;
-    --border:#2d2740;
-
-    --common:#b8b8b8;
-    --uncommon:#55e36d;
-    --rare:#4d9dff;
-    --epic:#b85cff;
-    --legendary:#ffd43b;
-    --mythic:#ff4d8d;
-
-    --accent:#9b5cff;
 }
 
 html{
@@ -36,1519 +37,1238 @@ html{
 }
 
 body{
-    min-height:100vh;
-
-    background:
-        radial-gradient(
-            circle at 50% -15%,
-            #351768 0%,
-            #171024 27%,
-            #09080e 68%,
-            #050509 100%
-        );
-
-    color:#fff;
 
     font-family:
         Arial,
         Helvetica,
         sans-serif;
 
+    background:
+        radial-gradient(
+            circle at top,
+            #1c2140 0%,
+            #0b0d17 45%,
+            #06070c 100%
+        );
+
+    color:white;
+
+    min-height:100vh;
+
     overflow-x:hidden;
 }
+
+
+/* =========================================================
+   BACKGROUND
+========================================================= */
+
+body::before{
+
+    content:"";
+
+    position:fixed;
+
+    inset:0;
+
+    pointer-events:none;
+
+    background:
+
+        radial-gradient(
+            circle at 20% 20%,
+            rgba(120,80,255,.08),
+            transparent 30%
+        ),
+
+        radial-gradient(
+            circle at 80% 10%,
+            rgba(0,180,255,.07),
+            transparent 30%
+        ),
+
+        radial-gradient(
+            circle at 50% 100%,
+            rgba(255,0,180,.05),
+            transparent 35%
+        );
+
+    z-index:-1;
+}
+
 
 /* =========================================================
    LOGIN
 ========================================================= */
 
 .login-overlay{
+
     position:fixed;
+
     inset:0;
-    z-index:1000;
+
+    background:
+        rgba(0,0,0,.82);
+
+    backdrop-filter:
+        blur(14px);
 
     display:flex;
-    align-items:center;
+
     justify-content:center;
 
-    background:
-        radial-gradient(
-            circle at 50% 30%,
-            #351768aa,
-            #030208f5 70%
-        );
+    align-items:center;
 
-    backdrop-filter:blur(18px);
+    z-index:99999;
 }
 
-.login-overlay.hidden{
-    display:none;
-}
+.login-box{
 
-.login-card{
-    width:min(430px,92vw);
-
-    padding:35px 30px;
-
-    text-align:center;
-
-    border-radius:25px;
+    width:
+        min(92vw, 440px);
 
     background:
-        radial-gradient(
-            circle at 50% 0%,
-            #9b5cff18,
-            transparent 48%
-        ),
         linear-gradient(
             145deg,
-            #191625,
-            #0c0a12
+            #171a2c,
+            #0d0f1c
         );
 
-    border:1px solid #46375d;
+    border:
+        1px solid rgba(255,255,255,.12);
+
+    border-radius:24px;
+
+    padding:36px;
 
     box-shadow:
-        0 30px 120px #000d,
-        0 0 70px #9b5cff15;
+        0 25px 80px rgba(0,0,0,.7),
+        0 0 60px rgba(120,80,255,.15);
+
+    text-align:center;
 }
 
 .login-logo{
-    font-size:29px;
-    font-weight:1000;
+
+    width:90px;
+    height:90px;
+
+    margin:auto;
+
+    border-radius:22px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #7b4dff,
+            #3b22a5
+        );
+
+    display:flex;
+
+    justify-content:center;
+    align-items:center;
+
+    font-size:46px;
+
+    font-weight:900;
+
+    margin-bottom:22px;
+
+    box-shadow:
+        0 0 35px rgba(123,77,255,.35);
+}
+
+.login-box h1{
+
+    font-size:28px;
+
     margin-bottom:8px;
 }
 
-.login-logo span{
-    color:#a45cff;
-}
+.login-box p{
 
-.login-title{
-    font-size:25px;
-    font-weight:1000;
-    margin-top:20px;
-}
+    color:#9ca3b8;
 
-.login-sub{
-    margin-top:9px;
-    color:#918a9e;
-    font-size:12px;
-    line-height:1.6;
+    margin-bottom:25px;
+
+    line-height:1.5;
 }
 
 .login-input{
+
     width:100%;
 
-    margin-top:22px;
-
-    padding:15px 16px;
+    padding:15px 17px;
 
     border-radius:12px;
 
+    border:
+        1px solid #30354d;
+
+    background:#090b13;
+
+    color:white;
+
     outline:none;
 
-    background:#0b0910;
-    border:1px solid #3c324d;
+    font-size:16px;
 
-    color:#fff;
-
-    font-size:14px;
-    font-weight:900;
-
-    text-align:center;
+    margin-bottom:12px;
 
     transition:.2s;
 }
 
 .login-input:focus{
-    border-color:#9b5cff;
-    box-shadow:0 0 25px #9b5cff18;
+
+    border-color:#8a63ff;
+
+    box-shadow:
+        0 0 20px rgba(138,99,255,.15);
 }
 
 .login-button{
+
     width:100%;
 
-    margin-top:12px;
+    padding:15px;
 
-    padding:14px;
+    border:none;
 
-    border:0;
     border-radius:12px;
 
     background:
         linear-gradient(
             135deg,
-            #7040d3,
-            #ad61ff
+            #8b5cf6,
+            #5b3cc4
         );
 
-    color:#fff;
+    color:white;
 
-    font-weight:1000;
+    font-size:16px;
+
+    font-weight:800;
 
     cursor:pointer;
-
-    box-shadow:
-        0 10px 35px #9b5cff22;
 
     transition:.2s;
 }
 
 .login-button:hover{
-    filter:brightness(1.12);
+
     transform:translateY(-2px);
+
+    filter:brightness(1.1);
 }
 
-.login-status{
-    min-height:18px;
+.login-error{
+
+    color:#ff6868;
+
+    font-size:14px;
+
     margin-top:12px;
 
-    color:#ff7272;
-
-    font-size:11px;
-    font-weight:900;
+    min-height:18px;
 }
 
-.player-name{
-    color:#bfa9d9;
-    font-size:10px;
-    font-weight:900;
-    margin-top:4px;
-}
 
 /* =========================================================
-   TOP BAR
+   HEADER
 ========================================================= */
 
-.topbar{
-    height:70px;
-
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-
-    padding:0 28px;
+header{
 
     position:sticky;
+
     top:0;
-    z-index:50;
 
-    background:rgba(6,5,10,.78);
+    z-index:1000;
 
-    backdrop-filter:blur(22px);
+    background:
+        rgba(7,8,14,.82);
 
-    border-bottom:1px solid #302842;
+    backdrop-filter:
+        blur(18px);
 
-    box-shadow:
-        0 10px 45px #0007;
+    border-bottom:
+        1px solid rgba(255,255,255,.08);
+
+    padding:15px 25px;
+}
+
+.header-inner{
+
+    max-width:1400px;
+
+    margin:auto;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:20px;
 }
 
 .logo{
-    font-size:22px;
-    font-weight:1000;
-    letter-spacing:-.5px;
-}
 
-.logo span{
-    color:#a45cff;
-}
-
-.topbar-right{
     display:flex;
+
     align-items:center;
+
+    gap:12px;
+
+    font-weight:900;
+
+    font-size:21px;
+}
+
+.logo-icon{
+
+    width:42px;
+    height:42px;
+
+    border-radius:12px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    background:
+        linear-gradient(
+            135deg,
+            #8b5cf6,
+            #4929a7
+        );
+
+    box-shadow:
+        0 0 25px rgba(139,92,246,.3);
+}
+
+.player-info{
+
+    display:flex;
+
+    align-items:center;
+
     gap:10px;
 }
 
-.coin-box{
-    display:flex;
-    align-items:center;
-    gap:9px;
+.nickname{
 
-    padding:10px 16px;
+    padding:
+        9px 13px;
 
-    border-radius:13px;
+    border-radius:10px;
 
-    background:
-        linear-gradient(
-            135deg,
-            #181326,
-            #0e0c14
-        );
+    background:#131626;
 
-    border:1px solid #41355c;
+    border:
+        1px solid #292e45;
 
-    box-shadow:
-        inset 0 0 20px #9b5cff08,
-        0 0 30px #9b5cff0d;
+    color:#ddd;
 }
 
-.coin-icon{
-    font-size:18px;
-}
+.coin-display{
 
-.coins{
-    font-weight:1000;
-}
-
-/* =========================================================
-   MAIN
-========================================================= */
-
-.layout{
-    width:min(1300px,94%);
-    margin:auto;
-    padding:48px 0 90px;
-}
-
-.hero{
-    text-align:center;
-    margin-bottom:40px;
-}
-
-.hero-badge{
-    display:inline-flex;
-
-    padding:7px 12px;
-
-    border-radius:999px;
-
-    background:#1b1330;
-
-    border:1px solid #56358a;
-
-    color:#cdaaff;
-
-    font-size:11px;
-    font-weight:1000;
-
-    letter-spacing:2px;
-
-    margin-bottom:13px;
-
-    box-shadow:
-        0 0 25px #9b5cff18;
-}
-
-.hero h1{
-    font-size:clamp(38px,6vw,68px);
-
-    font-weight:1000;
-
-    letter-spacing:-3px;
-
-    background:
-        linear-gradient(
-            90deg,
-            #fff,
-            #cfa9ff,
-            #fff
-        );
-
-    background-size:200% 100%;
-
-    color:transparent;
-
-    background-clip:text;
-    -webkit-background-clip:text;
-
-    animation:
-        heroGradient
-        4s
-        linear
-        infinite;
-}
-
-@keyframes heroGradient{
-
-    0%{
-        background-position:0 50%;
-    }
-
-    50%{
-        background-position:100% 50%;
-    }
-
-    100%{
-        background-position:0 50%;
-    }
-
-}
-
-.hero p{
-    margin-top:12px;
-
-    color:#938ca3;
-
-    font-size:14px;
-}
-
-/* =========================================================
-   CASES
-========================================================= */
-
-.cases{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:18px;
-}
-
-.case{
-    position:relative;
-    overflow:hidden;
-    min-height:330px;
-    padding:22px;
-    border-radius:21px;
-
-    background:
-        radial-gradient(
-            circle at 50% 25%,
-            #ffffff05,
-            transparent 42%
-        ),
-        linear-gradient(
-            145deg,
-            #191624,
-            #0d0b13
-        );
-
-    border:1px solid #302940;
-
-    cursor:pointer;
-
-    transition:
-        transform .25s ease,
-        border-color .25s ease,
-        box-shadow .25s ease;
-}
-
-.case:hover{
-    transform:translateY(-7px);
-
-    border-color:#71579a;
-
-    box-shadow:
-        0 25px 65px #000a,
-        0 0 45px #9b5cff15;
-}
-
-.case::before{
-    content:"";
-
-    position:absolute;
-
-    width:250px;
-    height:250px;
-
-    left:50%;
-    top:20px;
-
-    transform:translateX(-50%);
-
-    border-radius:50%;
-
-    background:var(--case-glow,#9b5cff);
-
-    filter:blur(100px);
-
-    opacity:.08;
-
-    pointer-events:none;
-}
-
-.case::after{
-    content:"";
-
-    position:absolute;
-
-    width:180%;
-    height:50%;
-
-    top:-35%;
-    left:-120%;
-
-    transform:rotate(-24deg);
-
-    background:
-        linear-gradient(
-            90deg,
-            transparent,
-            #ffffff12,
-            transparent
-        );
-
-    transition:.8s;
-
-    pointer-events:none;
-}
-
-.case:hover::after{
-    left:120%;
-}
-
-.case-top{
-    position:relative;
-    z-index:2;
-
-    display:flex;
-    align-items:flex-start;
-    justify-content:space-between;
-
-    gap:12px;
-}
-
-.case-name{
-    font-size:23px;
-    font-weight:1000;
-
-    background-size:300% 100%;
-
-    background-clip:text;
-    -webkit-background-clip:text;
-
-    color:transparent;
-
-    animation:
-        caseGradient
-        2.7s
-        linear
-        infinite;
-}
-
-@keyframes caseGradient{
-
-    0%{
-        background-position:0 50%;
-    }
-
-    50%{
-        background-position:100% 50%;
-    }
-
-    100%{
-        background-position:0 50%;
-    }
-
-}
-
-.case-price{
-    flex-shrink:0;
-
-    padding:7px 10px;
-
-    border-radius:9px;
-
-    background:#050409aa;
-
-    border:1px solid #3a324a;
-
-    font-size:12px;
-    font-weight:1000;
-}
-
-.case-art{
-    position:relative;
-    z-index:2;
-
-    height:115px;
-
-    display:grid;
-    place-items:center;
-
-    margin:12px 0 5px;
-}
-
-.case-art img{
-    width:108px;
-    height:108px;
-
-    object-fit:contain;
-
-    image-rendering:pixelated;
-
-    filter:
-        drop-shadow(
-            0 18px 20px #0009
-        );
-
-    transition:
-        transform .3s ease,
-        filter .3s ease;
-}
-
-.case:hover .case-art img{
-    transform:
-        translateY(-5px)
-        scale(1.08);
-
-    filter:
-        drop-shadow(
-            0 20px 25px #000c
-        )
-        drop-shadow(
-            0 0 18px var(--case-glow,#9b5cff)
-        );
-}
-
-.case-art-fallback{
-    width:95px;
-    height:72px;
-
-    position:relative;
-
-    border-radius:8px 8px 12px 12px;
-
-    background:
-        linear-gradient(
-            135deg,
-            #7645d5,
-            #3a1f69
-        );
-
-    border:3px solid #a879ff;
-
-    box-shadow:
-        0 18px 35px #0009,
-        0 0 35px var(--case-glow,#9b5cff55);
-}
-
-.case-art-fallback::before{
-    content:"";
-
-    position:absolute;
-
-    left:-3px;
-    right:-3px;
-    top:-18px;
-
-    height:25px;
-
-    border-radius:9px 9px 4px 4px;
-
-    background:
-        linear-gradient(
-            135deg,
-            #a879ff,
-            #4c2784
-        );
-
-    border:3px solid #b88aff;
-}
-
-.case-art-fallback::after{
-    content:"";
-
-    position:absolute;
-
-    width:10px;
-    height:20px;
-
-    left:50%;
-    top:28px;
-
-    transform:translateX(-50%);
-
-    border-radius:3px;
-
-    background:#ffd43b;
-}
-
-.preview{
-    position:relative;
-    z-index:2;
-
-    display:flex;
-    justify-content:center;
-
-    gap:7px;
-
-    margin:8px 0 17px;
-}
-
-.mini-item{
-    width:39px;
-    height:39px;
-
-    display:grid;
-    place-items:center;
+    padding:
+        9px 15px;
 
     border-radius:10px;
 
     background:
         linear-gradient(
-            145deg,
-            #100e17,
-            #08070c
+            135deg,
+            #201b08,
+            #15120a
         );
 
-    border:1px solid #302a40;
+    border:
+        1px solid #5e4a16;
+
+    color:#ffd84d;
+
+    font-weight:900;
+}
+
+
+/* =========================================================
+   MAIN
+========================================================= */
+
+.container{
+
+    width:
+        min(1400px, 94%);
+
+    margin:
+        35px auto 80px;
+}
+
+.section-title{
+
+    font-size:25px;
+
+    margin-bottom:18px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+}
+
+.section-title span{
+
+    color:#8b5cf6;
+}
+
+
+/* =========================================================
+   CASES
+========================================================= */
+
+.cases-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(210px,1fr)
+        );
+
+    gap:18px;
+
+    margin-bottom:42px;
+}
+
+.case-card{
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(28,31,52,.95),
+            rgba(13,15,25,.95)
+        );
+
+    border:
+        1px solid rgba(255,255,255,.09);
+
+    border-radius:18px;
+
+    padding:18px;
+
+    transition:
+        transform .2s,
+        border-color .2s,
+        box-shadow .2s;
+
+    position:relative;
+
+    overflow:hidden;
+}
+
+.case-card:hover{
+
+    transform:
+        translateY(-5px);
+
+    border-color:
+        rgba(139,92,246,.5);
+
+    box-shadow:
+        0 15px 35px rgba(0,0,0,.35);
+}
+
+.case-image{
+
+    width:100%;
+
+    height:150px;
+
+    object-fit:contain;
+
+    margin-bottom:12px;
+
+    filter:
+        drop-shadow(
+            0 15px 20px rgba(0,0,0,.5)
+        );
+}
+
+.case-name{
+
+    font-size:18px;
+
+    font-weight:900;
+
+    margin-bottom:6px;
+}
+
+.case-price{
+
+    color:#ffd84d;
+
+    font-weight:800;
+
+    margin-bottom:14px;
+}
+
+.open-button{
+
+    width:100%;
+
+    border:none;
+
+    border-radius:10px;
+
+    padding:12px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #8b5cf6,
+            #5b3cc4
+        );
+
+    color:white;
+
+    font-weight:900;
+
+    cursor:pointer;
 
     transition:.2s;
 }
 
-.case:hover .mini-item{
-    border-color:#4b3d63;
-}
+.open-button:hover{
 
-.mini-item .item-texture{
-    width:27px;
-    height:27px;
-}
-
-.case-desc{
-    position:relative;
-    z-index:2;
-
-    min-height:38px;
-
-    color:#9992a8;
-
-    font-size:12px;
-
-    line-height:1.5;
-
-    text-align:center;
-}
-
-.open-btn{
-    position:relative;
-    z-index:2;
-
-    width:100%;
-
-    margin-top:16px;
-
-    padding:13px;
-
-    border:0;
-
-    border-radius:12px;
-
-    color:#fff;
-
-    font-weight:1000;
-
-    background:
-        linear-gradient(
-            135deg,
-            #7040d3,
-            #ad61ff
-        );
-
-    cursor:pointer;
-
-    box-shadow:
-        0 9px 28px #8b4cff22;
-
-    transition:
-        transform .2s,
-        filter .2s;
-}
-
-.open-btn:hover{
     transform:translateY(-2px);
-    filter:brightness(1.15);
+
+    filter:brightness(1.1);
 }
 
-.auto-btn{
-    margin-top:8px;
+.open-button:disabled{
 
-    background:
-        linear-gradient(
-            135deg,
-            #242033,
-            #312544
-        );
+    opacity:.4;
 
-    border:1px solid #504066;
+    cursor:not-allowed;
+
+    transform:none;
 }
 
-.auto-btn.locked{
-    opacity:.55;
-}
 
 /* =========================================================
-   TEXTURES
+   PANELS
 ========================================================= */
 
-.item-texture{
-    width:72px;
-    height:72px;
-
-    object-fit:contain;
-
-    image-rendering:pixelated;
-
-    user-select:none;
-
-    -webkit-user-drag:none;
-}
-
-.enchanted{
-    filter:
-        drop-shadow(0 0 7px #b85cff)
-        drop-shadow(0 0 18px #6f4cff);
-}
-
-/* =========================================================
-   SECTIONS
-========================================================= */
-
-.upgrades,
-.storage,
-.automation,
-.leaderboard{
-    margin-top:25px;
-
-    padding:23px;
-
-    border-radius:20px;
+.panel{
 
     background:
         linear-gradient(
             145deg,
-            #12101b,
-            #0d0b13
+            rgba(22,25,42,.95),
+            rgba(11,13,22,.95)
         );
 
-    border:1px solid #2f2940;
+    border:
+        1px solid rgba(255,255,255,.08);
 
-    box-shadow:
-        0 18px 55px #0005;
+    border-radius:20px;
+
+    padding:22px;
+
+    margin-bottom:25px;
 }
 
-.section-head{
-    display:flex;
-    justify-content:space-between;
-    align-items:flex-end;
-    margin-bottom:18px;
-}
-
-.section-title{
-    font-size:22px;
-    font-weight:1000;
-    letter-spacing:-.5px;
-}
-
-.section-sub{
-    color:#787184;
-    font-size:11px;
-}
 
 /* =========================================================
    UPGRADES
 ========================================================= */
 
 .upgrade-grid{
+
     display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:15px;
-}
 
-.upgrade{
-    padding:18px;
-
-    border-radius:15px;
-
-    background:
-        linear-gradient(
-            145deg,
-            #191624,
-            #111019
+    grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(280px,1fr)
         );
 
-    border:1px solid #2d273c;
+    gap:18px;
 }
 
-.upgrade h3{
-    font-size:16px;
-    margin-bottom:6px;
+.upgrade-card{
+
+    background:
+        #101321;
+
+    border:
+        1px solid #252a40;
+
+    border-radius:16px;
+
+    padding:20px;
 }
 
-.upgrade p{
-    color:#91899e;
-    font-size:12px;
-    line-height:1.55;
-    margin-bottom:15px;
+.upgrade-card h3{
+
+    font-size:20px;
+
+    margin-bottom:8px;
 }
 
-.upgrade-levels{
-    display:flex;
-    gap:8px;
-    flex-wrap:wrap;
+.upgrade-description{
+
+    color:#9299af;
+
+    line-height:1.45;
+
+    margin-bottom:17px;
 }
 
 .upgrade-level{
-    min-width:82px;
 
-    padding:9px 11px;
+    display:flex;
 
-    border-radius:10px;
+    justify-content:space-between;
 
-    background:#0b0910;
+    align-items:center;
 
-    border:1px solid #373047;
-
-    color:#aaa3b9;
-
-    cursor:pointer;
-
-    font-weight:1000;
-
-    transition:.2s;
+    margin-bottom:12px;
 }
 
-.upgrade-level:hover{
-    border-color:#7850ad;
-    transform:translateY(-1px);
-}
+.level-badge{
 
-.upgrade-level.active{
-    color:#fff;
+    padding:
+        5px 9px;
 
-    border-color:#9b5cff;
+    border-radius:7px;
 
-    background:#25183d;
+    background:
+        rgba(139,92,246,.15);
 
-    box-shadow:
-        0 0 20px #9b5cff20;
-}
-
-.upgrade-level.locked{
-    opacity:.7;
-}
-
-.upgrade-cost{
-    display:block;
-
-    margin-top:3px;
-
-    color:#777083;
-
-    font-size:9px;
+    color:#b99cff;
 
     font-weight:900;
 }
 
-.upgrade-level.active .upgrade-cost{
-    color:#bfa9d9;
+.upgrade-button{
+
+    width:100%;
+
+    padding:11px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #252b46,
+            #191d30
+        );
+
+    color:white;
+
+    font-weight:800;
+
+    cursor:pointer;
+
+    border:
+        1px solid #363d5a;
+
+    margin-top:8px;
 }
+
+.upgrade-button:hover{
+
+    background:
+        linear-gradient(
+            135deg,
+            #343b5f,
+            #232943
+        );
+}
+
+.upgrade-button:disabled{
+
+    opacity:.4;
+
+    cursor:not-allowed;
+}
+
+
+/* =========================================================
+   MULTIPLIER SELECT
+========================================================= */
+
+.multiplier-buttons{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(5,1fr);
+
+    gap:7px;
+
+    margin-top:15px;
+}
+
+.multiplier-button{
+
+    padding:
+        10px 5px;
+
+    border-radius:9px;
+
+    border:
+        1px solid #30364f;
+
+    background:#171b2d;
+
+    color:#8991a9;
+
+    cursor:pointer;
+
+    font-weight:900;
+
+    transition:.15s;
+}
+
+.multiplier-button:hover{
+
+    border-color:#7651dc;
+
+    color:white;
+}
+
+.multiplier-button.unlocked{
+
+    color:white;
+
+    border-color:#51417e;
+}
+
+.multiplier-button.active{
+
+    background:
+        linear-gradient(
+            135deg,
+            #8b5cf6,
+            #5b3cc4
+        );
+
+    border-color:#a98cff;
+
+    color:white;
+
+    box-shadow:
+        0 0 18px rgba(139,92,246,.25);
+}
+
+.multiplier-button.locked{
+
+    opacity:.3;
+
+    cursor:not-allowed;
+}
+
+.active-text{
+
+    margin-top:10px;
+
+    color:#aaaec1;
+
+    font-size:14px;
+}
+
+.active-text strong{
+
+    color:#c0a6ff;
+}
+
+
+/* =========================================================
+   FASTER SPIN
+========================================================= */
+
+.spin-progress{
+
+    height:8px;
+
+    border-radius:99px;
+
+    overflow:hidden;
+
+    background:#0a0c14;
+
+    margin:
+        15px 0;
+}
+
+.spin-progress-bar{
+
+    height:100%;
+
+    width:0%;
+
+    background:
+        linear-gradient(
+            90deg,
+            #6d42e8,
+            #b084ff
+        );
+
+    transition:.3s;
+}
+
+.spin-level-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(10,1fr);
+
+    gap:5px;
+
+    margin-top:14px;
+}
+
+.spin-level{
+
+    min-height:30px;
+
+    border-radius:6px;
+
+    border:
+        1px solid #2d334a;
+
+    background:#161a29;
+
+    color:#737b93;
+
+    font-size:11px;
+
+    font-weight:800;
+
+    cursor:default;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+}
+
+.spin-level.unlocked{
+
+    color:#d3c3ff;
+
+    border-color:#614b96;
+
+    background:#201a36;
+}
+
+.spin-level.current{
+
+    background:
+        #8b5cf6;
+
+    color:white;
+
+    border-color:#bda4ff;
+
+    box-shadow:
+        0 0 12px rgba(139,92,246,.25);
+}
+
 
 /* =========================================================
    AUTOMATION
 ========================================================= */
 
-.auto-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:14px;
-}
-
-.auto-card{
-    padding:18px;
-
-    border-radius:15px;
-
-    background:#171421;
-
-    border:1px solid #302940;
+.auto-status{
 
     display:flex;
 
-    align-items:center;
-
     justify-content:space-between;
 
-    gap:15px;
+    align-items:center;
+
+    padding:
+        12px 0;
 }
 
-.auto-info h3{
-    font-size:15px;
-    margin-bottom:5px;
-}
+.status-on{
 
-.auto-info p{
-    color:#8d8799;
-    font-size:11px;
-    line-height:1.5;
-}
+    color:#54e38e;
 
-.auto-status{
-    margin-top:5px;
-    color:#777080;
-    font-size:10px;
     font-weight:900;
 }
 
-.auto-status.on{
-    color:#55e36d;
+.status-off{
+
+    color:#ff6969;
+
+    font-weight:900;
 }
 
-.toggle{
-    flex-shrink:0;
-
-    min-width:105px;
-
-    padding:11px 13px;
-
-    border:1px solid #413651;
-
-    border-radius:11px;
-
-    background:#0d0b12;
-
-    color:#aaa2b8;
-
-    cursor:pointer;
-
-    font-weight:1000;
-
-    transition:.2s;
-}
-
-.toggle:hover{
-    border-color:#8058b8;
-}
-
-.toggle.on{
-    color:#fff;
-
-    background:
-        linear-gradient(
-            135deg,
-            #3b2365,
-            #7135a7
-        );
-
-    border-color:#a263e8;
-
-    box-shadow:
-        0 0 22px #9b5cff20;
-}
 
 /* =========================================================
-   STORAGE
+   INVENTORY
 ========================================================= */
 
-.storage-head{
-    display:flex;
+.inventory-grid{
 
-    align-items:center;
-
-    justify-content:space-between;
-
-    margin-bottom:17px;
-}
-
-.storage-count{
-    color:#858092;
-    font-size:12px;
-}
-
-.inventory{
     display:grid;
-    grid-template-columns:repeat(6,1fr);
-    gap:10px;
+
+    grid-template-columns:
+        repeat(
+            auto-fill,
+            minmax(155px,1fr)
+        );
+
+    gap:12px;
 }
 
-.inv-item{
-    min-height:142px;
+.inventory-item{
 
-    display:flex;
-    flex-direction:column;
+    background:#101321;
 
-    align-items:center;
-    justify-content:center;
-
-    text-align:center;
-
-    padding:10px;
+    border:
+        1px solid #272d44;
 
     border-radius:14px;
 
-    background:
-        linear-gradient(
-            145deg,
-            #171421,
-            #100e17
-        );
+    padding:13px;
 
-    border:1px solid #2c263b;
+    text-align:center;
 
-    transition:.2s;
+    position:relative;
 }
 
-.inv-item:hover{
-    transform:translateY(-3px);
-    border-color:#4a3c60;
+.inventory-item img{
+
+    width:90px;
+
+    height:90px;
+
+    object-fit:contain;
+
+    margin-bottom:8px;
 }
 
-.inv-item .item-texture{
-    width:59px;
-    height:59px;
+.inventory-name{
+
+    font-size:13px;
+
+    font-weight:800;
+
+    min-height:32px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
 }
 
-.inv-name{
-    margin-top:4px;
+.inventory-rarity{
+
     font-size:11px;
+
     font-weight:900;
+
+    text-transform:uppercase;
+
+    margin-top:4px;
 }
 
-.inv-value{
-    margin-top:3px;
-    color:#8f899e;
-    font-size:10px;
+.inventory-value{
+
+    color:#ffd84d;
+
+    font-size:12px;
+
+    margin-top:5px;
 }
 
-.sell-small{
-    margin-top:7px;
+.inventory-count{
 
-    padding:5px 9px;
+    position:absolute;
 
-    border:0;
+    right:8px;
+
+    top:8px;
+
+    padding:
+        4px 7px;
 
     border-radius:7px;
 
-    background:#282139;
+    background:
+        rgba(0,0,0,.65);
 
-    color:#ddd;
+    font-size:11px;
 
-    font-size:9px;
-    font-weight:1000;
+    font-weight:900;
+}
+
+.sell-all{
+
+    margin-top:15px;
+
+    padding:
+        11px 16px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:
+        #9a3030;
+
+    color:white;
+
+    font-weight:900;
 
     cursor:pointer;
 }
 
-.empty{
-    grid-column:1/-1;
-
-    padding:45px;
-
-    text-align:center;
-
-    color:#6f687d;
-
-    border:1px dashed #2e293b;
-
-    border-radius:14px;
-}
 
 /* =========================================================
    LEADERBOARD
 ========================================================= */
 
-.leaderboard-table{
+.leaderboard{
+
     width:100%;
+
     border-collapse:collapse;
 }
 
-.leaderboard-table th{
-    padding:10px;
+.leaderboard th{
+
+    color:#737b91;
+
+    font-size:12px;
+
+    text-transform:uppercase;
 
     text-align:left;
 
-    color:#777184;
+    padding:
+        11px;
 
-    font-size:10px;
-
-    letter-spacing:1px;
-
-    border-bottom:1px solid #302940;
+    border-bottom:
+        1px solid #292e42;
 }
 
-.leaderboard-table td{
-    padding:12px 10px;
+.leaderboard td{
 
-    font-size:12px;
+    padding:
+        13px 11px;
+
+    border-bottom:
+        1px solid #1e2234;
+
+    font-size:14px;
+}
+
+.leaderboard tr:first-child td{
+
+    color:#ffd84d;
+
     font-weight:900;
-
-    border-bottom:1px solid #211d2b;
 }
 
-.leaderboard-table tr:last-child td{
-    border-bottom:0;
-}
-
-.leaderboard-table tr.me{
-    background:
-        linear-gradient(
-            90deg,
-            #9b5cff14,
-            transparent
-        );
-}
-
-.rank{
-    width:50px;
-    color:#82798f;
-}
-
-.lb-name{
-    color:#fff;
-}
-
-.lb-coins{
-    color:#cfa9ff;
-}
-
-.lb-opened{
-    color:#8f899e;
-}
-
-.leaderboard-loading{
-    padding:25px;
-    text-align:center;
-    color:#777184;
-    font-size:12px;
-}
-
-.leaderboard-empty{
-    padding:25px;
-    text-align:center;
-    color:#777184;
-    font-size:12px;
-}
 
 /* =========================================================
-   OVERLAY
+   OPENING MODAL
 ========================================================= */
 
-.overlay{
+.opening-overlay{
+
     position:fixed;
 
     inset:0;
 
+    background:
+        rgba(3,4,9,.93);
+
+    backdrop-filter:
+        blur(10px);
+
     display:none;
 
     align-items:center;
+
     justify-content:center;
 
-    background:
-        radial-gradient(
-            circle at center,
-            #20122f88,
-            #030208ef 70%
-        );
-
-    backdrop-filter:blur(15px);
-
-    z-index:100;
+    z-index:5000;
 }
 
-.overlay.show{
+.opening-overlay.show{
+
     display:flex;
 }
 
-.opening{
-    width:min(1250px,95vw);
+.opening-box{
 
-    position:relative;
+    width:
+        min(1100px,94vw);
 
     text-align:center;
 }
 
-.close{
-    position:absolute;
-
-    right:0;
-    top:-45px;
-
-    padding:8px 12px;
-
-    border:1px solid #393149;
-
-    border-radius:9px;
-
-    background:#211d2c;
-
-    color:#aaa3b6;
-
-    cursor:pointer;
-}
-
-.close:hover{
-    color:white;
-    border-color:#695681;
-}
-
 .opening-title{
-    font-size:31px;
+
+    font-size:
+        clamp(24px,4vw,42px);
+
     font-weight:1000;
-    margin-bottom:7px;
+
+    margin-bottom:10px;
 }
 
-.opening-sub{
-    color:#8c8699;
-    font-size:12px;
-    margin-bottom:20px;
+.opening-subtitle{
+
+    color:#858da5;
+
+    margin-bottom:25px;
 }
+
 
 /* =========================================================
-   MULTI REELS
+   REEL
 ========================================================= */
 
-.reels{
-    display:grid;
+.reel-wrapper{
 
-    grid-template-columns:
-        repeat(var(--reel-count),1fr);
-
-    gap:12px;
-
-    width:100%;
-}
-
-.reel-box{
     position:relative;
 
-    height:185px;
+    width:100%;
 
     overflow:hidden;
 
-    border-radius:17px;
+    border-radius:18px;
 
-    background:
-        linear-gradient(
-            180deg,
-            #171522,
-            #0b0a11
-        );
-
-    border:1px solid #3b334b;
-
-    box-shadow:
-        0 25px 80px #000a;
-}
-
-.reel-box::before,
-.reel-box::after{
-    content:"";
-
-    position:absolute;
-
-    top:0;
-    bottom:0;
-
-    width:27%;
-
-    z-index:4;
-
-    pointer-events:none;
-}
-
-.reel-box::before{
-    left:0;
+    border:
+        1px solid rgba(255,255,255,.12);
 
     background:
         linear-gradient(
             90deg,
-            #0c0a11,
-            transparent
+            #090b12,
+            #151927,
+            #090b12
         );
+
+    padding:25px 0;
 }
 
-.reel-box::after{
-    right:0;
+.reel-wrapper::before{
 
-    background:
-        linear-gradient(
-            -90deg,
-            #0c0a11,
-            transparent
-        );
-}
-
-.reel-marker{
-    position:absolute;
-
-    left:50%;
-    top:0;
-    bottom:0;
-
-    width:2px;
-
-    transform:translateX(-50%);
-
-    z-index:7;
-
-    background:#fff;
-
-    box-shadow:
-        0 0 18px #fff,
-        0 0 35px #fff;
-}
-
-.reel-marker::before,
-.reel-marker::after{
     content:"";
 
     position:absolute;
 
+    top:0;
+    bottom:0;
+
     left:50%;
 
-    transform:translateX(-50%);
+    width:4px;
 
-    border-left:7px solid transparent;
-    border-right:7px solid transparent;
+    transform:
+        translateX(-50%);
+
+    background:
+        #ffffff;
+
+    box-shadow:
+        0 0 15px rgba(255,255,255,.7);
+
+    z-index:10;
 }
 
-.reel-marker::before{
-    top:0;
-    border-top:12px solid white;
-}
-
-.reel-marker::after{
-    bottom:0;
-    border-bottom:12px solid white;
-}
-
-.reel-track{
-    position:absolute;
-
-    left:0;
-    top:20px;
-
-    height:145px;
+.reel{
 
     display:flex;
 
-    gap:8px;
+    gap:12px;
 
-    align-items:stretch;
+    width:max-content;
 
-    will-change:transform;
+    transform:
+        translateX(0);
+
+    will-change:
+        transform;
 }
 
-.reel-card{
-    flex:0 0 142px;
+.reel-item{
+
+    flex:0 0 145px;
+
+    height:175px;
+
+    border-radius:14px;
+
+    border:
+        1px solid #30364b;
+
+    background:
+        #111522;
 
     display:flex;
 
     flex-direction:column;
 
-    align-items:center;
     justify-content:center;
 
+    align-items:center;
+
+    padding:10px;
+
     position:relative;
-
-    border-radius:12px;
-
-    background:
-        linear-gradient(
-            145deg,
-            #15121e,
-            #0d0b13
-        );
-
-    border:1px solid #302a3f;
-
-    overflow:hidden;
 }
 
-.reel-card::after{
-    content:"";
+.reel-item img{
 
-    position:absolute;
+    width:105px;
 
-    left:0;
-    right:0;
-    bottom:0;
+    height:105px;
 
-    height:3px;
-
-    background:var(--rarity-color,#555);
-
-    box-shadow:
-        0 0 12px var(--rarity-color,#555);
+    object-fit:contain;
 }
 
-.reel-card .item-texture{
-    width:68px;
-    height:68px;
+.reel-item span{
+
+    font-size:11px;
+
+    margin-top:6px;
+
+    font-weight:900;
+
+    max-width:125px;
 }
 
-.reel-rarity{
-    margin-top:3px;
-    font-size:9px;
-    font-weight:1000;
-    letter-spacing:1px;
-}
 
 /* =========================================================
    RESULT
 ========================================================= */
 
-.result-overlay{
-    z-index:150;
-}
+.result-box{
 
-.result-card{
-    width:min(900px,94vw);
-
-    max-height:90vh;
-
-    overflow:auto;
-
-    position:relative;
-
-    padding:30px;
-
-    text-align:center;
-
-    border-radius:24px;
-
-    background:
-        radial-gradient(
-            circle at 50% 0%,
-            var(--rarity-glow,#b85cff)12,
-            transparent 42%
-        ),
-        linear-gradient(
-            145deg,
-            #191625,
-            #0d0b13
-        );
-
-    border:1px solid #4a3c58;
-
-    box-shadow:
-        0 30px 120px #000d;
-}
-
-.result-header{
-    margin-bottom:22px;
-}
-
-.result-header-small{
-    color:#8d879a;
-    font-size:10px;
-    letter-spacing:3px;
-    font-weight:1000;
-}
-
-.result-header h2{
-    margin-top:5px;
-    font-size:29px;
-    font-weight:1000;
-}
-
-.result-grid{
-    display:grid;
-
-    grid-template-columns:
-        repeat(auto-fit,minmax(145px,1fr));
-
-    gap:12px;
-
-    margin-bottom:22px;
-}
-
-.result-item{
-    position:relative;
-
-    padding:18px 10px;
-
-    min-height:190px;
-
-    display:flex;
+    display:none;
 
     flex-direction:column;
 
@@ -1556,550 +1276,314 @@ body{
 
     justify-content:center;
 
-    border-radius:15px;
-
-    background:
-        linear-gradient(
-            145deg,
-            #171420,
-            #0d0b12
-        );
-
-    border:1px solid #342c42;
-
-    overflow:hidden;
+    padding-top:25px;
 }
 
-.result-item::before{
-    content:"";
+.result-box.show{
 
-    position:absolute;
-
-    inset:0;
-
-    background:
-        radial-gradient(
-            circle at 50% 30%,
-            var(--item-glow,#fff)16,
-            transparent 55%
-        );
-
-    opacity:.16;
-
-    pointer-events:none;
-}
-
-.result-item > *{
-    position:relative;
-    z-index:2;
-}
-
-.result-item .item-texture{
-    width:92px;
-    height:92px;
-    margin-bottom:7px;
+    display:flex;
 }
 
 .result-rarity{
-    font-size:10px;
+
+    font-size:15px;
+
     font-weight:1000;
+
+    text-transform:uppercase;
+
     letter-spacing:2px;
+
+    margin-bottom:7px;
 }
 
-.result-name{
-    margin-top:5px;
-    font-size:13px;
+.result-item-name{
+
+    font-size:
+        clamp(25px,5vw,48px);
+
     font-weight:1000;
+
+    margin-bottom:12px;
+}
+
+.result-image{
+
+    width:180px;
+
+    height:180px;
+
+    object-fit:contain;
+
+    filter:
+        drop-shadow(
+            0 0 35px rgba(255,255,255,.2)
+        );
+
+    animation:
+        resultPop .45s ease-out;
 }
 
 .result-value{
-    margin-top:5px;
-    color:#9690a2;
-    font-size:10px;
+
+    color:#ffd84d;
+
+    font-weight:900;
+
+    margin-top:8px;
 }
 
-.result-total{
-    margin-bottom:20px;
-    color:#aaa4b6;
-    font-size:12px;
-}
+.close-result{
 
-.result-actions{
-    display:flex;
-    gap:10px;
-}
+    margin-top:20px;
 
-.result-actions button{
-    flex:1;
-    padding:14px;
-    border:0;
-    border-radius:12px;
-    font-weight:1000;
-    cursor:pointer;
-}
+    padding:
+        12px 30px;
 
-.keep{
-    color:#fff;
+    border:none;
+
+    border-radius:11px;
 
     background:
         linear-gradient(
             135deg,
-            #7945db,
-            #aa62ff
+            #8b5cf6,
+            #5b3cc4
         );
 
-    box-shadow:
-        0 10px 30px #9b5cff20;
+    color:white;
+
+    font-weight:900;
+
+    cursor:pointer;
 }
 
-.sell{
-    color:#eee;
-    background:#242033;
-    border:1px solid #403653 !important;
-}
-
-.result-actions button:hover{
-    filter:brightness(1.12);
-    transform:translateY(-1px);
-}
-
-/* =========================================================
-   RAYS
-========================================================= */
-
-.rays{
-    position:fixed;
-    inset:0;
-
-    display:none;
-
-    overflow:hidden;
-
-    z-index:130;
-
-    pointer-events:none;
-}
-
-.rays.show{
-    display:block;
-}
-
-.ray{
-    position:absolute;
-
-    left:50%;
-    top:50%;
-
-    width:130px;
-    height:90vh;
-
-    transform-origin:50% 100%;
-
-    opacity:0;
-
-    clip-path:
-        polygon(
-            50% 100%,
-            100% 0%,
-            0% 0%
-        );
-
-    background:
-        linear-gradient(
-            180deg,
-            transparent 0%,
-            var(--ray-color) 70%,
-            var(--ray-color) 100%
-        );
-
-    filter:
-        blur(.5px)
-        drop-shadow(
-            0 0 10px var(--ray-color)
-        );
-}
-
-.rays.animate .ray{
-    animation:
-        triangleRay
-        1.35s
-        cubic-bezier(.12,.72,.2,1)
-        forwards;
-}
-
-@keyframes triangleRay{
+@keyframes resultPop{
 
     0%{
+        transform:scale(.5);
         opacity:0;
-
-        transform:
-            translate(-50%,-100%)
-            rotate(var(--rotation))
-            scaleY(.03)
-            scaleX(.25);
     }
 
-    18%{
-        opacity:var(--ray-opacity);
-    }
-
-    55%{
-        opacity:var(--ray-opacity);
+    70%{
+        transform:scale(1.08);
     }
 
     100%{
-        opacity:0;
-
-        transform:
-            translate(-50%,-100%)
-            rotate(var(--rotation))
-            scaleY(1)
-            scaleX(1);
-    }
-
-}
-
-/* =========================================================
-   BURST
-========================================================= */
-
-.center-burst{
-    position:fixed;
-
-    left:50%;
-    top:50%;
-
-    width:30px;
-    height:30px;
-
-    transform:
-        translate(-50%,-50%)
-        scale(.1);
-
-    border-radius:50%;
-
-    background:#fff;
-
-    box-shadow:
-        0 0 30px #fff,
-        0 0 80px var(--burst-color,#fff),
-        0 0 160px var(--burst-color,#fff);
-
-    z-index:140;
-
-    pointer-events:none;
-
-    opacity:0;
-}
-
-.center-burst.go{
-    animation:
-        centerBurst
-        .8s
-        ease-out
-        forwards;
-}
-
-@keyframes centerBurst{
-
-    0%{
-        opacity:0;
-
-        transform:
-            translate(-50%,-50%)
-            scale(.1);
-    }
-
-    20%{
+        transform:scale(1);
         opacity:1;
     }
-
-    100%{
-        opacity:0;
-
-        transform:
-            translate(-50%,-50%)
-            scale(9);
-    }
-
 }
+
 
 /* =========================================================
-   FLASH
+   RARITY COLORS
 ========================================================= */
 
-.flash{
-    position:fixed;
-
-    inset:0;
-
-    z-index:135;
-
-    pointer-events:none;
-
-    background:#fff;
-
-    opacity:0;
+.rarity-common{
+    color:#b8b8b8;
 }
 
-.flash.go{
-    animation:
-        flashAnimation
-        .55s
-        ease-out;
+.rarity-uncommon{
+    color:#55dc7e;
 }
 
-@keyframes flashAnimation{
-
-    0%{
-        opacity:.8;
-    }
-
-    100%{
-        opacity:0;
-    }
-
+.rarity-rare{
+    color:#4f9cff;
 }
 
-/* =========================================================
-   SHAKE
-========================================================= */
-
-.shake{
-    animation:
-        screenShake
-        .55s
-        cubic-bezier(.36,.07,.19,.97);
+.rarity-epic{
+    color:#b66cff;
 }
 
-@keyframes screenShake{
-
-    10%,90%{
-        transform:translateX(-2px);
-    }
-
-    20%,80%{
-        transform:translateX(4px);
-    }
-
-    30%,50%,70%{
-        transform:translateX(-8px);
-    }
-
-    40%,60%{
-        transform:translateX(8px);
-    }
-
+.rarity-legendary{
+    color:#ff9f38;
 }
 
-/* =========================================================
-   PARTICLES
-========================================================= */
-
-.particle{
-    position:fixed;
-
-    width:6px;
-    height:6px;
-
-    border-radius:2px;
-
-    z-index:145;
-
-    pointer-events:none;
+.rarity-mythic{
+    color:#ff3e7e;
 }
+
 
 /* =========================================================
    TOAST
 ========================================================= */
 
-.toast{
+.toast-container{
+
     position:fixed;
 
     right:20px;
+
     bottom:20px;
 
-    padding:13px 16px;
+    z-index:10000;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:10px;
+}
+
+.toast{
+
+    min-width:260px;
+
+    max-width:360px;
+
+    background:
+        #171b2a;
+
+    border:
+        1px solid #30374f;
 
     border-radius:12px;
 
-    background:
-        linear-gradient(
-            135deg,
-            #1b1725,
-            #100e16
-        );
-
-    border:1px solid #423750;
-
-    color:#eee;
-
-    z-index:1100;
-
-    opacity:0;
-
-    transform:translateY(12px);
-
-    transition:.25s;
-
-    pointer-events:none;
+    padding:
+        13px 16px;
 
     box-shadow:
-        0 15px 45px #0009;
+        0 15px 35px rgba(0,0,0,.4);
+
+    animation:
+        toastIn .25s ease-out;
 }
 
-.toast.show{
-    opacity:1;
-    transform:translateY(0);
+@keyframes toastIn{
+
+    from{
+        opacity:0;
+        transform:translateY(15px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
 }
+
+
+/* =========================================================
+   EMPTY
+========================================================= */
+
+.empty{
+
+    text-align:center;
+
+    color:#70778c;
+
+    padding:30px;
+}
+
 
 /* =========================================================
    MOBILE
 ========================================================= */
 
-@media(max-width:1000px){
-
-    .cases{
-        grid-template-columns:repeat(2,1fr);
-    }
-
-    .inventory{
-        grid-template-columns:repeat(4,1fr);
-    }
-
-}
-
 @media(max-width:700px){
 
-    .upgrade-grid,
-    .auto-grid{
-        grid-template-columns:1fr;
+    header{
+
+        padding:12px;
     }
 
-    .reels{
-        grid-template-columns:1fr;
+    .header-inner{
+
+        flex-direction:column;
+
+        align-items:stretch;
     }
 
-    .reel-box{
+    .player-info{
+
+        justify-content:space-between;
+    }
+
+    .container{
+
+        width:92%;
+    }
+
+    .spin-level-grid{
+
+        grid-template-columns:
+            repeat(5,1fr);
+    }
+
+    .multiplier-buttons{
+
+        grid-template-columns:
+            repeat(5,1fr);
+    }
+
+    .reel-item{
+
+        flex-basis:120px;
+
         height:155px;
     }
 
-    .reel-track{
-        top:15px;
-        height:125px;
-    }
+    .reel-item img{
 
-    .reel-card{
-        flex-basis:112px;
+        width:90px;
+        height:90px;
     }
 
 }
 
-@media(max-width:580px){
-
-    .topbar{
-        padding:0 14px;
-    }
-
-    .layout{
-        width:94%;
-        padding-top:32px;
-    }
-
-    .cases{
-        grid-template-columns:1fr;
-    }
-
-    .inventory{
-        grid-template-columns:repeat(3,1fr);
-    }
-
-    .hero h1{
-        letter-spacing:-2px;
-    }
-
-    .result-card{
-        padding:20px;
-    }
-
-    .result-grid{
-        grid-template-columns:repeat(2,1fr);
-    }
-
-    .result-actions{
-        flex-direction:column;
-    }
-
-    .auto-card{
-        align-items:flex-start;
-        flex-direction:column;
-    }
-
-    .topbar-right{
-        gap:5px;
-    }
-
-    .coin-box{
-        padding:9px 11px;
-    }
-
-    .player-name{
-        display:none;
-    }
-
-    .leaderboard-table th,
-    .leaderboard-table td{
-        padding:9px 5px;
-    }
-
-}
 </style>
+
 </head>
 
+
 <body>
+
 
 <!-- =========================================================
      LOGIN
 ========================================================= -->
 
-<div class="login-overlay" id="loginOverlay">
+<div
+    class="login-overlay"
+    id="loginOverlay"
+>
 
-    <div class="login-card">
+    <div class="login-box">
 
         <div class="login-logo">
-            HouskaCze_<span>0</span>
+            H
         </div>
 
-        <div class="login-title">
-            MINECRAFT CASES
-        </div>
+        <h1>
+            Minecraft Case Opening
+        </h1>
 
-        <div class="login-sub">
-            Zadej svůj nickname a pokračuj ve hře.<br>
-            Tvůj progress se uloží online.
-        </div>
+        <p>
+            Zadej svůj nick a pokračuj ve hře.
+            Tvůj progres se ukládá online.
+        </p>
 
         <input
-            class="login-input"
             id="nicknameInput"
+            class="login-input"
             maxlength="20"
-            minlength="3"
-            placeholder="Tvůj Minecraft nickname"
+            placeholder="Minecraft nick..."
             autocomplete="off"
         >
 
         <button
-            class="login-button"
             id="loginButton"
-            onclick="loginPlayer()"
+            class="login-button"
         >
-            ▶ PLAY
+            HRÁT
         </button>
 
         <div
-            class="login-status"
-            id="loginStatus">
-        </div>
+            id="loginError"
+            class="login-error"
+        ></div>
 
     </div>
 
@@ -2107,31 +1591,43 @@ body{
 
 
 <!-- =========================================================
-     TOP BAR
+     HEADER
 ========================================================= -->
 
-<header class="topbar">
+<header>
 
-    <div class="logo">
-        HouskaCze_<span>0</span>
-    </div>
+    <div class="header-inner">
 
-    <div class="topbar-right">
+        <div class="logo">
 
-        <div class="player-name" id="playerName">
+            <div class="logo-icon">
+                H
+            </div>
+
+            <span>
+                HouskaCze_0
+            </span>
+
         </div>
 
-        <div class="coin-box">
 
-            <span class="coin-icon">
+        <div class="player-info">
+
+            <div
+                class="nickname"
+                id="nicknameDisplay"
+            >
+                —
+            </div>
+
+            <div
+                class="coin-display"
+            >
                 🪙
-            </span>
-
-            <span
-                class="coins"
-                id="coinCount">
-                250
-            </span>
+                <span id="coins">
+                    0
+                </span>
+            </div>
 
         </div>
 
@@ -2144,268 +1640,130 @@ body{
      MAIN
 ========================================================= -->
 
-<main class="layout">
+<main class="container">
 
-    <section class="hero">
 
-        <div class="hero-badge">
-            ✦ CASE OPENING V5
-        </div>
+    <!-- =====================================================
+         CASES
+    ====================================================== -->
 
-        <h1>
-            MINECRAFT CASES
-        </h1>
+    <h2 class="section-title">
+        📦 <span>CASES</span>
+    </h2>
 
-        <p>
-            Otevírej bedny, sbírej loot, vylepšuj Luck a odemykej automatizaci.
-        </p>
+    <div
+        class="cases-grid"
+        id="casesGrid"
+    ></div>
 
-    </section>
 
+    <!-- =====================================================
+         UPGRADES
+    ====================================================== -->
 
-    <!-- CASES -->
+    <h2 class="section-title">
+        ⚡ <span>UPGRADES</span>
+    </h2>
 
-    <section
-        class="cases"
-        id="cases">
-    </section>
 
-
-    <!-- UPGRADES -->
-
-    <section class="upgrades">
-
-        <div class="section-head">
-
-            <div>
-
-                <div class="section-title">
-                    ⚡ UPGRADES
-                </div>
-
-                <div class="section-sub">
-                    Vylepši počet současných openingů a Luck.
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <div class="upgrade-grid">
-
-            <div class="upgrade">
-
-                <h3>
-                    📦 Open Multiplier
-                </h3>
-
-                <p>
-                    Otevře více stejných beden současně.
-                    Každý reel má vlastní RNG.
-                </p>
-
-                <div
-                    class="upgrade-levels"
-                    id="openLevels">
-                </div>
-
-            </div>
-
-
-            <div class="upgrade">
-
-                <h3>
-                    🍀 Luck
-                </h3>
-
-                <p>
-                    Zvyšuje váhy vzácnějších rarit.
-                </p>
-
-                <div
-                    class="upgrade-levels"
-                    id="luckLevels">
-                </div>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- AUTOMATION -->
-
-    <section class="automation">
-
-        <div class="section-head">
-
-            <div>
-
-                <div class="section-title">
-                    🤖 AUTOMATION
-                </div>
-
-                <div class="section-sub">
-                    Automatizuj otevírání a prodej dropů.
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <div class="auto-grid">
-
-            <div class="auto-card">
-
-                <div class="auto-info">
-
-                    <h3>
-                        ⚡ Auto Open
-                    </h3>
-
-                    <p>
-                        Automaticky otevírá vybranou bednu
-                        bez nutnosti ručního klikání.
-                    </p>
-
-                    <div
-                        class="auto-status"
-                        id="autoOpenStatus">
-                        LOCKED
-                    </div>
-
-                </div>
-
-                <button
-                    class="toggle"
-                    id="autoOpenButton"
-                    onclick="toggleAutoOpen()">
-                    🔒 ODEMKNOUT
-                </button>
-
-            </div>
-
-
-            <div class="auto-card">
-
-                <div class="auto-info">
-
-                    <h3>
-                        🪙 Auto Sell
-                    </h3>
-
-                    <p>
-                        Při Auto Openu automaticky prodá
-                        všechny získané dropy.
-                    </p>
-
-                    <div
-                        class="auto-status"
-                        id="autoSellStatus">
-                        LOCKED
-                    </div>
-
-                </div>
-
-                <button
-                    class="toggle"
-                    id="autoSellButton"
-                    onclick="toggleAutoSell()">
-                    🔒 ODEMKNOUT
-                </button>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- STORAGE -->
-
-    <section class="storage">
-
-        <div class="storage-head">
-
-            <div class="section-title">
-                🎒 STORAGE
-            </div>
-
-            <div
-                class="storage-count"
-                id="storageCount">
-                0 itemů
-            </div>
-
-        </div>
+    <div class="panel">
 
         <div
-            class="inventory"
-            id="inventory">
-        </div>
+            class="upgrade-grid"
+            id="upgradesGrid"
+        ></div>
 
-    </section>
+    </div>
 
 
-    <!-- LEADERBOARD -->
+    <!-- =====================================================
+         AUTOMATION
+    ====================================================== -->
 
-    <section class="leaderboard">
+    <h2 class="section-title">
+        🤖 <span>AUTOMATION</span>
+    </h2>
 
-        <div class="section-head">
+    <div class="panel">
 
-            <div>
+        <div
+            id="automationGrid"
+        ></div>
 
-                <div class="section-title">
-                    🏆 GLOBAL LEADERBOARD
-                </div>
+    </div>
 
-                <div class="section-sub">
-                    Nejbohatší hráči Minecraft Cases.
-                </div>
 
-            </div>
+    <!-- =====================================================
+         INVENTORY
+    ====================================================== -->
 
-        </div>
+    <h2 class="section-title">
+        🎒 <span>INVENTORY</span>
+    </h2>
 
-        <div id="leaderboardContainer">
+    <div class="panel">
 
-            <div class="leaderboard-loading">
-                Načítám leaderboard...
-            </div>
+        <div
+            class="inventory-grid"
+            id="inventoryGrid"
+        ></div>
 
-        </div>
+        <button
+            class="sell-all"
+            id="sellAllButton"
+        >
+            💰 PRODAT VŠE
+        </button>
 
-    </section>
+    </div>
+
+
+    <!-- =====================================================
+         LEADERBOARD
+    ====================================================== -->
+
+    <h2 class="section-title">
+        🏆 <span>LEADERBOARD</span>
+    </h2>
+
+    <div class="panel">
+
+        <table class="leaderboard">
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        #
+                    </th>
+
+                    <th>
+                        Hráč
+                    </th>
+
+                    <th>
+                        Coins
+                    </th>
+
+                    <th>
+                        Otevření
+                    </th>
+
+                </tr>
+
+            </thead>
+
+            <tbody
+                id="leaderboardBody"
+            ></tbody>
+
+        </table>
+
+    </div>
+
 
 </main>
-
-
-<!-- =========================================================
-     EFFECTS
-========================================================= -->
-
-<div
-    class="rays"
-    id="rays">
-</div>
-
-<div
-    class="center-burst"
-    id="centerBurst">
-</div>
-
-<div
-    class="flash"
-    id="flash">
-</div>
-
-<div
-    class="toast"
-    id="toast">
-</div>
 
 
 <!-- =========================================================
@@ -2413,34 +1771,80 @@ body{
 ========================================================= -->
 
 <div
-    class="overlay"
-    id="openingOverlay">
+    class="opening-overlay"
+    id="openingOverlay"
+>
 
-    <div
-        class="opening"
-        id="openingBox">
-
-        <button
-            class="close"
-            onclick="closeOpening()">
-            ✕
-        </button>
+    <div class="opening-box">
 
         <div
             class="opening-title"
-            id="openingTitle">
-            OPEN CASE
+            id="openingTitle"
+        >
+            OPENING...
         </div>
 
         <div
-            class="opening-sub"
-            id="openingSub">
-            Opening...
+            class="opening-subtitle"
+            id="openingSubtitle"
+        >
+            Hodně štěstí!
         </div>
 
+
         <div
-            class="reels"
-            id="reels">
+            class="reel-wrapper"
+            id="reelWrapper"
+        >
+
+            <div
+                class="reel"
+                id="reel"
+            ></div>
+
+        </div>
+
+
+        <div
+            class="result-box"
+            id="resultBox"
+        >
+
+            <div
+                class="result-rarity"
+                id="resultRarity"
+            >
+                COMMON
+            </div>
+
+            <div
+                class="result-item-name"
+                id="resultName"
+            >
+                Item
+            </div>
+
+            <img
+                id="resultImage"
+                class="result-image"
+                src=""
+                alt=""
+            >
+
+            <div
+                class="result-value"
+                id="resultValue"
+            >
+                +0 coins
+            </div>
+
+            <button
+                class="close-result"
+                id="closeResult"
+            >
+                POKRAČOVAT
+            </button>
+
         </div>
 
     </div>
@@ -2449,61 +1853,13 @@ body{
 
 
 <!-- =========================================================
-     RESULT
+     TOAST
 ========================================================= -->
 
 <div
-    class="overlay result-overlay"
-    id="resultOverlay">
-
-    <div
-        class="result-card"
-        id="resultCard">
-
-        <div class="result-header">
-
-            <div class="result-header-small">
-                CASE OPENED
-            </div>
-
-            <h2 id="resultTitle">
-                YOUR LOOT
-            </h2>
-
-        </div>
-
-
-        <div
-            class="result-grid"
-            id="resultGrid">
-        </div>
-
-
-        <div
-            class="result-total"
-            id="resultTotal">
-        </div>
-
-
-        <div class="result-actions">
-
-            <button
-                class="keep"
-                onclick="keepResult()">
-                🎒 KEEP ALL
-            </button>
-
-            <button
-                class="sell"
-                onclick="sellResult()">
-                🪙 SELL ALL
-            </button>
-
-        </div>
-
-    </div>
-
-</div>
+    class="toast-container"
+    id="toastContainer"
+></div>
 
 
 <script>
@@ -2525,86 +1881,130 @@ const supabaseClient =
     );
 
 
-let playerId = null;
-let playerNickname = "";
+/* =========================================================
+   GAME STATE
+========================================================= */
+
+let nickname = "";
+
+let coins = 250;
+
+let inventory = [];
+
+let openLevel = 1;
+
+/*
+    openLevel =
+    MAXIMUM PURCHASED MULTIPLIER
+*/
+
+let activeOpenLevel = 1;
+
+/*
+    activeOpenLevel =
+    CURRENTLY SELECTED MULTIPLIER
+*/
+
+let luckLevel = 1;
+
+let fasterSpinLevel = 0;
+
+let autoOpenUnlocked = false;
+
+let autoSellUnlocked = false;
+
 let casesOpened = 0;
-let loggedIn = false;
-let cloudSaveTimer = null;
+
+let currentOpening = false;
+
+let autoOpenTimer = null;
 
 
 /* =========================================================
-   TEXTURES
+   LOCAL STORAGE KEYS
 ========================================================= */
 
-const TEXTURES = {
+const STORAGE = {
 
-    "Dirt Block":"Dirt.png",
-    "Grass Block":"Grass_Block.png",
-    "Cobblestone":"Cobblestone.png",
-    "Stick":"Stick.png",
-    "Apple":"Apple.png",
-    "Stone":"Stone.png",
-    "Stone Sword":"Stone_Sword.png",
-    "Wooden Pickaxe":"Wooden_Pickaxe.png",
-    "Torch":"Torch.png",
-    "Iron Ingot":"Iron_Ingot.png",
-    "Iron Nugget":"Iron_Nugget.png",
-    "Bow":"Bow.png",
-    "Shield":"Shield.png",
-    "Diamond":"Diamond.png",
-    "Diamond Sword":"Diamond_Sword.png",
-    "Enchanted Diamond Sword":"Diamond_Sword.png",
-    "Coal":"Coal.png",
-    "Iron Sword":"Iron_Sword.png",
-    "Iron Pickaxe":"Iron_Pickaxe.png",
-    "Gold Ingot":"Gold_Ingot.png",
-    "Enchanted Bow":"Bow.png",
-    "Diamond Armor":"Diamond_Chestplate.png",
-    "Diamond Pickaxe":"Diamond_Pickaxe.png",
-    "Diamond Axe":"Diamond_Axe.png",
-    "Enchanted Diamond Bow":"Bow.png",
-    "Enchanted Diamond Armor":"Diamond_Chestplate.png",
-    "God Diamond Sword":"Diamond_Sword.png",
-    "Netherite Sword":"Netherite_Sword.png",
-    "Enchanted Netherite Sword":"Netherite_Sword.png",
-    "Netherite Armor":"Netherite_Chestplate.png",
-    "Enchanted Netherite Armor":"Netherite_Chestplate.png",
-    "Netherite Scrap":"Netherite_Scrap.png",
-    "Netherite Ingot":"Netherite_Ingot.png",
-    "Netherrack":"Netherrack.png",
-    "Soul Sand":"Soul_Sand.png",
-    "Quartz":"Quartz.png",
-    "Blaze Rod":"Blaze_Rod.png",
-    "Magma Cream":"Magma_Cream.png",
-    "Ghast Tear":"Ghast_Tear.png",
-    "Ender Pearl":"Ender_Pearl.png",
-    "Chorus Fruit":"Chorus_Fruit.png",
-    "Shulker Shell":"Shulker_Shell.png",
-    "Dragon Breath":"Dragon_Breath.png",
-    "Ender Eye":"Ender_Eye.png",
-    "Elytra":"Elytra.png",
-    "Enchanted Elytra":"Elytra.png",
-    "Dragon Egg":"Dragon_Egg.png",
-    "Diamond Block":"Diamond_Block.png",
-    "The Legendary Sword":"Netherite_Sword.png"
+    coins:
+        "sfm_coins",
+
+    inventory:
+        "sfm_inventory",
+
+    openLevel:
+        "sfm_openLevel",
+
+    activeOpenLevel:
+        "sfm_activeOpenLevel",
+
+    luckLevel:
+        "sfm_luckLevel",
+
+    fasterSpinLevel:
+        "sfm_fasterSpinLevel",
+
+    autoOpen:
+        "sfm_autoOpen",
+
+    autoSell:
+        "sfm_autoSell",
+
+    nickname:
+        "sfm_nickname"
 
 };
 
 
 /* =========================================================
-   CASE IMAGES
+   CASES
 ========================================================= */
 
-const CASE_IMAGES = {
+const CASES = [
 
-    grass:"Grass_Case.png",
-    stone:"Stone_Case.png",
-    nether:"Nether_Case.png",
-    diamond:"Diamond_Case.png",
-    end:"End_Case.png",
-    legendary:"Legendary_Case.png"
+    {
+        id:"grass",
+        name:"Grass Case",
+        price:0,
+        image:"assets/Grass_Case.png"
+    },
 
-};
+    {
+        id:"stone",
+        name:"Stone Case",
+        price:250,
+        image:"assets/Stone_Case.png"
+    },
+
+    {
+        id:"nether",
+        name:"Nether Case",
+        price:1500,
+        image:"assets/Nether_Case.png"
+    },
+
+    {
+        id:"diamond",
+        name:"Diamond Case",
+        price:5000,
+        image:"assets/Diamond_Case.png"
+    },
+
+    {
+        id:"end",
+        name:"End Case",
+        price:25000,
+        image:"assets/End_Case.png"
+    },
+
+    {
+        id:"legendary",
+        name:"Legendary Case",
+        price:100000,
+        image:"assets/Legendary_Case.png"
+    }
+
+];
 
 
 /* =========================================================
@@ -2614,361 +2014,478 @@ const CASE_IMAGES = {
 const RARITIES = {
 
     common:{
-        name:"COMMON",
-        color:"#b8b8b8",
-        weight:50
+        name:"Common",
+        chance:50,
+        multiplier:1
     },
 
     uncommon:{
-        name:"UNCOMMON",
-        color:"#55e36d",
-        weight:25
+        name:"Uncommon",
+        chance:25,
+        multiplier:1.5
     },
 
     rare:{
-        name:"RARE",
-        color:"#4d9dff",
-        weight:15
+        name:"Rare",
+        chance:15,
+        multiplier:3
     },
 
     epic:{
-        name:"EPIC",
-        color:"#b85cff",
-        weight:8
+        name:"Epic",
+        chance:8,
+        multiplier:8
     },
 
     legendary:{
-        name:"LEGENDARY",
-        color:"#ffd43b",
-        weight:1.8
+        name:"Legendary",
+        chance:1.8,
+        multiplier:25
     },
 
     mythic:{
-        name:"MYTHIC",
-        color:"#ff4d8d",
-        weight:.2
+        name:"Mythic",
+        chance:.2,
+        multiplier:100
     }
 
 };
 
 
 /* =========================================================
-   CASES
+   ITEMS
 ========================================================= */
 
-const CASES = {
-
-    grass:{
-
-        name:"GRASS CASE",
-
-        price:0,
-
-        gradient:
-            "linear-gradient(90deg,#55e36d,#b7ff55,#55e36d)",
-
-        glow:"#55e36d",
-
-        desc:
-            "Základní bedna pro každého hráče.",
-
-        preview:[
-            "Dirt Block",
-            "Grass Block",
-            "Stone Sword",
-            "Apple",
-            "Diamond"
-        ],
-
-        items:[
-
-            ["Dirt Block","common",10],
-            ["Grass Block","common",15],
-            ["Cobblestone","common",20],
-            ["Stick","common",25],
-            ["Apple","common",35],
-            ["Stone Sword","uncommon",70],
-            ["Wooden Pickaxe","uncommon",85],
-            ["Torch","uncommon",95],
-            ["Iron Ingot","rare",250],
-            ["Bow","rare",300],
-            ["Shield","rare",350],
-            ["Diamond","epic",900],
-            ["Diamond Sword","legendary",3000],
-            ["Enchanted Diamond Sword","mythic",15000]
-
-        ]
-
-    },
-
-
-    stone:{
-
-        name:"STONE CASE",
-
-        price:250,
-
-        gradient:
-            "linear-gradient(90deg,#c6c6c6,#ffffff,#8c8c8c,#c6c6c6)",
-
-        glow:"#dddddd",
-
-        desc:
-            "Lepší výbava a první diamanty.",
-
-        preview:[
-            "Stone",
-            "Iron Pickaxe",
-            "Gold Ingot",
-            "Diamond",
-            "Iron Sword"
-        ],
-
-        items:[
-
-            ["Stone","common",25],
-            ["Coal","common",30],
-            ["Iron Nugget","common",40],
-            ["Iron Ingot","uncommon",100],
-            ["Iron Sword","uncommon",140],
-            ["Iron Pickaxe","uncommon",170],
-            ["Gold Ingot","rare",350],
-            ["Shield","rare",400],
-            ["Enchanted Bow","rare",500],
-            ["Diamond","epic",1200],
-            ["Diamond Armor","legendary",6000],
-            ["Netherite Sword","mythic",25000]
-
-        ]
-
-    },
-
-
-    nether:{
-
-        name:"NETHER CASE",
-
-        price:1500,
-
-        gradient:
-            "linear-gradient(90deg,#ff3d25,#ff8a2a,#c91f26,#ff3d25)",
-
-        glow:"#ff4b27",
-
-        desc:
-            "Nether loot, blaze a pořádně žhavé dropy.",
-
-        preview:[
-            "Blaze Rod",
-            "Quartz",
-            "Magma Cream",
-            "Netherite Ingot",
-            "Netherite Sword"
-        ],
-
-        items:[
-
-            ["Netherrack","common",80],
-            ["Soul Sand","common",100],
-            ["Quartz","common",130],
-            ["Blaze Rod","uncommon",300],
-            ["Gold Ingot","uncommon",350],
-            ["Magma Cream","uncommon",450],
-            ["Ghast Tear","rare",1200],
-            ["Netherite Scrap","rare",1800],
-            ["Netherite Ingot","epic",5000],
-            ["Netherite Armor","legendary",18000],
-            ["Enchanted Netherite Sword","mythic",75000]
-
-        ]
-
-    },
-
-
-    diamond:{
-
-        name:"DIAMOND CASE",
-
-        price:5000,
-
-        gradient:
-            "linear-gradient(90deg,#38d8ff,#a5f4ff,#4c9cff,#38d8ff)",
-
-        glow:"#38d8ff",
-
-        desc:
-            "Diamantová výbava a pořádné enchanty.",
-
-        preview:[
-            "Diamond",
-            "Diamond Sword",
-            "Diamond Pickaxe",
-            "Elytra",
-            "Netherite Ingot"
-        ],
-
-        items:[
-
-            ["Diamond","common",1000],
-            ["Diamond Pickaxe","uncommon",1800],
-            ["Diamond Axe","uncommon",2000],
-            ["Diamond Armor","rare",5000],
-            ["Enchanted Diamond Bow","rare",6500],
-            ["Enchanted Diamond Sword","epic",9000],
-            ["Enchanted Diamond Armor","legendary",25000],
-            ["Netherite Ingot","legendary",30000],
-            ["God Diamond Sword","mythic",120000]
-
-        ]
-
-    },
-
-
-    end:{
-
-        name:"END CASE",
-
-        price:25000,
-
-        gradient:
-            "linear-gradient(90deg,#b95cff,#e6a4ff,#7644c9,#b95cff)",
-
-        glow:"#b95cff",
-
-        desc:
-            "Loot z Endu. Elytra a Dragon Egg čekají.",
-
-        preview:[
-            "Ender Pearl",
-            "Shulker Shell",
-            "Ender Eye",
-            "Elytra",
-            "Dragon Egg"
-        ],
-
-        items:[
-
-            ["Ender Pearl","common",3000],
-            ["Chorus Fruit","common",3500],
-            ["Shulker Shell","uncommon",5000],
-            ["Dragon Breath","uncommon",6500],
-            ["Ender Eye","rare",10000],
-            ["Elytra","epic",25000],
-            ["Enchanted Elytra","legendary",70000],
-            ["Dragon Egg","mythic",250000]
-
-        ]
-
-    },
-
-
-    legendary:{
-
-        name:"LEGENDARY CASE",
-
-        price:100000,
-
-        gradient:
-            "linear-gradient(90deg,#ffd43b,#fff0a1,#ff9f1c,#ffd43b)",
-
-        glow:"#ffd43b",
-
-        desc:
-            "Nejvzácnější bedna. Milionový drop je možný.",
-
-        preview:[
-            "Diamond Block",
-            "Netherite Ingot",
-            "Elytra",
-            "Dragon Egg",
-            "The Legendary Sword"
-        ],
-
-        items:[
-
-            ["Diamond Block","common",10000],
-            ["Netherite Ingot","uncommon",30000],
-            ["Elytra","rare",50000],
-            ["Enchanted Netherite Armor","epic",100000],
-            ["Dragon Egg","legendary",250000],
-            ["The Legendary Sword","mythic",1000000]
-
-        ]
-
-    }
+const ITEMS = {
+
+    grass:[
+
+        {
+            name:"Dirt",
+            rarity:"common",
+            value:20
+        },
+
+        {
+            name:"Grass Block",
+            rarity:"common",
+            value:30
+        },
+
+        {
+            name:"Oak Log",
+            rarity:"uncommon",
+            value:60
+        },
+
+        {
+            name:"Coal",
+            rarity:"uncommon",
+            value:90
+        },
+
+        {
+            name:"Iron",
+            rarity:"rare",
+            value:200
+        },
+
+        {
+            name:"Gold",
+            rarity:"epic",
+            value:500
+        },
+
+        {
+            name:"Diamond",
+            rarity:"legendary",
+            value:1500
+        },
+
+        {
+            name:"Netherite",
+            rarity:"mythic",
+            value:5000
+        }
+
+    ],
+
+    stone:[
+
+        {
+            name:"Stone",
+            rarity:"common",
+            value:60
+        },
+
+        {
+            name:"Cobblestone",
+            rarity:"common",
+            value:75
+        },
+
+        {
+            name:"Iron",
+            rarity:"uncommon",
+            value:150
+        },
+
+        {
+            name:"Gold",
+            rarity:"rare",
+            value:350
+        },
+
+        {
+            name:"Diamond",
+            rarity:"epic",
+            value:900
+        },
+
+        {
+            name:"Emerald",
+            rarity:"legendary",
+            value:2500
+        },
+
+        {
+            name:"Netherite",
+            rarity:"mythic",
+            value:9000
+        }
+
+    ],
+
+    nether:[
+
+        {
+            name:"Netherrack",
+            rarity:"common",
+            value:250
+        },
+
+        {
+            name:"Quartz",
+            rarity:"common",
+            value:300
+        },
+
+        {
+            name:"Glowstone",
+            rarity:"uncommon",
+            value:450
+        },
+
+        {
+            name:"Gold",
+            rarity:"rare",
+            value:800
+        },
+
+        {
+            name:"Ancient Debris",
+            rarity:"epic",
+            value:2500
+        },
+
+        {
+            name:"Netherite",
+            rarity:"legendary",
+            value:8000
+        },
+
+        {
+            name:"Nether Star",
+            rarity:"mythic",
+            value:30000
+        }
+
+    ],
+
+    diamond:[
+
+        {
+            name:"Coal",
+            rarity:"common",
+            value:500
+        },
+
+        {
+            name:"Iron",
+            rarity:"common",
+            value:700
+        },
+
+        {
+            name:"Gold",
+            rarity:"uncommon",
+            value:1200
+        },
+
+        {
+            name:"Emerald",
+            rarity:"rare",
+            value:2500
+        },
+
+        {
+            name:"Diamond",
+            rarity:"epic",
+            value:7000
+        },
+
+        {
+            name:"Netherite",
+            rarity:"legendary",
+            value:18000
+        },
+
+        {
+            name:"Dragon Egg",
+            rarity:"mythic",
+            value:75000
+        }
+
+    ],
+
+    end:[
+
+        {
+            name:"End Stone",
+            rarity:"common",
+            value:2500
+        },
+
+        {
+            name:"Chorus Fruit",
+            rarity:"common",
+            value:3000
+        },
+
+        {
+            name:"Purpur",
+            rarity:"uncommon",
+            value:5000
+        },
+
+        {
+            name:"Ender Pearl",
+            rarity:"rare",
+            value:9000
+        },
+
+        {
+            name:"Shulker",
+            rarity:"epic",
+            value:20000
+        },
+
+        {
+            name:"Elytra",
+            rarity:"legendary",
+            value:60000
+        },
+
+        {
+            name:"Dragon Egg",
+            rarity:"mythic",
+            value:250000
+        }
+
+    ],
+
+    legendary:[
+
+        {
+            name:"Gold Block",
+            rarity:"common",
+            value:10000
+        },
+
+        {
+            name:"Diamond Block",
+            rarity:"uncommon",
+            value:25000
+        },
+
+        {
+            name:"Emerald Block",
+            rarity:"rare",
+            value:50000
+        },
+
+        {
+            name:"Netherite Block",
+            rarity:"epic",
+            value:100000
+        },
+
+        {
+            name:"Elytra",
+            rarity:"legendary",
+            value:250000
+        },
+
+        {
+            name:"Dragon Egg",
+            rarity:"mythic",
+            value:1000000
+        }
+
+    ]
 
 };
 
 
 /* =========================================================
-   LOCAL STATE
+   TEXTURES
 ========================================================= */
 
-let coins =
-    Number(
-        localStorage.getItem("sfm_coins")
-    );
+const TEXTURES = {
 
-if(!Number.isFinite(coins)){
-    coins = 250;
-}
+    "Dirt":
+        "assets/Dirt.png",
+
+    "Grass Block":
+        "assets/Grass_Block.png",
+
+    "Oak Log":
+        "assets/Oak_Log.png",
+
+    "Coal":
+        "assets/Coal.png",
+
+    "Iron":
+        "assets/Iron.png",
+
+    "Gold":
+        "assets/Gold.png",
+
+    "Diamond":
+        "assets/Diamond.png",
+
+    "Netherite":
+        "assets/Netherite.png",
+
+    "Stone":
+        "assets/Stone.png",
+
+    "Cobblestone":
+        "assets/Cobblestone.png",
+
+    "Emerald":
+        "assets/Emerald.png",
+
+    "Netherrack":
+        "assets/Netherrack.png",
+
+    "Quartz":
+        "assets/Quartz.png",
+
+    "Glowstone":
+        "assets/Glowstone.png",
+
+    "Ancient Debris":
+        "assets/Ancient_Debris.png",
+
+    "Nether Star":
+        "assets/Nether_Star.png",
+
+    "End Stone":
+        "assets/End_Stone.png",
+
+    "Chorus Fruit":
+        "assets/Chorus_Fruit.png",
+
+    "Purpur":
+        "assets/Purpur.png",
+
+    "Ender Pearl":
+        "assets/Ender_Pearl.png",
+
+    "Shulker":
+        "assets/Shulker.png",
+
+    "Elytra":
+        "assets/Elytra.png",
+
+    "Dragon Egg":
+        "assets/Dragon_Egg.png",
+
+    "Gold Block":
+        "assets/Gold_Block.png",
+
+    "Diamond Block":
+        "assets/Diamond_Block.png",
+
+    "Emerald Block":
+        "assets/Emerald_Block.png",
+
+    "Netherite Block":
+        "assets/Netherite_Block.png"
+
+};
 
 
-let inventory;
+/* =========================================================
+   FASTER SPIN COSTS
+========================================================= */
 
-try{
+const FASTER_SPIN_COSTS = [
 
-    inventory =
-        JSON.parse(
-            localStorage.getItem("sfm_inventory") || "[]"
-        );
+    1000,
+    2000,
+    3500,
+    5000,
+    7500,
 
-    if(!Array.isArray(inventory)){
-        inventory = [];
-    }
+    10000,
+    15000,
+    20000,
+    30000,
+    40000,
 
-}
+    50000,
+    65000,
+    80000,
+    100000,
+    125000,
 
-catch(error){
+    150000,
+    200000,
+    250000,
+    300000,
+    400000
 
-    console.warn(
-        "Inventory parse error:",
-        error
-    );
-
-    inventory = [];
-
-}
-
-
-let openLevel =
-    Number(
-        localStorage.getItem("sfm_openLevel")
-    ) || 1;
-
-
-let luckLevel =
-    Number(
-        localStorage.getItem("sfm_luckLevel")
-    ) || 1;
+];
 
 
-let autoOpenUnlocked =
-    localStorage.getItem("sfm_autoOpen") === "true";
+/* =========================================================
+   OPEN MULTIPLIER COSTS
+========================================================= */
+
+const OPEN_LEVEL_COSTS = {
+
+    2:500,
+    3:2500,
+    4:10000,
+    5:50000
+
+};
 
 
-let autoSellUnlocked =
-    localStorage.getItem("sfm_autoSell") === "true";
+/* =========================================================
+   LUCK COSTS
+========================================================= */
 
+const LUCK_COSTS = {
 
-let autoOpenRunning = false;
-let autoCaseId = null;
-let currentResults = [];
-let openingBusy = false;
+    2:750,
+    3:3500,
+    4:15000,
+    5:75000
 
-
-inventory =
-    inventory.map(normalizeItem);
+};
 
 
 /* =========================================================
@@ -3001,10 +2518,15 @@ function money(value){
 function escapeHtml(value){
 
     return String(value ?? "")
+
         .replace(/&/g,"&amp;")
+
         .replace(/</g,"&lt;")
+
         .replace(/>/g,"&gt;")
+
         .replace(/"/g,"&quot;")
+
         .replace(/'/g,"&#039;");
 
 }
@@ -3017,7 +2539,8 @@ function escapeHtml(value){
 function sleep(ms){
 
     return new Promise(
-        resolve => setTimeout(resolve,ms)
+        resolve =>
+            setTimeout(resolve,ms)
     );
 
 }
@@ -3103,664 +2626,204 @@ function normalizeItem(item){
 
 
 /* =========================================================
-   SAVE LOCAL + CLOUD
+   TOAST
 ========================================================= */
 
-function save(){
-
-    localStorage.setItem(
-        "sfm_coins",
-        coins
-    );
-
-    localStorage.setItem(
-        "sfm_inventory",
-        JSON.stringify(inventory)
-    );
-
-    localStorage.setItem(
-        "sfm_openLevel",
-        openLevel
-    );
-
-    localStorage.setItem(
-        "sfm_luckLevel",
-        luckLevel
-    );
-
-    localStorage.setItem(
-        "sfm_autoOpen",
-        autoOpenUnlocked
-    );
-
-    localStorage.setItem(
-        "sfm_autoSell",
-        autoSellUnlocked
-    );
-
-    renderCoins();
-    renderInventory();
-    renderUpgrades();
-    renderAutomation();
-
-    queueCloudSave();
-
-}
-
-
-/* =========================================================
-   CLOUD SAVE QUEUE
-========================================================= */
-
-function queueCloudSave(){
-
-    if(!loggedIn || !playerId){
-        return;
-    }
-
-    clearTimeout(
-        cloudSaveTimer
-    );
-
-    cloudSaveTimer =
-        setTimeout(
-            saveToCloud,
-            500
-        );
-
-}
-
-
-async function saveToCloud(){
-
-    if(!loggedIn || !playerId){
-        return;
-    }
-
-    try{
-
-        const { error } =
-            await supabaseClient
-                .from("minecraft_cases_players")
-                .update({
-
-                    coins:
-                        Math.floor(coins),
-
-                    inventory:
-                        inventory,
-
-                    open_level:
-                        openLevel,
-
-                    luck_level:
-                        luckLevel,
-
-                    auto_open_unlocked:
-                        autoOpenUnlocked,
-
-                    auto_sell_unlocked:
-                        autoSellUnlocked,
-
-                    cases_opened:
-                        Math.floor(casesOpened),
-
-                    updated_at:
-                        new Date().toISOString()
-
-                })
-                .eq(
-                    "id",
-                    playerId
-                );
-
-        if(error){
-
-            console.error(
-                "Cloud save error:",
-                error
-            );
-
-        }
-
-    }
-
-    catch(error){
-
-        console.error(
-            "Cloud save exception:",
-            error
-        );
-
-    }
-
-}
-
-
-/* =========================================================
-   LOGIN
-========================================================= */
-
-async function loginPlayer(){
-
-    const input =
-        $("nicknameInput");
-
-    const status =
-        $("loginStatus");
-
-    const button =
-        $("loginButton");
-
-
-    const nickname =
-        input.value.trim();
-
-
-    if(nickname.length < 3){
-
-        status.textContent =
-            "Nickname musí mít alespoň 3 znaky.";
-
-        return;
-
-    }
-
-
-    if(nickname.length > 20){
-
-        status.textContent =
-            "Nickname může mít maximálně 20 znaků.";
-
-        return;
-
-    }
-
-
-    if(!/^[a-zA-Z0-9_]+$/.test(nickname)){
-
-        status.textContent =
-            "Používej pouze A-Z, 0-9 a _.";
-
-        return;
-
-    }
-
-
-    button.disabled = true;
-
-    button.textContent =
-        "⏳ NAČÍTÁM...";
-
-    status.textContent =
-        "";
-
-
-    try{
-
-        const { data:existing, error:selectError } =
-            await supabaseClient
-                .from("minecraft_cases_players")
-                .select("*")
-                .eq(
-                    "nickname",
-                    nickname
-                )
-                .maybeSingle();
-
-
-        if(selectError){
-            throw selectError;
-        }
-
-
-        let player;
-
-
-        if(existing){
-
-            player = existing;
-
-        }
-
-        else{
-
-            const { data:newPlayer, error:insertError } =
-                await supabaseClient
-                    .from("minecraft_cases_players")
-                    .insert({
-
-                        nickname:
-                            nickname,
-
-                        coins:
-                            250,
-
-                        inventory:
-                            [],
-
-                        open_level:
-                            1,
-
-                        luck_level:
-                            1,
-
-                        auto_open_unlocked:
-                            false,
-
-                        auto_sell_unlocked:
-                            false,
-
-                        cases_opened:
-                            0
-
-                    })
-                    .select()
-                    .single();
-
-
-            if(insertError){
-                throw insertError;
-            }
-
-
-            player = newPlayer;
-
-        }
-
-
-        playerId =
-            player.id;
-
-        playerNickname =
-            player.nickname;
-
-        coins =
-            Number(player.coins) || 250;
-
-        inventory =
-            Array.isArray(player.inventory)
-            ?
-            player.inventory.map(normalizeItem)
-            :
-            [];
-
-        openLevel =
-            Number(player.open_level) || 1;
-
-        luckLevel =
-            Number(player.luck_level) || 1;
-
-        autoOpenUnlocked =
-            Boolean(player.auto_open_unlocked);
-
-        autoSellUnlocked =
-            Boolean(player.auto_sell_unlocked);
-
-        casesOpened =
-            Number(player.cases_opened) || 0;
-
-
-        localStorage.setItem(
-            "sfm_nickname",
-            playerNickname
-        );
-
-
-        loggedIn = true;
-
-
-        $("playerName").textContent =
-            `👤 ${playerNickname}`;
-
-
-        $("loginOverlay")
-            .classList
-            .add("hidden");
-
-
-        renderAll();
-
-        loadLeaderboard();
-
-
-        showToast(
-            existing
-            ?
-            `Vítej zpět, ${playerNickname}! ☁️`
-            :
-            `Účet ${playerNickname} vytvořen! 🎉`
-        );
-
-    }
-
-    catch(error){
-
-        console.error(
-            "Login error:",
-            error
-        );
-
-
-        status.textContent =
-            `DB ERROR: ${error.message || "Neznámá chyba"}`;
-
-    }
-
-    finally{
-
-        button.disabled = false;
-
-        button.textContent =
-            "▶ PLAY";
-
-    }
-
-}
-
-
-/* =========================================================
-   LOAD SAVED NICKNAME
-========================================================= */
-
-function loadSavedNickname(){
-
-    const nickname =
-        localStorage.getItem(
-            "sfm_nickname"
-        );
-
-
-    if(nickname){
-
-        $("nicknameInput").value =
-            nickname;
-
-    }
-
-}
-
-
-/* =========================================================
-   LEADERBOARD
-========================================================= */
-
-async function loadLeaderboard(){
+function toast(message){
 
     const container =
-        $("leaderboardContainer");
+        $("toastContainer");
 
+    const element =
+        document.createElement("div");
 
-    container.innerHTML = `
+    element.className =
+        "toast";
 
-        <div class="leaderboard-loading">
-            Načítám leaderboard...
-        </div>
+    element.textContent =
+        message;
 
-    `;
+    container.appendChild(
+        element
+    );
 
+    setTimeout(
+        () => {
 
-    try{
+            element.style.opacity =
+                "0";
 
-        const { data,error } =
-            await supabaseClient
-                .from("minecraft_cases_players")
-                .select(
-                    "nickname,coins,cases_opened"
-                )
-                .order(
-                    "coins",
-                    {
-                        ascending:false
-                    }
-                )
-                .limit(100);
+            element.style.transform =
+                "translateY(10px)";
 
+            setTimeout(
+                () => element.remove(),
+                250
+            );
 
-        if(error){
-            throw error;
-        }
-
-
-        if(!data || !data.length){
-
-            container.innerHTML = `
-
-                <div class="leaderboard-empty">
-                    Zatím zde není žádný hráč.
-                </div>
-
-            `;
-
-            return;
-
-        }
-
-
-        container.innerHTML = `
-
-            <table class="leaderboard-table">
-
-                <thead>
-
-                    <tr>
-
-                        <th>
-                            #
-                        </th>
-
-                        <th>
-                            HRÁČ
-                        </th>
-
-                        <th>
-                            COINY
-                        </th>
-
-                        <th>
-                            OPENINGY
-                        </th>
-
-                    </tr>
-
-                </thead>
-
-                <tbody>
-
-                    ${
-                        data.map(
-                            (player,index) => `
-
-                                <tr
-                                    class="
-                                        ${
-                                            player.nickname ===
-                                            playerNickname
-                                            ?
-                                            "me"
-                                            :
-                                            ""
-                                        }
-                                    "
-                                >
-
-                                    <td class="rank">
-                                        #${index + 1}
-                                    </td>
-
-                                    <td class="lb-name">
-                                        ${escapeHtml(player.nickname)}
-                                    </td>
-
-                                    <td class="lb-coins">
-                                        🪙 ${money(player.coins || 0)}
-                                    </td>
-
-                                    <td class="lb-opened">
-                                        ${money(player.cases_opened || 0)}
-                                    </td>
-
-                                </tr>
-
-                            `
-                        ).join("")
-                    }
-
-                </tbody>
-
-            </table>
-
-        `;
-
-    }
-
-    catch(error){
-
-        console.error(
-            "Leaderboard error:",
-            error
-        );
-
-
-        container.innerHTML = `
-
-            <div class="leaderboard-empty">
-                Leaderboard se nepodařilo načíst.
-            </div>
-
-        `;
-
-    }
+        },
+        2800
+    );
 
 }
 
 
 /* =========================================================
-   RENDER ALL
+   RANDOM
 ========================================================= */
 
-function renderAll(){
+function randomItem(array){
 
-    renderCases();
-    renderUpgrades();
-    renderAutomation();
-    renderInventory();
-    renderCoins();
+    return array[
+        Math.floor(
+            Math.random() *
+            array.length
+        )
+    ];
 
 }
 
 
 /* =========================================================
-   COINS
+   GET RARITY
+========================================================= */
+
+function rollRarity(){
+
+    let luckMultiplier =
+        1 +
+        (
+            Math.max(
+                0,
+                luckLevel - 1
+            ) * .08
+        );
+
+    let roll =
+        Math.random() * 100;
+
+    const entries =
+        Object.entries(RARITIES);
+
+    let total =
+        0;
+
+    for(
+        const [key,data]
+        of entries
+    ){
+
+        let chance =
+            data.chance;
+
+        if(
+            key !== "common"
+        ){
+
+            chance *=
+                luckMultiplier;
+
+        }
+
+        total += chance;
+
+        if(
+            roll <= total
+        ){
+
+            return key;
+
+        }
+
+    }
+
+    return "common";
+
+}
+
+
+/* =========================================================
+   GET ITEM
+========================================================= */
+
+function getRandomItem(caseId){
+
+    const list =
+        ITEMS[caseId] ||
+        ITEMS.grass;
+
+    const rarity =
+        rollRarity();
+
+    let candidates =
+        list.filter(
+            item =>
+                item.rarity === rarity
+        );
+
+    if(!candidates.length){
+
+        candidates =
+            list;
+
+    }
+
+    const item =
+        normalizeItem(
+            randomItem(candidates)
+        );
+
+    return item;
+
+}
+
+
+/* =========================================================
+   ADD INVENTORY
+========================================================= */
+
+function addInventory(item){
+
+    const normalized =
+        normalizeItem(item);
+
+    const existing =
+        inventory.find(
+            x =>
+                normalizeItem(x).name
+                ===
+                normalized.name
+        );
+
+    if(existing){
+
+        existing.count =
+            Number(existing.count || 1)
+            + 1;
+
+        return;
+
+    }
+
+    inventory.push({
+
+        ...normalized,
+
+        count:1
+
+    });
+
+}
+
+
+/* =========================================================
+   RENDER COINS
 ========================================================= */
 
 function renderCoins(){
 
-    $("coinCount").textContent =
+    $("coins").textContent =
         money(coins);
-
-}
-
-
-/* =========================================================
-   ITEM ICON
-========================================================= */
-
-function itemIcon(item){
-
-    item =
-        normalizeItem(item);
-
-
-    const texture =
-        item.texture ||
-        TEXTURES[item.name] ||
-        "";
-
-
-    const enchanted =
-        item.name
-            .toLowerCase()
-            .includes("enchanted")
-        ||
-        item.name
-            .toLowerCase()
-            .includes("god");
-
-
-    if(!texture){
-
-        return `
-
-            <div
-                style="
-                    width:55px;
-                    height:55px;
-                    display:grid;
-                    place-items:center;
-                    color:#777;
-                    font-size:10px;
-                "
-            >
-                ?
-            </div>
-
-        `;
-
-    }
-
-
-    return `
-
-        <img
-            class="
-                item-texture
-                ${enchanted ? "enchanted" : ""}
-            "
-            src="assets/${escapeHtml(texture)}"
-            alt="${escapeHtml(item.name)}"
-            draggable="false"
-        >
-
-    `;
-
-}
-
-
-/* =========================================================
-   CASE IMAGE
-========================================================= */
-
-function caseArt(caseId){
-
-    const image =
-        CASE_IMAGES[caseId];
-
-    const glow =
-        CASES[caseId].glow;
-
-
-    return `
-
-        <img
-            src="assets/${escapeHtml(image)}"
-            alt="${escapeHtml(CASES[caseId].name)}"
-            style="--case-glow:${glow}"
-            onerror="
-                this.style.display='none';
-                this.nextElementSibling.style.display='block';
-            "
-        >
-
-        <div
-            class="case-art-fallback"
-            style="
-                --case-glow:${glow};
-                display:none;
-            "
-        ></div>
-
-    `;
 
 }
 
@@ -3771,1065 +2834,1195 @@ function caseArt(caseId){
 
 function renderCases(){
 
-    $("cases").innerHTML =
+    const grid =
+        $("casesGrid");
 
-        Object.entries(CASES)
-        .map(
-            ([id,caseData]) => `
+    grid.innerHTML =
+        "";
 
-                <article
-                    class="case"
-                    style="
-                        --case-glow:
-                        ${caseData.glow};
-                    "
-                    onclick="
-                        openCase('${id}')
-                    "
+    CASES.forEach(
+        caseData => {
+
+            const canAfford =
+                coins >=
+                caseData.price;
+
+            const card =
+                document.createElement(
+                    "div"
+                );
+
+            card.className =
+                "case-card";
+
+            card.innerHTML = `
+
+                <img
+                    class="case-image"
+                    src="${escapeHtml(caseData.image)}"
+                    alt="${escapeHtml(caseData.name)}"
+                    onerror="this.style.opacity='.2'"
                 >
 
-                    <div class="case-top">
+                <div class="case-name">
+                    ${escapeHtml(caseData.name)}
+                </div>
 
-                        <div
-                            class="case-name"
-                            style="
-                                background-image:
-                                ${caseData.gradient};
-                            "
-                        >
-                            ${caseData.name}
-                        </div>
+                <div class="case-price">
+                    ${
+                        caseData.price === 0
+                        ?
+                        "ZDARMA"
+                        :
+                        "🪙 " +
+                        money(caseData.price)
+                    }
+                </div>
 
-                        <div class="case-price">
+                <button
+                    class="open-button"
+                    ${canAfford ? "" : "disabled"}
+                    onclick="openCase('${escapeHtml(caseData.id)}')"
+                >
+                    ${
+                        caseData.price === 0
+                        ?
+                        "OTEVŘÍT"
+                        :
+                        "OTEVŘÍT CASE"
+                    }
+                </button>
 
-                            ${
-                                caseData.price === 0
-                                ?
-                                "FREE"
-                                :
-                                "🪙 " +
-                                money(caseData.price)
-                            }
+            `;
 
-                        </div>
+            grid.appendChild(
+                card
+            );
 
-                    </div>
-
-
-                    <div class="case-art">
-
-                        ${caseArt(id)}
-
-                    </div>
-
-
-                    <div class="preview">
-
-                        ${
-                            caseData.preview
-                            .map(
-                                name => `
-
-                                    <div class="mini-item">
-
-                                        ${itemIcon({
-                                            name,
-                                            texture:
-                                                TEXTURES[name]
-                                        })}
-
-                                    </div>
-
-                                `
-                            )
-                            .join("")
-                        }
-
-                    </div>
-
-
-                    <div class="case-desc">
-                        ${escapeHtml(caseData.desc)}
-                    </div>
-
-
-                    <button
-                        class="open-btn"
-                        onclick="
-                            event.stopPropagation();
-                            openCase('${id}')
-                        "
-                    >
-
-                        ${
-                            caseData.price === 0
-                            ?
-                            "OPEN FREE"
-                            :
-                            "OPEN • 🪙 " +
-                            money(
-                                caseData.price *
-                                openLevel
-                            )
-                        }
-
-                    </button>
-
-
-                    <button
-                        class="
-                            open-btn
-                            auto-btn
-                            ${autoOpenUnlocked ? "" : "locked"}
-                        "
-                        onclick="
-                            event.stopPropagation();
-                            startAutoOpen('${id}')
-                        "
-                    >
-
-                        ${
-                            autoOpenUnlocked
-                            ?
-                            "⚡ AUTO OPEN"
-                            :
-                            "🔒 AUTO OPEN"
-                        }
-
-                    </button>
-
-                </article>
-
-            `
-        )
-        .join("");
+        }
+    );
 
 }
 
 
 /* =========================================================
-   INVENTORY
-========================================================= */
-
-function renderInventory(){
-
-    $("storageCount").textContent =
-        `${inventory.length} itemů`;
-
-
-    if(!inventory.length){
-
-        $("inventory").innerHTML = `
-
-            <div class="empty">
-
-                Storage je zatím prázdný.
-                Otevři první bednu. 🎰
-
-            </div>
-
-        `;
-
-        return;
-
-    }
-
-
-    $("inventory").innerHTML =
-
-        inventory
-        .slice()
-        .reverse()
-        .map(
-            (item,index) => {
-
-                const realIndex =
-                    inventory.length - 1 - index;
-
-
-                return `
-
-                    <div class="inv-item">
-
-                        ${itemIcon(item)}
-
-                        <div class="inv-name">
-                            ${escapeHtml(item.name)}
-                        </div>
-
-                        <div class="inv-value">
-                            🪙 ${money(item.value)}
-                        </div>
-
-                        <button
-                            class="sell-small"
-                            onclick="
-                                sellInventory(${realIndex})
-                            "
-                        >
-                            PRODAT
-                        </button>
-
-                    </div>
-
-                `;
-
-            }
-        )
-        .join("");
-
-}
-
-
-/* =========================================================
-   UPGRADE COST
-========================================================= */
-
-function upgradeCost(type,level){
-
-    if(level <= 1){
-        return 0;
-    }
-
-
-    if(type === "open"){
-
-        return [
-            0,
-            500,
-            2500,
-            10000,
-            50000
-        ][level - 1];
-
-    }
-
-
-    return [
-        0,
-        750,
-        3500,
-        15000,
-        75000
-    ][level - 1];
-
-}
-
-
-/* =========================================================
-   UPGRADES
+   RENDER UPGRADES
 ========================================================= */
 
 function renderUpgrades(){
 
-    $("openLevels").innerHTML =
+    const container =
+        $("upgradesGrid");
 
-        [1,2,3,4,5]
-        .map(
-            level => {
+    container.innerHTML =
+        "";
 
-                const cost =
-                    upgradeCost(
-                        "open",
-                        level
-                    );
 
-                const owned =
-                    openLevel === level;
+    /* =====================================================
+       OPEN MULTIPLIER
+    ====================================================== */
 
-                const unlocked =
-                    level <= openLevel;
+    const nextOpen =
+        openLevel + 1;
 
+    const openMaxed =
+        openLevel >= 5;
 
-                return `
-
-                    <button
-                        class="
-                            upgrade-level
-                            ${owned ? "active" : ""}
-                            ${unlocked ? "" : "locked"}
-                        "
-                        onclick="
-                            buyOpenLevel(${level})
-                        "
-                    >
-
-                        ×${level}
-
-                        ${
-                            level === 1
-                            ?
-                            `
-                                <span class="upgrade-cost">
-                                    START
-                                </span>
-                            `
-                            :
-                            `
-                                <span class="upgrade-cost">
-                                    🪙 ${money(cost)}
-                                </span>
-                            `
-                        }
-
-                    </button>
-
-                `;
-
-            }
-        )
-        .join("");
-
-
-    $("luckLevels").innerHTML =
-
-        [1,2,3,4,5]
-        .map(
-            level => {
-
-                const cost =
-                    upgradeCost(
-                        "luck",
-                        level
-                    );
-
-                const owned =
-                    luckLevel === level;
-
-                const unlocked =
-                    level <= luckLevel;
-
-
-                return `
-
-                    <button
-                        class="
-                            upgrade-level
-                            ${owned ? "active" : ""}
-                            ${unlocked ? "" : "locked"}
-                        "
-                        onclick="
-                            buyLuckLevel(${level})
-                        "
-                    >
-
-                        Luck ${level}
-
-                        ${
-                            level === 1
-                            ?
-                            `
-                                <span class="upgrade-cost">
-                                    START
-                                </span>
-                            `
-                            :
-                            `
-                                <span class="upgrade-cost">
-                                    🪙 ${money(cost)}
-                                </span>
-                            `
-                        }
-
-                    </button>
-
-                `;
-
-            }
-        )
-        .join("");
-
-}
-
-
-/* =========================================================
-   AUTOMATION RENDER
-========================================================= */
-
-function renderAutomation(){
-
-    const openButton =
-        $("autoOpenButton");
-
-    const sellButton =
-        $("autoSellButton");
-
-
-    if(autoOpenUnlocked){
-
-        openButton.textContent =
-            autoOpenRunning
-            ?
-            "⏹ STOP"
-            :
-            "⚡ AUTO OPEN";
-
-        openButton.classList.add("on");
-
-        $("autoOpenStatus")
-            .textContent =
-            autoOpenRunning
-            ?
-            "RUNNING"
-            :
-            "UNLOCKED";
-
-        $("autoOpenStatus")
-            .classList.add("on");
-
-    }
-
-    else{
-
-        openButton.textContent =
-            "🪙 50 000";
-
-        openButton.classList.remove("on");
-
-        $("autoOpenStatus")
-            .textContent =
-            "UNLOCKED FOR 50 000 COINS";
-
-        $("autoOpenStatus")
-            .classList.remove("on");
-
-    }
-
-
-    if(autoSellUnlocked){
-
-        sellButton.textContent =
-            "🪙 AUTO SELL ON";
-
-        sellButton.classList.add("on");
-
-        $("autoSellStatus")
-            .textContent =
-            "UNLOCKED";
-
-        $("autoSellStatus")
-            .classList.add("on");
-
-    }
-
-    else{
-
-        sellButton.textContent =
-            "🪙 75 000";
-
-        sellButton.classList.remove("on");
-
-        $("autoSellStatus")
-            .textContent =
-            "UNLOCKED FOR 75 000 COINS";
-
-        $("autoSellStatus")
-            .classList.remove("on");
-
-    }
-
-}
-
-
-/* =========================================================
-   BUY OPEN LEVEL
-========================================================= */
-
-function buyOpenLevel(level){
-
-    if(level <= openLevel){
-
-        showToast(
-            "Tento Open level už máš."
+    const openCard =
+        document.createElement(
+            "div"
         );
 
-        return;
+    openCard.className =
+        "upgrade-card";
 
-    }
-
-
-    if(level !== openLevel + 1){
-
-        showToast(
-            "Nejdřív kup předchozí level."
-        );
-
-        return;
-
-    }
-
-
-    const cost =
-        upgradeCost(
-            "open",
-            level
-        );
-
-
-    if(coins < cost){
-
-        showToast(
-            `Potřebuješ 🪙 ${money(cost)}.`
-        );
-
-        return;
-
-    }
-
-
-    coins -= cost;
-
-    openLevel = level;
-
-    save();
-
-    renderCases();
-
-
-    showToast(
-        `Open Multiplier ×${level} odemčen! 🔥`
-    );
-
-}
-
-
-/* =========================================================
-   BUY LUCK
-========================================================= */
-
-function buyLuckLevel(level){
-
-    if(level <= luckLevel){
-
-        showToast(
-            "Tento Luck level už máš."
-        );
-
-        return;
-
-    }
-
-
-    if(level !== luckLevel + 1){
-
-        showToast(
-            "Nejdřív kup předchozí level."
-        );
-
-        return;
-
-    }
-
-
-    const cost =
-        upgradeCost(
-            "luck",
-            level
-        );
-
-
-    if(coins < cost){
-
-        showToast(
-            `Potřebuješ 🪙 ${money(cost)}.`
-        );
-
-        return;
-
-    }
-
-
-    coins -= cost;
-
-    luckLevel = level;
-
-    save();
-
-
-    showToast(
-        `Luck ${level} aktivován! 🍀`
-    );
-
-}
-
-
-/* =========================================================
-   AUTOMATION PURCHASE
-========================================================= */
-
-function toggleAutoOpen(){
-
-    if(!autoOpenUnlocked){
-
-        const cost = 50000;
-
-        if(coins < cost){
-
-            showToast(
-                `Auto Open stojí 🪙 ${money(cost)}.`
-            );
-
-            return;
-
-        }
-
-        coins -= cost;
-
-        autoOpenUnlocked = true;
-
-        save();
-
-        showToast(
-            "⚡ Auto Open odemčen!"
-        );
-
-        return;
-
-    }
-
-
-    if(autoOpenRunning){
-
-        stopAutoOpen();
-
-        return;
-
-    }
-
-
-    showToast(
-        "Klikni na AUTO OPEN u konkrétní bedny."
-    );
-
-}
-
-
-function toggleAutoSell(){
-
-    if(!autoSellUnlocked){
-
-        const cost = 75000;
-
-        if(coins < cost){
-
-            showToast(
-                `Auto Sell stojí 🪙 ${money(cost)}.`
-            );
-
-            return;
-
-        }
-
-        coins -= cost;
-
-        autoSellUnlocked = true;
-
-        save();
-
-        showToast(
-            "🪙 Auto Sell odemčen!"
-        );
-
-        return;
-
-    }
-
-
-    if(autoOpenRunning){
-
-        showToast(
-            "Nejdřív zastav Auto Open."
-        );
-
-        return;
-
-    }
-
-
-    autoSellUnlocked = false;
-
-    save();
-
-    showToast(
-        "Auto Sell vypnut."
-    );
-
-}
-
-
-/* =========================================================
-   LUCK
-========================================================= */
-
-function getWeights(){
-
-    const bonus =
-        [
-            0,
-            .15,
-            .32,
-            .55,
-            .82,
-            1.15
-        ][luckLevel];
-
-
-    return {
-
-        common:
-            Math.max(
-                18,
-                RARITIES.common.weight -
-                14 * bonus
-            ),
-
-        uncommon:
-            Math.max(
-                14,
-                RARITIES.uncommon.weight -
-                4 * bonus
-            ),
-
-        rare:
-            RARITIES.rare.weight +
-            7 * bonus,
-
-        epic:
-            RARITIES.epic.weight +
-            5 * bonus,
-
-        legendary:
-            RARITIES.legendary.weight +
-            3 * bonus,
-
-        mythic:
-            RARITIES.mythic.weight +
-            3 * bonus
-
-    };
-
-}
-
-
-/* =========================================================
-   ROLL
-========================================================= */
-
-function rollRarity(){
-
-    const weights =
-        getWeights();
-
-
-    const total =
-        Object.values(weights)
-        .reduce(
-            (a,b) => a+b,
-            0
-        );
-
-
-    let random =
-        Math.random() * total;
-
+    let multiplierButtons = "";
 
     for(
-        const [rarity,weight]
-        of Object.entries(weights)
-    ){
-
-        random -= weight;
-
-
-        if(random <= 0){
-
-            return rarity;
-
-        }
-
-    }
-
-
-    return "common";
-
-}
-
-
-/* =========================================================
-   ITEM
-========================================================= */
-
-function makeItem(raw){
-
-    return normalizeItem({
-
-        name:raw[0],
-
-        rarity:raw[1],
-
-        value:raw[2],
-
-        texture:
-            TEXTURES[raw[0]] || ""
-
-    });
-
-}
-
-
-/* =========================================================
-   RANDOM ITEM
-========================================================= */
-
-function getRandomItem(caseId){
-
-    const items =
-        CASES[caseId].items;
-
-
-    for(
-        let tries=0;
-        tries<25;
-        tries++
-    ){
-
-        const rarity =
-            rollRarity();
-
-
-        const candidates =
-            items.filter(
-                item =>
-                    item[1] === rarity
-            );
-
-
-        if(candidates.length){
-
-            return makeItem(
-                candidates[
-                    Math.floor(
-                        Math.random() *
-                        candidates.length
-                    )
-                ]
-            );
-
-        }
-
-    }
-
-
-    return makeItem(
-        items[
-            Math.floor(
-                Math.random() *
-                items.length
-            )
-        ]
-    );
-
-}
-
-
-/* =========================================================
-   RARITY INDEX
-========================================================= */
-
-function rarityIndex(rarity){
-
-    return [
-
-        "common",
-        "uncommon",
-        "rare",
-        "epic",
-        "legendary",
-        "mythic"
-
-    ].indexOf(rarity);
-
-}
-
-
-/* =========================================================
-   BUILD REEL
-========================================================= */
-
-function buildReel(
-    winner,
-    caseId,
-    track
-){
-
-    track.innerHTML = "";
-
-
-    const items =
-        CASES[caseId].items;
-
-
-    const count = 65;
-    const winnerIndex = 48;
-
-
-    for(
-        let i=0;
-        i<count;
+        let i = 1;
+        i <= 5;
         i++
     ){
 
-        const item =
-            i === winnerIndex
-            ?
-            winner
-            :
-            makeItem(
-                items[
-                    Math.floor(
-                        Math.random() *
-                        items.length
-                    )
-                ]
-            );
+        const unlocked =
+            i <= openLevel;
+
+        const active =
+            i === activeOpenLevel;
+
+        multiplierButtons += `
+
+            <button
+                class="
+                    multiplier-button
+                    ${unlocked ? "unlocked" : "locked"}
+                    ${active ? "active" : ""}
+                "
+                ${
+                    unlocked
+                    ?
+                    `onclick="selectOpenLevel(${i})"`
+                    :
+                    "disabled"
+                }
+            >
+                ${i}×
+            </button>
+
+        `;
+
+    }
 
 
-        const card =
-            document.createElement(
-                "div"
-            );
+    openCard.innerHTML = `
+
+        <h3>
+            📦 Open Multiplier
+        </h3>
+
+        <div class="upgrade-description">
+
+            Odemyká možnost otevřít více
+            casů najednou.
+
+            <br><br>
+
+            Zakoupené levely zůstávají
+            odemčené a můžeš mezi nimi
+            kdykoliv přepínat.
+
+        </div>
+
+        <div class="upgrade-level">
+
+            <span>
+                Odemčeno:
+            </span>
+
+            <span class="level-badge">
+                ${openLevel}×
+            </span>
+
+        </div>
+
+        <div class="multiplier-buttons">
+
+            ${multiplierButtons}
+
+        </div>
+
+        <div class="active-text">
+
+            Aktivní:
+            <strong>
+                ${activeOpenLevel}×
+            </strong>
+
+        </div>
+
+        <button
+            class="upgrade-button"
+            ${
+                openMaxed
+                ?
+                "disabled"
+                :
+                ""
+            }
+            onclick="upgradeOpen()"
+        >
+
+            ${
+                openMaxed
+                ?
+                "MAX LEVEL"
+                :
+                "🔓 ODEMKNOUT " +
+                nextOpen +
+                "× — 🪙 " +
+                money(
+                    OPEN_LEVEL_COSTS[nextOpen]
+                )
+            }
+
+        </button>
+
+    `;
+
+    container.appendChild(
+        openCard
+    );
 
 
-        card.className =
-            "reel-card";
+    /* =====================================================
+       LUCK
+    ====================================================== */
 
+    const nextLuck =
+        luckLevel + 1;
 
-        card.style.setProperty(
-            "--rarity-color",
-            RARITIES[item.rarity].color
+    const luckMaxed =
+        luckLevel >= 5;
+
+    const luckCard =
+        document.createElement(
+            "div"
         );
 
+    luckCard.className =
+        "upgrade-card";
 
-        card.innerHTML = `
+    luckCard.innerHTML = `
 
-            ${itemIcon(item)}
+        <h3>
+            🍀 Luck
+        </h3>
+
+        <div class="upgrade-description">
+
+            Zvyšuje šanci na získání
+            vzácnějších itemů.
+
+        </div>
+
+        <div class="upgrade-level">
+
+            <span>
+                Level
+            </span>
+
+            <span class="level-badge">
+                ${luckLevel}/5
+            </span>
+
+        </div>
+
+        <button
+            class="upgrade-button"
+            ${
+                luckMaxed
+                ?
+                "disabled"
+                :
+                ""
+            }
+            onclick="upgradeLuck()"
+        >
+
+            ${
+                luckMaxed
+                ?
+                "MAX LEVEL"
+                :
+                "⬆️ LEVEL " +
+                nextLuck +
+                " — 🪙 " +
+                money(
+                    LUCK_COSTS[nextLuck]
+                )
+            }
+
+        </button>
+
+    `;
+
+    container.appendChild(
+        luckCard
+    );
+
+
+    /* =====================================================
+       FASTER SPIN
+    ====================================================== */
+
+    const spinCard =
+        document.createElement(
+            "div"
+        );
+
+    spinCard.className =
+        "upgrade-card";
+
+    const nextSpin =
+        fasterSpinLevel + 1;
+
+    const spinMaxed =
+        fasterSpinLevel >= 20;
+
+    const currentPercent =
+        fasterSpinLevel;
+
+    let spinLevelsHTML = "";
+
+    for(
+        let i = 1;
+        i <= 20;
+        i++
+    ){
+
+        let classes =
+            "spin-level";
+
+        if(
+            i <= fasterSpinLevel
+        ){
+
+            classes +=
+                " unlocked";
+
+        }
+
+        if(
+            i === fasterSpinLevel
+        ){
+
+            classes +=
+                " current";
+
+        }
+
+        spinLevelsHTML += `
 
             <div
-                class="
-                    reel-rarity
-                    rarity-${item.rarity}
-                "
-                style="
-                    color:
-                    ${RARITIES[item.rarity].color}
-                "
+                class="${classes}"
+                title="+${i}% rychlost"
             >
-                ${RARITIES[item.rarity].name}
+                ${i}
             </div>
 
         `;
 
-
-        track.appendChild(card);
-
     }
 
 
-    return {
-        winnerIndex
-    };
+    spinCard.innerHTML = `
+
+        <h3>
+            ⚡ Faster Spin
+        </h3>
+
+        <div class="upgrade-description">
+
+            Každý level zrychlí opening
+            animaci o další 1 %.
+
+            <br><br>
+
+            Maximum:
+            <strong>
+                +20 %
+            </strong>
+
+        </div>
+
+        <div class="upgrade-level">
+
+            <span>
+                Aktuálně
+            </span>
+
+            <span class="level-badge">
+                +${currentPercent}%
+            </span>
+
+        </div>
+
+        <div class="spin-progress">
+
+            <div
+                class="spin-progress-bar"
+                style="width:${currentPercent * 5}%"
+            ></div>
+
+        </div>
+
+        <div class="spin-level-grid">
+
+            ${spinLevelsHTML}
+
+        </div>
+
+        <button
+            class="upgrade-button"
+            ${
+                spinMaxed
+                ?
+                "disabled"
+                :
+                ""
+            }
+            onclick="upgradeFasterSpin()"
+        >
+
+            ${
+                spinMaxed
+                ?
+                "MAX LEVEL — +20%"
+                :
+                "⚡ LEVEL " +
+                nextSpin +
+                " — 🪙 " +
+                money(
+                    FASTER_SPIN_COSTS[
+                        nextSpin - 1
+                    ]
+                )
+            }
+
+        </button>
+
+    `;
+
+    container.appendChild(
+        spinCard
+    );
 
 }
 
 
 /* =========================================================
-   ANIMATE
+   RENDER AUTOMATION
 ========================================================= */
 
-function animateReel(
-    track,
-    winnerIndex,
-    duration
-){
+function renderAutomation(){
 
-    return new Promise(
-        resolve => {
+    const container =
+        $("automationGrid");
 
-            requestAnimationFrame(
-                () => {
-
-                    const box =
-                        track.parentElement;
+    container.innerHTML =
+        "";
 
 
-                    const winner =
-                        track.children[
-                            winnerIndex
-                        ];
+    const autoOpenCard =
+        document.createElement(
+            "div"
+        );
 
+    autoOpenCard.className =
+        "upgrade-card";
 
-                    const targetCenter =
-                        box.clientWidth / 2;
+    autoOpenCard.innerHTML = `
 
+        <h3>
+            🤖 Auto Open
+        </h3>
 
-                    const winnerCenter =
-                        winner.offsetLeft +
-                        winner.offsetWidth / 2;
+        <div class="upgrade-description">
 
+            Automaticky otevírá aktuálně
+            vybraný počet casů.
 
-                    const jitter =
-                        (
-                            Math.random() - .5
-                        ) * 7;
+            <br><br>
 
+            Cena odemčení:
+            <strong>
+                🪙 50 000
+            </strong>
 
-                    track.style.transition =
-                        "none";
+        </div>
 
+        <div class="auto-status">
 
-                    track.style.transform =
-                        "translateX(0)";
+            <span>
+                Stav:
+            </span>
 
+            <span class="${
+                autoOpenUnlocked
+                ?
+                "status-on"
+                :
+                "status-off"
+            }">
 
-                    requestAnimationFrame(
-                        () => {
-
-                            track.style.transition =
-                                `
-                                    transform
-                                    ${duration}ms
-                                    cubic-bezier(
-                                        .07,
-                                        .72,
-                                        .12,
-                                        1
-                                    )
-                                `;
-
-
-                            track.style.transform =
-
-                                `translateX(
-                                    ${
-                                        targetCenter -
-                                        winnerCenter +
-                                        jitter
-                                    }px
-                                )`;
-
-
-                            setTimeout(
-                                resolve,
-                                duration + 100
-                            );
-
-                        }
-                    );
-
+                ${
+                    autoOpenUnlocked
+                    ?
+                    "AKTIVNÍ"
+                    :
+                    "ZAMČENO"
                 }
+
+            </span>
+
+        </div>
+
+        <button
+            class="upgrade-button"
+            ${
+                autoOpenUnlocked
+                ?
+                "disabled"
+                :
+                ""
+            }
+            onclick="unlockAutoOpen()"
+        >
+
+            ${
+                autoOpenUnlocked
+                ?
+                "✓ ODEMČENO"
+                :
+                "🤖 ODEMKNOUT — 🪙 50 000"
+            }
+
+        </button>
+
+        ${
+            autoOpenUnlocked
+            ?
+            `
+                <button
+                    class="upgrade-button"
+                    onclick="toggleAutoOpen()"
+                >
+                    ${
+                        autoOpenTimer
+                        ?
+                        "⏹ VYPNOUT AUTO OPEN"
+                        :
+                        "▶ SPUSTIT AUTO OPEN"
+                    }
+                </button>
+            `
+            :
+            ""
+        }
+
+    `;
+
+
+    const autoSellCard =
+        document.createElement(
+            "div"
+        );
+
+    autoSellCard.className =
+        "upgrade-card";
+
+    autoSellCard.innerHTML = `
+
+        <h3>
+            💰 Auto Sell
+        </h3>
+
+        <div class="upgrade-description">
+
+            Automaticky prodá získané itemy
+            po otevření.
+
+            <br><br>
+
+            Cena odemčení:
+            <strong>
+                🪙 75 000
+            </strong>
+
+        </div>
+
+        <div class="auto-status">
+
+            <span>
+                Stav:
+            </span>
+
+            <span class="${
+                autoSellUnlocked
+                ?
+                "status-on"
+                :
+                "status-off"
+            }">
+
+                ${
+                    autoSellUnlocked
+                    ?
+                    "AKTIVNÍ"
+                    :
+                    "ZAMČENO"
+                }
+
+            </span>
+
+        </div>
+
+        <button
+            class="upgrade-button"
+            ${
+                autoSellUnlocked
+                ?
+                "disabled"
+                :
+                ""
+            }
+            onclick="unlockAutoSell()"
+        >
+
+            ${
+                autoSellUnlocked
+                ?
+                "✓ ODEMČENO"
+                :
+                "💰 ODEMKNOUT — 🪙 75 000"
+            }
+
+        </button>
+
+    `;
+
+
+    container.appendChild(
+        autoOpenCard
+    );
+
+    container.appendChild(
+        autoSellCard
+    );
+
+}
+
+
+/* =========================================================
+   RENDER INVENTORY
+========================================================= */
+
+function renderInventory(){
+
+    const container =
+        $("inventoryGrid");
+
+    container.innerHTML =
+        "";
+
+    if(
+        !inventory.length
+    ){
+
+        container.innerHTML = `
+
+            <div class="empty">
+
+                🎒 Inventář je prázdný.
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    inventory.forEach(
+        rawItem => {
+
+            const item =
+                normalizeItem(
+                    rawItem
+                );
+
+            const count =
+                Number(
+                    rawItem.count || 1
+                );
+
+            const div =
+                document.createElement(
+                    "div"
+                );
+
+            div.className =
+                "inventory-item";
+
+            div.innerHTML = `
+
+                <div class="inventory-count">
+                    ×${count}
+                </div>
+
+                <img
+                    src="${escapeHtml(item.texture)}"
+                    alt="${escapeHtml(item.name)}"
+                    onerror="this.style.opacity='.2'"
+                >
+
+                <div class="inventory-name">
+                    ${escapeHtml(item.name)}
+                </div>
+
+                <div
+                    class="
+                        inventory-rarity
+                        rarity-${escapeHtml(item.rarity)}
+                    "
+                >
+                    ${
+                        escapeHtml(
+                            RARITIES[
+                                item.rarity
+                            ]?.name
+                            ||
+                            item.rarity
+                        )
+                    }
+                </div>
+
+                <div class="inventory-value">
+                    🪙 ${money(item.value)}
+                </div>
+
+            `;
+
+            container.appendChild(
+                div
             );
 
         }
+    );
+
+}
+
+
+/* =========================================================
+   RENDER ALL
+========================================================= */
+
+function renderAll(){
+
+    renderCoins();
+
+    renderCases();
+
+    renderUpgrades();
+
+    renderAutomation();
+
+    renderInventory();
+
+}
+
+
+/* =========================================================
+   SELECT OPEN MULTIPLIER
+========================================================= */
+
+async function selectOpenLevel(level){
+
+    level =
+        Number(level);
+
+    if(
+        level < 1 ||
+        level > openLevel
+    ){
+
+        return;
+
+    }
+
+    activeOpenLevel =
+        level;
+
+    localStorage.setItem(
+        STORAGE.activeOpenLevel,
+        activeOpenLevel
+    );
+
+    renderUpgrades();
+
+    await saveCloud();
+
+    toast(
+        `Aktivní multiplier: ${level}×`
+    );
+
+}
+
+
+/* =========================================================
+   UPGRADE OPEN MULTIPLIER
+========================================================= */
+
+async function upgradeOpen(){
+
+    if(
+        openLevel >= 5
+    ){
+
+        return;
+
+    }
+
+    const next =
+        openLevel + 1;
+
+    const price =
+        OPEN_LEVEL_COSTS[next];
+
+
+    if(
+        coins < price
+    ){
+
+        toast(
+            "Nemáš dost coinů."
+        );
+
+        return;
+
+    }
+
+
+    coins -=
+        price;
+
+    openLevel =
+        next;
+
+    /*
+        Po koupi nového levelu
+        ho rovnou nastavíme jako aktivní.
+    */
+
+    activeOpenLevel =
+        next;
+
+
+    saveLocal();
+
+    renderAll();
+
+    await saveCloud();
+
+    toast(
+        `Odemčeno ${next}× Open Multiplier!`
+    );
+
+}
+
+
+/* =========================================================
+   UPGRADE LUCK
+========================================================= */
+
+async function upgradeLuck(){
+
+    if(
+        luckLevel >= 5
+    ){
+
+        return;
+
+    }
+
+    const next =
+        luckLevel + 1;
+
+    const price =
+        LUCK_COSTS[next];
+
+
+    if(
+        coins < price
+    ){
+
+        toast(
+            "Nemáš dost coinů."
+        );
+
+        return;
+
+    }
+
+
+    coins -=
+        price;
+
+    luckLevel =
+        next;
+
+    saveLocal();
+
+    renderAll();
+
+    await saveCloud();
+
+    toast(
+        `Luck zvýšen na level ${next}!`
+    );
+
+}
+
+
+/* =========================================================
+   UPGRADE FASTER SPIN
+========================================================= */
+
+async function upgradeFasterSpin(){
+
+    if(
+        fasterSpinLevel >= 20
+    ){
+
+        return;
+
+    }
+
+    const next =
+        fasterSpinLevel + 1;
+
+    const price =
+        FASTER_SPIN_COSTS[
+            next - 1
+        ];
+
+
+    if(
+        coins < price
+    ){
+
+        toast(
+            "Nemáš dost coinů."
+        );
+
+        return;
+
+    }
+
+
+    coins -=
+        price;
+
+    fasterSpinLevel =
+        next;
+
+    saveLocal();
+
+    renderAll();
+
+    await saveCloud();
+
+    toast(
+        `Faster Spin +${next}%`
+    );
+
+}
+
+
+/* =========================================================
+   AUTO OPEN
+========================================================= */
+
+async function unlockAutoOpen(){
+
+    if(
+        autoOpenUnlocked
+    ){
+
+        return;
+
+    }
+
+    const price =
+        50000;
+
+
+    if(
+        coins < price
+    ){
+
+        toast(
+            "Potřebuješ 50 000 coinů."
+        );
+
+        return;
+
+    }
+
+
+    coins -=
+        price;
+
+    autoOpenUnlocked =
+        true;
+
+    saveLocal();
+
+    renderAll();
+
+    await saveCloud();
+
+    toast(
+        "Auto Open odemčen!"
+    );
+
+}
+
+
+/* =========================================================
+   TOGGLE AUTO OPEN
+========================================================= */
+
+function toggleAutoOpen(){
+
+    if(
+        !autoOpenUnlocked
+    ){
+
+        return;
+
+    }
+
+
+    if(
+        autoOpenTimer
+    ){
+
+        clearInterval(
+            autoOpenTimer
+        );
+
+        autoOpenTimer =
+            null;
+
+        renderAutomation();
+
+        toast(
+            "Auto Open vypnut."
+        );
+
+        return;
+
+    }
+
+
+    autoOpenTimer =
+        setInterval(
+            async () => {
+
+                if(
+                    currentOpening
+                ){
+
+                    return;
+
+                }
+
+                const targetCase =
+                    findAffordableCase();
+
+                if(
+                    !targetCase
+                ){
+
+                    toast(
+                        "Auto Open: není dost coinů."
+                    );
+
+                    clearInterval(
+                        autoOpenTimer
+                    );
+
+                    autoOpenTimer =
+                        null;
+
+                    renderAutomation();
+
+                    return;
+
+                }
+
+                await openCase(
+                    targetCase.id,
+                    true
+                );
+
+            },
+            3500
+        );
+
+    renderAutomation();
+
+    toast(
+        `Auto Open spuštěn — ${activeOpenLevel}×`
+    );
+
+}
+
+
+/* =========================================================
+   FIND AFFORDABLE CASE
+========================================================= */
+
+function findAffordableCase(){
+
+    /*
+        Preferujeme nejdražší dostupný case.
+    */
+
+    const sorted =
+        [...CASES]
+        .sort(
+            (a,b) =>
+                b.price - a.price
+        );
+
+    return sorted.find(
+        c =>
+            coins >=
+            c.price *
+            activeOpenLevel
+    );
+
+}
+
+
+/* =========================================================
+   AUTO SELL
+========================================================= */
+
+async function unlockAutoSell(){
+
+    if(
+        autoSellUnlocked
+    ){
+
+        return;
+
+    }
+
+    const price =
+        75000;
+
+
+    if(
+        coins < price
+    ){
+
+        toast(
+            "Potřebuješ 75 000 coinů."
+        );
+
+        return;
+
+    }
+
+
+    coins -=
+        price;
+
+    autoSellUnlocked =
+        true;
+
+    saveLocal();
+
+    renderAll();
+
+    await saveCloud();
+
+    toast(
+        "Auto Sell odemčen!"
     );
 
 }
@@ -4841,17 +4034,12 @@ function animateReel(
 
 async function openCase(
     caseId,
-    automatic=false
+    fromAuto = false
 ){
 
-    if(!loggedIn){
-
-        return;
-
-    }
-
-
-    if(openingBusy){
+    if(
+        currentOpening
+    ){
 
         return;
 
@@ -4859,20 +4047,38 @@ async function openCase(
 
 
     const caseData =
-        CASES[caseId];
+        CASES.find(
+            c =>
+                c.id === caseId
+        );
 
 
-    const totalCost =
+    if(
+        !caseData
+    ){
+
+        return;
+
+    }
+
+
+    const multiplier =
+        activeOpenLevel;
+
+
+    const totalPrice =
         caseData.price *
-        openLevel;
+        multiplier;
 
 
-    if(coins < totalCost){
+    if(
+        coins < totalPrice
+    ){
 
-        if(!automatic){
+        if(!fromAuto){
 
-            showToast(
-                `Potřebuješ 🪙 ${money(totalCost)}.`
+            toast(
+                "Nemáš dost coinů."
             );
 
         }
@@ -4882,1291 +4088,1427 @@ async function openCase(
     }
 
 
-    coins -= totalCost;
-
-    casesOpened += openLevel;
-
-    save();
+    currentOpening =
+        true;
 
 
-    currentResults = [];
+    coins -=
+        totalPrice;
+
+    casesOpened +=
+        multiplier;
 
 
-    for(
-        let i=0;
-        i<openLevel;
-        i++
-    ){
+    saveLocal();
 
-        currentResults.push(
-            getRandomItem(caseId)
-        );
+    renderCoins();
 
-    }
+    renderCases();
 
 
-    openingBusy = true;
-
-
-    $("openingOverlay")
-        .classList
-        .add("show");
-
-
-    $("openingTitle")
-        .textContent =
-        `${caseData.name} • ${openLevel}× OPEN`;
-
-
-    $("openingSub")
-        .textContent =
-        openLevel === 1
-        ?
-        "Case se otevírá..."
-        :
-        `${openLevel} beden se otevírá současně...`;
-
-
-    const reels =
-        $("reels");
-
-
-    reels.innerHTML = "";
-
-
-    reels.style.setProperty(
-        "--reel-count",
-        Math.min(
-            openLevel,
-            5
-        )
-    );
-
-
-    const animations = [];
+    const results = [];
 
 
     for(
-        let i=0;
-        i<openLevel;
+        let i = 0;
+        i < multiplier;
         i++
     ){
 
-        const reelBox =
-            document.createElement(
-                "div"
-            );
-
-
-        reelBox.className =
-            "reel-box";
-
-
-        reelBox.innerHTML = `
-
-            <div class="reel-marker"></div>
-
-            <div class="reel-track"></div>
-
-        `;
-
-
-        reels.appendChild(
-            reelBox
-        );
-
-
-        const track =
-            reelBox.querySelector(
-                ".reel-track"
-            );
-
-
-        const result =
-            currentResults[i];
-
-
-        const info =
-            buildReel(
-                result,
-                caseId,
-                track
-            );
-
-
-        animations.push(
-            animateReel(
-                track,
-                info.winnerIndex,
-                5200 + i * 170
+        results.push(
+            getRandomItem(
+                caseId
             )
         );
 
     }
 
 
-    playOpenSound();
-
-
-    for(
-        let i=0;
-        i<10;
-        i++
-    ){
-
-        setTimeout(
-            () => playTick(),
-            1800 + i * 280
-        );
-
-    }
-
-
-    await Promise.all(
-        animations
-    );
-
-
-    await sleep(180);
-
-
-    openingBusy = false;
-
-
-    $("openingOverlay")
-        .classList
-        .remove("show");
-
-
-    await sleep(120);
-
-
-    const best =
-        currentResults
-        .slice()
-        .sort(
-            (a,b) =>
-                rarityIndex(b.rarity) -
-                rarityIndex(a.rarity)
-        )[0];
-
-
-    triggerRays(
-        best.rarity,
-        true
-    );
-
-
-    await sleep(
-        best.rarity === "mythic"
-        ?
-        1300
-        :
-        best.rarity === "legendary"
-        ?
-        1150
-        :
-        850
-    );
-
+    /*
+        Auto Sell:
+        výhry se okamžitě prodají.
+    */
 
     if(
-        automatic &&
         autoSellUnlocked
     ){
 
-        const total =
-            currentResults.reduce(
-                (sum,item) =>
-                    sum + item.value,
-                0
-            );
+        let totalSell =
+            0;
 
+        results.forEach(
+            item => {
 
-        coins += total;
+                totalSell +=
+                    item.value;
 
-        save();
-
-
-        showToast(
-            `⚡ Auto Sell: +🪙 ${money(total)}`
+            }
         );
 
+        coins +=
+            totalSell;
 
-        currentResults = [];
+        saveLocal();
+
+        renderCoins();
+
+        renderCases();
+
+        await saveCloud();
+
+        toast(
+            `Auto Sell: +🪙 ${money(totalSell)}`
+        );
+
+        currentOpening =
+            false;
 
         return;
 
     }
 
 
-    showResult();
+    await showOpening(
+        results,
+        caseData
+    );
+
+
+    results.forEach(
+        item => {
+
+            addInventory(
+                item
+            );
+
+        }
+    );
+
+
+    saveLocal();
+
+    renderAll();
+
+    await saveCloud();
+
+    currentOpening =
+        false;
 
 }
 
 
 /* =========================================================
-   RESULT
+   SHOW OPENING
 ========================================================= */
 
-function showResult(){
+async function showOpening(
+    results,
+    caseData
+){
 
-    if(!currentResults.length){
-        return;
+    const overlay =
+        $("openingOverlay");
+
+    const reel =
+        $("reel");
+
+    const resultBox =
+        $("resultBox");
+
+
+    overlay.classList.add(
+        "show"
+    );
+
+    resultBox.classList.remove(
+        "show"
+    );
+
+    reel.style.transition =
+        "none";
+
+    reel.style.transform =
+        "translateX(0)";
+
+    reel.innerHTML =
+        "";
+
+
+    $("openingTitle").textContent =
+        `OPENING ${activeOpenLevel}×`;
+
+    $("openingSubtitle").textContent =
+        `⚡ Faster Spin +${fasterSpinLevel}%`;
+
+
+    /*
+        Vytvoříme dlouhý reel.
+    */
+
+    const reelItems = [];
+
+    const totalVisual =
+        35;
+
+
+    for(
+        let i = 0;
+        i < totalVisual;
+        i++
+    ){
+
+        let item;
+
+        /*
+            Poslední položky obsahují
+            skutečné výsledky.
+        */
+
+        if(
+            i >=
+            totalVisual - results.length
+        ){
+
+            item =
+                results[
+                    i -
+                    (
+                        totalVisual -
+                        results.length
+                    )
+                ];
+
+        }else{
+
+            item =
+                getRandomItem(
+                    caseData.id
+                );
+
+        }
+
+        reelItems.push(
+            item
+        );
+
     }
 
 
-    const best =
-        currentResults
-        .slice()
-        .sort(
-            (a,b) =>
-                rarityIndex(b.rarity) -
-                rarityIndex(a.rarity)
-        )[0];
+    reelItems.forEach(
+        item => {
+
+            const div =
+                document.createElement(
+                    "div"
+                );
+
+            div.className =
+                "reel-item";
+
+            div.innerHTML = `
+
+                <img
+                    src="${escapeHtml(item.texture)}"
+                    alt="${escapeHtml(item.name)}"
+                    onerror="this.style.opacity='.15'"
+                >
+
+                <span
+                    class="rarity-${escapeHtml(item.rarity)}"
+                >
+                    ${escapeHtml(item.name)}
+                </span>
+
+            `;
+
+            reel.appendChild(
+                div
+            );
+
+        }
+    );
 
 
-    $("resultOverlay")
-        .classList
-        .add("show");
+    await sleep(100);
 
 
-    $("resultCard")
-        .style
-        .setProperty(
-            "--rarity-glow",
-            RARITIES[best.rarity].color
+    /*
+        Vypočítáme rychlost.
+
+        0%  = 100%
+        10% = 90%
+        20% = 80%
+
+        Tedy každým levelem
+        zkrátíme animaci o 1 %.
+    */
+
+    const baseDuration =
+        4200;
+
+    const duration =
+        Math.max(
+            1000,
+            baseDuration *
+            (
+                1 -
+                fasterSpinLevel / 100
+            )
         );
 
 
-    $("resultTitle")
-        .textContent =
-        currentResults.length === 1
-        ?
-        best.name
-        :
-        `${currentResults.length} DROPS`;
+    /*
+        Střed posledního itemu
+        dostaneme pod střední marker.
+    */
+
+    const itemWidth =
+        145;
+
+    const gap =
+        12;
+
+    const step =
+        itemWidth +
+        gap;
 
 
-    const grid =
-        $("resultGrid");
+    const visibleWidth =
+        $("reelWrapper")
+        .clientWidth;
 
 
-    grid.innerHTML =
+    const center =
+        visibleWidth / 2;
 
-        currentResults
+
+    const targetIndex =
+        totalVisual -
+        results.length;
+
+
+    /*
+        U multiplieru >1
+        zobrazíme postupně poslední
+        skutečné itemy.
+    */
+
+    const firstTargetIndex =
+        totalVisual -
+        results.length;
+
+
+    const targetCenter =
+        firstTargetIndex *
+        step +
+        itemWidth / 2;
+
+
+    const finalX =
+        center -
+        targetCenter;
+
+
+    await sleep(80);
+
+
+    reel.style.transition =
+        `transform ${duration}ms cubic-bezier(.08,.72,.16,1)`;
+
+
+    reel.style.transform =
+        `translateX(${finalX}px)`;
+
+
+    await sleep(
+        duration + 150
+    );
+
+
+    /*
+        Pokud je 1×, ukážeme klasický
+        výsledek.
+
+        Pokud je více itemů,
+        zobrazíme všechny.
+    */
+
+    resultBox.classList.add(
+        "show"
+    );
+
+
+    if(
+        results.length === 1
+    ){
+
+        showResult(
+            results[0]
+        );
+
+    }else{
+
+        showMultipleResults(
+            results
+        );
+
+    }
+
+
+    await waitForResultClose();
+
+}
+
+
+/* =========================================================
+   SHOW RESULT
+========================================================= */
+
+function showResult(item){
+
+    $("resultRarity").textContent =
+        RARITIES[
+            item.rarity
+        ]?.name ||
+        item.rarity;
+
+    $("resultRarity").className =
+        "result-rarity rarity-" +
+        item.rarity;
+
+    $("resultName").textContent =
+        item.name;
+
+    $("resultImage").src =
+        item.texture;
+
+    $("resultImage").alt =
+        item.name;
+
+    $("resultValue").textContent =
+        "🪙 " +
+        money(item.value);
+
+}
+
+
+/* =========================================================
+   SHOW MULTIPLE RESULTS
+========================================================= */
+
+function showMultipleResults(results){
+
+    $("resultRarity").textContent =
+        `${results.length}× REWARDS`;
+
+    $("resultRarity").className =
+        "result-rarity rarity-epic";
+
+
+    $("resultName").textContent =
+        results
         .map(
-            item => `
+            item =>
+                item.name
+        )
+        .join(" • ");
 
-                <div
-                    class="result-item"
-                    style="
-                        --item-glow:
-                        ${RARITIES[item.rarity].color};
-                    "
-                >
 
-                    ${itemIcon(item)}
+    const total =
+        results.reduce(
+            (
+                sum,
+                item
+            ) =>
+                sum +
+                item.value,
+            0
+        );
 
-                    <div
-                        class="result-rarity"
-                        style="
-                            color:
-                            ${RARITIES[item.rarity].color};
-                        "
-                    >
-                        ${RARITIES[item.rarity].name}
-                    </div>
 
-                    <div class="result-name">
-                        ${escapeHtml(item.name)}
-                    </div>
+    $("resultImage").src =
+        results[0].texture;
 
-                    <div class="result-value">
-                        🪙 ${money(item.value)}
-                    </div>
+    $("resultImage").alt =
+        results
+        .map(
+            item =>
+                item.name
+        )
+        .join(", ");
 
-                </div>
+
+    $("resultValue").textContent =
+        "Celková hodnota: 🪙 " +
+        money(total);
+
+}
+
+
+/* =========================================================
+   RESULT CLOSE PROMISE
+========================================================= */
+
+function waitForResultClose(){
+
+    return new Promise(
+        resolve => {
+
+            const button =
+                $("closeResult");
+
+            const handler =
+                () => {
+
+                    button.removeEventListener(
+                        "click",
+                        handler
+                    );
+
+                    $("openingOverlay")
+                        .classList.remove(
+                            "show"
+                        );
+
+                    $("resultBox")
+                        .classList.remove(
+                            "show"
+                        );
+
+                    resolve();
+
+                };
+
+            button.addEventListener(
+                "click",
+                handler
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   SELL ALL
+========================================================= */
+
+async function sellAll(){
+
+    if(
+        !inventory.length
+    ){
+
+        toast(
+            "Inventář je prázdný."
+        );
+
+        return;
+
+    }
+
+
+    let total =
+        0;
+
+
+    inventory.forEach(
+        rawItem => {
+
+            const item =
+                normalizeItem(
+                    rawItem
+                );
+
+            const count =
+                Number(
+                    rawItem.count || 1
+                );
+
+            total +=
+                item.value *
+                count;
+
+        }
+    );
+
+
+    inventory =
+        [];
+
+    coins +=
+        total;
+
+
+    saveLocal();
+
+    renderAll();
+
+    await saveCloud();
+
+    toast(
+        `Prodáno za 🪙 ${money(total)}`
+    );
+
+}
+
+
+/* =========================================================
+   LOCAL SAVE
+========================================================= */
+
+function saveLocal(){
+
+    localStorage.setItem(
+        STORAGE.coins,
+        String(coins)
+    );
+
+    localStorage.setItem(
+        STORAGE.inventory,
+        JSON.stringify(
+            inventory
+        )
+    );
+
+    localStorage.setItem(
+        STORAGE.openLevel,
+        String(openLevel)
+    );
+
+    localStorage.setItem(
+        STORAGE.activeOpenLevel,
+        String(activeOpenLevel)
+    );
+
+    localStorage.setItem(
+        STORAGE.luckLevel,
+        String(luckLevel)
+    );
+
+    localStorage.setItem(
+        STORAGE.fasterSpinLevel,
+        String(fasterSpinLevel)
+    );
+
+    localStorage.setItem(
+        STORAGE.autoOpen,
+        String(autoOpenUnlocked)
+    );
+
+    localStorage.setItem(
+        STORAGE.autoSell,
+        String(autoSellUnlocked)
+    );
+
+}
+
+
+/* =========================================================
+   LOAD LOCAL
+========================================================= */
+
+function loadLocal(){
+
+    const savedCoins =
+        localStorage.getItem(
+            STORAGE.coins
+        );
+
+    if(
+        savedCoins !== null
+    ){
+
+        coins =
+            Number(
+                savedCoins
+            ) || 250;
+
+    }
+
+
+    try{
+
+        const savedInventory =
+            localStorage.getItem(
+                STORAGE.inventory
+            );
+
+        if(
+            savedInventory
+        ){
+
+            inventory =
+                JSON.parse(
+                    savedInventory
+                );
+
+        }
+
+    }catch{
+
+        inventory =
+            [];
+
+    }
+
+
+    openLevel =
+        Math.max(
+            1,
+            Math.min(
+                5,
+                Number(
+                    localStorage.getItem(
+                        STORAGE.openLevel
+                    )
+                ) || 1
+            )
+        );
+
+
+    activeOpenLevel =
+        Math.max(
+            1,
+            Math.min(
+                openLevel,
+                Number(
+                    localStorage.getItem(
+                        STORAGE.activeOpenLevel
+                    )
+                ) || 1
+            )
+        );
+
+
+    luckLevel =
+        Math.max(
+            1,
+            Math.min(
+                5,
+                Number(
+                    localStorage.getItem(
+                        STORAGE.luckLevel
+                    )
+                ) || 1
+            )
+        );
+
+
+    fasterSpinLevel =
+        Math.max(
+            0,
+            Math.min(
+                20,
+                Number(
+                    localStorage.getItem(
+                        STORAGE.fasterSpinLevel
+                    )
+                ) || 0
+            )
+        );
+
+
+    autoOpenUnlocked =
+        localStorage.getItem(
+            STORAGE.autoOpen
+        ) === "true";
+
+
+    autoSellUnlocked =
+        localStorage.getItem(
+            STORAGE.autoSell
+        ) === "true";
+
+
+    /*
+        Opravíme staré inventory data.
+    */
+
+    inventory =
+        Array.isArray(inventory)
+        ?
+        inventory.map(
+            item => {
+
+                const normalized =
+                    normalizeItem(
+                        item
+                    );
+
+                return {
+
+                    ...normalized,
+
+                    count:
+                        Number(
+                            item?.count || 1
+                        )
+
+                };
+
+            }
+        )
+        :
+        [];
+
+}
+
+
+/* =========================================================
+   CLOUD SAVE
+========================================================= */
+
+async function saveCloud(){
+
+    if(
+        !nickname
+    ){
+
+        return;
+
+    }
+
+
+    const payload = {
+
+        coins:
+            Math.floor(coins),
+
+        inventory:
+            inventory,
+
+        open_level:
+            openLevel,
+
+        active_open_level:
+            activeOpenLevel,
+
+        luck_level:
+            luckLevel,
+
+        faster_spin_level:
+            fasterSpinLevel,
+
+        auto_open_unlocked:
+            autoOpenUnlocked,
+
+        auto_sell_unlocked:
+            autoSellUnlocked,
+
+        cases_opened:
+            casesOpened,
+
+        updated_at:
+            new Date().toISOString()
+
+    };
+
+
+    const {
+        error
+    } =
+        await supabaseClient
+
+            .from(
+                "minecraft_cases_players"
+            )
+
+            .update(
+                payload
+            )
+
+            .eq(
+                "nickname",
+                nickname
+            );
+
+
+    if(error){
+
+        console.error(
+            "Cloud save error:",
+            error
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   LOAD CLOUD PLAYER
+========================================================= */
+
+async function loadCloudPlayer(){
+
+    const {
+        data,
+        error
+    } =
+        await supabaseClient
+
+            .from(
+                "minecraft_cases_players"
+            )
+
+            .select(
+                "*"
+            )
+
+            .eq(
+                "nickname",
+                nickname
+            )
+
+            .maybeSingle();
+
+
+    if(error){
+
+        console.error(
+            error
+        );
+
+        return false;
+
+    }
+
+
+    if(!data){
+
+        /*
+            Nový hráč
+        */
+
+        const newPlayer = {
+
+            nickname:
+                nickname,
+
+            coins:
+                250,
+
+            inventory:
+                [],
+
+            open_level:
+                1,
+
+            active_open_level:
+                1,
+
+            luck_level:
+                1,
+
+            faster_spin_level:
+                0,
+
+            auto_open_unlocked:
+                false,
+
+            auto_sell_unlocked:
+                false,
+
+            cases_opened:
+                0
+
+        };
+
+
+        const {
+            error:insertError
+        } =
+            await supabaseClient
+
+                .from(
+                    "minecraft_cases_players"
+                )
+
+                .insert(
+                    newPlayer
+                );
+
+
+        if(insertError){
+
+            console.error(
+                insertError
+            );
+
+            return false;
+
+        }
+
+
+        coins =
+            250;
+
+        inventory =
+            [];
+
+        openLevel =
+            1;
+
+        activeOpenLevel =
+            1;
+
+        luckLevel =
+            1;
+
+        fasterSpinLevel =
+            0;
+
+        autoOpenUnlocked =
+            false;
+
+        autoSellUnlocked =
+            false;
+
+        casesOpened =
+            0;
+
+
+        saveLocal();
+
+        return true;
+
+    }
+
+
+    /*
+        Existující hráč
+    */
+
+    coins =
+        Number(
+            data.coins
+        ) || 250;
+
+
+    inventory =
+        Array.isArray(
+            data.inventory
+        )
+        ?
+        data.inventory
+            .map(
+                item => {
+
+                    const normalized =
+                        normalizeItem(
+                            item
+                        );
+
+                    return {
+
+                        ...normalized,
+
+                        count:
+                            Number(
+                                item?.count || 1
+                            )
+
+                    };
+
+                }
+            )
+        :
+        [];
+
+
+    openLevel =
+        Math.max(
+            1,
+            Math.min(
+                5,
+                Number(
+                    data.open_level
+                ) || 1
+            )
+        );
+
+
+    activeOpenLevel =
+        Math.max(
+            1,
+            Math.min(
+                openLevel,
+                Number(
+                    data.active_open_level
+                ) || 1
+            )
+        );
+
+
+    luckLevel =
+        Math.max(
+            1,
+            Math.min(
+                5,
+                Number(
+                    data.luck_level
+                ) || 1
+            )
+        );
+
+
+    fasterSpinLevel =
+        Math.max(
+            0,
+            Math.min(
+                20,
+                Number(
+                    data.faster_spin_level
+                ) || 0
+            )
+        );
+
+
+    autoOpenUnlocked =
+        Boolean(
+            data.auto_open_unlocked
+        );
+
+
+    autoSellUnlocked =
+        Boolean(
+            data.auto_sell_unlocked
+        );
+
+
+    casesOpened =
+        Number(
+            data.cases_opened
+        ) || 0;
+
+
+    saveLocal();
+
+    return true;
+
+}
+
+
+/* =========================================================
+   LOGIN
+========================================================= */
+
+async function login(){
+
+    const input =
+        $("nicknameInput");
+
+    const error =
+        $("loginError");
+
+    const button =
+        $("loginButton");
+
+
+    const value =
+        input.value.trim();
+
+
+    if(
+        !/^[a-zA-Z0-9_]{3,20}$/.test(
+            value
+        )
+    ){
+
+        error.textContent =
+            "Nick musí mít 3–20 znaků a může obsahovat pouze písmena, čísla a _.";
+
+        return;
+
+    }
+
+
+    button.disabled =
+        true;
+
+    button.textContent =
+        "PŘIHLAŠOVÁNÍ...";
+
+    error.textContent =
+        "";
+
+
+    nickname =
+        value;
+
+
+    const success =
+        await loadCloudPlayer();
+
+
+    if(!success){
+
+        error.textContent =
+            "Nepodařilo se připojit k online databázi.";
+
+        button.disabled =
+            false;
+
+        button.textContent =
+            "HRÁT";
+
+        return;
+
+    }
+
+
+    localStorage.setItem(
+        STORAGE.nickname,
+        nickname
+    );
+
+
+    $("nicknameDisplay").textContent =
+        nickname;
+
+
+    $("loginOverlay").style.display =
+        "none";
+
+
+    renderAll();
+
+    loadLeaderboard();
+
+
+    button.disabled =
+        false;
+
+    button.textContent =
+        "HRÁT";
+
+}
+
+
+/* =========================================================
+   SAVED NICKNAME
+========================================================= */
+
+async function loadSavedNickname(){
+
+    const saved =
+        localStorage.getItem(
+            STORAGE.nickname
+        );
+
+
+    if(!saved){
+
+        return;
+
+    }
+
+
+    $("nicknameInput").value =
+        saved;
+
+}
+
+
+/* =========================================================
+   LEADERBOARD
+========================================================= */
+
+async function loadLeaderboard(){
+
+    const body =
+        $("leaderboardBody");
+
+    body.innerHTML = `
+
+        <tr>
+
+            <td colspan="4">
+                Načítám...
+            </td>
+
+        </tr>
+
+    `;
+
+
+    const {
+        data,
+        error
+    } =
+        await supabaseClient
+
+            .from(
+                "minecraft_cases_players"
+            )
+
+            .select(
+                "nickname,coins,cases_opened"
+            )
+
+            .order(
+                "coins",
+                {
+                    ascending:false
+                }
+            )
+
+            .limit(
+                100
+            );
+
+
+    if(error){
+
+        console.error(
+            error
+        );
+
+        body.innerHTML = `
+
+            <tr>
+
+                <td colspan="4">
+                    Leaderboard se nepodařilo načíst.
+                </td>
+
+            </tr>
+
+        `;
+
+        return;
+
+    }
+
+
+    if(
+        !data ||
+        !data.length
+    ){
+
+        body.innerHTML = `
+
+            <tr>
+
+                <td colspan="4">
+                    Zatím zde nikdo není.
+                </td>
+
+            </tr>
+
+        `;
+
+        return;
+
+    }
+
+
+    body.innerHTML =
+        data
+        .map(
+            (
+                player,
+                index
+            ) => `
+
+                <tr>
+
+                    <td>
+                        ${index + 1}
+                    </td>
+
+                    <td>
+                        ${escapeHtml(
+                            player.nickname
+                        )}
+                    </td>
+
+                    <td>
+                        🪙 ${
+                            money(
+                                player.coins
+                            )
+                        }
+                    </td>
+
+                    <td>
+                        ${
+                            money(
+                                player.cases_opened
+                            )
+                        }
+                    </td>
+
+                </tr>
 
             `
         )
         .join("");
 
-
-    const total =
-        currentResults.reduce(
-            (sum,item) =>
-                sum + item.value,
-            0
-        );
-
-
-    $("resultTotal")
-        .textContent =
-        `${currentResults.length} dropů • Celková hodnota: 🪙 ${money(total)}`;
-
 }
 
 
 /* =========================================================
-   KEEP
+   EVENTS
 ========================================================= */
 
-function keepResult(){
-
-    if(!currentResults.length){
-        return;
-    }
-
-
-    inventory.push(
-        ...currentResults.map(
-            item => ({
-                ...normalizeItem(item)
-            })
-        )
+$("loginButton")
+    .addEventListener(
+        "click",
+        login
     );
 
 
-    const amount =
-        currentResults.length;
-
-
-    save();
-
-
-    closeResult();
-
-
-    showToast(
-        `${amount} ${amount === 1 ? "drop" : "dropů"} uloženo do Storage. 🎒`
-    );
-
-}
-
-
-/* =========================================================
-   SELL
-========================================================= */
-
-function sellResult(){
-
-    if(!currentResults.length){
-        return;
-    }
-
-
-    const amount =
-        currentResults.reduce(
-            (sum,item) =>
-                sum + item.value,
-            0
-        );
-
-
-    coins += amount;
-
-
-    save();
-
-
-    closeResult();
-
-
-    showToast(
-        `Prodáno za 🪙 ${money(amount)}.`
-    );
-
-}
-
-
-/* =========================================================
-   SELL INVENTORY
-========================================================= */
-
-function sellInventory(index){
-
-    const item =
-        inventory[index];
-
-
-    if(!item){
-        return;
-    }
-
-
-    inventory.splice(
-        index,
-        1
-    );
-
-
-    coins +=
-        Number(item.value) || 0;
-
-
-    save();
-
-
-    showToast(
-        `${item.name} prodán za 🪙 ${money(item.value)}.`
-    );
-
-}
-
-
-/* =========================================================
-   CLOSE RESULT
-========================================================= */
-
-function closeResult(){
-
-    $("resultOverlay")
-        .classList
-        .remove("show");
-
-
-    currentResults = [];
-
-}
-
-
-/* =========================================================
-   CLOSE OPENING
-========================================================= */
-
-function closeOpening(){
-
-    if(openingBusy){
-
-        showToast(
-            "Opening právě probíhá..."
-        );
-
-        return;
-
-    }
-
-
-    $("openingOverlay")
-        .classList
-        .remove("show");
-
-}
-
-
-/* =========================================================
-   AUTO OPEN
-========================================================= */
-
-async function startAutoOpen(caseId){
-
-    if(!autoOpenUnlocked){
-
-        showToast(
-            "Nejdřív si odemkni Auto Open za 🪙 50 000."
-        );
-
-        return;
-
-    }
-
-
-    if(CASES[caseId].price === 0){
-
-        showToast(
-            "Auto Open funguje pouze na placené bedny."
-        );
-
-        return;
-
-    }
-
-
-    if(!autoSellUnlocked){
-
-        showToast(
-            "Pro kontinuální Auto Open potřebuješ také Auto Sell."
-        );
-
-        return;
-
-    }
-
-
-    if(autoOpenRunning){
-
-        stopAutoOpen();
-
-        return;
-
-    }
-
-
-    autoOpenRunning = true;
-
-    autoCaseId = caseId;
-
-    renderAutomation();
-    renderCases();
-
-
-    showToast(
-        `⚡ Auto Open spuštěn: ${CASES[caseId].name}`
-    );
-
-
-    while(
-        autoOpenRunning &&
-        autoCaseId === caseId
-    ){
-
-        const cost =
-            CASES[caseId].price *
-            openLevel;
-
-
-        if(coins < cost){
-
-            stopAutoOpen();
-
-            showToast(
-                "Auto Open zastaven – došly coiny."
-            );
-
-            break;
-
-        }
-
-
-        while(openingBusy){
-
-            await sleep(100);
-
-        }
-
-
-        if(!autoOpenRunning){
-
-            break;
-
-        }
-
-
-        await openCase(
-            caseId,
-            true
-        );
-
-
-        await sleep(350);
-
-    }
-
-}
-
-
-/* =========================================================
-   STOP AUTO OPEN
-========================================================= */
-
-function stopAutoOpen(){
-
-    autoOpenRunning = false;
-
-    autoCaseId = null;
-
-    renderAutomation();
-    renderCases();
-
-
-    showToast(
-        "⏹ Auto Open zastaven."
-    );
-
-}
-
-
-/* =========================================================
-   RAYS
-========================================================= */
-
-function triggerRays(
-    rarity,
-    heavy=true
-){
-
-    const colors = {
-
-        common:"#b8b8b8",
-        uncommon:"#55e36d",
-        rare:"#4d9dff",
-        epic:"#b85cff",
-        legendary:"#ffd43b",
-        mythic:"#ff4d8d"
-
-    };
-
-
-    const rays =
-        $("rays");
-
-
-    const color =
-        colors[rarity];
-
-
-    const amount = {
-
-        common:14,
-        uncommon:20,
-        rare:27,
-        epic:36,
-        legendary:48,
-        mythic:64
-
-    }[rarity] || 14;
-
-
-    rays.innerHTML = "";
-
-
-    for(
-        let i=0;
-        i<amount;
-        i++
-    ){
-
-        const ray =
-            document.createElement(
-                "div"
-            );
-
-
-        ray.className =
-            "ray";
-
-
-        ray.style.setProperty(
-            "--rotation",
-            `${i * (360 / amount)}deg`
-        );
-
-
-        ray.style.setProperty(
-            "--ray-color",
-            color
-        );
-
-
-        const opacity =
-
-            rarity === "common"
-            ? .18
-
-            :
-
-            rarity === "uncommon"
-            ? .22
-
-            :
-
-            rarity === "rare"
-            ? .28
-
-            :
-
-            rarity === "epic"
-            ? .38
-
-            :
-
-            rarity === "legendary"
-            ? .52
-
-            :
-            .68;
-
-
-        ray.style.setProperty(
-            "--ray-opacity",
-            opacity
-        );
-
-
-        ray.style.height =
-            `${
-                65 +
-                Math.random() * 45
-            }vh`;
-
-
-        ray.style.width =
-            `${
-                rarity === "mythic"
-                ?
-                170 + Math.random()*110
-                :
-                105 + Math.random()*100
-            }px`;
-
-
-        rays.appendChild(
-            ray
-        );
-
-    }
-
-
-    rays.classList.remove(
-        "show",
-        "animate"
-    );
-
-
-    void rays.offsetWidth;
-
-
-    rays.classList.add(
-        "show",
-        "animate"
-    );
-
-
-    const burst =
-        $("centerBurst");
-
-
-    burst.style.setProperty(
-        "--burst-color",
-        color
-    );
-
-
-    burst.classList.remove(
-        "go"
-    );
-
-
-    void burst.offsetWidth;
-
-
-    burst.classList.add(
-        "go"
-    );
-
-
-    if(
-        rarity === "epic" ||
-        rarity === "legendary" ||
-        rarity === "mythic"
-    ){
-
-        const flash =
-            $("flash");
-
-
-        flash.classList.remove(
-            "go"
-        );
-
-
-        void flash.offsetWidth;
-
-
-        flash.classList.add(
-            "go"
-        );
-
-    }
-
-
-    if(
-        rarity === "legendary" ||
-        rarity === "mythic"
-    ){
-
-        document.body
-            .classList
-            .remove("shake");
-
-
-        void document.body.offsetWidth;
-
-
-        document.body
-            .classList
-            .add("shake");
-
-
-        setTimeout(
-            () => {
-
-                document.body
-                    .classList
-                    .remove("shake");
-
-            },
-            600
-        );
-
-    }
-
-
-    spawnParticles(
-        color,
-
-        rarity === "mythic"
-        ? 110
-
-        :
-
-        rarity === "legendary"
-        ? 85
-
-        :
-
-        rarity === "epic"
-        ? 60
-
-        :
-
-        rarity === "rare"
-        ? 40
-
-        :
-        25
-    );
-
-
-    setTimeout(
-        () => {
-
-            rays.classList.remove(
-                "show",
-                "animate"
-            );
-
-        },
-        heavy
-        ?
-        (
-            rarity === "mythic"
-            ?
-            1700
-            :
-            1350
-        )
-        :
-        800
-    );
-
-}
-
-
-/* =========================================================
-   PARTICLES
-========================================================= */
-
-function spawnParticles(
-    color,
-    count
-){
-
-    for(
-        let i=0;
-        i<count;
-        i++
-    ){
-
-        const particle =
-            document.createElement(
-                "div"
-            );
-
-
-        particle.className =
-            "particle";
-
-
-        particle.style.background =
-            color;
-
-
-        particle.style.boxShadow =
-            `0 0 10px ${color}`;
-
-
-        particle.style.left =
-            "50%";
-
-
-        particle.style.top =
-            "50%";
-
-
-        particle.style.width =
-            `${
-                3 +
-                Math.random()*6
-            }px`;
-
-
-        particle.style.height =
-            `${
-                3 +
-                Math.random()*6
-            }px`;
-
-
-        document.body.appendChild(
-            particle
-        );
-
-
-        const angle =
-            Math.random() *
-            Math.PI *
-            2;
-
-
-        const distance =
-            130 +
-            Math.random() *
-            550;
-
-
-        particle.animate(
-
-            [
-
-                {
-                    transform:
-                        "translate(-50%,-50%) scale(.2) rotate(0deg)",
-
-                    opacity:1
-                },
-
-                {
-
-                    transform:
-                        `
-                            translate(
-                                calc(
-                                    -50% +
-                                    ${Math.cos(angle)*distance}px
-                                ),
-                                calc(
-                                    -50% +
-                                    ${Math.sin(angle)*distance}px
-                                )
-                            )
-                            scale(1)
-                            rotate(
-                                ${Math.random()*720}deg
-                            )
-                        `,
-
-                    opacity:0
-
-                }
-
-            ],
-
-            {
-
-                duration:
-                    700 +
-                    Math.random()*850,
-
-                easing:
-                    "cubic-bezier(.1,.7,.2,1)"
-
-            }
-
-        ).onfinish =
-            () => particle.remove();
-
-    }
-
-}
-
-
-/* =========================================================
-   AUDIO
-========================================================= */
-
-function getAudio(){
-
-    try{
-
-        if(!window._audio){
-
-            window._audio =
-                new AudioContext();
-
-        }
-
-
-        if(
-            window._audio.state ===
-            "suspended"
-        ){
-
-            window._audio.resume();
-
-        }
-
-
-        return window._audio;
-
-    }
-
-    catch(error){
-
-        return null;
-
-    }
-
-}
-
-
-function playTick(){
-
-    const ctx =
-        getAudio();
-
-
-    if(!ctx){
-        return;
-    }
-
-
-    try{
-
-        const oscillator =
-            ctx.createOscillator();
-
-
-        const gain =
-            ctx.createGain();
-
-
-        oscillator.type =
-            "square";
-
-
-        oscillator.frequency.value =
-            850;
-
-
-        gain.gain.setValueAtTime(
-            .035,
-            ctx.currentTime
-        );
-
-
-        gain.gain.exponentialRampToValueAtTime(
-            .001,
-            ctx.currentTime + .055
-        );
-
-
-        oscillator.connect(gain);
-        gain.connect(ctx.destination);
-
-
-        oscillator.start();
-
-
-        oscillator.stop(
-            ctx.currentTime + .06
-        );
-
-    }
-
-    catch(error){}
-
-}
-
-
-function playOpenSound(){
-
-    const ctx =
-        getAudio();
-
-
-    if(!ctx){
-        return;
-    }
-
-
-    try{
-
-        const oscillator =
-            ctx.createOscillator();
-
-
-        const gain =
-            ctx.createGain();
-
-
-        oscillator.type =
-            "sawtooth";
-
-
-        oscillator.frequency.setValueAtTime(
-            100,
-            ctx.currentTime
-        );
-
-
-        oscillator.frequency.exponentialRampToValueAtTime(
-            600,
-            ctx.currentTime + 1.25
-        );
-
-
-        gain.gain.setValueAtTime(
-            .045,
-            ctx.currentTime
-        );
-
-
-        gain.gain.exponentialRampToValueAtTime(
-            .001,
-            ctx.currentTime + 1.35
-        );
-
-
-        oscillator.connect(gain);
-        gain.connect(ctx.destination);
-
-
-        oscillator.start();
-
-
-        oscillator.stop(
-            ctx.currentTime + 1.4
-        );
-
-    }
-
-    catch(error){}
-
-}
-
-
-/* =========================================================
-   TOAST
-========================================================= */
-
-let toastTimer = null;
-
-function showToast(message){
-
-    const toast =
-        $("toast");
-
-
-    toast.textContent =
-        message;
-
-
-    toast.classList.add(
-        "show"
-    );
-
-
-    clearTimeout(
-        toastTimer
-    );
-
-
-    toastTimer =
-        setTimeout(
-            () => {
-
-                toast.classList.remove(
-                    "show"
-                );
-
-            },
-            3000
-        );
-
-}
-
-
-/* =========================================================
-   KEYBOARD
-========================================================= */
-
-document.addEventListener(
-    "keydown",
-    event => {
-
-        if(
-            event.key === "Enter" &&
-            !$("loginOverlay")
-                .classList
-                .contains("hidden")
-        ){
-
-            loginPlayer();
-
-            return;
-
-        }
-
-
-        if(
-            event.key === "Escape"
-        ){
+$("nicknameInput")
+    .addEventListener(
+        "keydown",
+        event => {
 
             if(
-                !$("resultOverlay")
-                    .classList
-                    .contains("show")
+                event.key === "Enter"
             ){
 
-                closeOpening();
+                login();
 
             }
 
         }
-
-    }
-);
+    );
 
 
-/* =========================================================
-   BEFORE CLOSE
-========================================================= */
-
-window.addEventListener(
-    "beforeunload",
-    () => {
-
-        if(loggedIn && playerId){
-
-            saveToCloud();
-
-        }
-
-    }
-);
+$("sellAllButton")
+    .addEventListener(
+        "click",
+        sellAll
+    );
 
 
 /* =========================================================
    INITIALIZE
 ========================================================= */
 
-loadSavedNickname();
+loadLocal();
 
 renderAll();
+
+loadSavedNickname();
+
+
+/*
+    Pokud je uložený nick,
+    přihlášení stále musí proběhnout
+    přes Supabase, aby se načetl
+    aktuální online progres.
+
+    Pokud uživatel klikne HRÁT,
+    login() načte cloud data.
+*/
+
 
 </script>
 
 </body>
+
 </html>
