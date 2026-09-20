@@ -3329,16 +3329,16 @@ async function loginPlayer(){
 
     catch(error){
 
-        console.error(
-            "Login error:",
-            error
-        );
+    console.error(
+        "Login error:",
+        error
+    );
 
 
-        status.textContent =
-            "Nepodařilo se připojit k databázi. Zkontroluj Supabase key.";
+    status.textContent =
+        `DB ERROR: ${error.message || "Neznámá chyba"}`;
 
-    }
+}
 
 
     finally{
