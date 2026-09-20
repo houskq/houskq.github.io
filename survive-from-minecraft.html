@@ -1616,6 +1616,7 @@ header{
     }
 }
 
+
 /* =========================================================
    PREMIUM RESULT SCREEN V6
 ========================================================= */
@@ -1798,6 +1799,7 @@ header{
 }
 
 @media(max-width:700px){
+
     .result-box{
         padding:20px 14px;
         border-radius:20px;
@@ -1815,6 +1817,7 @@ header{
     .result-action.open-again{
         grid-column:auto;
     }
+
 }
 
 
@@ -1903,6 +1906,7 @@ header{
         opacity:1;
         transform:translateY(0);
     }
+
 }
 
 
@@ -2296,10 +2300,6 @@ header{
                 💰 Výhru můžeš prodat rovnou tady.
             </div>
 
-            <!--
-                Pro 2× až 5× se používá tento grid.
-                U 1× zůstává skrytý.
-            -->
 
             <div
                 class="multiple-results"
@@ -2313,7 +2313,11 @@ header{
                 style="display:none;"
             ></div>
 
-            <div class="result-actions" id="resultActions">
+
+            <div
+                class="result-actions"
+                id="resultActions"
+            >
 
                 <button
                     class="result-action sell"
@@ -2389,17 +2393,7 @@ let inventory = [];
 
 let openLevel = 1;
 
-/*
-    openLevel =
-    MAXIMUM PURCHASED MULTIPLIER
-*/
-
 let activeOpenLevel = 1;
-
-/*
-    activeOpenLevel =
-    CURRENTLY SELECTED MULTIPLIER
-*/
 
 let luckLevel = 1;
 
@@ -2415,12 +2409,10 @@ let currentOpening = false;
 
 let autoOpenTimer = null;
 
-/*
-    Výsledky právě zobrazené v reward screenu.
-    Díky tomu lze výhru prodat bez návštěvy inventáře.
-*/
 let pendingResults = [];
+
 let pendingCaseId = "";
+
 let pendingResultResolver = null;
 
 
@@ -3347,11 +3339,6 @@ function renderCases(){
     CASES.forEach(
         caseData => {
 
-            /*
-                DŮLEŽITÉ:
-                cena se počítá podle aktivního multiplieru.
-            */
-
             const totalPrice =
                 caseData.price *
                 activeOpenLevel;
@@ -3415,15 +3402,7 @@ function renderCases(){
                     ${canAfford ? "" : "disabled"}
                     onclick="openCase('${escapeHtml(caseData.id)}')"
                 >
-
-                    ${
-                        caseData.price === 0
-                        ?
-                        `OTEVŘÍT ${activeOpenLevel}×`
-                        :
-                        `OTEVŘÍT ${activeOpenLevel}×`
-                    }
-
+                    OTEVŘÍT ${activeOpenLevel}×
                 </button>
 
             `;
@@ -3450,10 +3429,6 @@ function renderUpgrades(){
     container.innerHTML =
         "";
 
-
-    /* =====================================================
-       OPEN MULTIPLIER
-    ====================================================== */
 
     const nextOpen =
         openLevel + 1;
@@ -3587,10 +3562,6 @@ function renderUpgrades(){
     );
 
 
-    /* =====================================================
-       LUCK
-    ====================================================== */
-
     const nextLuck =
         luckLevel + 1;
 
@@ -3663,10 +3634,6 @@ function renderUpgrades(){
         luckCard
     );
 
-
-    /* =====================================================
-       FASTER SPIN
-    ====================================================== */
 
     const spinCard =
         document.createElement(
@@ -4213,11 +4180,6 @@ async function upgradeOpen(){
     openLevel =
         next;
 
-    /*
-        Po koupi nového levelu
-        ho rovnou nastavíme jako aktivní.
-    */
-
     activeOpenLevel =
         next;
 
@@ -4490,10 +4452,6 @@ function toggleAutoOpen(){
 
 function findAffordableCase(){
 
-    /*
-        Preferujeme nejdražší dostupný case.
-    */
-
     const sorted =
         [...CASES]
         .sort(
@@ -4642,12 +4600,6 @@ async function openCase(
     const results = [];
 
 
-    /*
-        Vygenerujeme přesně tolik
-        skutečných výsledků, kolik
-        odpovídá multiplieru.
-    */
-
     for(
         let i = 0;
         i < multiplier;
@@ -4664,8 +4616,10 @@ async function openCase(
 
 
     /*
-        Auto Sell:
-        výhry se okamžitě prodají.
+        AUTO SELL
+        -------------------------
+        Itemy se vůbec nedají do
+        inventáře. Rovnou se prodají.
     */
 
     if(
@@ -4679,7 +4633,9 @@ async function openCase(
             item => {
 
                 totalSell +=
-                    item.value;
+                    Number(
+                        item.value || 0
+                    );
 
             }
         );
@@ -4707,6 +4663,13 @@ async function openCase(
     }
 
 
+    /*
+        DŮLEŽITÁ OPRAVA:
+        showOpening nyní vrací přesně
+        "sell", "continue" nebo
+        "openAgain".
+    */
+
     const resultAction =
         await showOpening(
             results,
@@ -4714,31 +4677,27 @@ async function openCase(
         );
 
 
-    /*
-        Reward screen rozhodne, co s právě
-        získanými itemy udělat.
-
-        SELL:
-            itemy nejdou do inventáře,
-            jejich hodnota jde rovnou do coinů.
-
-        CONTINUE:
-            itemy se přidají do inventáře.
-
-        OPEN_AGAIN:
-            itemy se uloží do inventáře a
-            stejná case se hned otevře znovu.
-    */
-
     const rewardTotal =
         results.reduce(
-            (sum, item) =>
-                sum + Number(item.value || 0),
+            (sum,item) =>
+                sum +
+                Number(
+                    item.value || 0
+                ),
             0
         );
 
 
-    if(resultAction === "sell"){
+    /*
+        PRODAT
+        -------------------------
+        Všechny rewardy z právě
+        otevřené case se prodají.
+    */
+
+    if(
+        resultAction === "sell"
+    ){
 
         coins +=
             rewardTotal;
@@ -4753,7 +4712,49 @@ async function openCase(
             `💰 Výhra prodána za 🪙 ${money(rewardTotal)}`
         );
 
-    }else{
+    }
+
+
+    /*
+        POKRAČOVAT
+        -------------------------
+        Rewardy se uloží do inventáře.
+    */
+
+    else if(
+        resultAction === "continue"
+    ){
+
+        results.forEach(
+            item => {
+
+                addInventory(
+                    item
+                );
+
+            }
+        );
+
+        saveLocal();
+
+        renderAll();
+
+        await saveCloud();
+
+    }
+
+
+    /*
+        OTEVŘÍT ZNOVU
+        -------------------------
+        Nejdřív se předchozí rewardy
+        uloží do inventáře a potom
+        se otevře STEJNÁ case znovu.
+    */
+
+    else if(
+        resultAction === "openAgain"
+    ){
 
         results.forEach(
             item => {
@@ -4778,7 +4779,16 @@ async function openCase(
         false;
 
 
-    if(resultAction === "openAgain"){
+    /*
+        Znovu otevřeme stejnou case.
+        Používá se původní caseId,
+        takže se nemůže omylem otevřít
+        jiná case.
+    */
+
+    if(
+        resultAction === "openAgain"
+    ){
 
         await sleep(120);
 
@@ -4877,14 +4887,6 @@ function createOpeningReel(
         "reel";
 
 
-    /*
-        35 itemů jako předtím.
-
-        Poslední item je vždy skutečný
-        výsledek tohoto konkrétního
-        reelu.
-    */
-
     const totalVisual =
         35;
 
@@ -4961,7 +4963,8 @@ async function showOpening(
 
     pendingResults =
         results.map(
-            item => normalizeItem(item)
+            item =>
+                normalizeItem(item)
         );
 
     pendingCaseId =
@@ -4988,7 +4991,7 @@ async function showOpening(
 
 
     /*
-        Reset výsledkového UI.
+        RESET RESULT UI
     */
 
     $("multipleResults").style.display =
@@ -5032,11 +5035,6 @@ async function showOpening(
         "";
 
 
-    /*
-        Vytvoříme samostatný reel pro
-        KAŽDÝ skutečný výsledek.
-    */
-
     const lanes = [];
 
 
@@ -5069,16 +5067,6 @@ async function showOpening(
     await sleep(100);
 
 
-    /*
-        Faster Spin
-
-        0%  = 4200 ms
-        10% = 3780 ms
-        20% = 3360 ms
-
-        Minimum 1000 ms.
-    */
-
     const baseDuration =
         4200;
 
@@ -5093,15 +5081,6 @@ async function showOpening(
             )
         );
 
-
-    /*
-        Spouštíme všechny reely
-        současně.
-
-        Každý má vlastní wrapper,
-        takže každý může být přesně
-        vystředěný.
-    */
 
     const animations =
         lanes.map(
@@ -5125,11 +5104,6 @@ async function showOpening(
     );
 
 
-    /*
-        Po zastavení reelů ukážeme
-        výsledky.
-    */
-
     resultBox.classList.add(
         "show"
     );
@@ -5152,7 +5126,25 @@ async function showOpening(
     }
 
 
-    await waitForResultClose();
+    /*
+        =====================================================
+        HLAVNÍ OPRAVA
+        =====================================================
+
+        Předtím zde bylo:
+
+            await waitForResultClose();
+
+        Tím se výsledek tlačítka ztratil.
+
+        Teď vracíme jeho hodnotu do openCase():
+
+            "sell"
+            "continue"
+            "openAgain"
+    */
+
+    return await waitForResultClose();
 
 }
 
@@ -5187,15 +5179,6 @@ async function animateReel(
     await sleep(60);
 
 
-    /*
-        Šířka itemu zůstává 145px
-        a gap 12px.
-
-        Protože každý reel má svůj
-        vlastní wrapper, počítáme
-        střed samostatně.
-    */
-
     const itemWidth =
         145;
 
@@ -5215,11 +5198,6 @@ async function animateReel(
         visibleWidth / 2;
 
 
-    /*
-        Skutečný výsledek je úplně
-        poslední item.
-    */
-
     const targetIndex =
         totalVisual - 1;
 
@@ -5234,12 +5212,6 @@ async function animateReel(
         center -
         targetCenter;
 
-
-    /*
-        Drobný rozdíl mezi lanes,
-        aby všechny nebyly úplně
-        identické na milisekundu.
-    */
 
     const stagger =
         laneIndex *
@@ -5313,6 +5285,7 @@ function showResult(item){
         "🪙 " +
         money(item.value);
 
+
     $("sellPreview").textContent =
         `💰 Prodat rovnou za 🪙 ${money(item.value)}`;
 
@@ -5335,12 +5308,10 @@ function showMultipleResults(results){
 
     pendingResults =
         results.map(
-            item => normalizeItem(item)
+            item =>
+                normalizeItem(item)
         );
 
-    /*
-        Schováme single-result UI.
-    */
 
     $("resultRarity").style.display =
         "";
@@ -5459,6 +5430,7 @@ function showMultipleResults(results){
     totalElement.textContent =
         `Celková hodnota: 🪙 ${money(total)}`;
 
+
     $("sellPreview").textContent =
         `💰 Prodat všechny odměny rovnou za 🪙 ${money(total)}`;
 
@@ -5484,100 +5456,145 @@ function waitForResultClose(){
                 $("openAgainResult");
 
 
-            const finish =
-                action => {
+            /*
+                Lokální ochrana proti tomu,
+                aby se tlačítko nezpracovalo
+                dvakrát.
+            */
 
-                    if(pendingResultResolver !== null){
+            let finished =
+                false;
 
-                        return;
 
-                    }
+            function cleanup(){
 
-                    pendingResultResolver =
-                        resolve;
+                sellButton.removeEventListener(
+                    "click",
+                    sellHandler
+                );
 
-                    sellButton.removeEventListener(
-                        "click",
-                        sellHandler
+                continueButton.removeEventListener(
+                    "click",
+                    continueHandler
+                );
+
+                openAgainButton.removeEventListener(
+                    "click",
+                    openAgainHandler
+                );
+
+            }
+
+
+            function finish(action){
+
+                if(
+                    finished
+                ){
+
+                    return;
+
+                }
+
+
+                finished =
+                    true;
+
+
+                cleanup();
+
+
+                /*
+                    Zavřeme celý reward screen.
+                */
+
+                $("openingOverlay")
+                    .classList.remove(
+                        "show"
                     );
 
-                    continueButton.removeEventListener(
-                        "click",
-                        continueHandler
+                $("resultBox")
+                    .classList.remove(
+                        "show"
                     );
 
-                    openAgainButton.removeEventListener(
-                        "click",
-                        openAgainHandler
-                    );
+                $("openingReels")
+                    .innerHTML =
+                    "";
 
 
-                    $("openingOverlay")
-                        .classList.remove(
-                            "show"
-                        );
+                /*
+                    pendingCaseId už po kliknutí
+                    není potřeba.
+                */
 
-                    $("resultBox")
-                        .classList.remove(
-                            "show"
-                        );
-
-                    $("openingReels")
-                        .innerHTML =
-                        "";
-
-                    pendingResults =
-                        [];
-
-                    pendingCaseId =
-                        "";
-
-                    const resolver =
-                        pendingResultResolver;
-
-                    pendingResultResolver =
-                        null;
-
-                    resolver(action);
-
-                };
+                pendingCaseId =
+                    "";
 
 
-            const sellHandler =
-                () => {
-
-                    const total =
-                        pendingResults.reduce(
-                            (sum,item) =>
-                                sum +
-                                Number(
-                                    item.value || 0
-                                ),
-                            0
-                        );
-
-                    sellButton.textContent =
-                        `💰 PRODAT — 🪙 ${money(total)}`;
-
-                    finish("sell");
-
-                };
+                pendingResultResolver =
+                    null;
 
 
-            const continueHandler =
-                () => {
+                /*
+                    TADY se vrací skutečná
+                    akce do openCase().
+                */
 
-                    finish("continue");
+                resolve(action);
 
-                };
+            }
 
 
-            const openAgainHandler =
-                () => {
+            function sellHandler(){
 
-                    finish("openAgain");
+                /*
+                    Pro 1×:
+                        PRODAT
 
-                };
+                    Pro 2×–5×:
+                        PRODAT VŠE
+
+                    openCase() následně spočítá
+                    součet z lokálních results.
+                */
+
+                finish(
+                    "sell"
+                );
+
+            }
+
+
+            function continueHandler(){
+
+                finish(
+                    "continue"
+                );
+
+            }
+
+
+            function openAgainHandler(){
+
+                finish(
+                    "openAgain"
+                );
+
+            }
+
+
+            /*
+                Text tlačítka podle počtu
+                právě získaných itemů.
+            */
+
+            sellButton.textContent =
+                pendingResults.length > 1
+                ?
+                "💰 PRODAT VŠE"
+                :
+                "💰 PRODAT";
 
 
             sellButton.addEventListener(
@@ -5595,16 +5612,6 @@ function waitForResultClose(){
                 openAgainHandler
             );
 
-
-            /*
-                Pro jistotu reset textu po každém
-                novém reward screenu.
-            */
-            sellButton.textContent =
-                pendingResults.length > 1
-                ? "💰 PRODAT VŠE"
-                : "💰 PRODAT";
-
         }
     );
 
@@ -5612,7 +5619,7 @@ function waitForResultClose(){
 
 
 /* =========================================================
-   SELL ALL
+   SELL ALL INVENTORY
 ========================================================= */
 
 async function sellAll(){
@@ -5856,10 +5863,6 @@ function loadLocal(){
         ) === "true";
 
 
-    /*
-        Opravíme staré inventory data.
-    */
-
     inventory =
         Array.isArray(inventory)
         ?
@@ -6012,10 +6015,6 @@ async function loadCloudPlayer(){
 
     if(!data){
 
-        /*
-            Nový hráč
-        */
-
         const newPlayer = {
 
             nickname:
@@ -6110,10 +6109,6 @@ async function loadCloudPlayer(){
 
     }
 
-
-    /*
-        Existující hráč
-    */
 
     coins =
         Number(
@@ -6528,17 +6523,6 @@ loadLocal();
 renderAll();
 
 loadSavedNickname();
-
-
-/*
-    Pokud je uložený nick,
-    přihlášení stále musí proběhnout
-    přes Supabase, aby se načetl
-    aktuální online progres.
-
-    Pokud uživatel klikne HRÁT,
-    login() načte cloud data.
-*/
 
 
 </script>
