@@ -501,6 +501,11 @@ header{
         );
 }
 
+
+/* =========================================================
+   RGB CASE NAMES
+========================================================= */
+
 .case-name{
 
     font-size:18px;
@@ -508,6 +513,52 @@ header{
     font-weight:900;
 
     margin-bottom:6px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #ff3b3b,
+            #ff9f3b,
+            #fff23b,
+            #45ff6b,
+            #39d9ff,
+            #6375ff,
+            #bd5cff,
+            #ff3b9d,
+            #ff3b3b
+        );
+
+    background-size:400% 100%;
+
+    -webkit-background-clip:text;
+
+    background-clip:text;
+
+    -webkit-text-fill-color:transparent;
+
+    animation:
+        caseRGB 4s linear infinite;
+
+    filter:
+        drop-shadow(
+            0 0 8px rgba(255,255,255,.12)
+        );
+}
+
+@keyframes caseRGB{
+
+    0%{
+        background-position:0% 50%;
+    }
+
+    50%{
+        background-position:100% 50%;
+    }
+
+    100%{
+        background-position:0% 50%;
+    }
+
 }
 
 .case-price{
@@ -1101,7 +1152,7 @@ header{
     inset:0;
 
     background:
-        rgba(3,4,9,.93);
+        rgba(3,4,9,.95);
 
     backdrop-filter:
         blur(10px);
@@ -1113,6 +1164,10 @@ header{
     justify-content:center;
 
     z-index:5000;
+
+    overflow-y:auto;
+
+    padding:25px 0;
 }
 
 .opening-overlay.show{
@@ -1123,7 +1178,7 @@ header{
 .opening-box{
 
     width:
-        min(1100px,94vw);
+        min(1250px,94vw);
 
     text-align:center;
 }
@@ -1143,6 +1198,57 @@ header{
     color:#858da5;
 
     margin-bottom:25px;
+}
+
+
+/* =========================================================
+   MULTIPLE REELS
+========================================================= */
+
+.opening-reels{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(220px,1fr)
+        );
+
+    gap:14px;
+
+    width:100%;
+}
+
+.reel-card{
+
+    min-width:0;
+
+    background:
+        rgba(11,14,24,.75);
+
+    border:
+        1px solid rgba(255,255,255,.08);
+
+    border-radius:18px;
+
+    padding:10px;
+
+    box-shadow:
+        inset 0 0 25px rgba(0,0,0,.2);
+}
+
+.reel-label{
+
+    font-size:12px;
+
+    font-weight:1000;
+
+    color:#777f98;
+
+    letter-spacing:1.5px;
+
+    margin-bottom:8px;
 }
 
 
@@ -1197,6 +1303,31 @@ header{
         0 0 15px rgba(255,255,255,.7);
 
     z-index:10;
+}
+
+.reel-wrapper::after{
+
+    content:"";
+
+    position:absolute;
+
+    top:0;
+    bottom:0;
+
+    left:0;
+
+    width:22%;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(3,4,9,.9),
+            transparent
+        );
+
+    z-index:5;
+
+    pointer-events:none;
 }
 
 .reel{
@@ -1358,6 +1489,116 @@ header{
     cursor:pointer;
 }
 
+
+/* =========================================================
+   MULTIPLE RESULT GRID
+========================================================= */
+
+.multiple-results{
+
+    width:100%;
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(150px,1fr)
+        );
+
+    gap:12px;
+
+    margin-top:5px;
+
+    max-height:380px;
+
+    overflow-y:auto;
+
+    padding:5px;
+}
+
+.reward-card{
+
+    background:
+        linear-gradient(
+            145deg,
+            #151a2b,
+            #0d101b
+        );
+
+    border:
+        1px solid #2b3148;
+
+    border-radius:15px;
+
+    padding:14px;
+
+    min-width:0;
+
+    animation:
+        resultPop .45s ease-out;
+}
+
+.reward-card img{
+
+    width:100px;
+
+    height:100px;
+
+    object-fit:contain;
+
+    margin-bottom:7px;
+}
+
+.reward-card-name{
+
+    font-size:14px;
+
+    font-weight:900;
+
+    min-height:34px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+}
+
+.reward-card-rarity{
+
+    font-size:11px;
+
+    font-weight:1000;
+
+    text-transform:uppercase;
+
+    margin-top:5px;
+}
+
+.reward-card-value{
+
+    color:#ffd84d;
+
+    font-size:12px;
+
+    font-weight:900;
+
+    margin-top:7px;
+}
+
+.multiple-total{
+
+    margin-top:15px;
+
+    color:#ffd84d;
+
+    font-size:17px;
+
+    font-weight:1000;
+}
+
+
 @keyframes resultPop{
 
     0%{
@@ -1518,6 +1759,12 @@ header{
             repeat(5,1fr);
     }
 
+    .opening-reels{
+
+        grid-template-columns:
+            1fr;
+    }
+
     .reel-item{
 
         flex-basis:120px;
@@ -1529,6 +1776,12 @@ header{
 
         width:90px;
         height:90px;
+    }
+
+    .multiple-results{
+
+        grid-template-columns:
+            repeat(2,1fr);
     }
 
 }
@@ -1792,17 +2045,14 @@ header{
         </div>
 
 
+        <!-- =================================================
+             MULTIPLE REELS
+        ================================================== -->
+
         <div
-            class="reel-wrapper"
-            id="reelWrapper"
-        >
-
-            <div
-                class="reel"
-                id="reel"
-            ></div>
-
-        </div>
+            class="opening-reels"
+            id="openingReels"
+        ></div>
 
 
         <div
@@ -1837,6 +2087,23 @@ header{
             >
                 +0 coins
             </div>
+
+            <!--
+                Pro 2× až 5× se používá tento grid.
+                U 1× zůstává skrytý.
+            -->
+
+            <div
+                class="multiple-results"
+                id="multipleResults"
+                style="display:none;"
+            ></div>
+
+            <div
+                class="multiple-total"
+                id="multipleTotal"
+                style="display:none;"
+            ></div>
 
             <button
                 class="close-result"
@@ -2359,7 +2626,7 @@ const TEXTURES = {
         "assets/Iron.png",
 
     "Gold":
-        "assets/Gold.png",
+        "assets/Gold_Ingot.png",
 
     "Diamond":
         "assets/Diamond.png",
@@ -2843,9 +3110,18 @@ function renderCases(){
     CASES.forEach(
         caseData => {
 
+            /*
+                DŮLEŽITÉ:
+                cena se počítá podle aktivního multiplieru.
+            */
+
+            const totalPrice =
+                caseData.price *
+                activeOpenLevel;
+
             const canAfford =
                 coins >=
-                caseData.price;
+                totalPrice;
 
             const card =
                 document.createElement(
@@ -2869,14 +3145,32 @@ function renderCases(){
                 </div>
 
                 <div class="case-price">
+
                     ${
                         caseData.price === 0
                         ?
-                        "ZDARMA"
+                        (
+                            activeOpenLevel > 1
+                            ?
+                            `ZDARMA × ${activeOpenLevel}`
+                            :
+                            "ZDARMA"
+                        )
                         :
-                        "🪙 " +
-                        money(caseData.price)
+                        `
+                            🪙 ${money(totalPrice)}
+                            ${
+                                activeOpenLevel > 1
+                                ?
+                                `<small style="opacity:.65;">
+                                    (${money(caseData.price)} × ${activeOpenLevel})
+                                </small>`
+                                :
+                                ""
+                            }
+                        `
                     }
+
                 </div>
 
                 <button
@@ -2884,13 +3178,15 @@ function renderCases(){
                     ${canAfford ? "" : "disabled"}
                     onclick="openCase('${escapeHtml(caseData.id)}')"
                 >
+
                     ${
                         caseData.price === 0
                         ?
-                        "OTEVŘÍT"
+                        `OTEVŘÍT ${activeOpenLevel}×`
                         :
-                        "OTEVŘÍT CASE"
+                        `OTEVŘÍT ${activeOpenLevel}×`
                     }
+
                 </button>
 
             `;
@@ -3629,7 +3925,7 @@ async function selectOpenLevel(level){
         activeOpenLevel
     );
 
-    renderUpgrades();
+    renderAll();
 
     await saveCloud();
 
@@ -4109,6 +4405,12 @@ async function openCase(
     const results = [];
 
 
+    /*
+        Vygenerujeme přesně tolik
+        skutečných výsledků, kolik
+        odpovídá multiplieru.
+    */
+
     for(
         let i = 0;
         i < multiplier;
@@ -4174,6 +4476,11 @@ async function openCase(
     );
 
 
+    /*
+        Až PO animaci přidáme výhry
+        do inventáře.
+    */
+
     results.forEach(
         item => {
 
@@ -4198,54 +4505,97 @@ async function openCase(
 
 
 /* =========================================================
-   SHOW OPENING
+   CREATE REEL ITEM
 ========================================================= */
 
-async function showOpening(
-    results,
-    caseData
+function createReelItem(item){
+
+    const div =
+        document.createElement(
+            "div"
+        );
+
+    div.className =
+        "reel-item";
+
+    div.innerHTML = `
+
+        <img
+            src="${escapeHtml(item.texture)}"
+            alt="${escapeHtml(item.name)}"
+            onerror="this.style.opacity='.15'"
+        >
+
+        <span
+            class="rarity-${escapeHtml(item.rarity)}"
+        >
+            ${escapeHtml(item.name)}
+        </span>
+
+    `;
+
+    return div;
+
+}
+
+
+/* =========================================================
+   CREATE ONE REEL
+========================================================= */
+
+function createOpeningReel(
+    result,
+    caseData,
+    laneIndex,
+    totalLanes
 ){
 
-    const overlay =
-        $("openingOverlay");
+    const card =
+        document.createElement(
+            "div"
+        );
+
+    card.className =
+        "reel-card";
+
+
+    const label =
+        document.createElement(
+            "div"
+        );
+
+    label.className =
+        "reel-label";
+
+    label.textContent =
+        `CASE #${laneIndex + 1}`;
+
+
+    const wrapper =
+        document.createElement(
+            "div"
+        );
+
+    wrapper.className =
+        "reel-wrapper";
+
 
     const reel =
-        $("reel");
+        document.createElement(
+            "div"
+        );
 
-    const resultBox =
-        $("resultBox");
-
-
-    overlay.classList.add(
-        "show"
-    );
-
-    resultBox.classList.remove(
-        "show"
-    );
-
-    reel.style.transition =
-        "none";
-
-    reel.style.transform =
-        "translateX(0)";
-
-    reel.innerHTML =
-        "";
-
-
-    $("openingTitle").textContent =
-        `OPENING ${activeOpenLevel}×`;
-
-    $("openingSubtitle").textContent =
-        `⚡ Faster Spin +${fasterSpinLevel}%`;
+    reel.className =
+        "reel";
 
 
     /*
-        Vytvoříme dlouhý reel.
-    */
+        35 itemů jako předtím.
 
-    const reelItems = [];
+        Poslední item je vždy skutečný
+        výsledek tohoto konkrétního
+        reelu.
+    */
 
     const totalVisual =
         35;
@@ -4259,24 +4609,12 @@ async function showOpening(
 
         let item;
 
-        /*
-            Poslední položky obsahují
-            skutečné výsledky.
-        */
-
         if(
-            i >=
-            totalVisual - results.length
+            i === totalVisual - 1
         ){
 
             item =
-                results[
-                    i -
-                    (
-                        totalVisual -
-                        results.length
-                    )
-                ];
+                result;
 
         }else{
 
@@ -4287,42 +4625,142 @@ async function showOpening(
 
         }
 
-        reelItems.push(
-            item
+        reel.appendChild(
+            createReelItem(
+                item
+            )
         );
 
     }
 
 
-    reelItems.forEach(
-        item => {
+    wrapper.appendChild(
+        reel
+    );
 
-            const div =
-                document.createElement(
-                    "div"
+    card.appendChild(
+        label
+    );
+
+    card.appendChild(
+        wrapper
+    );
+
+
+    return {
+
+        card:card,
+
+        wrapper:wrapper,
+
+        reel:reel,
+
+        totalVisual:totalVisual
+
+    };
+
+}
+
+
+/* =========================================================
+   SHOW OPENING
+========================================================= */
+
+async function showOpening(
+    results,
+    caseData
+){
+
+    const overlay =
+        $("openingOverlay");
+
+    const resultBox =
+        $("resultBox");
+
+    const openingReels =
+        $("openingReels");
+
+
+    overlay.classList.add(
+        "show"
+    );
+
+
+    resultBox.classList.remove(
+        "show"
+    );
+
+
+    /*
+        Reset výsledkového UI.
+    */
+
+    $("multipleResults").style.display =
+        "none";
+
+    $("multipleResults").innerHTML =
+        "";
+
+    $("multipleTotal").style.display =
+        "none";
+
+    $("multipleTotal").textContent =
+        "";
+
+
+    $("resultRarity").style.display =
+        "";
+
+    $("resultName").style.display =
+        "";
+
+    $("resultImage").style.display =
+        "";
+
+    $("resultValue").style.display =
+        "";
+
+
+    $("openingTitle").textContent =
+        `OPENING ${results.length}×`;
+
+
+    $("openingSubtitle").textContent =
+        `⚡ Faster Spin +${fasterSpinLevel}%`;
+
+
+    openingReels.innerHTML =
+        "";
+
+
+    /*
+        Vytvoříme samostatný reel pro
+        KAŽDÝ skutečný výsledek.
+    */
+
+    const lanes = [];
+
+
+    results.forEach(
+        (
+            result,
+            index
+        ) => {
+
+            const lane =
+                createOpeningReel(
+                    result,
+                    caseData,
+                    index,
+                    results.length
                 );
 
-            div.className =
-                "reel-item";
+            openingReels.appendChild(
+                lane.card
+            );
 
-            div.innerHTML = `
-
-                <img
-                    src="${escapeHtml(item.texture)}"
-                    alt="${escapeHtml(item.name)}"
-                    onerror="this.style.opacity='.15'"
-                >
-
-                <span
-                    class="rarity-${escapeHtml(item.rarity)}"
-                >
-                    ${escapeHtml(item.name)}
-                </span>
-
-            `;
-
-            reel.appendChild(
-                div
+            lanes.push(
+                lane
             );
 
         }
@@ -4333,18 +4771,18 @@ async function showOpening(
 
 
     /*
-        Vypočítáme rychlost.
+        Faster Spin
 
-        0%  = 100%
-        10% = 90%
-        20% = 80%
+        0%  = 4200 ms
+        10% = 3780 ms
+        20% = 3360 ms
 
-        Tedy každým levelem
-        zkrátíme animaci o 1 %.
+        Minimum 1000 ms.
     */
 
     const baseDuration =
         4200;
+
 
     const duration =
         Math.max(
@@ -4358,79 +4796,39 @@ async function showOpening(
 
 
     /*
-        Střed posledního itemu
-        dostaneme pod střední marker.
+        Spouštíme všechny reely
+        současně.
+
+        Každý má vlastní wrapper,
+        takže každý může být přesně
+        vystředěný.
     */
 
-    const itemWidth =
-        145;
+    const animations =
+        lanes.map(
+            (
+                lane,
+                index
+            ) => {
 
-    const gap =
-        12;
+                return animateReel(
+                    lane,
+                    duration,
+                    index
+                );
 
-    const step =
-        itemWidth +
-        gap;
-
-
-    const visibleWidth =
-        $("reelWrapper")
-        .clientWidth;
-
-
-    const center =
-        visibleWidth / 2;
+            }
+        );
 
 
-    const targetIndex =
-        totalVisual -
-        results.length;
-
-
-    /*
-        U multiplieru >1
-        zobrazíme postupně poslední
-        skutečné itemy.
-    */
-
-    const firstTargetIndex =
-        totalVisual -
-        results.length;
-
-
-    const targetCenter =
-        firstTargetIndex *
-        step +
-        itemWidth / 2;
-
-
-    const finalX =
-        center -
-        targetCenter;
-
-
-    await sleep(80);
-
-
-    reel.style.transition =
-        `transform ${duration}ms cubic-bezier(.08,.72,.16,1)`;
-
-
-    reel.style.transform =
-        `translateX(${finalX}px)`;
-
-
-    await sleep(
-        duration + 150
+    await Promise.all(
+        animations
     );
 
 
     /*
-        Pokud je 1×, ukážeme klasický
-        výsledek.
-
-        Pokud je více itemů,
-        zobrazíme všechny.
+        Po zastavení reelů ukážeme
+        výsledky.
     */
 
     resultBox.classList.add(
@@ -4461,10 +4859,129 @@ async function showOpening(
 
 
 /* =========================================================
+   ANIMATE ONE REEL
+========================================================= */
+
+async function animateReel(
+    lane,
+    duration,
+    laneIndex
+){
+
+    const reel =
+        lane.reel;
+
+    const wrapper =
+        lane.wrapper;
+
+    const totalVisual =
+        lane.totalVisual;
+
+
+    reel.style.transition =
+        "none";
+
+    reel.style.transform =
+        "translateX(0)";
+
+
+    await sleep(60);
+
+
+    /*
+        Šířka itemu zůstává 145px
+        a gap 12px.
+
+        Protože každý reel má svůj
+        vlastní wrapper, počítáme
+        střed samostatně.
+    */
+
+    const itemWidth =
+        145;
+
+    const gap =
+        12;
+
+    const step =
+        itemWidth +
+        gap;
+
+
+    const visibleWidth =
+        wrapper.clientWidth;
+
+
+    const center =
+        visibleWidth / 2;
+
+
+    /*
+        Skutečný výsledek je úplně
+        poslední item.
+    */
+
+    const targetIndex =
+        totalVisual - 1;
+
+
+    const targetCenter =
+        targetIndex *
+        step +
+        itemWidth / 2;
+
+
+    const finalX =
+        center -
+        targetCenter;
+
+
+    /*
+        Drobný rozdíl mezi lanes,
+        aby všechny nebyly úplně
+        identické na milisekundu.
+    */
+
+    const stagger =
+        laneIndex *
+        55;
+
+
+    reel.style.transition =
+        `transform ${duration + stagger}ms cubic-bezier(.08,.72,.16,1)`;
+
+
+    reel.style.transform =
+        `translateX(${finalX}px)`;
+
+
+    await sleep(
+        duration +
+        stagger +
+        150
+    );
+
+}
+
+
+/* =========================================================
    SHOW RESULT
 ========================================================= */
 
 function showResult(item){
+
+    $("resultRarity").style.display =
+        "";
+
+    $("resultName").style.display =
+        "";
+
+    $("resultImage").style.display =
+        "";
+
+    $("resultValue").style.display =
+        "";
+
 
     $("resultRarity").textContent =
         RARITIES[
@@ -4472,22 +4989,35 @@ function showResult(item){
         ]?.name ||
         item.rarity;
 
+
     $("resultRarity").className =
         "result-rarity rarity-" +
         item.rarity;
 
+
     $("resultName").textContent =
         item.name;
+
 
     $("resultImage").src =
         item.texture;
 
+
     $("resultImage").alt =
         item.name;
+
 
     $("resultValue").textContent =
         "🪙 " +
         money(item.value);
+
+
+    $("multipleResults").style.display =
+        "none";
+
+
+    $("multipleTotal").style.display =
+        "none";
 
 }
 
@@ -4498,6 +5028,13 @@ function showResult(item){
 
 function showMultipleResults(results){
 
+    /*
+        Schováme single-result UI.
+    */
+
+    $("resultRarity").style.display =
+        "";
+
     $("resultRarity").textContent =
         `${results.length}× REWARDS`;
 
@@ -4505,42 +5042,112 @@ function showMultipleResults(results){
         "result-rarity rarity-epic";
 
 
-    $("resultName").textContent =
-        results
-        .map(
-            item =>
-                item.name
-        )
-        .join(" • ");
+    $("resultName").style.display =
+        "none";
+
+    $("resultImage").style.display =
+        "none";
+
+    $("resultValue").style.display =
+        "none";
 
 
-    const total =
-        results.reduce(
-            (
-                sum,
-                item
-            ) =>
-                sum +
-                item.value,
-            0
-        );
+    const grid =
+        $("multipleResults");
 
 
-    $("resultImage").src =
-        results[0].texture;
-
-    $("resultImage").alt =
-        results
-        .map(
-            item =>
-                item.name
-        )
-        .join(", ");
+    grid.innerHTML =
+        "";
 
 
-    $("resultValue").textContent =
-        "Celková hodnota: 🪙 " +
-        money(total);
+    grid.style.display =
+        "grid";
+
+
+    let total =
+        0;
+
+
+    results.forEach(
+        (
+            rawItem,
+            index
+        ) => {
+
+            const item =
+                normalizeItem(
+                    rawItem
+                );
+
+
+            total +=
+                item.value;
+
+
+            const card =
+                document.createElement(
+                    "div"
+                );
+
+
+            card.className =
+                "reward-card";
+
+
+            card.innerHTML = `
+
+                <img
+                    src="${escapeHtml(item.texture)}"
+                    alt="${escapeHtml(item.name)}"
+                    onerror="this.style.opacity='.15'"
+                >
+
+                <div class="reward-card-name">
+                    ${escapeHtml(item.name)}
+                </div>
+
+                <div
+                    class="
+                        reward-card-rarity
+                        rarity-${escapeHtml(item.rarity)}
+                    "
+                >
+                    ${
+                        escapeHtml(
+                            RARITIES[
+                                item.rarity
+                            ]?.name
+                            ||
+                            item.rarity
+                        )
+                    }
+                </div>
+
+                <div class="reward-card-value">
+                    🪙 ${money(item.value)}
+                </div>
+
+            `;
+
+
+            grid.appendChild(
+                card
+            );
+
+        }
+    );
+
+
+    const totalElement =
+        $("multipleTotal");
+
+
+    totalElement.style.display =
+        "block";
+
+
+    totalElement.textContent =
+        `Celková hodnota: 🪙 ${money(total)}`;
 
 }
 
@@ -4557,6 +5164,7 @@ function waitForResultClose(){
             const button =
                 $("closeResult");
 
+
             const handler =
                 () => {
 
@@ -4565,19 +5173,28 @@ function waitForResultClose(){
                         handler
                     );
 
+
                     $("openingOverlay")
                         .classList.remove(
                             "show"
                         );
+
 
                     $("resultBox")
                         .classList.remove(
                             "show"
                         );
 
+
+                    $("openingReels")
+                        .innerHTML =
+                        "";
+
+
                     resolve();
 
                 };
+
 
             button.addEventListener(
                 "click",
@@ -4621,10 +5238,12 @@ async function sellAll(){
                     rawItem
                 );
 
+
             const count =
                 Number(
                     rawItem.count || 1
                 );
+
 
             total +=
                 item.value *
@@ -4637,6 +5256,7 @@ async function sellAll(){
     inventory =
         [];
 
+
     coins +=
         total;
 
@@ -4646,6 +5266,7 @@ async function sellAll(){
     renderAll();
 
     await saveCloud();
+
 
     toast(
         `Prodáno za 🪙 ${money(total)}`
@@ -4665,6 +5286,7 @@ function saveLocal(){
         String(coins)
     );
 
+
     localStorage.setItem(
         STORAGE.inventory,
         JSON.stringify(
@@ -4672,30 +5294,36 @@ function saveLocal(){
         )
     );
 
+
     localStorage.setItem(
         STORAGE.openLevel,
         String(openLevel)
     );
+
 
     localStorage.setItem(
         STORAGE.activeOpenLevel,
         String(activeOpenLevel)
     );
 
+
     localStorage.setItem(
         STORAGE.luckLevel,
         String(luckLevel)
     );
+
 
     localStorage.setItem(
         STORAGE.fasterSpinLevel,
         String(fasterSpinLevel)
     );
 
+
     localStorage.setItem(
         STORAGE.autoOpen,
         String(autoOpenUnlocked)
     );
+
 
     localStorage.setItem(
         STORAGE.autoSell,
@@ -4716,6 +5344,7 @@ function loadLocal(){
             STORAGE.coins
         );
 
+
     if(
         savedCoins !== null
     ){
@@ -4734,6 +5363,7 @@ function loadLocal(){
             localStorage.getItem(
                 STORAGE.inventory
             );
+
 
         if(
             savedInventory
