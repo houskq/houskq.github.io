@@ -6,6 +6,9 @@
 
 <title>HouskaCze_0 | Minecraft Case Opening V5</title>
 
+<!-- SUPABASE -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
 *{
     margin:0;
@@ -50,6 +53,164 @@ body{
 }
 
 /* =========================================================
+   LOGIN
+========================================================= */
+
+.login-overlay{
+    position:fixed;
+    inset:0;
+    z-index:1000;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    background:
+        radial-gradient(
+            circle at 50% 30%,
+            #351768aa,
+            #030208f5 70%
+        );
+
+    backdrop-filter:blur(18px);
+}
+
+.login-overlay.hidden{
+    display:none;
+}
+
+.login-card{
+    width:min(430px,92vw);
+
+    padding:35px 30px;
+
+    text-align:center;
+
+    border-radius:25px;
+
+    background:
+        radial-gradient(
+            circle at 50% 0%,
+            #9b5cff18,
+            transparent 48%
+        ),
+        linear-gradient(
+            145deg,
+            #191625,
+            #0c0a12
+        );
+
+    border:1px solid #46375d;
+
+    box-shadow:
+        0 30px 120px #000d,
+        0 0 70px #9b5cff15;
+}
+
+.login-logo{
+    font-size:29px;
+    font-weight:1000;
+    margin-bottom:8px;
+}
+
+.login-logo span{
+    color:#a45cff;
+}
+
+.login-title{
+    font-size:25px;
+    font-weight:1000;
+    margin-top:20px;
+}
+
+.login-sub{
+    margin-top:9px;
+    color:#918a9e;
+    font-size:12px;
+    line-height:1.6;
+}
+
+.login-input{
+    width:100%;
+
+    margin-top:22px;
+
+    padding:15px 16px;
+
+    border-radius:12px;
+
+    outline:none;
+
+    background:#0b0910;
+    border:1px solid #3c324d;
+
+    color:#fff;
+
+    font-size:14px;
+    font-weight:900;
+
+    text-align:center;
+
+    transition:.2s;
+}
+
+.login-input:focus{
+    border-color:#9b5cff;
+    box-shadow:0 0 25px #9b5cff18;
+}
+
+.login-button{
+    width:100%;
+
+    margin-top:12px;
+
+    padding:14px;
+
+    border:0;
+    border-radius:12px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #7040d3,
+            #ad61ff
+        );
+
+    color:#fff;
+
+    font-weight:1000;
+
+    cursor:pointer;
+
+    box-shadow:
+        0 10px 35px #9b5cff22;
+
+    transition:.2s;
+}
+
+.login-button:hover{
+    filter:brightness(1.12);
+    transform:translateY(-2px);
+}
+
+.login-status{
+    min-height:18px;
+    margin-top:12px;
+
+    color:#ff7272;
+
+    font-size:11px;
+    font-weight:900;
+}
+
+.player-name{
+    color:#bfa9d9;
+    font-size:10px;
+    font-weight:900;
+    margin-top:4px;
+}
+
+/* =========================================================
    TOP BAR
 ========================================================= */
 
@@ -84,6 +245,12 @@ body{
 
 .logo span{
     color:#a45cff;
+}
+
+.topbar-right{
+    display:flex;
+    align-items:center;
+    gap:10px;
 }
 
 .coin-box{
@@ -213,22 +380,15 @@ body{
 
 .cases{
     display:grid;
-
-    grid-template-columns:
-        repeat(3,1fr);
-
+    grid-template-columns:repeat(3,1fr);
     gap:18px;
 }
 
 .case{
     position:relative;
-
     overflow:hidden;
-
     min-height:330px;
-
     padding:22px;
-
     border-radius:21px;
 
     background:
@@ -576,7 +736,6 @@ body{
 
 .open-btn:hover{
     transform:translateY(-2px);
-
     filter:brightness(1.15);
 }
 
@@ -621,12 +780,13 @@ body{
 }
 
 /* =========================================================
-   UPGRADES
+   SECTIONS
 ========================================================= */
 
 .upgrades,
 .storage,
-.automation{
+.automation,
+.leaderboard{
     margin-top:25px;
 
     padding:23px;
@@ -648,32 +808,29 @@ body{
 
 .section-head{
     display:flex;
-
     justify-content:space-between;
     align-items:flex-end;
-
     margin-bottom:18px;
 }
 
 .section-title{
     font-size:22px;
-
     font-weight:1000;
-
     letter-spacing:-.5px;
 }
 
 .section-sub{
     color:#787184;
-
     font-size:11px;
 }
 
+/* =========================================================
+   UPGRADES
+========================================================= */
+
 .upgrade-grid{
     display:grid;
-
     grid-template-columns:1fr 1fr;
-
     gap:15px;
 }
 
@@ -694,25 +851,19 @@ body{
 
 .upgrade h3{
     font-size:16px;
-
     margin-bottom:6px;
 }
 
 .upgrade p{
     color:#91899e;
-
     font-size:12px;
-
     line-height:1.55;
-
     margin-bottom:15px;
 }
 
 .upgrade-levels{
     display:flex;
-
     gap:8px;
-
     flex-wrap:wrap;
 }
 
@@ -738,7 +889,6 @@ body{
 
 .upgrade-level:hover{
     border-color:#7850ad;
-
     transform:translateY(-1px);
 }
 
@@ -779,9 +929,7 @@ body{
 
 .auto-grid{
     display:grid;
-
     grid-template-columns:1fr 1fr;
-
     gap:14px;
 }
 
@@ -805,25 +953,19 @@ body{
 
 .auto-info h3{
     font-size:15px;
-
     margin-bottom:5px;
 }
 
 .auto-info p{
     color:#8d8799;
-
     font-size:11px;
-
     line-height:1.5;
 }
 
 .auto-status{
     margin-top:5px;
-
     color:#777080;
-
     font-size:10px;
-
     font-weight:900;
 }
 
@@ -889,16 +1031,12 @@ body{
 
 .storage-count{
     color:#858092;
-
     font-size:12px;
 }
 
 .inventory{
     display:grid;
-
-    grid-template-columns:
-        repeat(6,1fr);
-
+    grid-template-columns:repeat(6,1fr);
     gap:10px;
 }
 
@@ -906,11 +1044,9 @@ body{
     min-height:142px;
 
     display:flex;
-
     flex-direction:column;
 
     align-items:center;
-
     justify-content:center;
 
     text-align:center;
@@ -933,7 +1069,6 @@ body{
 
 .inv-item:hover{
     transform:translateY(-3px);
-
     border-color:#4a3c60;
 }
 
@@ -944,17 +1079,13 @@ body{
 
 .inv-name{
     margin-top:4px;
-
     font-size:11px;
-
     font-weight:900;
 }
 
 .inv-value{
     margin-top:3px;
-
     color:#8f899e;
-
     font-size:10px;
 }
 
@@ -972,7 +1103,6 @@ body{
     color:#ddd;
 
     font-size:9px;
-
     font-weight:1000;
 
     cursor:pointer;
@@ -990,6 +1120,82 @@ body{
     border:1px dashed #2e293b;
 
     border-radius:14px;
+}
+
+/* =========================================================
+   LEADERBOARD
+========================================================= */
+
+.leaderboard-table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+.leaderboard-table th{
+    padding:10px;
+
+    text-align:left;
+
+    color:#777184;
+
+    font-size:10px;
+
+    letter-spacing:1px;
+
+    border-bottom:1px solid #302940;
+}
+
+.leaderboard-table td{
+    padding:12px 10px;
+
+    font-size:12px;
+    font-weight:900;
+
+    border-bottom:1px solid #211d2b;
+}
+
+.leaderboard-table tr:last-child td{
+    border-bottom:0;
+}
+
+.leaderboard-table tr.me{
+    background:
+        linear-gradient(
+            90deg,
+            #9b5cff14,
+            transparent
+        );
+}
+
+.rank{
+    width:50px;
+    color:#82798f;
+}
+
+.lb-name{
+    color:#fff;
+}
+
+.lb-coins{
+    color:#cfa9ff;
+}
+
+.lb-opened{
+    color:#8f899e;
+}
+
+.leaderboard-loading{
+    padding:25px;
+    text-align:center;
+    color:#777184;
+    font-size:12px;
+}
+
+.leaderboard-empty{
+    padding:25px;
+    text-align:center;
+    color:#777184;
+    font-size:12px;
 }
 
 /* =========================================================
@@ -1051,23 +1257,18 @@ body{
 
 .close:hover{
     color:white;
-
     border-color:#695681;
 }
 
 .opening-title{
     font-size:31px;
-
     font-weight:1000;
-
     margin-bottom:7px;
 }
 
 .opening-sub{
     color:#8c8699;
-
     font-size:12px;
-
     margin-bottom:20px;
 }
 
@@ -1182,13 +1383,11 @@ body{
 
 .reel-marker::before{
     top:0;
-
     border-top:12px solid white;
 }
 
 .reel-marker::after{
     bottom:0;
-
     border-bottom:12px solid white;
 }
 
@@ -1259,11 +1458,8 @@ body{
 
 .reel-rarity{
     margin-top:3px;
-
     font-size:9px;
-
     font-weight:1000;
-
     letter-spacing:1px;
 }
 
@@ -1314,19 +1510,14 @@ body{
 
 .result-header-small{
     color:#8d879a;
-
     font-size:10px;
-
     letter-spacing:3px;
-
     font-weight:1000;
 }
 
 .result-header h2{
     margin-top:5px;
-
     font-size:29px;
-
     font-weight:1000;
 }
 
@@ -1391,66 +1582,50 @@ body{
 
 .result-item > *{
     position:relative;
-
     z-index:2;
 }
 
 .result-item .item-texture{
     width:92px;
     height:92px;
-
     margin-bottom:7px;
 }
 
 .result-rarity{
     font-size:10px;
-
     font-weight:1000;
-
     letter-spacing:2px;
 }
 
 .result-name{
     margin-top:5px;
-
     font-size:13px;
-
     font-weight:1000;
 }
 
 .result-value{
     margin-top:5px;
-
     color:#9690a2;
-
     font-size:10px;
 }
 
 .result-total{
     margin-bottom:20px;
-
     color:#aaa4b6;
-
     font-size:12px;
 }
 
 .result-actions{
     display:flex;
-
     gap:10px;
 }
 
 .result-actions button{
     flex:1;
-
     padding:14px;
-
     border:0;
-
     border-radius:12px;
-
     font-weight:1000;
-
     cursor:pointer;
 }
 
@@ -1470,26 +1645,21 @@ body{
 
 .sell{
     color:#eee;
-
     background:#242033;
-
     border:1px solid #403653 !important;
 }
 
 .result-actions button:hover{
     filter:brightness(1.12);
-
     transform:translateY(-1px);
 }
 
 /* =========================================================
-   VECTOR RAYS
-   REAL TRIANGULAR RADIAL BURST
+   RAYS
 ========================================================= */
 
 .rays{
     position:fixed;
-
     inset:0;
 
     display:none;
@@ -1577,11 +1747,10 @@ body{
             scaleY(1)
             scaleX(1);
     }
-
 }
 
 /* =========================================================
-   CENTER BURST
+   BURST
 ========================================================= */
 
 .center-burst{
@@ -1642,7 +1811,6 @@ body{
             translate(-50%,-50%)
             scale(9);
     }
-
 }
 
 /* =========================================================
@@ -1679,11 +1847,10 @@ body{
     100%{
         opacity:0;
     }
-
 }
 
 /* =========================================================
-   SCREEN SHAKE
+   SHAKE
 ========================================================= */
 
 .shake{
@@ -1710,7 +1877,6 @@ body{
     40%,60%{
         transform:translateX(8px);
     }
-
 }
 
 /* =========================================================
@@ -1755,7 +1921,7 @@ body{
 
     color:#eee;
 
-    z-index:300;
+    z-index:1100;
 
     opacity:0;
 
@@ -1771,7 +1937,6 @@ body{
 
 .toast.show{
     opacity:1;
-
     transform:translateY(0);
 }
 
@@ -1782,15 +1947,12 @@ body{
 @media(max-width:1000px){
 
     .cases{
-        grid-template-columns:
-            repeat(2,1fr);
+        grid-template-columns:repeat(2,1fr);
     }
 
     .inventory{
-        grid-template-columns:
-            repeat(4,1fr);
+        grid-template-columns:repeat(4,1fr);
     }
-
 }
 
 @media(max-width:700px){
@@ -1816,7 +1978,6 @@ body{
     .reel-card{
         flex-basis:112px;
     }
-
 }
 
 @media(max-width:580px){
@@ -1835,8 +1996,7 @@ body{
     }
 
     .inventory{
-        grid-template-columns:
-            repeat(3,1fr);
+        grid-template-columns:repeat(3,1fr);
     }
 
     .hero h1{
@@ -1848,8 +2008,7 @@ body{
     }
 
     .result-grid{
-        grid-template-columns:
-            repeat(2,1fr);
+        grid-template-columns:repeat(2,1fr);
     }
 
     .result-actions{
@@ -1861,11 +2020,79 @@ body{
         flex-direction:column;
     }
 
+    .topbar-right{
+        gap:5px;
+    }
+
+    .coin-box{
+        padding:9px 11px;
+    }
+
+    .player-name{
+        display:none;
+    }
+
+    .leaderboard-table th,
+    .leaderboard-table td{
+        padding:9px 5px;
+    }
 }
 </style>
 </head>
 
 <body>
+
+<!-- =========================================================
+     LOGIN
+========================================================= -->
+
+<div class="login-overlay" id="loginOverlay">
+
+    <div class="login-card">
+
+        <div class="login-logo">
+            HouskaCze_<span>0</span>
+        </div>
+
+        <div class="login-title">
+            MINECRAFT CASES
+        </div>
+
+        <div class="login-sub">
+            Zadej svůj nickname a pokračuj ve hře.<br>
+            Tvůj progress se uloží online.
+        </div>
+
+        <input
+            class="login-input"
+            id="nicknameInput"
+            maxlength="20"
+            minlength="3"
+            placeholder="Tvůj Minecraft nickname"
+            autocomplete="off"
+        >
+
+        <button
+            class="login-button"
+            id="loginButton"
+            onclick="loginPlayer()"
+        >
+            ▶ PLAY
+        </button>
+
+        <div
+            class="login-status"
+            id="loginStatus">
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     TOP BAR
+========================================================= -->
 
 <header class="topbar">
 
@@ -1873,13 +2100,33 @@ body{
         HouskaCze_<span>0</span>
     </div>
 
-    <div class="coin-box">
-        <span class="coin-icon">🪙</span>
-        <span class="coins" id="coinCount">250</span>
+    <div class="topbar-right">
+
+        <div class="player-name" id="playerName">
+        </div>
+
+        <div class="coin-box">
+
+            <span class="coin-icon">
+                🪙
+            </span>
+
+            <span
+                class="coins"
+                id="coinCount">
+                250
+            </span>
+
+        </div>
+
     </div>
 
 </header>
 
+
+<!-- =========================================================
+     MAIN
+========================================================= -->
 
 <main class="layout">
 
@@ -1915,6 +2162,7 @@ body{
         <div class="section-head">
 
             <div>
+
                 <div class="section-title">
                     ⚡ UPGRADES
                 </div>
@@ -1922,13 +2170,13 @@ body{
                 <div class="section-sub">
                     Vylepši počet současných openingů a Luck.
                 </div>
+
             </div>
 
         </div>
 
 
         <div class="upgrade-grid">
-
 
             <div class="upgrade">
 
@@ -1978,6 +2226,7 @@ body{
         <div class="section-head">
 
             <div>
+
                 <div class="section-title">
                     🤖 AUTOMATION
                 </div>
@@ -1985,13 +2234,13 @@ body{
                 <div class="section-sub">
                     Automatizuj otevírání a prodej dropů.
                 </div>
+
             </div>
 
         </div>
 
 
         <div class="auto-grid">
-
 
             <div class="auto-card">
 
@@ -2084,34 +2333,58 @@ body{
 
     </section>
 
+
+    <!-- LEADERBOARD -->
+
+    <section class="leaderboard">
+
+        <div class="section-head">
+
+            <div>
+
+                <div class="section-title">
+                    🏆 GLOBAL LEADERBOARD
+                </div>
+
+                <div class="section-sub">
+                    Nejbohatší hráči Minecraft Cases.
+                </div>
+
+            </div>
+
+        </div>
+
+        <div id="leaderboardContainer">
+
+            <div class="leaderboard-loading">
+                Načítám leaderboard...
+            </div>
+
+        </div>
+
+    </section>
+
 </main>
 
 
-<!-- VECTOR RAYS -->
+<!-- =========================================================
+     EFFECTS
+========================================================= -->
 
 <div
     class="rays"
     id="rays">
 </div>
 
-
-<!-- CENTER BURST -->
-
 <div
     class="center-burst"
     id="centerBurst">
 </div>
 
-
-<!-- FLASH -->
-
 <div
     class="flash"
     id="flash">
 </div>
-
-
-<!-- TOAST -->
 
 <div
     class="toast"
@@ -2119,7 +2392,9 @@ body{
 </div>
 
 
-<!-- OPENING -->
+<!-- =========================================================
+     OPENING
+========================================================= -->
 
 <div
     class="overlay"
@@ -2157,7 +2432,9 @@ body{
 </div>
 
 
-<!-- RESULT -->
+<!-- =========================================================
+     RESULT
+========================================================= -->
 
 <div
     class="overlay result-overlay"
@@ -2214,6 +2491,31 @@ body{
 
 
 <script>
+
+/* =========================================================
+   SUPABASE
+========================================================= */
+
+const SUPABASE_URL =
+    "https://mqiwnnrtvpxriwqeoavl.supabase.co";
+
+const SUPABASE_PUBLISHABLE_KEY =
+    "sb_publishable_AvZoT2GXOq7uy8LiyQVWLw_VOrGjcqh";
+
+
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_PUBLISHABLE_KEY
+    );
+
+
+let playerId = null;
+let playerNickname = "";
+let casesOpened = 0;
+let loggedIn = false;
+let cloudSaveTimer = null;
+
 
 /* =========================================================
    TEXTURES
@@ -2273,8 +2575,9 @@ const TEXTURES = {
 
 };
 
+
 /* =========================================================
-   CASE IMAGE DATABASE
+   CASE IMAGES
 ========================================================= */
 
 const CASE_IMAGES = {
@@ -2583,7 +2886,7 @@ const CASES = {
 
 
 /* =========================================================
-   STATE
+   LOCAL STATE
 ========================================================= */
 
 let coins =
@@ -2623,12 +2926,13 @@ let autoSellUnlocked =
 
 
 let autoOpenRunning = false;
-
 let autoCaseId = null;
-
 let currentResults = [];
-
 let openingBusy = false;
+
+
+inventory =
+    inventory.map(normalizeItem);
 
 
 /* =========================================================
@@ -2669,31 +2973,7 @@ function sleep(ms){
 
 
 /* =========================================================
-   NORMALIZE
-========================================================= */
-
-function normalizeItem(item){
-
-    return {
-
-        ...item,
-
-        texture:
-            item.texture ||
-            TEXTURES[item.name] ||
-            ""
-
-    };
-
-}
-
-
-inventory =
-    inventory.map(normalizeItem);
-
-
-/* =========================================================
-   SAVE
+   SAVE LOCAL + CLOUD
 ========================================================= */
 
 function save(){
@@ -2733,6 +3013,534 @@ function save(){
     renderUpgrades();
     renderAutomation();
 
+    queueCloudSave();
+
+}
+
+
+/* =========================================================
+   CLOUD SAVE QUEUE
+========================================================= */
+
+function queueCloudSave(){
+
+    if(!loggedIn || !playerId){
+        return;
+    }
+
+    clearTimeout(cloudSaveTimer);
+
+    cloudSaveTimer =
+        setTimeout(
+            saveToCloud,
+            500
+        );
+
+}
+
+
+async function saveToCloud(){
+
+    if(!loggedIn || !playerId){
+        return;
+    }
+
+    try{
+
+        const { error } =
+            await supabaseClient
+                .from("minecraft_cases_players")
+                .update({
+
+                    coins:
+                        Math.floor(coins),
+
+                    inventory:
+                        inventory,
+
+                    open_level:
+                        openLevel,
+
+                    luck_level:
+                        luckLevel,
+
+                    auto_open_unlocked:
+                        autoOpenUnlocked,
+
+                    auto_sell_unlocked:
+                        autoSellUnlocked,
+
+                    cases_opened:
+                        Math.floor(casesOpened),
+
+                    updated_at:
+                        new Date().toISOString()
+
+                })
+                .eq(
+                    "id",
+                    playerId
+                );
+
+        if(error){
+
+            console.error(
+                "Cloud save error:",
+                error
+            );
+
+        }
+
+    }
+
+    catch(error){
+
+        console.error(
+            "Cloud save exception:",
+            error
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   LOGIN
+========================================================= */
+
+async function loginPlayer(){
+
+    const input =
+        $("nicknameInput");
+
+    const status =
+        $("loginStatus");
+
+    const button =
+        $("loginButton");
+
+
+    const nickname =
+        input.value.trim();
+
+
+    if(nickname.length < 3){
+
+        status.textContent =
+            "Nickname musí mít alespoň 3 znaky.";
+
+        return;
+
+    }
+
+
+    if(nickname.length > 20){
+
+        status.textContent =
+            "Nickname může mít maximálně 20 znaků.";
+
+        return;
+
+    }
+
+
+    if(!/^[a-zA-Z0-9_]+$/.test(nickname)){
+
+        status.textContent =
+            "Používej pouze A-Z, 0-9 a _.";
+
+        return;
+
+    }
+
+
+    button.disabled = true;
+
+    button.textContent =
+        "⏳ NAČÍTÁM...";
+
+    status.textContent =
+        "";
+
+
+    try{
+
+        /*
+           Nejdříve hledáme existující účet.
+        */
+
+        const { data:existing, error:selectError } =
+            await supabaseClient
+                .from("minecraft_cases_players")
+                .select("*")
+                .eq(
+                    "nickname",
+                    nickname
+                )
+                .maybeSingle();
+
+
+        if(selectError){
+            throw selectError;
+        }
+
+
+        let player;
+
+
+        if(existing){
+
+            /*
+               Existující hráč:
+               načteme cloud progress.
+            */
+
+            player = existing;
+
+        }
+
+        else{
+
+            /*
+               Nový hráč:
+               vytvoříme nový profil.
+            */
+
+            const { data:newPlayer, error:insertError } =
+                await supabaseClient
+                    .from("minecraft_cases_players")
+                    .insert({
+
+                        nickname:
+                            nickname,
+
+                        coins:
+                            250,
+
+                        inventory:
+                            [],
+
+                        open_level:
+                            1,
+
+                        luck_level:
+                            1,
+
+                        auto_open_unlocked:
+                            false,
+
+                        auto_sell_unlocked:
+                            false,
+
+                        cases_opened:
+                            0
+
+                    })
+                    .select()
+                    .single();
+
+
+            if(insertError){
+                throw insertError;
+            }
+
+
+            player = newPlayer;
+
+        }
+
+
+        /*
+           Nastavíme cloud state.
+        */
+
+        playerId =
+            player.id;
+
+        playerNickname =
+            player.nickname;
+
+        coins =
+            Number(player.coins) || 250;
+
+        inventory =
+            Array.isArray(player.inventory)
+            ?
+            player.inventory.map(normalizeItem)
+            :
+            [];
+
+        openLevel =
+            Number(player.open_level) || 1;
+
+        luckLevel =
+            Number(player.luck_level) || 1;
+
+        autoOpenUnlocked =
+            Boolean(player.auto_open_unlocked);
+
+        autoSellUnlocked =
+            Boolean(player.auto_sell_unlocked);
+
+        casesOpened =
+            Number(player.cases_opened) || 0;
+
+
+        /*
+           Uložíme nickname lokálně,
+           aby ho příště mohl uživatel
+           snadno použít.
+        */
+
+        localStorage.setItem(
+            "sfm_nickname",
+            playerNickname
+        );
+
+
+        loggedIn = true;
+
+
+        $("playerName").textContent =
+            `👤 ${playerNickname}`;
+
+
+        $("loginOverlay")
+            .classList
+            .add("hidden");
+
+
+        renderAll();
+
+        loadLeaderboard();
+
+
+        showToast(
+            existing
+            ?
+            `Vítej zpět, ${playerNickname}! ☁️`
+            :
+            `Účet ${playerNickname} vytvořen! 🎉`
+        );
+
+
+    }
+
+    catch(error){
+
+        console.error(
+            "Login error:",
+            error
+        );
+
+
+        status.textContent =
+            "Nepodařilo se připojit k databázi. Zkontroluj Supabase key.";
+
+    }
+
+
+    finally{
+
+        button.disabled = false;
+
+        button.textContent =
+            "▶ PLAY";
+
+    }
+
+}
+
+
+/* =========================================================
+   LOAD SAVED NICKNAME
+========================================================= */
+
+function loadSavedNickname(){
+
+    const nickname =
+        localStorage.getItem(
+            "sfm_nickname"
+        );
+
+
+    if(nickname){
+
+        $("nicknameInput").value =
+            nickname;
+
+    }
+
+}
+
+
+/* =========================================================
+   LEADERBOARD
+========================================================= */
+
+async function loadLeaderboard(){
+
+    const container =
+        $("leaderboardContainer");
+
+
+    container.innerHTML = `
+
+        <div class="leaderboard-loading">
+            Načítám leaderboard...
+        </div>
+
+    `;
+
+
+    try{
+
+        const { data, error } =
+            await supabaseClient
+                .from("minecraft_cases_players")
+                .select(
+                    "nickname,coins,cases_opened"
+                )
+                .order(
+                    "coins",
+                    {
+                        ascending:false
+                    }
+                )
+                .limit(100);
+
+
+        if(error){
+            throw error;
+        }
+
+
+        if(!data || !data.length){
+
+            container.innerHTML = `
+
+                <div class="leaderboard-empty">
+                    Zatím zde není žádný hráč.
+                </div>
+
+            `;
+
+            return;
+
+        }
+
+
+        container.innerHTML = `
+
+            <table class="leaderboard-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            #
+                        </th>
+
+                        <th>
+                            HRÁČ
+                        </th>
+
+                        <th>
+                            COINY
+                        </th>
+
+                        <th>
+                            OPENINGY
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    ${
+                        data.map(
+                            (player,index) => `
+
+                                <tr
+                                    class="
+                                        ${
+                                            player.nickname ===
+                                            playerNickname
+                                            ?
+                                            "me"
+                                            :
+                                            ""
+                                        }
+                                    "
+                                >
+
+                                    <td class="rank">
+                                        #${index + 1}
+                                    </td>
+
+                                    <td class="lb-name">
+                                        ${escapeHtml(player.nickname)}
+                                    </td>
+
+                                    <td class="lb-coins">
+                                        🪙 ${money(player.coins || 0)}
+                                    </td>
+
+                                    <td class="lb-opened">
+                                        ${money(player.cases_opened || 0)}
+                                    </td>
+
+                                </tr>
+
+                            `
+                        ).join("")
+                    }
+
+                </tbody>
+
+            </table>
+
+        `;
+
+    }
+
+    catch(error){
+
+        console.error(
+            "Leaderboard error:",
+            error
+        );
+
+
+        container.innerHTML = `
+
+            <div class="leaderboard-empty">
+                Leaderboard se nepodařilo načíst.
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+/* =========================================================
+   RENDER ALL
+========================================================= */
+
+function renderAll(){
+
+    renderCases();
+    renderUpgrades();
+    renderAutomation();
+    renderInventory();
+    renderCoins();
+
 }
 
 
@@ -2759,6 +3567,7 @@ function itemIcon(item){
         TEXTURES[item.name] ||
         "";
 
+
     const enchanted =
         item.name
             .toLowerCase()
@@ -2772,6 +3581,7 @@ function itemIcon(item){
     if(!texture){
 
         return `
+
             <div
                 style="
                     width:55px;
@@ -2784,6 +3594,7 @@ function itemIcon(item){
             >
                 ?
             </div>
+
         `;
 
     }
@@ -2939,6 +3750,7 @@ function renderCases(){
                             openCase('${id}')
                         "
                     >
+
                         ${
                             caseData.price === 0
                             ?
@@ -2950,6 +3762,7 @@ function renderCases(){
                                 openLevel
                             )
                         }
+
                     </button>
 
 
@@ -2964,6 +3777,7 @@ function renderCases(){
                             startAutoOpen('${id}')
                         "
                     >
+
                         ${
                             autoOpenUnlocked
                             ?
@@ -2971,6 +3785,7 @@ function renderCases(){
                             :
                             "🔒 AUTO OPEN"
                         }
+
                     </button>
 
                 </article>
@@ -3092,7 +3907,7 @@ function upgradeCost(type,level){
 
 
 /* =========================================================
-   RENDER UPGRADES
+   UPGRADES
 ========================================================= */
 
 function renderUpgrades(){
@@ -3429,7 +4244,7 @@ function buyLuckLevel(level){
 
 
 /* =========================================================
-   AUTOMATION PURCHASE / TOGGLE
+   AUTOMATION PURCHASE
 ========================================================= */
 
 function toggleAutoOpen(){
@@ -3510,6 +4325,17 @@ function toggleAutoSell(){
     }
 
 
+    if(autoOpenRunning){
+
+        showToast(
+            "Nejdřív zastav Auto Open."
+        );
+
+        return;
+
+    }
+
+
     autoSellUnlocked = false;
 
     save();
@@ -3522,7 +4348,7 @@ function toggleAutoSell(){
 
 
 /* =========================================================
-   LUCK WEIGHTS
+   LUCK
 ========================================================= */
 
 function getWeights(){
@@ -3576,7 +4402,7 @@ function getWeights(){
 
 
 /* =========================================================
-   ROLL RARITY
+   ROLL
 ========================================================= */
 
 function rollRarity(){
@@ -3620,7 +4446,7 @@ function rollRarity(){
 
 
 /* =========================================================
-   MAKE ITEM
+   ITEM
 ========================================================= */
 
 function makeItem(raw){
@@ -3717,7 +4543,7 @@ function rarityIndex(rarity){
 
 
 /* =========================================================
-   BUILD ONE REEL
+   BUILD REEL
 ========================================================= */
 
 function buildReel(
@@ -3734,7 +4560,6 @@ function buildReel(
 
 
     const count = 65;
-
     const winnerIndex = 48;
 
 
@@ -3801,16 +4626,14 @@ function buildReel(
 
 
     return {
-
         winnerIndex
-
     };
 
 }
 
 
 /* =========================================================
-   ANIMATE ONE REEL
+   ANIMATE
 ========================================================= */
 
 function animateReel(
@@ -3911,6 +4734,13 @@ async function openCase(
     automatic=false
 ){
 
+    if(!loggedIn){
+
+        return;
+
+    }
+
+
     if(openingBusy){
 
         return;
@@ -3944,16 +4774,13 @@ async function openCase(
 
     coins -= totalCost;
 
+    casesOpened += openLevel;
+
     save();
 
 
     currentResults = [];
 
-
-    /*
-       Každý multiplier slot
-       má vlastní RNG.
-    */
 
     for(
         let i=0;
@@ -3995,6 +4822,7 @@ async function openCase(
 
 
     reels.innerHTML = "";
+
 
     reels.style.setProperty(
         "--reel-count",
@@ -4070,10 +4898,6 @@ async function openCase(
     playOpenSound();
 
 
-    /*
-       Tick zvuky během zpomalování.
-    */
-
     for(
         let i=0;
         i<10;
@@ -4136,11 +4960,6 @@ async function openCase(
     );
 
 
-    /*
-       Auto Sell funguje pouze
-       při automatickém openingu.
-    */
-
     if(
         automatic &&
         autoSellUnlocked
@@ -4163,6 +4982,7 @@ async function openCase(
             `⚡ Auto Sell: +🪙 ${money(total)}`
         );
 
+
         currentResults = [];
 
         return;
@@ -4182,9 +5002,7 @@ async function openCase(
 function showResult(){
 
     if(!currentResults.length){
-
         return;
-
     }
 
 
@@ -4228,7 +5046,7 @@ function showResult(){
 
         currentResults
         .map(
-            (item,index) => `
+            item => `
 
                 <div
                     class="result-item"
@@ -4281,22 +5099,15 @@ function showResult(){
 
 
 /* =========================================================
-   KEEP ALL
+   KEEP
 ========================================================= */
 
 function keepResult(){
 
     if(!currentResults.length){
-
         return;
-
     }
 
-
-    /*
-       Žádný nový RNG.
-       Uložíme přesně výsledné objekty.
-    */
 
     inventory.push(
         ...currentResults.map(
@@ -4325,15 +5136,13 @@ function keepResult(){
 
 
 /* =========================================================
-   SELL ALL
+   SELL
 ========================================================= */
 
 function sellResult(){
 
     if(!currentResults.length){
-
         return;
-
     }
 
 
@@ -4372,9 +5181,7 @@ function sellInventory(index){
 
 
     if(!item){
-
         return;
-
     }
 
 
@@ -4419,11 +5226,6 @@ function closeResult(){
 
 function closeOpening(){
 
-    /*
-       Během animace nejde zavřít,
-       aby se nerozbilo RNG/storage.
-    */
-
     if(openingBusy){
 
         showToast(
@@ -4459,6 +5261,38 @@ async function startAutoOpen(caseId){
     }
 
 
+    /*
+       Free case by jinak běžel nekonečně
+       a generoval nekonečné coiny.
+    */
+
+    if(CASES[caseId].price === 0){
+
+        showToast(
+            "Auto Open funguje pouze na placené bedny."
+        );
+
+        return;
+
+    }
+
+
+    /*
+       Kontinuální Auto Open potřebuje Auto Sell,
+       aby se výsledky nehromadily v overlay.
+    */
+
+    if(!autoSellUnlocked){
+
+        showToast(
+            "Pro kontinuální Auto Open potřebuješ také Auto Sell."
+        );
+
+        return;
+
+    }
+
+
     if(autoOpenRunning){
 
         stopAutoOpen();
@@ -4473,7 +5307,6 @@ async function startAutoOpen(caseId){
     autoCaseId = caseId;
 
     renderAutomation();
-
     renderCases();
 
 
@@ -4505,11 +5338,6 @@ async function startAutoOpen(caseId){
         }
 
 
-        /*
-           Pokud je právě nějaká animace,
-           počkáme.
-        */
-
         while(openingBusy){
 
             await sleep(100);
@@ -4530,16 +5358,16 @@ async function startAutoOpen(caseId){
         );
 
 
-        /*
-           Malá pauza mezi openingy.
-        */
-
         await sleep(350);
 
     }
 
 }
 
+
+/* =========================================================
+   STOP AUTO OPEN
+========================================================= */
 
 function stopAutoOpen(){
 
@@ -4586,11 +5414,6 @@ function triggerRays(
     const color =
         colors[rarity];
 
-
-    /*
-       Počet paprsků roste
-       podle rarity.
-    */
 
     const amount = {
 
@@ -4709,10 +5532,6 @@ function triggerRays(
     );
 
 
-    /*
-       Center explosion.
-    */
-
     const burst =
         $("centerBurst");
 
@@ -4735,10 +5554,6 @@ function triggerRays(
         "go"
     );
 
-
-    /*
-       White flash jen u lepších rarit.
-    */
 
     if(
         rarity === "epic" ||
@@ -4764,10 +5579,6 @@ function triggerRays(
 
     }
 
-
-    /*
-       Shake pouze Legendary/Mythic.
-    */
 
     if(
         rarity === "legendary" ||
@@ -4800,10 +5611,6 @@ function triggerRays(
 
     }
 
-
-    /*
-       Particle count.
-    */
 
     spawnParticles(
         color,
@@ -4985,7 +5792,7 @@ function spawnParticles(
 
 
 /* =========================================================
-   AUDIO TICK
+   AUDIO
 ========================================================= */
 
 function getAudio(){
@@ -5022,10 +5829,6 @@ function getAudio(){
 
 }
 
-
-/* =========================================================
-   AUDIO TICK
-========================================================= */
 
 function playTick(){
 
@@ -5068,14 +5871,8 @@ function playTick(){
         );
 
 
-        oscillator.connect(
-            gain
-        );
-
-
-        gain.connect(
-            ctx.destination
-        );
+        oscillator.connect(gain);
+        gain.connect(ctx.destination);
 
 
         oscillator.start();
@@ -5091,10 +5888,6 @@ function playTick(){
 
 }
 
-
-/* =========================================================
-   AUDIO OPEN
-========================================================= */
 
 function playOpenSound(){
 
@@ -5145,14 +5938,8 @@ function playOpenSound(){
         );
 
 
-        oscillator.connect(
-            gain
-        );
-
-
-        gain.connect(
-            ctx.destination
-        );
+        oscillator.connect(gain);
+        gain.connect(ctx.destination);
 
 
         oscillator.start();
@@ -5170,12 +5957,67 @@ function playOpenSound(){
 
 
 /* =========================================================
+   TOAST
+========================================================= */
+
+let toastTimer = null;
+
+function showToast(message){
+
+    const toast =
+        $("toast");
+
+
+    toast.textContent =
+        message;
+
+
+    toast.classList.add(
+        "show"
+    );
+
+
+    clearTimeout(
+        toastTimer
+    );
+
+
+    toastTimer =
+        setTimeout(
+            () => {
+
+                toast.classList.remove(
+                    "show"
+                );
+
+            },
+            3000
+        );
+
+}
+
+
+/* =========================================================
    KEYBOARD
 ========================================================= */
 
 document.addEventListener(
     "keydown",
     event => {
+
+        if(
+            event.key === "Enter" &&
+            !$("loginOverlay")
+                .classList
+                .contains("hidden")
+        ){
+
+            loginPlayer();
+
+            return;
+
+        }
+
 
         if(
             event.key === "Escape"
@@ -5198,18 +6040,35 @@ document.addEventListener(
 
 
 /* =========================================================
+   BEFORE CLOSE
+========================================================= */
+
+window.addEventListener(
+    "beforeunload",
+    () => {
+
+        /*
+           Cloud save se provede okamžitě,
+           pokud je hráč přihlášen.
+        */
+
+        if(loggedIn && playerId){
+
+            saveToCloud();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
    INITIALIZE
 ========================================================= */
 
-renderCases();
+loadSavedNickname();
 
-renderUpgrades();
-
-renderAutomation();
-
-renderInventory();
-
-renderCoins();
+renderAll();
 
 </script>
 
