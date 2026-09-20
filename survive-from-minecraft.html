@@ -10,14 +10,77 @@
     content="width=device-width, initial-scale=1.0"
 >
 
-<title>HouskaCze_0 | Minecraft Case Opening V5</title>
+<title>HouskaCze_0 | Minecraft Case Opening V7</title>
 
 
 <!-- =========================================================
      SUPABASE
 ========================================================= -->
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
+
+/* =========================================================
+   V7 FX HELPERS
+========================================================= */
+function v7Particles(x,y,count=18,colors=["#8d6cff","#35e8ff","#ffd34e"]){
+    for(let i=0;i<count;i++){
+        const p=document.createElement("span");
+        p.className="v7-particle";
+        p.style.left=`${x}px`;
+        p.style.top=`${y}px`;
+        p.style.color=colors[Math.floor(Math.random()*colors.length)];
+        p.style.setProperty("--dx",`${(Math.random()-.5)*260}px`);
+        p.style.setProperty("--dy",`${(Math.random()-.72)*240}px`);
+        document.body.appendChild(p);
+        setTimeout(()=>p.remove(),800);
+    }
+}
+function spawnCoinBurst(){
+    const el=document.getElementById("coins") || document.querySelector(".coins");
+    const r=el?.getBoundingClientRect();
+    const x=r?r.left+r.width/2:window.innerWidth/2;
+    const y=r?r.top+r.height/2:90;
+    v7Particles(x,y,24,["#ffd34e","#fff2a8","#ffb52e"]);
+    const f=document.createElement("div");
+    f.className="v7-coin-float";
+    f.textContent="+🪙 SOLD";
+    f.style.left=`${x}px`;f.style.top=`${y}px`;
+    document.body.appendChild(f);
+    setTimeout(()=>f.remove(),1100);
+}
+function v7Cinematic(item){
+    const rarity=String(item?.rarity||"").toLowerCase();
+    if(rarity!=="mythic" && rarity!=="legendary") return;
+    const flash=document.createElement("div");
+    flash.className="v7-flash";
+    document.body.appendChild(flash);
+    setTimeout(()=>flash.remove(),500);
+    const box=document.getElementById("resultBox");
+    if(box){
+        box.classList.remove("v7-result-pop");
+        void box.offsetWidth;
+        box.classList.add("v7-result-pop");
+    }
+    if(rarity==="mythic"){
+        const vig=document.createElement("div");
+        vig.className="v7-mythic-vignette";
+        document.body.appendChild(vig);
+        setTimeout(()=>vig.remove(),1000);
+        v7Particles(innerWidth/2,innerHeight/2,70,["#ff3df2","#8d6cff","#35e8ff","#fff"]);
+    }else{
+        v7Particles(innerWidth/2,innerHeight/2,38,["#ffd34e","#fff","#ff9d3d"]);
+    }
+}
+
+
+document.addEventListener("click", e => {
+    const b=e.target.closest("button");
+    if(!b) return;
+    const r=b.getBoundingClientRect();
+    v7Particles(r.left+r.width/2,r.top+r.height/2,8,["#ffffff","#8d6cff","#35e8ff"]);
+});
+
+</script>
 
 
 <style>
@@ -1988,201 +2051,139 @@ header{
 }
 
 
+
 /* =========================================================
-   PREMIUM V7 — CINEMATIC UI
+   V7 PREMIUM FX — lightweight, no external libraries
 ========================================================= */
 :root{
-    --v7-purple:#8b5cf6;
-    --v7-blue:#3b82f6;
-    --v7-green:#20e3a2;
-    --v7-gold:#ffd84d;
-    --v7-red:#ff4d6d;
+    --v7-glow: rgba(124,92,255,.55);
+    --v7-glow2: rgba(0,220,255,.30);
 }
-
+body{
+    background:
+      radial-gradient(circle at 15% 10%, rgba(105,75,255,.14), transparent 32%),
+      radial-gradient(circle at 85% 20%, rgba(0,210,255,.10), transparent 30%),
+      radial-gradient(circle at 50% 100%, rgba(180,40,255,.08), transparent 36%),
+      #07080d;
+}
 body::before{
     content:"";
     position:fixed;
     inset:0;
     pointer-events:none;
+    opacity:.18;
+    background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);
+    background-size:44px 44px;
+    mask-image:linear-gradient(to bottom,black,transparent 88%);
     z-index:-1;
-    opacity:.32;
-    background-image:
-        linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
-    background-size:42px 42px;
-    mask-image:linear-gradient(to bottom,black,transparent 92%);
 }
-
-body::after{
-    content:"";
-    position:fixed;
-    inset:-20%;
-    pointer-events:none;
-    z-index:-2;
-    background:
-        radial-gradient(circle at 15% 20%,rgba(139,92,246,.11),transparent 24%),
-        radial-gradient(circle at 85% 15%,rgba(59,130,246,.09),transparent 22%),
-        radial-gradient(circle at 50% 85%,rgba(32,227,162,.055),transparent 25%);
-    animation:v7Ambient 14s ease-in-out infinite alternate;
+button,.case-card,.upgrade-card,.inventory-item,.automation-card{
+    transform:translateZ(0);
 }
-
-@keyframes v7Ambient{
-    from{transform:translate3d(-1%,0,0) scale(1)}
-    to{transform:translate3d(1%,1%,0) scale(1.04)}
+button{
+    transition:transform .14s ease,filter .18s ease,box-shadow .18s ease,border-color .18s ease;
 }
-
-.case-card{
-    transform-style:preserve-3d;
-    box-shadow:0 12px 32px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.045);
+button:hover{
+    transform:translateY(-2px) scale(1.015);
+    filter:brightness(1.12);
 }
-.case-card::after{
+button:active{
+    transform:translateY(2px) scale(.985);
+    filter:brightness(.96);
+}
+.result-box{
+    box-shadow:0 0 0 1px rgba(255,255,255,.07),0 24px 90px rgba(0,0,0,.62),0 0 80px var(--v7-glow);
+    overflow:hidden;
+}
+.result-box::before{
     content:"";
     position:absolute;
-    inset:-80%;
+    inset:-60%;
     pointer-events:none;
-    background:linear-gradient(115deg,transparent 42%,rgba(255,255,255,.11) 49%,transparent 56%);
-    transform:translateX(-35%) rotate(12deg);
-    transition:transform .8s ease;
+    background:conic-gradient(from 90deg,transparent,rgba(255,255,255,.10),transparent 18%);
+    animation:v7Spin 8s linear infinite;
 }
-.case-card:hover::after{transform:translateX(35%) rotate(12deg)}
-.case-card:hover .case-image{transform:translateY(-4px) scale(1.045) rotate(-1deg)}
-.case-image{transition:transform .35s cubic-bezier(.2,.8,.2,1)}
-
-.upgrade-card,.panel{
-    box-shadow:0 16px 42px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.035);
+.result-box>*{position:relative;z-index:1}
+@keyframes v7Spin{to{transform:rotate(360deg)}}
+.reel-wrapper{
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,.07),inset 0 0 45px rgba(0,0,0,.55),0 0 35px rgba(120,80,255,.12);
 }
-.upgrade-button,.case-button,.login-button,.result-action{
+.reel-item{
+    transition:filter .15s ease,transform .15s ease;
+}
+.reel-item img{
+    image-rendering:auto;
+    filter:drop-shadow(0 8px 12px rgba(0,0,0,.45));
+}
+.result-action{
     position:relative;
     overflow:hidden;
     isolation:isolate;
+    box-shadow:0 10px 24px rgba(0,0,0,.28),inset 0 1px rgba(255,255,255,.16);
 }
-.upgrade-button::before,.case-button::before,.login-button::before,.result-action::before{
+.result-action::after{
     content:"";
     position:absolute;
-    top:-40%;
-    left:-80%;
-    width:55%;
-    height:180%;
-    background:linear-gradient(90deg,transparent,rgba(255,255,255,.24),transparent);
-    transform:skewX(-18deg);
-    transition:left .55s ease;
+    top:-60%;left:-35%;
+    width:28%;height:220%;
+    background:linear-gradient(90deg,transparent,rgba(255,255,255,.28),transparent);
+    transform:rotate(20deg) translateX(-180%);
+    transition:transform .6s ease;
     pointer-events:none;
-    z-index:2;
 }
-.upgrade-button:hover::before,.case-button:hover::before,.login-button:hover::before,.result-action:hover::before{left:125%}
-.upgrade-button,.case-button,.login-button{transition:transform .16s ease,filter .16s ease,box-shadow .2s ease}
-.upgrade-button:hover,.case-button:hover,.login-button:hover{transform:translateY(-2px);filter:brightness(1.08);box-shadow:0 10px 28px rgba(0,0,0,.25),0 0 22px rgba(139,92,246,.12)}
-.upgrade-button:active,.case-button:active,.login-button:active{transform:translateY(1px) scale(.985)}
-
-.opening-overlay{
-    backdrop-filter:blur(10px);
-    background:radial-gradient(circle at 50% 42%,rgba(52,43,95,.22),rgba(2,3,8,.94) 64%);
-}
-.opening-overlay.show .opening-title{animation:v7TitleIn .55s cubic-bezier(.16,1,.3,1)}
-.opening-overlay.show .opening-subtitle{animation:v7FadeUp .65s .05s both}
-@keyframes v7TitleIn{from{opacity:0;transform:translateY(-18px) scale(.94);filter:blur(5px)}to{opacity:1;transform:none;filter:none}}
-@keyframes v7FadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-
-.reel-card{
-    box-shadow:0 18px 50px rgba(0,0,0,.32),inset 0 1px 0 rgba(255,255,255,.04);
-    border-color:rgba(255,255,255,.1)!important;
-}
-.reel-wrapper::before{
-    content:"";
-    position:absolute;
-    inset:0;
-    z-index:7;
-    pointer-events:none;
-    background:radial-gradient(ellipse at center,transparent 35%,rgba(0,0,0,.34) 100%);
-}
-.reel-wrapper::after{width:28%!important;opacity:.85}
-.reel-item{
-    box-shadow:inset 0 1px 0 rgba(255,255,255,.035),0 8px 20px rgba(0,0,0,.18);
-    transition:filter .2s,transform .2s;
-}
-.reel-item img{filter:drop-shadow(0 8px 12px rgba(0,0,0,.42))}
-
-/* Result cinematic shell */
-.result-box.v7-cinematic{
-    animation:v7ResultIn .7s cubic-bezier(.16,1,.3,1);
-}
-.result-box.v7-cinematic::after{
-    content:"";
-    position:absolute;
-    inset:0;
-    pointer-events:none;
-    border-radius:inherit;
-    background:radial-gradient(circle at 50% 38%,var(--v7-result-glow,rgba(139,92,246,.18)),transparent 42%);
-    opacity:.95;
-    z-index:0;
-}
-@keyframes v7ResultIn{0%{opacity:0;transform:translateY(24px) scale(.92);filter:blur(8px)}65%{transform:translateY(-3px) scale(1.015)}100%{opacity:1;transform:none;filter:none}}
-.result-box.v7-rarity-legendary{--v7-result-glow:rgba(255,184,45,.34);box-shadow:0 30px 100px rgba(0,0,0,.58),0 0 75px rgba(255,184,45,.14),inset 0 1px 0 rgba(255,255,255,.08)}
-.result-box.v7-rarity-mythic{--v7-result-glow:rgba(255,70,215,.42);box-shadow:0 30px 110px rgba(0,0,0,.62),0 0 105px rgba(255,70,215,.2),inset 0 1px 0 rgba(255,255,255,.09);animation:v7MythicIn .95s cubic-bezier(.16,1,.3,1)}
-@keyframes v7MythicIn{0%{opacity:0;transform:scale(.55);filter:brightness(2) blur(12px)}38%{opacity:1;transform:scale(1.07);filter:brightness(1.5) blur(0)}60%{transform:scale(.985)}100%{transform:scale(1);filter:none}}
-.result-box.v7-rarity-epic{--v7-result-glow:rgba(168,85,247,.3)}
-.result-box.v7-rarity-rare{--v7-result-glow:rgba(59,130,246,.22)}
-.result-box.v7-rarity-uncommon{--v7-result-glow:rgba(34,197,94,.18)}
-.result-box.v7-rarity-common{--v7-result-glow:rgba(255,255,255,.1)}
-
-.result-box.v7-rarity-legendary .result-image,.result-box.v7-rarity-mythic .result-image{animation:v7LegendItem 1.1s ease-in-out infinite alternate}
-@keyframes v7LegendItem{from{transform:translateY(0) scale(1);filter:drop-shadow(0 0 18px rgba(255,255,255,.18))}to{transform:translateY(-7px) scale(1.045);filter:drop-shadow(0 0 34px rgba(255,210,80,.42))}}
-.result-box.v7-rarity-mythic .result-image{animation:v7MythicItem .75s ease-in-out infinite alternate}
-@keyframes v7MythicItem{from{transform:translateY(0) scale(1);filter:drop-shadow(0 0 20px rgba(255,80,220,.3))}to{transform:translateY(-9px) scale(1.065);filter:drop-shadow(0 0 48px rgba(255,80,220,.68))}}
-
-.result-kicker{
-    font-size:11px;
-    letter-spacing:4px;
-    font-weight:1000;
-    color:rgba(255,255,255,.55);
-    margin-bottom:9px;
-    text-transform:uppercase;
-}
-.result-value.v7-value-pop{animation:v7ValuePop .7s .15s both}
-@keyframes v7ValuePop{from{opacity:0;transform:scale(.7)}70%{transform:scale(1.08)}to{opacity:1;transform:none}}
-
-.result-actions .result-action{
-    min-height:58px;
-    font-size:14px;
-    letter-spacing:.3px;
-    transform-style:preserve-3d;
-}
-.result-action.sell{box-shadow:0 12px 30px rgba(32,227,162,.12),inset 0 1px 0 rgba(255,255,255,.14)}
-.result-action.continue{box-shadow:0 12px 30px rgba(139,92,246,.16),inset 0 1px 0 rgba(255,255,255,.14)}
-.result-action.open-again{box-shadow:0 12px 34px rgba(59,130,246,.16),inset 0 1px 0 rgba(255,255,255,.14)}
-.result-action:hover{transform:translateY(-4px) scale(1.015);filter:brightness(1.13);box-shadow:0 18px 42px rgba(0,0,0,.34),0 0 24px rgba(139,92,246,.12)}
-.result-action:active{transform:translateY(1px) scale(.975)!important}
-.result-action:disabled{opacity:.6;cursor:wait;transform:none!important}
-
-/* V7 floating particles */
+.result-action:hover::after{transform:rotate(20deg) translateX(650%)}
+.result-action.sell{box-shadow:0 0 24px rgba(70,255,160,.13),0 10px 24px rgba(0,0,0,.3),inset 0 1px rgba(255,255,255,.16)}
+.result-action.open-again{box-shadow:0 0 30px rgba(155,80,255,.22),0 10px 24px rgba(0,0,0,.3),inset 0 1px rgba(255,255,255,.16)}
+.result-action.continue{box-shadow:0 0 26px rgba(0,210,255,.15),0 10px 24px rgba(0,0,0,.3),inset 0 1px rgba(255,255,255,.16)}
 .v7-particle{
     position:fixed;
-    width:7px;
-    height:7px;
-    border-radius:2px;
+    width:7px;height:7px;
+    border-radius:50%;
     pointer-events:none;
     z-index:99999;
-    box-shadow:0 0 12px currentColor;
-    animation:v7Particle 900ms cubic-bezier(.12,.75,.22,1) forwards;
+    background:currentColor;
+    box-shadow:0 0 14px currentColor;
+    animation:v7Particle .75s cubic-bezier(.15,.75,.25,1) forwards;
 }
-@keyframes v7Particle{0%{opacity:1;transform:translate3d(0,0,0) rotate(0) scale(1)}100%{opacity:0;transform:translate3d(var(--dx),var(--dy),0) rotate(var(--rot)) scale(.15)}}
-.v7-coin{
+@keyframes v7Particle{
+    0%{opacity:1;transform:translate(0,0) scale(1)}
+    100%{opacity:0;transform:translate(var(--dx),var(--dy)) scale(.15)}
+}
+.v7-coin-float{
     position:fixed;
+    z-index:100000;
     pointer-events:none;
-    z-index:99999;
-    font-size:19px;
-    filter:drop-shadow(0 0 8px rgba(255,216,77,.65));
-    animation:v7CoinFly 800ms cubic-bezier(.16,.8,.2,1) forwards;
+    font-weight:900;
+    color:#ffd84a;
+    text-shadow:0 0 14px rgba(255,210,50,.8);
+    animation:v7CoinFloat 1s ease-out forwards;
 }
-@keyframes v7CoinFly{0%{opacity:0;transform:translate3d(0,10px,0) scale(.6)}18%{opacity:1}100%{opacity:0;transform:translate3d(var(--dx),var(--dy),0) scale(.9)}}
-
-/* Better disabled / locked visual */
-button:disabled{cursor:not-allowed}
-
+@keyframes v7CoinFloat{
+    0%{opacity:0;transform:translate(-50%,0) scale(.7)}
+    15%{opacity:1}
+    100%{opacity:0;transform:translate(-50%,-80px) scale(1.15)}
+}
+.v7-result-pop{animation:v7ResultPop .55s cubic-bezier(.12,.82,.18,1) both}
+@keyframes v7ResultPop{
+    0%{opacity:0;transform:scale(.72) translateY(18px)}
+    65%{opacity:1;transform:scale(1.035) translateY(-3px)}
+    100%{transform:scale(1) translateY(0)}
+}
+.v7-flash{
+    position:fixed;inset:0;z-index:99990;pointer-events:none;
+    background:white;opacity:0;
+    animation:v7Flash .42s ease-out forwards;
+}
+@keyframes v7Flash{0%{opacity:.75}100%{opacity:0}}
+.v7-mythic-vignette{
+    position:fixed;inset:0;z-index:99980;pointer-events:none;
+    background:radial-gradient(circle,transparent 15%,rgba(30,0,45,.22) 55%,rgba(0,0,0,.75) 100%);
+    animation:v7Vignette .9s ease-out forwards;
+}
+@keyframes v7Vignette{0%{opacity:0}20%{opacity:1}100%{opacity:.2}}
 @media(max-width:700px){
-    .result-actions{grid-template-columns:1fr;width:100%}
-    .result-action.open-again{grid-column:auto}
-    .result-kicker{letter-spacing:2.5px}
+    .result-actions{grid-template-columns:1fr!important}
+    .result-action.open-again{grid-column:auto!important}
 }
 
 </style>
@@ -2458,8 +2459,6 @@ button:disabled{cursor:not-allowed}
             class="result-box"
             id="resultBox"
         >
-
-            <div class="result-kicker" id="v7ResultKicker">REWARD UNLOCKED</div>
 
             <div
                 class="result-rarity"
@@ -4770,32 +4769,25 @@ async function openCase(
     fromAuto = false
 ){
 
-    if(currentOpening){
-        return;
-    }
+    if(currentOpening) return;
 
     const caseData = CASES.find(c => c.id === caseId);
-    if(!caseData){
-        return;
-    }
+    if(!caseData) return;
 
     currentOpening = true;
 
     try{
-        let keepOpening = true;
 
-        while(keepOpening){
+        while(true){
+
             const multiplier = activeOpenLevel;
             const totalPrice = caseData.price * multiplier;
 
             if(coins < totalPrice){
-                if(!fromAuto){
-                    toast("Nemáš dost coinů.");
-                }
+                if(!fromAuto) toast("Nemáš dost coinů.");
                 break;
             }
 
-            const coinsBefore = coins;
             coins -= totalPrice;
             casesOpened += multiplier;
 
@@ -4804,65 +4796,65 @@ async function openCase(
             renderCases();
 
             const results = [];
-            for(let i=0;i<multiplier;i++){
+            for(let i = 0; i < multiplier; i++){
                 results.push(getRandomItem(caseId));
             }
 
+            /* AUTO SELL = bez animace, okamžitý prodej */
             if(autoSellUnlocked){
-                const totalSell = results.reduce((sum,item)=>sum+Number(item.value||0),0);
+                const totalSell = results.reduce(
+                    (sum,item) => sum + Number(item.value || 0),
+                    0
+                );
+
                 coins += totalSell;
                 saveLocal();
                 renderCoins();
                 renderCases();
                 await saveCloud();
                 toast(`Auto Sell: +🪙 ${money(totalSell)}`);
-                keepOpening = false;
                 break;
             }
 
-            const resultAction = await showOpening(results,caseData);
-            const rewardTotal = results.reduce((sum,item)=>sum+Number(item.value||0),0);
+            const resultAction = await showOpening(results, caseData);
+
+            const rewardTotal = results.reduce(
+                (sum,item) => sum + Number(item.value || 0),
+                0
+            );
 
             if(resultAction === "sell"){
-                const before = coins;
+                /* PRODAT / PRODAT VŠE = právě zobrazené odměny */
                 coins += rewardTotal;
                 saveLocal();
                 renderAll();
                 await saveCloud();
-                v7AnimateCoins(before,coins,650);
+                spawnCoinBurst();
                 toast(`💰 Výhra prodána za 🪙 ${money(rewardTotal)}`);
-                keepOpening = false;
-            }else if(resultAction === "continue"){
-                results.forEach(item=>addInventory(item));
-                saveLocal();
-                renderAll();
-                await saveCloud();
-                keepOpening = false;
-            }else if(resultAction === "openAgain"){
-                results.forEach(item=>addInventory(item));
-                saveLocal();
-                renderAll();
-                await saveCloud();
-                await sleep(140);
-                keepOpening = true;
-            }else{
-                /* Bezpečný fallback — odměna se neztratí. */
-                results.forEach(item=>addInventory(item));
-                saveLocal();
-                renderAll();
-                await saveCloud();
-                keepOpening = false;
+                break;
             }
 
-            fromAuto = false;
+            /* CONTINUE i OPEN AGAIN nejdřív bezpečně uloží výhry */
+            results.forEach(item => addInventory(item));
+            saveLocal();
+            renderAll();
+            await saveCloud();
+
+            if(resultAction === "openAgain"){
+                await sleep(180);
+                continue;
+            }
+
+            /* Continue / zavření výsledku */
+            break;
         }
-    }catch(error){
-        console.error("Case opening error:",error);
-        toast("Něco se pokazilo při otevírání case.");
+
     }finally{
         currentOpening = false;
     }
+
 }
+
 
 /* =========================================================
    CREATE REEL ITEM
@@ -5268,25 +5260,11 @@ async function animateReel(
         střed samostatně.
     */
 
-    const firstItem =
-        reel.querySelector(".reel-item");
-
-    const itemRect =
-        firstItem
-        ? firstItem.getBoundingClientRect()
-        : { width:145 };
-
     const itemWidth =
-        itemRect.width || 145;
-
-    const computedStyle =
-        getComputedStyle(reel);
+        145;
 
     const gap =
-        parseFloat(
-            computedStyle.columnGap ||
-            computedStyle.gap
-        ) || 12;
+        12;
 
     const step =
         itemWidth +
@@ -5557,56 +5535,145 @@ function showMultipleResults(results){
 
 function waitForResultClose(){
 
-    return new Promise(resolve => {
-        const sellButton = $("sellResult");
-        const continueButton = $("continueResult");
-        const openAgainButton = $("openAgainResult");
-        let finished = false;
+    return new Promise(
+        resolve => {
 
-        function cleanup(){
-            sellButton.removeEventListener("click",sellHandler);
-            continueButton.removeEventListener("click",continueHandler);
-            openAgainButton.removeEventListener("click",openAgainHandler);
+            const sellButton =
+                $("sellResult");
+
+            const continueButton =
+                $("continueResult");
+
+            const openAgainButton =
+                $("openAgainResult");
+
+
+            const finish =
+                action => {
+
+                    if(pendingResultResolver !== null){
+
+                        return;
+
+                    }
+
+                    pendingResultResolver =
+                        resolve;
+
+                    sellButton.removeEventListener(
+                        "click",
+                        sellHandler
+                    );
+
+                    continueButton.removeEventListener(
+                        "click",
+                        continueHandler
+                    );
+
+                    openAgainButton.removeEventListener(
+                        "click",
+                        openAgainHandler
+                    );
+
+
+                    $("openingOverlay")
+                        .classList.remove(
+                            "show"
+                        );
+
+                    $("resultBox")
+                        .classList.remove(
+                            "show"
+                        );
+
+                    $("openingReels")
+                        .innerHTML =
+                        "";
+
+                    pendingResults =
+                        [];
+
+                    pendingCaseId =
+                        "";
+
+                    const resolver =
+                        pendingResultResolver;
+
+                    pendingResultResolver =
+                        null;
+
+                    resolver(action);
+
+                };
+
+
+            const sellHandler =
+                () => {
+
+                    const total =
+                        pendingResults.reduce(
+                            (sum,item) =>
+                                sum +
+                                Number(
+                                    item.value || 0
+                                ),
+                            0
+                        );
+
+                    sellButton.textContent =
+                        `💰 PRODAT — 🪙 ${money(total)}`;
+
+                    finish("sell");
+
+                };
+
+
+            const continueHandler =
+                () => {
+
+                    finish("continue");
+
+                };
+
+
+            const openAgainHandler =
+                () => {
+
+                    finish("openAgain");
+
+                };
+
+
+            sellButton.addEventListener(
+                "click",
+                sellHandler
+            );
+
+            continueButton.addEventListener(
+                "click",
+                continueHandler
+            );
+
+            openAgainButton.addEventListener(
+                "click",
+                openAgainHandler
+            );
+
+
+            /*
+                Pro jistotu reset textu po každém
+                novém reward screenu.
+            */
+            sellButton.textContent =
+                pendingResults.length > 1
+                ? "💰 PRODAT VŠE"
+                : "💰 PRODAT";
+
         }
+    );
 
-        function finish(action){
-            if(finished) return;
-            finished = true;
-            cleanup();
-            sellButton.disabled = true;
-            continueButton.disabled = true;
-            openAgainButton.disabled = true;
-
-            if(action === "sell") v7ButtonBurst(sellButton,"sell");
-            else if(action === "continue") v7ButtonBurst(continueButton,"normal");
-            else v7ButtonBurst(openAgainButton,"normal");
-
-            setTimeout(()=>{
-                $("openingOverlay").classList.remove("show");
-                $("resultBox").classList.remove("show");
-                $("openingReels").innerHTML = "";
-                pendingResults = [];
-                pendingCaseId = "";
-                sellButton.disabled = false;
-                continueButton.disabled = false;
-                openAgainButton.disabled = false;
-                resolve(action);
-            },120);
-        }
-
-        function sellHandler(){ finish("sell"); }
-        function continueHandler(){ finish("continue"); }
-        function openAgainHandler(){ finish("openAgain"); }
-
-        sellButton.textContent = pendingResults.length > 1 ? "💰 PRODAT VŠE" : "💰 PRODAT";
-        continueButton.textContent = "➡️ POKRAČOVAT";
-        openAgainButton.textContent = "🔄 OTEVŘÍT ZNOVU";
-
-        sellButton.addEventListener("click",sellHandler);
-        continueButton.addEventListener("click",continueHandler);
-        openAgainButton.addEventListener("click",openAgainHandler);
-    });
 }
+
 
 /* =========================================================
    SELL ALL
@@ -6537,102 +6604,6 @@ loadSavedNickname();
     login() načte cloud data.
 */
 
-
-
-/* =========================================================
-   PREMIUM V7 JS — FX + RESULT SYSTEM
-========================================================= */
-function v7SpawnParticles(x,y,count=18,kind="normal"){
-    const chars = kind === "coin" ? ["🪙"] : ["✦","◆","•","✧"];
-    for(let i=0;i<count;i++){
-        const el=document.createElement("div");
-        el.className=kind === "coin" ? "v7-coin" : "v7-particle";
-        el.textContent=chars[Math.floor(Math.random()*chars.length)];
-        if(kind !== "coin"){
-            const hues=["#ffffff","#8b5cf6","#3b82f6","#20e3a2","#ffd84d","#ff4fd8"];
-            el.style.color=hues[Math.floor(Math.random()*hues.length)];
-            el.style.background=el.textContent === "•" ? "currentColor" : "transparent";
-        }
-        el.style.left=x+"px";
-        el.style.top=y+"px";
-        el.style.setProperty("--dx",`${(Math.random()-.5)*260}px`);
-        el.style.setProperty("--dy",`${(Math.random()-.7)*220}px`);
-        el.style.setProperty("--rot",`${(Math.random()-.5)*720}deg`);
-        document.body.appendChild(el);
-        setTimeout(()=>el.remove(),1000);
-    }
-}
-
-function v7ButtonBurst(button, type="normal"){
-    if(!button) return;
-    const r=button.getBoundingClientRect();
-    const x=r.left+r.width/2;
-    const y=r.top+r.height/2;
-    v7SpawnParticles(x,y,type === "sell" ? 20 : 14,type === "sell" ? "coin" : "normal");
-    if(type === "sell"){
-        v7SpawnParticles(x,y,8,"normal");
-    }
-}
-
-function v7ResultClass(results){
-    if(!results || !results.length) return "v7-rarity-common";
-    const order={common:1,uncommon:2,rare:3,epic:4,legendary:5,mythic:6};
-    const best=results.reduce((a,b)=>(order[b.rarity]||0)>(order[a.rarity]||0)?b:a,results[0]);
-    return `v7-rarity-${best.rarity || "common"}`;
-}
-
-function v7PrepareResultBox(results){
-    const box=$("resultBox");
-    if(!box) return;
-    box.classList.remove("v7-cinematic","v7-rarity-common","v7-rarity-uncommon","v7-rarity-rare","v7-rarity-epic","v7-rarity-legendary","v7-rarity-mythic");
-    void box.offsetWidth;
-    box.classList.add("v7-cinematic",v7ResultClass(results));
-    const rare=results.some(x=>x.rarity === "legendary" || x.rarity === "mythic");
-    const r=box.getBoundingClientRect();
-    v7SpawnParticles(r.left+r.width/2,r.top+r.height*.32,rare?42:18);
-    if(rare){
-        setTimeout(()=>v7SpawnParticles(window.innerWidth/2,window.innerHeight*.42,34,"normal"),260);
-    }
-}
-
-function v7AnimateCoins(from,to,duration=500){
-    const el=$("coins");
-    if(!el) return;
-    const start=Number(from)||0;
-    const end=Number(to)||0;
-    const t0=performance.now();
-    function frame(now){
-        const p=Math.min(1,(now-t0)/duration);
-        const eased=1-Math.pow(1-p,3);
-        el.textContent=money(start+(end-start)*eased);
-        if(p<1) requestAnimationFrame(frame);
-        else el.textContent=money(end);
-    }
-    requestAnimationFrame(frame);
-}
-
-/* Cinematic result hook: replaces the plain reveal with a premium entrance. */
-const __v7OriginalShowResult = showResult;
-showResult = function(item){
-    __v7OriginalShowResult(item);
-    const box=$("resultBox");
-    if(box){
-        const kicker=document.getElementById("v7ResultKicker");
-        if(kicker) kicker.textContent = item.rarity === "mythic" ? "MYTHIC DROP" : item.rarity === "legendary" ? "LEGENDARY DROP" : "REWARD UNLOCKED";
-    }
-    v7PrepareResultBox([normalizeItem(item)]);
-    const value=$("resultValue");
-    if(value){ value.classList.remove("v7-value-pop"); void value.offsetWidth; value.classList.add("v7-value-pop"); }
-};
-
-const __v7OriginalShowMultipleResults = showMultipleResults;
-showMultipleResults = function(results){
-    __v7OriginalShowMultipleResults(results);
-    const box=$("resultBox");
-    const kicker=document.getElementById("v7ResultKicker");
-    if(kicker) kicker.textContent = "REWARDS UNLOCKED";
-    v7PrepareResultBox(results.map(normalizeItem));
-};
 
 </script>
 
