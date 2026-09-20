@@ -6,7 +6,6 @@
 
 <title>HouskaCze_0 | Minecraft Case Opening V5</title>
 
-<!-- SUPABASE -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
@@ -38,6 +37,7 @@ html{
 
 body{
     min-height:100vh;
+
     background:
         radial-gradient(
             circle at 50% -15%,
@@ -48,7 +48,12 @@ body{
         );
 
     color:#fff;
-    font-family:Arial,Helvetica,sans-serif;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
     overflow-x:hidden;
 }
 
@@ -353,6 +358,7 @@ body{
 }
 
 @keyframes heroGradient{
+
     0%{
         background-position:0 50%;
     }
@@ -364,6 +370,7 @@ body{
     100%{
         background-position:0 50%;
     }
+
 }
 
 .hero p{
@@ -507,6 +514,7 @@ body{
 }
 
 @keyframes caseGradient{
+
     0%{
         background-position:0 50%;
     }
@@ -518,6 +526,7 @@ body{
     100%{
         background-position:0 50%;
     }
+
 }
 
 .case-price{
@@ -1747,6 +1756,7 @@ body{
             scaleY(1)
             scaleX(1);
     }
+
 }
 
 /* =========================================================
@@ -1811,6 +1821,7 @@ body{
             translate(-50%,-50%)
             scale(9);
     }
+
 }
 
 /* =========================================================
@@ -1847,6 +1858,7 @@ body{
     100%{
         opacity:0;
     }
+
 }
 
 /* =========================================================
@@ -1877,6 +1889,7 @@ body{
     40%,60%{
         transform:translateX(8px);
     }
+
 }
 
 /* =========================================================
@@ -1953,6 +1966,7 @@ body{
     .inventory{
         grid-template-columns:repeat(4,1fr);
     }
+
 }
 
 @media(max-width:700px){
@@ -1978,6 +1992,7 @@ body{
     .reel-card{
         flex-basis:112px;
     }
+
 }
 
 @media(max-width:580px){
@@ -2036,6 +2051,7 @@ body{
     .leaderboard-table td{
         padding:9px 5px;
     }
+
 }
 </style>
 </head>
@@ -2502,7 +2518,6 @@ const SUPABASE_URL =
 const SUPABASE_PUBLISHABLE_KEY =
     "sb_publishable_AvZoT2GXOq7uy8LiyQVWLw_VOrGjcqh";
 
-
 const supabaseClient =
     window.supabase.createClient(
         SUPABASE_URL,
@@ -2899,10 +2914,31 @@ if(!Number.isFinite(coins)){
 }
 
 
-let inventory =
-    JSON.parse(
-        localStorage.getItem("sfm_inventory") || "[]"
+let inventory;
+
+try{
+
+    inventory =
+        JSON.parse(
+            localStorage.getItem("sfm_inventory") || "[]"
+        );
+
+    if(!Array.isArray(inventory)){
+        inventory = [];
+    }
+
+}
+
+catch(error){
+
+    console.warn(
+        "Inventory parse error:",
+        error
     );
+
+    inventory = [];
+
+}
 
 
 let openLevel =
@@ -2940,7 +2976,50 @@ inventory =
 ========================================================= */
 
 function $(id){
+
     return document.getElementById(id);
+
+}
+
+
+/* =========================================================
+   MONEY
+========================================================= */
+
+function money(value){
+
+    return Number(value || 0)
+        .toLocaleString("cs-CZ");
+
+}
+
+
+/* =========================================================
+   ESCAPE HTML
+========================================================= */
+
+function escapeHtml(value){
+
+    return String(value ?? "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+
+/* =========================================================
+   SLEEP
+========================================================= */
+
+function sleep(ms){
+
+    return new Promise(
+        resolve => setTimeout(resolve,ms)
+    );
+
 }
 
 
@@ -2949,11 +3028,6 @@ function $(id){
 ========================================================= */
 
 function normalizeItem(item){
-
-    /*
-       Starší uložené itemy mohou být jen string.
-       Převodíme je do správného objektu.
-    */
 
     if(typeof item === "string"){
 
@@ -2973,11 +3047,6 @@ function normalizeItem(item){
     }
 
 
-    /*
-       Pokud je item poškozený nebo prázdný,
-       vytvoříme bezpečný fallback.
-    */
-
     if(!item || typeof item !== "object"){
 
         return {
@@ -2994,10 +3063,6 @@ function normalizeItem(item){
 
     }
 
-
-    /*
-       Normalizovaný item.
-    */
 
     const name =
         item.name ||
@@ -3093,7 +3158,9 @@ function queueCloudSave(){
         return;
     }
 
-    clearTimeout(cloudSaveTimer);
+    clearTimeout(
+        cloudSaveTimer
+    );
 
     cloudSaveTimer =
         setTimeout(
@@ -3231,10 +3298,6 @@ async function loginPlayer(){
 
     try{
 
-        /*
-           Nejdříve hledáme existující účet.
-        */
-
         const { data:existing, error:selectError } =
             await supabaseClient
                 .from("minecraft_cases_players")
@@ -3256,21 +3319,11 @@ async function loginPlayer(){
 
         if(existing){
 
-            /*
-               Existující hráč:
-               načteme cloud progress.
-            */
-
             player = existing;
 
         }
 
         else{
-
-            /*
-               Nový hráč:
-               vytvoříme nový profil.
-            */
 
             const { data:newPlayer, error:insertError } =
                 await supabaseClient
@@ -3316,10 +3369,6 @@ async function loginPlayer(){
         }
 
 
-        /*
-           Nastavíme cloud state.
-        */
-
         playerId =
             player.id;
 
@@ -3352,12 +3401,6 @@ async function loginPlayer(){
             Number(player.cases_opened) || 0;
 
 
-        /*
-           Uložíme nickname lokálně,
-           aby ho příště mohl uživatel
-           snadno použít.
-        */
-
         localStorage.setItem(
             "sfm_nickname",
             playerNickname
@@ -3389,22 +3432,20 @@ async function loginPlayer(){
             `Účet ${playerNickname} vytvořen! 🎉`
         );
 
-
     }
 
     catch(error){
 
-    console.error(
-        "Login error:",
-        error
-    );
+        console.error(
+            "Login error:",
+            error
+        );
 
 
-    status.textContent =
-        `DB ERROR: ${error.message || "Neznámá chyba"}`;
+        status.textContent =
+            `DB ERROR: ${error.message || "Neznámá chyba"}`;
 
-}
-
+    }
 
     finally{
 
@@ -3461,7 +3502,7 @@ async function loadLeaderboard(){
 
     try{
 
-        const { data, error } =
+        const { data,error } =
             await supabaseClient
                 .from("minecraft_cases_players")
                 .select(
@@ -3627,6 +3668,10 @@ function renderCoins(){
 
 function itemIcon(item){
 
+    item =
+        normalizeItem(item);
+
+
     const texture =
         item.texture ||
         TEXTURES[item.name] ||
@@ -3672,7 +3717,7 @@ function itemIcon(item){
                 item-texture
                 ${enchanted ? "enchanted" : ""}
             "
-            src="assets/${texture}"
+            src="assets/${escapeHtml(texture)}"
             alt="${escapeHtml(item.name)}"
             draggable="false"
         >
@@ -3698,7 +3743,7 @@ function caseArt(caseId){
     return `
 
         <img
-            src="assets/${image}"
+            src="assets/${escapeHtml(image)}"
             alt="${escapeHtml(CASES[caseId].name)}"
             style="--case-glow:${glow}"
             onerror="
@@ -3804,7 +3849,7 @@ function renderCases(){
 
 
                     <div class="case-desc">
-                        ${caseData.desc}
+                        ${escapeHtml(caseData.desc)}
                     </div>
 
 
@@ -5177,7 +5222,7 @@ function keepResult(){
     inventory.push(
         ...currentResults.map(
             item => ({
-                ...item
+                ...normalizeItem(item)
             })
         )
     );
@@ -5256,7 +5301,8 @@ function sellInventory(index){
     );
 
 
-    coins += item.value;
+    coins +=
+        Number(item.value) || 0;
 
 
     save();
@@ -5326,11 +5372,6 @@ async function startAutoOpen(caseId){
     }
 
 
-    /*
-       Free case by jinak běžel nekonečně
-       a generoval nekonečné coiny.
-    */
-
     if(CASES[caseId].price === 0){
 
         showToast(
@@ -5341,11 +5382,6 @@ async function startAutoOpen(caseId){
 
     }
 
-
-    /*
-       Kontinuální Auto Open potřebuje Auto Sell,
-       aby se výsledky nehromadily v overlay.
-    */
 
     if(!autoSellUnlocked){
 
@@ -6111,11 +6147,6 @@ document.addEventListener(
 window.addEventListener(
     "beforeunload",
     () => {
-
-        /*
-           Cloud save se provede okamžitě,
-           pokud je hráč přihlášen.
-        */
 
         if(loggedIn && playerId){
 
