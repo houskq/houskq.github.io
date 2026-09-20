@@ -55,13 +55,23 @@
     }
 
     @keyframes float1 {
-      from { transform: translate(0, 0); }
-      to { transform: translate(100px, 80px); }
+      from {
+        transform: translate(0, 0);
+      }
+
+      to {
+        transform: translate(100px, 80px);
+      }
     }
 
     @keyframes float2 {
-      from { transform: translate(0, 0); }
-      to { transform: translate(-100px, -80px); }
+      from {
+        transform: translate(0, 0);
+      }
+
+      to {
+        transform: translate(-100px, -80px);
+      }
     }
 
     nav {
@@ -168,7 +178,12 @@
       line-height: 0.95;
       font-weight: 900;
       letter-spacing: -5px;
-      background: linear-gradient(120deg, #ffffff 10%, #d7b8ff 45%, #7c2cff 85%);
+      background: linear-gradient(
+        120deg,
+        #ffffff 10%,
+        #d7b8ff 45%,
+        #7c2cff 85%
+      );
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       text-shadow: 0 0 80px rgba(124,44,255,0.2);
@@ -503,7 +518,61 @@
       font-size: 14px;
     }
 
-    /* RGB EFEKT - SURVIVE FROM MINECRAFT */
+    /* =========================================
+       MINECRAFT CASE OPENING ICON
+       ========================================= */
+
+    .case-icon {
+      width: 72px;
+      height: 72px;
+      object-fit: contain;
+      display: block;
+      margin-bottom: 18px;
+      filter:
+        drop-shadow(0 0 10px rgba(255,190,40,0.25))
+        drop-shadow(0 0 25px rgba(124,44,255,0.18));
+      transform: scale(1);
+      transition:
+        transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1),
+        filter 0.3s ease;
+      image-rendering: pixelated;
+      position: relative;
+      z-index: 2;
+    }
+
+    .game-project:hover .case-icon {
+      transform: scale(1.16) rotate(-2deg);
+      filter:
+        drop-shadow(0 0 12px rgba(255,205,60,0.5))
+        drop-shadow(0 0 28px rgba(124,44,255,0.3));
+    }
+
+    .case-project {
+      background:
+        radial-gradient(
+          circle at 75% 0%,
+          rgba(255,190,50,0.10),
+          transparent 40%
+        ),
+        radial-gradient(
+          circle at 100% 100%,
+          rgba(124,44,255,0.15),
+          transparent 45%
+        ),
+        rgba(255,255,255,0.045);
+    }
+
+    .case-project::before {
+      background: #ffb52e;
+      opacity: 0.13;
+    }
+
+    .case-project::after {
+      content: "OPEN";
+      color: rgba(255,205,90,0.55);
+    }
+
+    /* RGB EFEKT */
 
     .survive-rgb {
       background: linear-gradient(
@@ -628,6 +697,7 @@
       .badge,
       .stat,
       .project-icon,
+      .case-icon,
       .section-title span,
       .section-title h2,
       .about-card h3,
@@ -921,26 +991,28 @@
       </div>
 
 
-      <!-- SURVIVE FROM MINECRAFT -->
+      <!-- MINECRAFT CASE OPENING -->
 
-      <div class="glass project game-project">
+      <div class="glass project game-project case-project">
 
-        <div class="project-icon">🧟</div>
+        <img
+          class="case-icon"
+          src="Open-Chest.png"
+          alt="Minecraft Case Opening">
 
         <h3 class="survive-rgb">
-          Survive from Minecraft
+          Minecraft Case Opening
         </h3>
 
         <p>
-          Braň svůj hrad před hordami nepřátel.
-          Vylepšuj vojáky, odemykej jejich ability,
-          posiluj obranu a přežij co nejvíce vln.
+          Otevírej Minecraft cases, získávej vzácné itemy,
+          ukládej je do Storage a prodávej svoje dropy za coiny.
         </p>
 
         <a
           class="watch"
           href="https://houskq.github.io/survive-from-minecraft.html">
-          🧟 Zahrát si
+          🎁 Otevřít cases
         </a>
 
       </div>
