@@ -1616,7 +1616,6 @@ header{
     }
 }
 
-
 /* =========================================================
    PREMIUM RESULT SCREEN V6
 ========================================================= */
@@ -1799,7 +1798,6 @@ header{
 }
 
 @media(max-width:700px){
-
     .result-box{
         padding:20px 14px;
         border-radius:20px;
@@ -1817,7 +1815,6 @@ header{
     .result-action.open-again{
         grid-column:auto;
     }
-
 }
 
 
@@ -1906,7 +1903,6 @@ header{
         opacity:1;
         transform:translateY(0);
     }
-
 }
 
 
@@ -1989,6 +1985,204 @@ header{
             repeat(2,1fr);
     }
 
+}
+
+
+/* =========================================================
+   PREMIUM V7 — CINEMATIC UI
+========================================================= */
+:root{
+    --v7-purple:#8b5cf6;
+    --v7-blue:#3b82f6;
+    --v7-green:#20e3a2;
+    --v7-gold:#ffd84d;
+    --v7-red:#ff4d6d;
+}
+
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:-1;
+    opacity:.32;
+    background-image:
+        linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+    background-size:42px 42px;
+    mask-image:linear-gradient(to bottom,black,transparent 92%);
+}
+
+body::after{
+    content:"";
+    position:fixed;
+    inset:-20%;
+    pointer-events:none;
+    z-index:-2;
+    background:
+        radial-gradient(circle at 15% 20%,rgba(139,92,246,.11),transparent 24%),
+        radial-gradient(circle at 85% 15%,rgba(59,130,246,.09),transparent 22%),
+        radial-gradient(circle at 50% 85%,rgba(32,227,162,.055),transparent 25%);
+    animation:v7Ambient 14s ease-in-out infinite alternate;
+}
+
+@keyframes v7Ambient{
+    from{transform:translate3d(-1%,0,0) scale(1)}
+    to{transform:translate3d(1%,1%,0) scale(1.04)}
+}
+
+.case-card{
+    transform-style:preserve-3d;
+    box-shadow:0 12px 32px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.045);
+}
+.case-card::after{
+    content:"";
+    position:absolute;
+    inset:-80%;
+    pointer-events:none;
+    background:linear-gradient(115deg,transparent 42%,rgba(255,255,255,.11) 49%,transparent 56%);
+    transform:translateX(-35%) rotate(12deg);
+    transition:transform .8s ease;
+}
+.case-card:hover::after{transform:translateX(35%) rotate(12deg)}
+.case-card:hover .case-image{transform:translateY(-4px) scale(1.045) rotate(-1deg)}
+.case-image{transition:transform .35s cubic-bezier(.2,.8,.2,1)}
+
+.upgrade-card,.panel{
+    box-shadow:0 16px 42px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.035);
+}
+.upgrade-button,.case-button,.login-button,.result-action{
+    position:relative;
+    overflow:hidden;
+    isolation:isolate;
+}
+.upgrade-button::before,.case-button::before,.login-button::before,.result-action::before{
+    content:"";
+    position:absolute;
+    top:-40%;
+    left:-80%;
+    width:55%;
+    height:180%;
+    background:linear-gradient(90deg,transparent,rgba(255,255,255,.24),transparent);
+    transform:skewX(-18deg);
+    transition:left .55s ease;
+    pointer-events:none;
+    z-index:2;
+}
+.upgrade-button:hover::before,.case-button:hover::before,.login-button:hover::before,.result-action:hover::before{left:125%}
+.upgrade-button,.case-button,.login-button{transition:transform .16s ease,filter .16s ease,box-shadow .2s ease}
+.upgrade-button:hover,.case-button:hover,.login-button:hover{transform:translateY(-2px);filter:brightness(1.08);box-shadow:0 10px 28px rgba(0,0,0,.25),0 0 22px rgba(139,92,246,.12)}
+.upgrade-button:active,.case-button:active,.login-button:active{transform:translateY(1px) scale(.985)}
+
+.opening-overlay{
+    backdrop-filter:blur(10px);
+    background:radial-gradient(circle at 50% 42%,rgba(52,43,95,.22),rgba(2,3,8,.94) 64%);
+}
+.opening-overlay.show .opening-title{animation:v7TitleIn .55s cubic-bezier(.16,1,.3,1)}
+.opening-overlay.show .opening-subtitle{animation:v7FadeUp .65s .05s both}
+@keyframes v7TitleIn{from{opacity:0;transform:translateY(-18px) scale(.94);filter:blur(5px)}to{opacity:1;transform:none;filter:none}}
+@keyframes v7FadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+.reel-card{
+    box-shadow:0 18px 50px rgba(0,0,0,.32),inset 0 1px 0 rgba(255,255,255,.04);
+    border-color:rgba(255,255,255,.1)!important;
+}
+.reel-wrapper::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    z-index:7;
+    pointer-events:none;
+    background:radial-gradient(ellipse at center,transparent 35%,rgba(0,0,0,.34) 100%);
+}
+.reel-wrapper::after{width:28%!important;opacity:.85}
+.reel-item{
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.035),0 8px 20px rgba(0,0,0,.18);
+    transition:filter .2s,transform .2s;
+}
+.reel-item img{filter:drop-shadow(0 8px 12px rgba(0,0,0,.42))}
+
+/* Result cinematic shell */
+.result-box.v7-cinematic{
+    animation:v7ResultIn .7s cubic-bezier(.16,1,.3,1);
+}
+.result-box.v7-cinematic::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    pointer-events:none;
+    border-radius:inherit;
+    background:radial-gradient(circle at 50% 38%,var(--v7-result-glow,rgba(139,92,246,.18)),transparent 42%);
+    opacity:.95;
+    z-index:0;
+}
+@keyframes v7ResultIn{0%{opacity:0;transform:translateY(24px) scale(.92);filter:blur(8px)}65%{transform:translateY(-3px) scale(1.015)}100%{opacity:1;transform:none;filter:none}}
+.result-box.v7-rarity-legendary{--v7-result-glow:rgba(255,184,45,.34);box-shadow:0 30px 100px rgba(0,0,0,.58),0 0 75px rgba(255,184,45,.14),inset 0 1px 0 rgba(255,255,255,.08)}
+.result-box.v7-rarity-mythic{--v7-result-glow:rgba(255,70,215,.42);box-shadow:0 30px 110px rgba(0,0,0,.62),0 0 105px rgba(255,70,215,.2),inset 0 1px 0 rgba(255,255,255,.09);animation:v7MythicIn .95s cubic-bezier(.16,1,.3,1)}
+@keyframes v7MythicIn{0%{opacity:0;transform:scale(.55);filter:brightness(2) blur(12px)}38%{opacity:1;transform:scale(1.07);filter:brightness(1.5) blur(0)}60%{transform:scale(.985)}100%{transform:scale(1);filter:none}}
+.result-box.v7-rarity-epic{--v7-result-glow:rgba(168,85,247,.3)}
+.result-box.v7-rarity-rare{--v7-result-glow:rgba(59,130,246,.22)}
+.result-box.v7-rarity-uncommon{--v7-result-glow:rgba(34,197,94,.18)}
+.result-box.v7-rarity-common{--v7-result-glow:rgba(255,255,255,.1)}
+
+.result-box.v7-rarity-legendary .result-image,.result-box.v7-rarity-mythic .result-image{animation:v7LegendItem 1.1s ease-in-out infinite alternate}
+@keyframes v7LegendItem{from{transform:translateY(0) scale(1);filter:drop-shadow(0 0 18px rgba(255,255,255,.18))}to{transform:translateY(-7px) scale(1.045);filter:drop-shadow(0 0 34px rgba(255,210,80,.42))}}
+.result-box.v7-rarity-mythic .result-image{animation:v7MythicItem .75s ease-in-out infinite alternate}
+@keyframes v7MythicItem{from{transform:translateY(0) scale(1);filter:drop-shadow(0 0 20px rgba(255,80,220,.3))}to{transform:translateY(-9px) scale(1.065);filter:drop-shadow(0 0 48px rgba(255,80,220,.68))}}
+
+.result-kicker{
+    font-size:11px;
+    letter-spacing:4px;
+    font-weight:1000;
+    color:rgba(255,255,255,.55);
+    margin-bottom:9px;
+    text-transform:uppercase;
+}
+.result-value.v7-value-pop{animation:v7ValuePop .7s .15s both}
+@keyframes v7ValuePop{from{opacity:0;transform:scale(.7)}70%{transform:scale(1.08)}to{opacity:1;transform:none}}
+
+.result-actions .result-action{
+    min-height:58px;
+    font-size:14px;
+    letter-spacing:.3px;
+    transform-style:preserve-3d;
+}
+.result-action.sell{box-shadow:0 12px 30px rgba(32,227,162,.12),inset 0 1px 0 rgba(255,255,255,.14)}
+.result-action.continue{box-shadow:0 12px 30px rgba(139,92,246,.16),inset 0 1px 0 rgba(255,255,255,.14)}
+.result-action.open-again{box-shadow:0 12px 34px rgba(59,130,246,.16),inset 0 1px 0 rgba(255,255,255,.14)}
+.result-action:hover{transform:translateY(-4px) scale(1.015);filter:brightness(1.13);box-shadow:0 18px 42px rgba(0,0,0,.34),0 0 24px rgba(139,92,246,.12)}
+.result-action:active{transform:translateY(1px) scale(.975)!important}
+.result-action:disabled{opacity:.6;cursor:wait;transform:none!important}
+
+/* V7 floating particles */
+.v7-particle{
+    position:fixed;
+    width:7px;
+    height:7px;
+    border-radius:2px;
+    pointer-events:none;
+    z-index:99999;
+    box-shadow:0 0 12px currentColor;
+    animation:v7Particle 900ms cubic-bezier(.12,.75,.22,1) forwards;
+}
+@keyframes v7Particle{0%{opacity:1;transform:translate3d(0,0,0) rotate(0) scale(1)}100%{opacity:0;transform:translate3d(var(--dx),var(--dy),0) rotate(var(--rot)) scale(.15)}}
+.v7-coin{
+    position:fixed;
+    pointer-events:none;
+    z-index:99999;
+    font-size:19px;
+    filter:drop-shadow(0 0 8px rgba(255,216,77,.65));
+    animation:v7CoinFly 800ms cubic-bezier(.16,.8,.2,1) forwards;
+}
+@keyframes v7CoinFly{0%{opacity:0;transform:translate3d(0,10px,0) scale(.6)}18%{opacity:1}100%{opacity:0;transform:translate3d(var(--dx),var(--dy),0) scale(.9)}}
+
+/* Better disabled / locked visual */
+button:disabled{cursor:not-allowed}
+
+@media(max-width:700px){
+    .result-actions{grid-template-columns:1fr;width:100%}
+    .result-action.open-again{grid-column:auto}
+    .result-kicker{letter-spacing:2.5px}
 }
 
 </style>
@@ -2265,6 +2459,8 @@ header{
             id="resultBox"
         >
 
+            <div class="result-kicker" id="v7ResultKicker">REWARD UNLOCKED</div>
+
             <div
                 class="result-rarity"
                 id="resultRarity"
@@ -2300,6 +2496,10 @@ header{
                 💰 Výhru můžeš prodat rovnou tady.
             </div>
 
+            <!--
+                Pro 2× až 5× se používá tento grid.
+                U 1× zůstává skrytý.
+            -->
 
             <div
                 class="multiple-results"
@@ -2313,11 +2513,7 @@ header{
                 style="display:none;"
             ></div>
 
-
-            <div
-                class="result-actions"
-                id="resultActions"
-            >
+            <div class="result-actions" id="resultActions">
 
                 <button
                     class="result-action sell"
@@ -2393,7 +2589,17 @@ let inventory = [];
 
 let openLevel = 1;
 
+/*
+    openLevel =
+    MAXIMUM PURCHASED MULTIPLIER
+*/
+
 let activeOpenLevel = 1;
+
+/*
+    activeOpenLevel =
+    CURRENTLY SELECTED MULTIPLIER
+*/
 
 let luckLevel = 1;
 
@@ -2409,10 +2615,12 @@ let currentOpening = false;
 
 let autoOpenTimer = null;
 
+/*
+    Výsledky právě zobrazené v reward screenu.
+    Díky tomu lze výhru prodat bez návštěvy inventáře.
+*/
 let pendingResults = [];
-
 let pendingCaseId = "";
-
 let pendingResultResolver = null;
 
 
@@ -3339,6 +3547,11 @@ function renderCases(){
     CASES.forEach(
         caseData => {
 
+            /*
+                DŮLEŽITÉ:
+                cena se počítá podle aktivního multiplieru.
+            */
+
             const totalPrice =
                 caseData.price *
                 activeOpenLevel;
@@ -3402,7 +3615,15 @@ function renderCases(){
                     ${canAfford ? "" : "disabled"}
                     onclick="openCase('${escapeHtml(caseData.id)}')"
                 >
-                    OTEVŘÍT ${activeOpenLevel}×
+
+                    ${
+                        caseData.price === 0
+                        ?
+                        `OTEVŘÍT ${activeOpenLevel}×`
+                        :
+                        `OTEVŘÍT ${activeOpenLevel}×`
+                    }
+
                 </button>
 
             `;
@@ -3429,6 +3650,10 @@ function renderUpgrades(){
     container.innerHTML =
         "";
 
+
+    /* =====================================================
+       OPEN MULTIPLIER
+    ====================================================== */
 
     const nextOpen =
         openLevel + 1;
@@ -3562,6 +3787,10 @@ function renderUpgrades(){
     );
 
 
+    /* =====================================================
+       LUCK
+    ====================================================== */
+
     const nextLuck =
         luckLevel + 1;
 
@@ -3634,6 +3863,10 @@ function renderUpgrades(){
         luckCard
     );
 
+
+    /* =====================================================
+       FASTER SPIN
+    ====================================================== */
 
     const spinCard =
         document.createElement(
@@ -4180,6 +4413,11 @@ async function upgradeOpen(){
     openLevel =
         next;
 
+    /*
+        Po koupi nového levelu
+        ho rovnou nastavíme jako aktivní.
+    */
+
     activeOpenLevel =
         next;
 
@@ -4452,6 +4690,10 @@ function toggleAutoOpen(){
 
 function findAffordableCase(){
 
+    /*
+        Preferujeme nejdražší dostupný case.
+    */
+
     const sorted =
         [...CASES]
         .sort(
@@ -4528,279 +4770,99 @@ async function openCase(
     fromAuto = false
 ){
 
-    if(
-        currentOpening
-    ){
-
+    if(currentOpening){
         return;
-
     }
 
-
-    const caseData =
-        CASES.find(
-            c =>
-                c.id === caseId
-        );
-
-
-    if(
-        !caseData
-    ){
-
+    const caseData = CASES.find(c => c.id === caseId);
+    if(!caseData){
         return;
-
     }
 
+    currentOpening = true;
 
-    const multiplier =
-        activeOpenLevel;
+    try{
+        let keepOpening = true;
 
+        while(keepOpening){
+            const multiplier = activeOpenLevel;
+            const totalPrice = caseData.price * multiplier;
 
-    const totalPrice =
-        caseData.price *
-        multiplier;
+            if(coins < totalPrice){
+                if(!fromAuto){
+                    toast("Nemáš dost coinů.");
+                }
+                break;
+            }
 
+            const coinsBefore = coins;
+            coins -= totalPrice;
+            casesOpened += multiplier;
 
-    if(
-        coins < totalPrice
-    ){
+            saveLocal();
+            renderCoins();
+            renderCases();
 
-        if(!fromAuto){
+            const results = [];
+            for(let i=0;i<multiplier;i++){
+                results.push(getRandomItem(caseId));
+            }
 
-            toast(
-                "Nemáš dost coinů."
-            );
+            if(autoSellUnlocked){
+                const totalSell = results.reduce((sum,item)=>sum+Number(item.value||0),0);
+                coins += totalSell;
+                saveLocal();
+                renderCoins();
+                renderCases();
+                await saveCloud();
+                toast(`Auto Sell: +🪙 ${money(totalSell)}`);
+                keepOpening = false;
+                break;
+            }
 
+            const resultAction = await showOpening(results,caseData);
+            const rewardTotal = results.reduce((sum,item)=>sum+Number(item.value||0),0);
+
+            if(resultAction === "sell"){
+                const before = coins;
+                coins += rewardTotal;
+                saveLocal();
+                renderAll();
+                await saveCloud();
+                v7AnimateCoins(before,coins,650);
+                toast(`💰 Výhra prodána za 🪙 ${money(rewardTotal)}`);
+                keepOpening = false;
+            }else if(resultAction === "continue"){
+                results.forEach(item=>addInventory(item));
+                saveLocal();
+                renderAll();
+                await saveCloud();
+                keepOpening = false;
+            }else if(resultAction === "openAgain"){
+                results.forEach(item=>addInventory(item));
+                saveLocal();
+                renderAll();
+                await saveCloud();
+                await sleep(140);
+                keepOpening = true;
+            }else{
+                /* Bezpečný fallback — odměna se neztratí. */
+                results.forEach(item=>addInventory(item));
+                saveLocal();
+                renderAll();
+                await saveCloud();
+                keepOpening = false;
+            }
+
+            fromAuto = false;
         }
-
-        return;
-
+    }catch(error){
+        console.error("Case opening error:",error);
+        toast("Něco se pokazilo při otevírání case.");
+    }finally{
+        currentOpening = false;
     }
-
-
-    currentOpening =
-        true;
-
-
-    coins -=
-        totalPrice;
-
-    casesOpened +=
-        multiplier;
-
-
-    saveLocal();
-
-    renderCoins();
-
-    renderCases();
-
-
-    const results = [];
-
-
-    for(
-        let i = 0;
-        i < multiplier;
-        i++
-    ){
-
-        results.push(
-            getRandomItem(
-                caseId
-            )
-        );
-
-    }
-
-
-    /*
-        AUTO SELL
-        -------------------------
-        Itemy se vůbec nedají do
-        inventáře. Rovnou se prodají.
-    */
-
-    if(
-        autoSellUnlocked
-    ){
-
-        let totalSell =
-            0;
-
-        results.forEach(
-            item => {
-
-                totalSell +=
-                    Number(
-                        item.value || 0
-                    );
-
-            }
-        );
-
-        coins +=
-            totalSell;
-
-        saveLocal();
-
-        renderCoins();
-
-        renderCases();
-
-        await saveCloud();
-
-        toast(
-            `Auto Sell: +🪙 ${money(totalSell)}`
-        );
-
-        currentOpening =
-            false;
-
-        return;
-
-    }
-
-
-    /*
-        DŮLEŽITÁ OPRAVA:
-        showOpening nyní vrací přesně
-        "sell", "continue" nebo
-        "openAgain".
-    */
-
-    const resultAction =
-        await showOpening(
-            results,
-            caseData
-        );
-
-
-    const rewardTotal =
-        results.reduce(
-            (sum,item) =>
-                sum +
-                Number(
-                    item.value || 0
-                ),
-            0
-        );
-
-
-    /*
-        PRODAT
-        -------------------------
-        Všechny rewardy z právě
-        otevřené case se prodají.
-    */
-
-    if(
-        resultAction === "sell"
-    ){
-
-        coins +=
-            rewardTotal;
-
-        saveLocal();
-
-        renderAll();
-
-        await saveCloud();
-
-        toast(
-            `💰 Výhra prodána za 🪙 ${money(rewardTotal)}`
-        );
-
-    }
-
-
-    /*
-        POKRAČOVAT
-        -------------------------
-        Rewardy se uloží do inventáře.
-    */
-
-    else if(
-        resultAction === "continue"
-    ){
-
-        results.forEach(
-            item => {
-
-                addInventory(
-                    item
-                );
-
-            }
-        );
-
-        saveLocal();
-
-        renderAll();
-
-        await saveCloud();
-
-    }
-
-
-    /*
-        OTEVŘÍT ZNOVU
-        -------------------------
-        Nejdřív se předchozí rewardy
-        uloží do inventáře a potom
-        se otevře STEJNÁ case znovu.
-    */
-
-    else if(
-        resultAction === "openAgain"
-    ){
-
-        results.forEach(
-            item => {
-
-                addInventory(
-                    item
-                );
-
-            }
-        );
-
-        saveLocal();
-
-        renderAll();
-
-        await saveCloud();
-
-    }
-
-
-    currentOpening =
-        false;
-
-
-    /*
-        Znovu otevřeme stejnou case.
-        Používá se původní caseId,
-        takže se nemůže omylem otevřít
-        jiná case.
-    */
-
-    if(
-        resultAction === "openAgain"
-    ){
-
-        await sleep(120);
-
-        await openCase(
-            caseId,
-            false
-        );
-
-    }
-
 }
-
 
 /* =========================================================
    CREATE REEL ITEM
@@ -4887,6 +4949,14 @@ function createOpeningReel(
         "reel";
 
 
+    /*
+        35 itemů jako předtím.
+
+        Poslední item je vždy skutečný
+        výsledek tohoto konkrétního
+        reelu.
+    */
+
     const totalVisual =
         35;
 
@@ -4963,8 +5033,7 @@ async function showOpening(
 
     pendingResults =
         results.map(
-            item =>
-                normalizeItem(item)
+            item => normalizeItem(item)
         );
 
     pendingCaseId =
@@ -4991,7 +5060,7 @@ async function showOpening(
 
 
     /*
-        RESET RESULT UI
+        Reset výsledkového UI.
     */
 
     $("multipleResults").style.display =
@@ -5035,6 +5104,11 @@ async function showOpening(
         "";
 
 
+    /*
+        Vytvoříme samostatný reel pro
+        KAŽDÝ skutečný výsledek.
+    */
+
     const lanes = [];
 
 
@@ -5067,6 +5141,16 @@ async function showOpening(
     await sleep(100);
 
 
+    /*
+        Faster Spin
+
+        0%  = 4200 ms
+        10% = 3780 ms
+        20% = 3360 ms
+
+        Minimum 1000 ms.
+    */
+
     const baseDuration =
         4200;
 
@@ -5081,6 +5165,15 @@ async function showOpening(
             )
         );
 
+
+    /*
+        Spouštíme všechny reely
+        současně.
+
+        Každý má vlastní wrapper,
+        takže každý může být přesně
+        vystředěný.
+    */
 
     const animations =
         lanes.map(
@@ -5104,6 +5197,11 @@ async function showOpening(
     );
 
 
+    /*
+        Po zastavení reelů ukážeme
+        výsledky.
+    */
+
     resultBox.classList.add(
         "show"
     );
@@ -5125,24 +5223,6 @@ async function showOpening(
 
     }
 
-
-    /*
-        =====================================================
-        HLAVNÍ OPRAVA
-        =====================================================
-
-        Předtím zde bylo:
-
-            await waitForResultClose();
-
-        Tím se výsledek tlačítka ztratil.
-
-        Teď vracíme jeho hodnotu do openCase():
-
-            "sell"
-            "continue"
-            "openAgain"
-    */
 
     return await waitForResultClose();
 
@@ -5179,11 +5259,34 @@ async function animateReel(
     await sleep(60);
 
 
+    /*
+        Šířka itemu zůstává 145px
+        a gap 12px.
+
+        Protože každý reel má svůj
+        vlastní wrapper, počítáme
+        střed samostatně.
+    */
+
+    const firstItem =
+        reel.querySelector(".reel-item");
+
+    const itemRect =
+        firstItem
+        ? firstItem.getBoundingClientRect()
+        : { width:145 };
+
     const itemWidth =
-        145;
+        itemRect.width || 145;
+
+    const computedStyle =
+        getComputedStyle(reel);
 
     const gap =
-        12;
+        parseFloat(
+            computedStyle.columnGap ||
+            computedStyle.gap
+        ) || 12;
 
     const step =
         itemWidth +
@@ -5197,6 +5300,11 @@ async function animateReel(
     const center =
         visibleWidth / 2;
 
+
+    /*
+        Skutečný výsledek je úplně
+        poslední item.
+    */
 
     const targetIndex =
         totalVisual - 1;
@@ -5212,6 +5320,12 @@ async function animateReel(
         center -
         targetCenter;
 
+
+    /*
+        Drobný rozdíl mezi lanes,
+        aby všechny nebyly úplně
+        identické na milisekundu.
+    */
 
     const stagger =
         laneIndex *
@@ -5285,7 +5399,6 @@ function showResult(item){
         "🪙 " +
         money(item.value);
 
-
     $("sellPreview").textContent =
         `💰 Prodat rovnou za 🪙 ${money(item.value)}`;
 
@@ -5308,10 +5421,12 @@ function showMultipleResults(results){
 
     pendingResults =
         results.map(
-            item =>
-                normalizeItem(item)
+            item => normalizeItem(item)
         );
 
+    /*
+        Schováme single-result UI.
+    */
 
     $("resultRarity").style.display =
         "";
@@ -5430,7 +5545,6 @@ function showMultipleResults(results){
     totalElement.textContent =
         `Celková hodnota: 🪙 ${money(total)}`;
 
-
     $("sellPreview").textContent =
         `💰 Prodat všechny odměny rovnou za 🪙 ${money(total)}`;
 
@@ -5443,183 +5557,59 @@ function showMultipleResults(results){
 
 function waitForResultClose(){
 
-    return new Promise(
-        resolve => {
+    return new Promise(resolve => {
+        const sellButton = $("sellResult");
+        const continueButton = $("continueResult");
+        const openAgainButton = $("openAgainResult");
+        let finished = false;
 
-            const sellButton =
-                $("sellResult");
-
-            const continueButton =
-                $("continueResult");
-
-            const openAgainButton =
-                $("openAgainResult");
-
-
-            /*
-                Lokální ochrana proti tomu,
-                aby se tlačítko nezpracovalo
-                dvakrát.
-            */
-
-            let finished =
-                false;
-
-
-            function cleanup(){
-
-                sellButton.removeEventListener(
-                    "click",
-                    sellHandler
-                );
-
-                continueButton.removeEventListener(
-                    "click",
-                    continueHandler
-                );
-
-                openAgainButton.removeEventListener(
-                    "click",
-                    openAgainHandler
-                );
-
-            }
-
-
-            function finish(action){
-
-                if(
-                    finished
-                ){
-
-                    return;
-
-                }
-
-
-                finished =
-                    true;
-
-
-                cleanup();
-
-
-                /*
-                    Zavřeme celý reward screen.
-                */
-
-                $("openingOverlay")
-                    .classList.remove(
-                        "show"
-                    );
-
-                $("resultBox")
-                    .classList.remove(
-                        "show"
-                    );
-
-                $("openingReels")
-                    .innerHTML =
-                    "";
-
-
-                /*
-                    pendingCaseId už po kliknutí
-                    není potřeba.
-                */
-
-                pendingCaseId =
-                    "";
-
-
-                pendingResultResolver =
-                    null;
-
-
-                /*
-                    TADY se vrací skutečná
-                    akce do openCase().
-                */
-
-                resolve(action);
-
-            }
-
-
-            function sellHandler(){
-
-                /*
-                    Pro 1×:
-                        PRODAT
-
-                    Pro 2×–5×:
-                        PRODAT VŠE
-
-                    openCase() následně spočítá
-                    součet z lokálních results.
-                */
-
-                finish(
-                    "sell"
-                );
-
-            }
-
-
-            function continueHandler(){
-
-                finish(
-                    "continue"
-                );
-
-            }
-
-
-            function openAgainHandler(){
-
-                finish(
-                    "openAgain"
-                );
-
-            }
-
-
-            /*
-                Text tlačítka podle počtu
-                právě získaných itemů.
-            */
-
-            sellButton.textContent =
-                pendingResults.length > 1
-                ?
-                "💰 PRODAT VŠE"
-                :
-                "💰 PRODAT";
-
-
-            sellButton.addEventListener(
-                "click",
-                sellHandler
-            );
-
-            continueButton.addEventListener(
-                "click",
-                continueHandler
-            );
-
-            openAgainButton.addEventListener(
-                "click",
-                openAgainHandler
-            );
-
+        function cleanup(){
+            sellButton.removeEventListener("click",sellHandler);
+            continueButton.removeEventListener("click",continueHandler);
+            openAgainButton.removeEventListener("click",openAgainHandler);
         }
-    );
 
+        function finish(action){
+            if(finished) return;
+            finished = true;
+            cleanup();
+            sellButton.disabled = true;
+            continueButton.disabled = true;
+            openAgainButton.disabled = true;
+
+            if(action === "sell") v7ButtonBurst(sellButton,"sell");
+            else if(action === "continue") v7ButtonBurst(continueButton,"normal");
+            else v7ButtonBurst(openAgainButton,"normal");
+
+            setTimeout(()=>{
+                $("openingOverlay").classList.remove("show");
+                $("resultBox").classList.remove("show");
+                $("openingReels").innerHTML = "";
+                pendingResults = [];
+                pendingCaseId = "";
+                sellButton.disabled = false;
+                continueButton.disabled = false;
+                openAgainButton.disabled = false;
+                resolve(action);
+            },120);
+        }
+
+        function sellHandler(){ finish("sell"); }
+        function continueHandler(){ finish("continue"); }
+        function openAgainHandler(){ finish("openAgain"); }
+
+        sellButton.textContent = pendingResults.length > 1 ? "💰 PRODAT VŠE" : "💰 PRODAT";
+        continueButton.textContent = "➡️ POKRAČOVAT";
+        openAgainButton.textContent = "🔄 OTEVŘÍT ZNOVU";
+
+        sellButton.addEventListener("click",sellHandler);
+        continueButton.addEventListener("click",continueHandler);
+        openAgainButton.addEventListener("click",openAgainHandler);
+    });
 }
 
-
 /* =========================================================
-   SELL ALL INVENTORY
+   SELL ALL
 ========================================================= */
 
 async function sellAll(){
@@ -5863,6 +5853,10 @@ function loadLocal(){
         ) === "true";
 
 
+    /*
+        Opravíme staré inventory data.
+    */
+
     inventory =
         Array.isArray(inventory)
         ?
@@ -6015,6 +6009,10 @@ async function loadCloudPlayer(){
 
     if(!data){
 
+        /*
+            Nový hráč
+        */
+
         const newPlayer = {
 
             nickname:
@@ -6109,6 +6107,10 @@ async function loadCloudPlayer(){
 
     }
 
+
+    /*
+        Existující hráč
+    */
 
     coins =
         Number(
@@ -6524,6 +6526,113 @@ renderAll();
 
 loadSavedNickname();
 
+
+/*
+    Pokud je uložený nick,
+    přihlášení stále musí proběhnout
+    přes Supabase, aby se načetl
+    aktuální online progres.
+
+    Pokud uživatel klikne HRÁT,
+    login() načte cloud data.
+*/
+
+
+
+/* =========================================================
+   PREMIUM V7 JS — FX + RESULT SYSTEM
+========================================================= */
+function v7SpawnParticles(x,y,count=18,kind="normal"){
+    const chars = kind === "coin" ? ["🪙"] : ["✦","◆","•","✧"];
+    for(let i=0;i<count;i++){
+        const el=document.createElement("div");
+        el.className=kind === "coin" ? "v7-coin" : "v7-particle";
+        el.textContent=chars[Math.floor(Math.random()*chars.length)];
+        if(kind !== "coin"){
+            const hues=["#ffffff","#8b5cf6","#3b82f6","#20e3a2","#ffd84d","#ff4fd8"];
+            el.style.color=hues[Math.floor(Math.random()*hues.length)];
+            el.style.background=el.textContent === "•" ? "currentColor" : "transparent";
+        }
+        el.style.left=x+"px";
+        el.style.top=y+"px";
+        el.style.setProperty("--dx",`${(Math.random()-.5)*260}px`);
+        el.style.setProperty("--dy",`${(Math.random()-.7)*220}px`);
+        el.style.setProperty("--rot",`${(Math.random()-.5)*720}deg`);
+        document.body.appendChild(el);
+        setTimeout(()=>el.remove(),1000);
+    }
+}
+
+function v7ButtonBurst(button, type="normal"){
+    if(!button) return;
+    const r=button.getBoundingClientRect();
+    const x=r.left+r.width/2;
+    const y=r.top+r.height/2;
+    v7SpawnParticles(x,y,type === "sell" ? 20 : 14,type === "sell" ? "coin" : "normal");
+    if(type === "sell"){
+        v7SpawnParticles(x,y,8,"normal");
+    }
+}
+
+function v7ResultClass(results){
+    if(!results || !results.length) return "v7-rarity-common";
+    const order={common:1,uncommon:2,rare:3,epic:4,legendary:5,mythic:6};
+    const best=results.reduce((a,b)=>(order[b.rarity]||0)>(order[a.rarity]||0)?b:a,results[0]);
+    return `v7-rarity-${best.rarity || "common"}`;
+}
+
+function v7PrepareResultBox(results){
+    const box=$("resultBox");
+    if(!box) return;
+    box.classList.remove("v7-cinematic","v7-rarity-common","v7-rarity-uncommon","v7-rarity-rare","v7-rarity-epic","v7-rarity-legendary","v7-rarity-mythic");
+    void box.offsetWidth;
+    box.classList.add("v7-cinematic",v7ResultClass(results));
+    const rare=results.some(x=>x.rarity === "legendary" || x.rarity === "mythic");
+    const r=box.getBoundingClientRect();
+    v7SpawnParticles(r.left+r.width/2,r.top+r.height*.32,rare?42:18);
+    if(rare){
+        setTimeout(()=>v7SpawnParticles(window.innerWidth/2,window.innerHeight*.42,34,"normal"),260);
+    }
+}
+
+function v7AnimateCoins(from,to,duration=500){
+    const el=$("coins");
+    if(!el) return;
+    const start=Number(from)||0;
+    const end=Number(to)||0;
+    const t0=performance.now();
+    function frame(now){
+        const p=Math.min(1,(now-t0)/duration);
+        const eased=1-Math.pow(1-p,3);
+        el.textContent=money(start+(end-start)*eased);
+        if(p<1) requestAnimationFrame(frame);
+        else el.textContent=money(end);
+    }
+    requestAnimationFrame(frame);
+}
+
+/* Cinematic result hook: replaces the plain reveal with a premium entrance. */
+const __v7OriginalShowResult = showResult;
+showResult = function(item){
+    __v7OriginalShowResult(item);
+    const box=$("resultBox");
+    if(box){
+        const kicker=document.getElementById("v7ResultKicker");
+        if(kicker) kicker.textContent = item.rarity === "mythic" ? "MYTHIC DROP" : item.rarity === "legendary" ? "LEGENDARY DROP" : "REWARD UNLOCKED";
+    }
+    v7PrepareResultBox([normalizeItem(item)]);
+    const value=$("resultValue");
+    if(value){ value.classList.remove("v7-value-pop"); void value.offsetWidth; value.classList.add("v7-value-pop"); }
+};
+
+const __v7OriginalShowMultipleResults = showMultipleResults;
+showMultipleResults = function(results){
+    __v7OriginalShowMultipleResults(results);
+    const box=$("resultBox");
+    const kicker=document.getElementById("v7ResultKicker");
+    if(kicker) kicker.textContent = "REWARDS UNLOCKED";
+    v7PrepareResultBox(results.map(normalizeItem));
+};
 
 </script>
 
