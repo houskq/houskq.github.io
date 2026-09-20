@@ -2944,31 +2944,96 @@ function $(id){
 }
 
 
-function money(number){
-    return Number(number).toLocaleString("cs-CZ");
-}
+/* =========================================================
+   NORMALIZE ITEM
+========================================================= */
+
+function normalizeItem(item){
+
+    /*
+       Starší uložené itemy mohou být jen string.
+       Převodíme je do správného objektu.
+    */
+
+    if(typeof item === "string"){
+
+        return {
+
+            name:item,
+
+            rarity:"common",
+
+            value:0,
+
+            texture:
+                TEXTURES[item] || ""
+
+        };
+
+    }
 
 
-function escapeHtml(value){
+    /*
+       Pokud je item poškozený nebo prázdný,
+       vytvoříme bezpečný fallback.
+    */
 
-    return String(value).replace(
-        /[&<>"']/g,
-        char => ({
-            "&":"&amp;",
-            "<":"&lt;",
-            ">":"&gt;",
-            '"':"&quot;",
-            "'":"&#039;"
-        }[char])
-    );
+    if(!item || typeof item !== "object"){
 
-}
+        return {
+
+            name:"Unknown Item",
+
+            rarity:"common",
+
+            value:0,
+
+            texture:""
+
+        };
+
+    }
 
 
-function sleep(ms){
-    return new Promise(
-        resolve => setTimeout(resolve,ms)
-    );
+    /*
+       Normalizovaný item.
+    */
+
+    const name =
+        item.name ||
+        "Unknown Item";
+
+
+    const rarity =
+        RARITIES[item.rarity]
+        ?
+        item.rarity
+        :
+        "common";
+
+
+    const value =
+        Number(item.value) || 0;
+
+
+    const texture =
+        item.texture ||
+        TEXTURES[name] ||
+        "";
+
+
+    return {
+
+        name:name,
+
+        rarity:rarity,
+
+        value:value,
+
+        texture:texture
+
+    };
+
 }
 
 
