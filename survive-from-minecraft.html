@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Survive from Minecraft | Case Simulator</title>
+<title>HouskaCze_0 | Minecraft Case Opening V4</title>
 
 <style>
 *{
@@ -14,17 +14,17 @@
 }
 
 :root{
-    --bg:#07070c;
-    --panel:#10101a;
-    --panel2:#151521;
-    --border:rgba(255,255,255,.08);
-    --text:#f5f5ff;
-    --muted:#9292a8;
-    --purple:#8b5cf6;
-    --purple2:#a855f7;
-    --green:#4ade80;
-    --gold:#facc15;
-    --red:#ef4444;
+    --bg:#08070d;
+    --panel:#12101c;
+    --panel2:#181525;
+    --border:#2c2640;
+
+    --common:#b8b8b8;
+    --uncommon:#55e36d;
+    --rare:#4d9dff;
+    --epic:#b85cff;
+    --legendary:#ffd43b;
+    --mythic:#ff4d8d;
 }
 
 html{
@@ -34,24 +34,10 @@ html{
 body{
     min-height:100vh;
     background:
-        radial-gradient(circle at 20% 0%,rgba(139,92,246,.13),transparent 30%),
-        radial-gradient(circle at 90% 20%,rgba(168,85,247,.08),transparent 25%),
-        linear-gradient(180deg,#07070c,#090912 55%,#06060b);
-    color:var(--text);
-    font-family:Inter,Segoe UI,Arial,sans-serif;
+        radial-gradient(circle at 50% -10%,#2c1855 0%,#110c1d 35%,#08070d 75%);
+    color:#fff;
+    font-family:Arial,Helvetica,sans-serif;
     overflow-x:hidden;
-}
-
-body::before{
-    content:"";
-    position:fixed;
-    inset:0;
-    pointer-events:none;
-    opacity:.035;
-    background-image:
-        linear-gradient(rgba(255,255,255,.5) 1px,transparent 1px),
-        linear-gradient(90deg,rgba(255,255,255,.5) 1px,transparent 1px);
-    background-size:40px 40px;
 }
 
 /* =========================
@@ -59,163 +45,74 @@ body::before{
 ========================= */
 
 .topbar{
-    position:sticky;
-    top:0;
-    z-index:50;
-    height:72px;
+    height:68px;
     display:flex;
     align-items:center;
     justify-content:space-between;
-    padding:0 32px;
-    background:rgba(7,7,12,.82);
+    padding:0 25px;
+
+    position:sticky;
+    top:0;
+    z-index:50;
+
+    background:rgba(7,6,12,.85);
     backdrop-filter:blur(18px);
+
     border-bottom:1px solid var(--border);
 }
 
 .logo{
-    display:flex;
-    align-items:center;
-    gap:12px;
-    font-weight:900;
-    letter-spacing:.5px;
-}
-
-.logo-icon{
-    width:38px;
-    height:38px;
-    border-radius:11px;
-    display:grid;
-    place-items:center;
-    background:linear-gradient(135deg,#8b5cf6,#5b21b6);
-    box-shadow:0 0 25px rgba(139,92,246,.35);
-    font-size:20px;
+    font-size:22px;
+    font-weight:1000;
 }
 
 .logo span{
-    color:#fff;
-}
-
-.logo small{
-    display:block;
-    color:#8e8ea3;
-    font-size:10px;
-    font-weight:600;
-    margin-top:1px;
-}
-
-.top-actions{
-    display:flex;
-    align-items:center;
-    gap:10px;
+    color:#a45cff;
 }
 
 .coins{
-    height:42px;
-    padding:0 16px;
-    display:flex;
-    align-items:center;
-    gap:8px;
-    background:rgba(255,255,255,.045);
-    border:1px solid var(--border);
+    padding:10px 16px;
     border-radius:12px;
-    font-weight:800;
-}
 
-.coin-icon{
-    width:20px;
-    height:20px;
-    border-radius:50%;
-    background:radial-gradient(circle at 35% 30%,#fff59a,#facc15 45%,#a16207);
-    box-shadow:0 0 10px rgba(250,204,21,.35);
-}
+    background:#151122;
+    border:1px solid #3a3158;
 
-.nav-btn{
-    height:42px;
-    padding:0 15px;
-    border:1px solid var(--border);
-    background:rgba(255,255,255,.035);
-    color:#ddddec;
-    border-radius:12px;
-    cursor:pointer;
-    font-weight:700;
-    transition:.2s;
-}
+    font-weight:900;
 
-.nav-btn:hover{
-    background:rgba(139,92,246,.12);
-    border-color:rgba(139,92,246,.35);
+    box-shadow:0 0 25px #9b5cff12;
 }
 
 /* =========================
    MAIN
 ========================= */
 
-.container{
-    width:min(1250px,calc(100% - 36px));
+.layout{
+    width:min(1250px,94%);
     margin:auto;
-    padding:45px 0 80px;
+    padding:35px 0 70px;
 }
 
 .hero{
     text-align:center;
-    margin-bottom:42px;
-}
-
-.hero-badge{
-    display:inline-flex;
-    align-items:center;
-    gap:8px;
-    padding:8px 13px;
-    border-radius:999px;
-    border:1px solid rgba(139,92,246,.25);
-    background:rgba(139,92,246,.08);
-    color:#c4b5fd;
-    font-size:12px;
-    font-weight:800;
-    margin-bottom:18px;
+    margin-bottom:35px;
 }
 
 .hero h1{
-    font-size:clamp(34px,6vw,68px);
-    line-height:.95;
-    font-weight:950;
-    letter-spacing:-3px;
-}
-
-.hero h1 span{
-    background:linear-gradient(90deg,#fff,#c4b5fd,#8b5cf6);
-    -webkit-background-clip:text;
-    color:transparent;
+    font-size:clamp(32px,5vw,58px);
+    font-weight:1000;
+    letter-spacing:-2px;
 }
 
 .hero p{
-    max-width:650px;
-    margin:18px auto 0;
-    color:var(--muted);
-    line-height:1.6;
+    color:#9992aa;
+    margin-top:9px;
 }
 
 /* =========================
-   CASE GRID
+   CASES
 ========================= */
 
-.section-title{
-    display:flex;
-    justify-content:space-between;
-    align-items:end;
-    margin-bottom:18px;
-}
-
-.section-title h2{
-    font-size:22px;
-}
-
-.section-title span{
-    color:#77778e;
-    font-size:13px;
-}
-
-.case-grid{
+.cases{
     display:grid;
     grid-template-columns:repeat(3,1fr);
     gap:17px;
@@ -223,224 +120,300 @@ body::before{
 
 .case{
     position:relative;
-    min-height:290px;
-    padding:22px;
     overflow:hidden;
-    border-radius:20px;
-    border:1px solid var(--border);
+
+    min-height:250px;
+
+    padding:21px;
+
+    border-radius:18px;
+
     background:
-        linear-gradient(145deg,rgba(255,255,255,.055),rgba(255,255,255,.015)),
-        #0d0d15;
+        linear-gradient(145deg,#181525,#0e0c15);
+
+    border:1px solid var(--border);
+
+    cursor:pointer;
+
     transition:
-        transform .25s,
-        border-color .25s,
-        box-shadow .25s;
+        transform .25s ease,
+        border-color .25s ease,
+        box-shadow .25s ease;
 }
 
 .case:hover{
     transform:translateY(-6px);
-    border-color:rgba(139,92,246,.38);
-    box-shadow:0 20px 60px rgba(0,0,0,.35),0 0 35px rgba(139,92,246,.08);
+
+    border-color:#66518f;
+
+    box-shadow:
+        0 18px 55px #0009,
+        0 0 35px #9b5cff12;
 }
+
+/* shine */
 
 .case::after{
     content:"";
+
     position:absolute;
-    width:160px;
-    height:160px;
-    right:-50px;
-    top:-50px;
-    border-radius:50%;
-    background:var(--case-glow,rgba(139,92,246,.16));
-    filter:blur(35px);
+
+    width:180%;
+    height:40%;
+
+    top:-30%;
+    left:-80%;
+
+    transform:rotate(-25deg);
+
+    background:linear-gradient(
+        90deg,
+        transparent,
+        #ffffff13,
+        transparent
+    );
+
+    transition:.7s;
+
+    pointer-events:none;
 }
 
-.case-head{
-    position:relative;
-    z-index:2;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-}
-
-.case-name{
-    font-weight:900;
-    font-size:18px;
-}
-
-.case-price{
-    padding:6px 10px;
-    border-radius:8px;
-    background:rgba(255,255,255,.06);
-    color:#ddd;
-    font-size:12px;
-    font-weight:800;
-}
-
-.case-visual{
-    position:relative;
-    z-index:2;
-    height:125px;
-    display:grid;
-    place-items:center;
-}
-
-.case-box{
-    width:105px;
-    height:105px;
-    position:relative;
-    transform:perspective(500px) rotateX(12deg) rotateY(-15deg);
-    filter:drop-shadow(0 20px 18px rgba(0,0,0,.5));
-}
-
-.case-front{
-    position:absolute;
-    left:0;
-    bottom:0;
-    width:82px;
-    height:76px;
-    border-radius:8px;
-    background:
-        linear-gradient(135deg,rgba(255,255,255,.15),transparent 40%),
-        var(--box-color,#65a30d);
-    border:3px solid rgba(0,0,0,.35);
-    box-shadow:
-        inset 0 0 0 4px rgba(255,255,255,.06),
-        inset 0 -12px 20px rgba(0,0,0,.18);
+.case:hover::after{
+    left:100%;
 }
 
 .case-top{
-    position:absolute;
-    left:2px;
-    top:12px;
-    width:83px;
-    height:35px;
-    transform:skewY(-22deg);
-    border-radius:7px;
-    background:var(--box-top,#84cc16);
-    border:3px solid rgba(0,0,0,.35);
-}
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
 
-.case-lock{
-    position:absolute;
-    left:31px;
-    top:37px;
-    width:20px;
-    height:24px;
-    border-radius:4px;
-    background:#e5e7eb;
-    border:3px solid #52525b;
-    z-index:3;
-}
-
-.case-lock::before{
-    content:"";
-    position:absolute;
-    left:4px;
-    top:-11px;
-    width:7px;
-    height:13px;
-    border:3px solid #52525b;
-    border-bottom:0;
-    border-radius:7px 7px 0 0;
-}
-
-.case-items{
     position:relative;
     z-index:2;
+}
+
+.case-name{
+    font-size:23px;
+    font-weight:1000;
+
+    background-size:250% 100%;
+    background-clip:text;
+    -webkit-background-clip:text;
+
+    color:transparent;
+
+    animation:caseGradient 2.8s linear infinite;
+}
+
+@keyframes caseGradient{
+    0%{
+        background-position:0% 50%;
+    }
+
+    50%{
+        background-position:100% 50%;
+    }
+
+    100%{
+        background-position:0% 50%;
+    }
+}
+
+.case-price{
+    padding:7px 10px;
+
+    border-radius:9px;
+
+    background:#0005;
+
+    font-size:13px;
+    font-weight:900;
+}
+
+.preview{
     display:flex;
-    gap:6px;
-    flex-wrap:wrap;
-    min-height:34px;
+    gap:7px;
+
+    margin:27px 0 18px;
+
+    position:relative;
+    z-index:2;
 }
 
 .mini-item{
-    width:31px;
-    height:31px;
+    width:43px;
+    height:43px;
+
     display:grid;
     place-items:center;
-    border-radius:7px;
-    background:rgba(255,255,255,.05);
-    border:1px solid rgba(255,255,255,.07);
-    font-size:14px;
-}
 
-.case-bottom{
-    position:absolute;
-    z-index:2;
-    left:22px;
-    right:22px;
-    bottom:20px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:10px;
-}
-
-.case-info{
-    color:#77778e;
-    font-size:11px;
-}
-
-.open-case-btn{
-    border:0;
     border-radius:10px;
-    padding:10px 15px;
+
+    background:#0a0910;
+
+    border:1px solid #2b263b;
+}
+
+.case-desc{
+    color:#9c96a9;
+    font-size:13px;
+    line-height:1.5;
+
+    position:relative;
+    z-index:2;
+}
+
+.open-btn{
+    width:100%;
+
+    margin-top:18px;
+
+    padding:12px;
+
+    border:0;
+    border-radius:11px;
+
     color:white;
-    background:linear-gradient(135deg,#7c3aed,#9333ea);
-    box-shadow:0 7px 20px rgba(124,58,237,.25);
-    font-weight:900;
+
+    font-weight:1000;
+
+    background:
+        linear-gradient(
+            135deg,
+            #7040d3,
+            #aa60ff
+        );
+
     cursor:pointer;
+
+    box-shadow:
+        0 8px 25px #8b4cff22;
+
+    position:relative;
+    z-index:2;
+
     transition:.2s;
 }
 
-.open-case-btn:hover{
+.open-btn:hover{
+    filter:brightness(1.15);
     transform:translateY(-1px);
-    box-shadow:0 10px 26px rgba(124,58,237,.38);
 }
 
-.open-case-btn:disabled{
-    opacity:.45;
-    cursor:not-allowed;
-    transform:none;
+/* =========================
+   REAL MINECRAFT TEXTURES
+========================= */
+
+.item-texture{
+    width:72px;
+    height:72px;
+
+    object-fit:contain;
+
+    image-rendering:pixelated;
+
+    user-select:none;
+    -webkit-user-drag:none;
 }
 
-/* case colors */
-
-.case.grass{
-    --box-color:#65a30d;
-    --box-top:#84cc16;
-    --case-glow:rgba(132,204,22,.12);
+.mini-item .item-texture{
+    width:29px;
+    height:29px;
 }
 
-.case.stone{
-    --box-color:#52525b;
-    --box-top:#71717a;
-    --case-glow:rgba(161,161,170,.12);
+.enchanted{
+    filter:
+        drop-shadow(0 0 6px #b85cff)
+        drop-shadow(0 0 15px #6f4cff);
 }
 
-.case.nether{
-    --box-color:#7f1d1d;
-    --box-top:#991b1b;
-    --case-glow:rgba(239,68,68,.15);
+/* =========================
+   UPGRADES
+========================= */
+
+.upgrades{
+    margin-top:25px;
+
+    padding:21px;
+
+    border-radius:18px;
+
+    background:#100e19;
+
+    border:1px solid var(--border);
 }
 
-.case.diamond{
-    --box-color:#0891b2;
-    --box-top:#22d3ee;
-    --case-glow:rgba(34,211,238,.14);
+.section-title{
+    font-size:22px;
+    font-weight:1000;
+
+    margin-bottom:15px;
 }
 
-.case.end{
-    --box-color:#4c1d95;
-    --box-top:#6d28d9;
-    --case-glow:rgba(139,92,246,.18);
+.upgrade-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+
+    gap:14px;
 }
 
-.case.legendary{
-    --box-color:#854d0e;
-    --box-top:#eab308;
-    --case-glow:rgba(250,204,21,.2);
+.upgrade{
+    padding:16px;
+
+    border-radius:14px;
+
+    background:#171424;
+
+    border:1px solid #29243b;
+}
+
+.upgrade h3{
+    margin-bottom:7px;
+}
+
+.upgrade p{
+    color:#9c96a9;
+    font-size:13px;
+    line-height:1.5;
+
+    margin-bottom:13px;
+}
+
+.upgrade-levels{
+    display:flex;
+    gap:7px;
+    flex-wrap:wrap;
+}
+
+.upgrade-level{
+    padding:8px 12px;
+
+    border-radius:9px;
+
+    background:#0d0b13;
+
+    border:1px solid #39314d;
+
+    color:#aaa3bb;
+
+    cursor:pointer;
+
+    font-weight:900;
+
+    transition:.2s;
+}
+
+.upgrade-level:hover{
+    border-color:#7951b7;
+}
+
+.upgrade-level.active{
+    color:white;
+
+    border-color:#9b5cff;
+
+    background:#25183d;
+
+    box-shadow:0 0 18px #9b5cff25;
 }
 
 /* =========================
@@ -448,441 +421,386 @@ body::before{
 ========================= */
 
 .storage{
-    margin-top:55px;
-}
+    margin-top:25px;
 
-.storage-panel{
+    padding:21px;
+
+    border-radius:18px;
+
+    background:#100e19;
+
     border:1px solid var(--border);
-    border-radius:20px;
-    background:rgba(255,255,255,.025);
-    overflow:hidden;
 }
 
-.storage-top{
-    padding:20px;
+.storage-head{
     display:flex;
     justify-content:space-between;
     align-items:center;
-    border-bottom:1px solid var(--border);
-}
-
-.storage-title{
-    font-weight:900;
-}
-
-.storage-count{
-    color:#7e7e94;
-    font-size:13px;
 }
 
 .inventory{
-    padding:20px;
     display:grid;
     grid-template-columns:repeat(6,1fr);
+
     gap:10px;
 }
 
 .inv-item{
-    min-height:145px;
-    position:relative;
-    padding:13px;
+    min-height:135px;
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+
+    text-align:center;
+
+    padding:10px;
+
     border-radius:13px;
-    background:rgba(255,255,255,.035);
-    border:1px solid rgba(255,255,255,.06);
-    overflow:hidden;
+
+    background:#151321;
+
+    border:1px solid #2a2539;
 }
 
-.inv-item:hover{
-    border-color:rgba(139,92,246,.35);
-}
-
-.item-icon{
-    height:72px;
-    display:grid;
-    place-items:center;
-}
-
-.item-pixel{
-    width:48px;
-    height:48px;
-    position:relative;
-    filter:drop-shadow(0 5px 10px rgba(0,0,0,.45));
-}
-
-/* pixel item shapes */
-
-.pixel-block{
-    width:42px;
-    height:42px;
-    border:3px solid rgba(0,0,0,.35);
-    box-shadow:inset 8px 8px rgba(255,255,255,.12),inset -7px -7px rgba(0,0,0,.15);
-}
-
-.dirt{background:#795548;}
-.grass{background:linear-gradient(#65a30d 0 27%,#795548 27%);}
-.stone-icon{background:#737373;}
-.iron{background:#d4d4d8;}
-.gold{background:#facc15;}
-.diamond-icon{background:#22d3ee;}
-.netherite{background:#52525b;}
-.emerald{background:#22c55e;}
-.obsidian{background:#312e81;}
-.tnt{background:#dc2626;}
-
-.sword-shape{
-    width:11px;
-    height:55px;
-    background:#d4d4d8;
-    transform:rotate(45deg);
-    position:absolute;
-    left:19px;
-    top:-2px;
-    box-shadow:
-        5px 5px 0 #737373,
-        -8px 29px 0 #78350f;
-}
-
-.sword-shape.diamond-sword{
-    background:#22d3ee;
-    box-shadow:
-        5px 5px 0 #67e8f9,
-        -8px 29px 0 #713f12;
-}
-
-.sword-shape.netherite-sword{
-    background:#71717a;
-    box-shadow:
-        5px 5px 0 #3f3f46,
-        -8px 29px 0 #713f12;
-}
-
-.apple-shape{
-    width:42px;
-    height:38px;
-    border-radius:42% 42% 48% 48%;
-    background:#dc2626;
-    box-shadow:inset 7px 5px rgba(255,255,255,.12);
-}
-
-.apple-shape::after{
-    content:"";
-    position:absolute;
-    width:8px;
-    height:13px;
-    background:#713f12;
-    left:22px;
-    top:-8px;
-    transform:rotate(15deg);
-}
-
-.pearl{
-    width:43px;
-    height:43px;
-    border-radius:50%;
-    background:radial-gradient(circle at 30% 25%,#d8b4fe,#7e22ce 55%,#2e1065);
-    box-shadow:0 0 18px rgba(168,85,247,.55);
-}
-
-.egg{
-    width:37px;
-    height:48px;
-    border-radius:48% 48% 45% 45%;
-    background:linear-gradient(135deg,#111827,#374151 55%,#111827);
-    transform:rotate(-8deg);
-    box-shadow:0 0 22px rgba(139,92,246,.45);
-}
-
-.elytra{
-    width:53px;
-    height:36px;
-    position:relative;
-}
-
-.elytra::before,
-.elytra::after{
-    content:"";
-    position:absolute;
-    top:5px;
-    width:25px;
-    height:34px;
-    background:#581c87;
-    border:3px solid #a855f7;
-}
-
-.elytra::before{
-    left:0;
-    transform:skewY(20deg);
-}
-
-.elytra::after{
-    right:0;
-    transform:skewY(-20deg);
+.inv-item .item-texture{
+    width:58px;
+    height:58px;
 }
 
 .inv-name{
-    white-space:nowrap;
-    overflow:hidden;
-    text-overflow:ellipsis;
-    font-size:12px;
-    font-weight:800;
-}
-
-.inv-rarity{
-    font-size:10px;
     margin-top:4px;
-    font-weight:800;
+
+    font-size:11px;
+    font-weight:900;
 }
 
 .inv-value{
-    color:#9999ac;
-    font-size:10px;
     margin-top:3px;
+
+    color:#8f899e;
+
+    font-size:11px;
 }
 
-.sell-btn{
-    margin-top:8px;
-    width:100%;
-    border:1px solid rgba(255,255,255,.08);
-    background:rgba(255,255,255,.045);
-    color:#ddd;
+.sell-small{
+    margin-top:7px;
+
+    padding:5px 9px;
+
+    border:0;
     border-radius:7px;
-    padding:5px;
+
+    background:#242033;
+
+    color:#ddd;
+
     font-size:10px;
-    font-weight:800;
+    font-weight:900;
+
     cursor:pointer;
 }
 
-.sell-btn:hover{
-    background:rgba(74,222,128,.1);
-    color:#86efac;
+.empty{
+    grid-column:1/-1;
+
+    padding:35px;
+
+    text-align:center;
+
+    color:#777286;
 }
 
 /* =========================
-   RARITY
+   OPENING OVERLAY
 ========================= */
 
-.common{color:#b7b7c5;}
-.uncommon{color:#4ade80;}
-.rare{color:#60a5fa;}
-.epic{color:#c084fc;}
-.legendary{color:#facc15;}
-.mythic{
-    color:#fb7185;
-    text-shadow:0 0 15px rgba(251,113,133,.7);
-}
-
-/* =========================
-   OPENING MODAL
-========================= */
-
-.modal{
+.overlay{
     position:fixed;
     inset:0;
-    z-index:100;
+
     display:none;
     align-items:center;
     justify-content:center;
-    padding:20px;
-    background:rgba(0,0,0,.82);
+
+    background:rgba(3,2,7,.91);
+
     backdrop-filter:blur(12px);
+
+    z-index:100;
 }
 
-.modal.active{
+.overlay.show{
     display:flex;
 }
 
-.opening-window{
-    width:min(1050px,100%);
-    background:
-        radial-gradient(circle at 50% 0%,rgba(139,92,246,.13),transparent 35%),
-        #0b0b13;
-    border:1px solid rgba(255,255,255,.1);
-    border-radius:24px;
-    box-shadow:0 40px 100px rgba(0,0,0,.7);
-    overflow:hidden;
-}
+.opening{
+    width:min(1100px,94vw);
 
-.opening-head{
-    padding:20px 24px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    border-bottom:1px solid var(--border);
-}
+    text-align:center;
 
-.opening-head strong{
-    font-size:17px;
+    position:relative;
 }
 
 .close{
-    width:35px;
-    height:35px;
+    position:absolute;
+
+    right:0;
+    top:-48px;
+
+    padding:8px 12px;
+
+    border:0;
     border-radius:9px;
-    border:1px solid var(--border);
-    background:rgba(255,255,255,.04);
+
+    background:#242033;
     color:#aaa;
+
     cursor:pointer;
-    font-size:18px;
 }
 
-.opening-content{
-    padding:28px 25px 34px;
+.opening-title{
+    font-size:30px;
+    font-weight:1000;
+
+    margin-bottom:8px;
 }
 
-.opening-case-name{
-    text-align:center;
-    color:#aaaabd;
-    font-size:12px;
-    font-weight:800;
-    letter-spacing:1px;
-    text-transform:uppercase;
-    margin-bottom:17px;
+.opening-sub{
+    color:#8e899d;
+
+    margin-bottom:25px;
 }
+
+/* =========================
+   REEL
+========================= */
 
 .reel-wrap{
+    height:190px;
+
     position:relative;
-    width:100%;
-    height:180px;
+
     overflow:hidden;
-    border-radius:15px;
-    background:#08080e;
-    border:1px solid rgba(255,255,255,.08);
+
+    border-radius:18px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #151321,
+            #0c0b12
+        );
+
+    border:1px solid #39314d;
+
+    box-shadow:
+        0 25px 90px #0009;
 }
 
 .reel-wrap::before,
 .reel-wrap::after{
     content:"";
+
     position:absolute;
+
     top:0;
     bottom:0;
-    width:150px;
+
+    width:20%;
+
     z-index:3;
+
     pointer-events:none;
 }
 
 .reel-wrap::before{
     left:0;
-    background:linear-gradient(90deg,#08080e,transparent);
+
+    background:
+        linear-gradient(
+            90deg,
+            #0c0b12,
+            transparent
+        );
 }
 
 .reel-wrap::after{
     right:0;
-    background:linear-gradient(-90deg,#08080e,transparent);
+
+    background:
+        linear-gradient(
+            -90deg,
+            #0c0b12,
+            transparent
+        );
 }
 
-.pointer{
+.marker{
     position:absolute;
-    z-index:10;
+
     left:50%;
-    top:-1px;
+    top:0;
+    bottom:0;
+
+    width:3px;
+
+    z-index:5;
+
     transform:translateX(-50%);
-    width:0;
-    height:0;
-    border-left:11px solid transparent;
-    border-right:11px solid transparent;
-    border-top:15px solid #fff;
-    filter:drop-shadow(0 2px 5px rgba(255,255,255,.35));
+
+    background:#fff;
+
+    box-shadow:
+        0 0 20px #fff;
 }
 
-.pointer-bottom{
+.marker::before,
+.marker::after{
+    content:"";
+
     position:absolute;
-    z-index:10;
+
     left:50%;
-    bottom:-1px;
-    transform:translateX(-50%) rotate(180deg);
-    width:0;
-    height:0;
-    border-left:11px solid transparent;
-    border-right:11px solid transparent;
-    border-top:15px solid #fff;
+
+    transform:translateX(-50%);
+
+    border-left:8px solid transparent;
+    border-right:8px solid transparent;
+}
+
+.marker::before{
+    top:0;
+
+    border-top:13px solid white;
+}
+
+.marker::after{
+    bottom:0;
+
+    border-bottom:13px solid white;
 }
 
 .reel{
     position:absolute;
-    height:100%;
-    left:50%;
-    top:0;
+
+    left:0;
+    top:24px;
+
+    height:142px;
+
     display:flex;
-    align-items:center;
+
     gap:9px;
+
+    align-items:stretch;
+
     will-change:transform;
-    transform:translateX(0);
 }
 
 .reel-card{
-    width:145px;
-    height:145px;
     flex:0 0 145px;
-    position:relative;
+
     display:flex;
     flex-direction:column;
     align-items:center;
     justify-content:center;
-    border-radius:12px;
-    background:
-        linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.015));
-    border:1px solid rgba(255,255,255,.07);
-}
 
-.reel-card::after{
-    content:"";
-    position:absolute;
-    bottom:0;
-    left:10%;
-    right:10%;
-    height:3px;
-    border-radius:5px;
-    background:currentColor;
-    opacity:.8;
-}
+    position:relative;
 
-.reel-card .item-icon{
-    height:72px;
-}
+    border-radius:13px;
 
-.reel-card-name{
-    max-width:125px;
+    background:#12101a;
+
+    border:1px solid #302a42;
+
     overflow:hidden;
-    text-overflow:ellipsis;
-    white-space:nowrap;
-    font-size:11px;
-    font-weight:800;
-    color:#ddd;
 }
 
-.reel-card-rarity{
-    font-size:9px;
-    font-weight:900;
-    margin-top:4px;
-    text-transform:uppercase;
+.reel-card .item-texture{
+    width:74px;
+    height:74px;
 }
 
-.opening-status{
-    text-align:center;
-    height:32px;
-    margin-top:15px;
-    color:#77778e;
-    font-size:12px;
-    font-weight:700;
+.reel-rarity{
+    margin-top:3px;
+
+    font-size:10px;
+    font-weight:1000;
 }
 
-.open-btn{
+.rarity-common{
+    color:var(--common);
+}
+
+.rarity-uncommon{
+    color:var(--uncommon);
+}
+
+.rarity-rare{
+    color:var(--rare);
+}
+
+.rarity-epic{
+    color:var(--epic);
+}
+
+.rarity-legendary{
+    color:var(--legendary);
+}
+
+.rarity-mythic{
+    color:var(--mythic);
+}
+
+/* =========================
+   COUNTDOWN
+========================= */
+
+.reveal{
+    display:none;
+
+    margin-top:20px;
+}
+
+.reveal.show{
     display:block;
-    margin:5px auto 0;
-    min-width:180px;
-    padding:13px 25px;
-    border:0;
-    border-radius:11px;
-    background:linear-gradient(135deg,#7c3aed,#9333ea);
-    color:white;
-    font-weight:900;
-    cursor:pointer;
-    box-shadow:0 12px 30px rgba(124,58,237,.28);
 }
 
-.open-btn:disabled{
-    opacity:.5;
-    cursor:not-allowed;
+.countdown{
+    font-size:58px;
+
+    font-weight:1000;
+
+    line-height:1;
+
+    text-shadow:
+        0 0 35px currentColor;
+
+    animation:countPop .35s ease;
+}
+
+@keyframes countPop{
+    0%{
+        transform:scale(.55);
+        opacity:0;
+    }
+
+    100%{
+        transform:scale(1);
+        opacity:1;
+    }
+}
+
+.reveal-label{
+    margin-top:7px;
+
+    color:#8d889c;
+
+    letter-spacing:3px;
+
+    font-size:11px;
 }
 
 /* =========================
@@ -890,105 +808,265 @@ body::before{
 ========================= */
 
 .result-overlay{
-    position:fixed;
-    inset:0;
-    z-index:150;
-    display:none;
-    align-items:center;
-    justify-content:center;
-    background:rgba(0,0,0,.72);
-    backdrop-filter:blur(14px);
+    z-index:120;
 }
 
-.result-overlay.active{
-    display:flex;
-}
+.result-card{
+    width:min(520px,92vw);
 
-.result{
-    width:min(430px,calc(100% - 30px));
-    padding:32px;
+    position:relative;
+
+    padding:35px;
+
     text-align:center;
-    border-radius:24px;
-    border:1px solid rgba(255,255,255,.1);
+
+    border-radius:22px;
+
     background:
-        radial-gradient(circle at 50% 10%,var(--result-glow),transparent 40%),
-        #0c0c14;
-    box-shadow:0 40px 100px rgba(0,0,0,.75);
-    animation:resultIn .45s cubic-bezier(.16,1,.3,1);
+        linear-gradient(
+            145deg,
+            #181526,
+            #0d0c14
+        );
+
+    border:1px solid #403553;
+
+    box-shadow:
+        0 30px 120px #000b;
+
+    overflow:hidden;
 }
 
-@keyframes resultIn{
-    from{
-        transform:translateY(25px) scale(.92);
-        opacity:0;
-    }
-    to{
-        transform:translateY(0) scale(1);
-        opacity:1;
-    }
+.result-card::before{
+    content:"";
+
+    position:absolute;
+
+    width:380px;
+    height:380px;
+
+    left:50%;
+    top:0;
+
+    transform:translateX(-50%);
+
+    border-radius:50%;
+
+    background:var(--rarity-glow,#b85cff);
+
+    filter:blur(95px);
+
+    opacity:.18;
 }
 
-.result-small{
-    color:#8e8ea5;
-    font-size:11px;
-    font-weight:900;
-    letter-spacing:2px;
+.result-card > *{
+    position:relative;
+    z-index:2;
 }
 
 .result-icon{
-    height:145px;
+    height:125px;
+
     display:grid;
     place-items:center;
-    margin:5px 0;
 }
 
-.result-icon .item-pixel{
-    transform:scale(1.7);
-}
-
-.result-name{
-    font-size:25px;
-    font-weight:950;
+.result-icon .item-texture{
+    width:105px;
+    height:105px;
 }
 
 .result-rarity{
-    margin-top:7px;
-    font-size:12px;
-    font-weight:950;
-    letter-spacing:1.5px;
-    text-transform:uppercase;
+    font-size:14px;
+
+    font-weight:1000;
+
+    letter-spacing:3px;
+}
+
+.result-name{
+    margin:8px 0;
+
+    font-size:31px;
+
+    font-weight:1000;
 }
 
 .result-value{
-    margin-top:10px;
-    color:#aaaabc;
-    font-size:13px;
+    color:#aaa4b7;
+
+    margin-bottom:22px;
 }
 
-.result-buttons{
+.result-actions{
     display:flex;
-    gap:9px;
-    margin-top:24px;
+
+    gap:10px;
 }
 
-.result-buttons button{
+.result-actions button{
     flex:1;
-    padding:12px;
-    border-radius:10px;
-    cursor:pointer;
-    font-weight:900;
-}
 
-.keep-btn{
-    background:#fff;
-    color:#08080c;
+    padding:13px;
+
     border:0;
+
+    border-radius:11px;
+
+    font-weight:1000;
+
+    cursor:pointer;
 }
 
-.sell-result-btn{
-    background:rgba(255,255,255,.05);
-    border:1px solid rgba(255,255,255,.1);
-    color:#ddd;
+.keep{
+    color:white;
+
+    background:
+        linear-gradient(
+            135deg,
+            #7945db,
+            #aa62ff
+        );
+}
+
+.sell{
+    color:#eee;
+
+    background:#242033;
+}
+
+/* =========================
+   VECTOR RAYS
+========================= */
+
+.rays{
+    position:fixed;
+
+    inset:0;
+
+    display:none;
+
+    overflow:hidden;
+
+    z-index:110;
+
+    pointer-events:none;
+}
+
+.rays.show{
+    display:block;
+}
+
+.ray{
+    position:absolute;
+
+    left:50%;
+    top:50%;
+
+    width:10px;
+    height:120vh;
+
+    transform-origin:center;
+
+    opacity:0;
+
+    filter:blur(2px);
+}
+
+.rays.animate .ray{
+    animation:
+        rayBurst
+        1.45s
+        cubic-bezier(.15,.8,.25,1)
+        forwards;
+}
+
+@keyframes rayBurst{
+    0%{
+        opacity:0;
+
+        transform:
+            translate(-50%,-50%)
+            scaleY(.1)
+            rotate(var(--rotation));
+    }
+
+    25%{
+        opacity:.9;
+    }
+
+    100%{
+        opacity:0;
+
+        transform:
+            translate(-50%,-50%)
+            scaleY(1.2)
+            rotate(var(--rotation));
+    }
+}
+
+/* =========================
+   FLASH
+========================= */
+
+.flash{
+    position:fixed;
+
+    inset:0;
+
+    z-index:115;
+
+    pointer-events:none;
+
+    background:#fff;
+
+    opacity:0;
+}
+
+.flash.go{
+    animation:
+        flashAnimation
+        .55s
+        ease-out;
+}
+
+@keyframes flashAnimation{
+    0%{
+        opacity:.85;
+    }
+
+    100%{
+        opacity:0;
+    }
+}
+
+/* =========================
+   SCREEN SHAKE
+========================= */
+
+.shake{
+    animation:
+        screenShake
+        .55s
+        cubic-bezier(.36,.07,.19,.97);
+}
+
+@keyframes screenShake{
+    10%,90%{
+        transform:translateX(-2px);
+    }
+
+    20%,80%{
+        transform:translateX(4px);
+    }
+
+    30%,50%,70%{
+        transform:translateX(-7px);
+    }
+
+    40%,60%{
+        transform:translateX(7px);
+    }
 }
 
 /* =========================
@@ -997,23 +1075,15 @@ body::before{
 
 .particle{
     position:fixed;
-    width:5px;
-    height:5px;
-    pointer-events:none;
-    z-index:200;
-    border-radius:1px;
-    animation:particleFly 1.2s ease-out forwards;
-}
 
-@keyframes particleFly{
-    from{
-        transform:translate(0,0) rotate(0deg);
-        opacity:1;
-    }
-    to{
-        transform:translate(var(--x),var(--y)) rotate(360deg);
-        opacity:0;
-    }
+    width:6px;
+    height:6px;
+
+    border-radius:50%;
+
+    z-index:118;
+
+    pointer-events:none;
 }
 
 /* =========================
@@ -1022,33 +1092,45 @@ body::before{
 
 .toast{
     position:fixed;
-    right:22px;
-    bottom:22px;
-    z-index:300;
-    padding:13px 17px;
+
+    right:20px;
+    bottom:20px;
+
+    padding:12px 15px;
+
     border-radius:11px;
-    background:#15151f;
-    border:1px solid rgba(255,255,255,.1);
-    box-shadow:0 15px 40px rgba(0,0,0,.45);
-    font-size:12px;
-    font-weight:800;
-    transform:translateY(80px);
+
+    background:#191624;
+
+    border:1px solid #383049;
+
+    color:#eee;
+
+    z-index:200;
+
     opacity:0;
-    transition:.3s;
+
+    transform:translateY(10px);
+
+    transition:.25s;
+
+    pointer-events:none;
 }
 
 .toast.show{
-    transform:translateY(0);
     opacity:1;
+
+    transform:translateY(0);
 }
 
 /* =========================
    MOBILE
 ========================= */
 
-@media(max-width:900px){
-    .case-grid{
-        grid-template-columns:repeat(2,1fr);
+@media(max-width:850px){
+
+    .cases{
+        grid-template-columns:1fr 1fr;
     }
 
     .inventory{
@@ -1056,47 +1138,46 @@ body::before{
     }
 }
 
-@media(max-width:650px){
+@media(max-width:580px){
+
     .topbar{
-        padding:0 15px;
+        padding:0 14px;
     }
 
-    .logo-text{
-        display:none;
+    .layout{
+        width:94%;
     }
 
-    .nav-btn{
-        display:none;
+    .cases{
+        grid-template-columns:1fr;
     }
 
-    .container{
-        width:min(100% - 22px,1250px);
-        padding-top:30px;
-    }
-
-    .hero h1{
-        letter-spacing:-2px;
-    }
-
-    .case-grid{
+    .upgrade-grid{
         grid-template-columns:1fr;
     }
 
     .inventory{
-        grid-template-columns:repeat(2,1fr);
+        grid-template-columns:repeat(3,1fr);
     }
 
     .reel-card{
-        width:115px;
         flex-basis:115px;
     }
 
-    .reel-wrap{
-        height:155px;
+    .reel{
+        gap:7px;
     }
 
-    .reel-card{
-        height:125px;
+    .reel-wrap{
+        height:175px;
+    }
+
+    .reel{
+        top:17px;
+    }
+
+    .result-name{
+        font-size:25px;
     }
 }
 </style>
@@ -1107,686 +1188,852 @@ body::before{
 <header class="topbar">
 
     <div class="logo">
-        <div class="logo-icon">◆</div>
-        <div class="logo-text">
-            <span>HouskaCze_0</span>
-            <small>CASE SIMULATOR</small>
-        </div>
+        HouskaCze_<span>0</span>
     </div>
 
-    <div class="top-actions">
-
-        <button class="nav-btn" onclick="scrollToStorage()">
-            🎒 Storage
-        </button>
-
-        <div class="coins">
-            <div class="coin-icon"></div>
-            <span id="coins">250</span>
-        </div>
-
+    <div class="coins">
+        🪙 <span id="coinCount">250</span>
     </div>
 
 </header>
 
-<main class="container">
+
+<main class="layout">
 
     <section class="hero">
 
-        <div class="hero-badge">
-            ✦ MINECRAFT CASE SIMULATOR
-        </div>
-
         <h1>
-            Open.<br>
-            <span>Discover. Collect.</span>
+            MINECRAFT CASES
         </h1>
 
         <p>
-            Otevírej Minecraft cases, získej vzácné itemy,
-            ukládej je do Storage a prodávej své dropy za coiny.
+            Otevírej bedny, sbírej itemy a vylepšuj svůj Luck & Open Multiplier.
         </p>
 
     </section>
 
-    <section>
+
+    <!-- CASES -->
+
+    <section
+        class="cases"
+        id="cases">
+    </section>
+
+
+    <!-- UPGRADES -->
+
+    <section class="upgrades">
 
         <div class="section-title">
-            <h2>Cases</h2>
-            <span>Vyber si svůj case</span>
+            ⚡ UPGRADES
         </div>
 
-        <div class="case-grid">
+        <div class="upgrade-grid">
 
-            <!-- GRASS -->
 
-            <article class="case grass">
+            <!-- OPEN MULTIPLIER -->
 
-                <div class="case-head">
-                    <div class="case-name">Grass Case</div>
-                    <div class="case-price">FREE</div>
+            <div class="upgrade">
+
+                <h3>
+                    📦 Open Multiplier
+                </h3>
+
+                <p>
+                    Otevírej více beden najednou.
+                    Každý level přidá další současný drop.
+                </p>
+
+                <div
+                    class="upgrade-levels"
+                    id="openLevels">
                 </div>
 
-                <div class="case-visual">
-                    <div class="case-box">
-                        <div class="case-top"></div>
-                        <div class="case-front"></div>
-                        <div class="case-lock"></div>
-                    </div>
+            </div>
+
+
+            <!-- LUCK -->
+
+            <div class="upgrade">
+
+                <h3>
+                    🍀 Luck
+                </h3>
+
+                <p>
+                    Luck upravuje váhy rarit.
+                    Vyšší level znamená lepší šance na vzácné dropy.
+                </p>
+
+                <div
+                    class="upgrade-levels"
+                    id="luckLevels">
                 </div>
 
-                <div class="case-items">
-                    <div class="mini-item">▦</div>
-                    <div class="mini-item">▰</div>
-                    <div class="mini-item">⚔</div>
-                    <div class="mini-item">●</div>
-                    <div class="mini-item">◆</div>
-                </div>
-
-                <div class="case-bottom">
-                    <div class="case-info">6 rarit • Free</div>
-
-                    <button
-                        class="open-case-btn"
-                        onclick="openCase('grass')">
-                        OPEN
-                    </button>
-                </div>
-
-            </article>
-
-            <!-- STONE -->
-
-            <article class="case stone">
-
-                <div class="case-head">
-                    <div class="case-name">Stone Case</div>
-                    <div class="case-price">250 🪙</div>
-                </div>
-
-                <div class="case-visual">
-                    <div class="case-box">
-                        <div class="case-top"></div>
-                        <div class="case-front"></div>
-                        <div class="case-lock"></div>
-                    </div>
-                </div>
-
-                <div class="case-items">
-                    <div class="mini-item">■</div>
-                    <div class="mini-item">⚒</div>
-                    <div class="mini-item">◆</div>
-                    <div class="mini-item">⬟</div>
-                    <div class="mini-item">⚔</div>
-                </div>
-
-                <div class="case-bottom">
-                    <div class="case-info">6 rarit</div>
-
-                    <button
-                        class="open-case-btn"
-                        onclick="openCase('stone')">
-                        250 🪙
-                    </button>
-                </div>
-
-            </article>
-
-            <!-- NETHER -->
-
-            <article class="case nether">
-
-                <div class="case-head">
-                    <div class="case-name">Nether Case</div>
-                    <div class="case-price">1,500 🪙</div>
-                </div>
-
-                <div class="case-visual">
-                    <div class="case-box">
-                        <div class="case-top"></div>
-                        <div class="case-front"></div>
-                        <div class="case-lock"></div>
-                    </div>
-                </div>
-
-                <div class="case-items">
-                    <div class="mini-item">🔥</div>
-                    <div class="mini-item">◆</div>
-                    <div class="mini-item">⬟</div>
-                    <div class="mini-item">◇</div>
-                    <div class="mini-item">⚔</div>
-                </div>
-
-                <div class="case-bottom">
-                    <div class="case-info">6 rarit</div>
-
-                    <button
-                        class="open-case-btn"
-                        onclick="openCase('nether')">
-                        1,500 🪙
-                    </button>
-                </div>
-
-            </article>
-
-            <!-- DIAMOND -->
-
-            <article class="case diamond">
-
-                <div class="case-head">
-                    <div class="case-name">Diamond Case</div>
-                    <div class="case-price">5,000 🪙</div>
-                </div>
-
-                <div class="case-visual">
-                    <div class="case-box">
-                        <div class="case-top"></div>
-                        <div class="case-front"></div>
-                        <div class="case-lock"></div>
-                    </div>
-                </div>
-
-                <div class="case-items">
-                    <div class="mini-item">◆</div>
-                    <div class="mini-item">⚔</div>
-                    <div class="mini-item">⬟</div>
-                    <div class="mini-item">◇</div>
-                    <div class="mini-item">★</div>
-                </div>
-
-                <div class="case-bottom">
-                    <div class="case-info">6 rarit</div>
-
-                    <button
-                        class="open-case-btn"
-                        onclick="openCase('diamond')">
-                        5,000 🪙
-                    </button>
-                </div>
-
-            </article>
-
-            <!-- END -->
-
-            <article class="case end">
-
-                <div class="case-head">
-                    <div class="case-name">End Case</div>
-                    <div class="case-price">25,000 🪙</div>
-                </div>
-
-                <div class="case-visual">
-                    <div class="case-box">
-                        <div class="case-top"></div>
-                        <div class="case-front"></div>
-                        <div class="case-lock"></div>
-                    </div>
-                </div>
-
-                <div class="case-items">
-                    <div class="mini-item">◉</div>
-                    <div class="mini-item">◇</div>
-                    <div class="mini-item">✦</div>
-                    <div class="mini-item">◆</div>
-                    <div class="mini-item">★</div>
-                </div>
-
-                <div class="case-bottom">
-                    <div class="case-info">6 rarit</div>
-
-                    <button
-                        class="open-case-btn"
-                        onclick="openCase('end')">
-                        25,000 🪙
-                    </button>
-                </div>
-
-            </article>
-
-            <!-- LEGENDARY -->
-
-            <article class="case legendary">
-
-                <div class="case-head">
-                    <div class="case-name">Legendary Case</div>
-                    <div class="case-price">100,000 🪙</div>
-                </div>
-
-                <div class="case-visual">
-                    <div class="case-box">
-                        <div class="case-top"></div>
-                        <div class="case-front"></div>
-                        <div class="case-lock"></div>
-                    </div>
-                </div>
-
-                <div class="case-items">
-                    <div class="mini-item">★</div>
-                    <div class="mini-item">⚔</div>
-                    <div class="mini-item">◇</div>
-                    <div class="mini-item">✦</div>
-                    <div class="mini-item">☄</div>
-                </div>
-
-                <div class="case-bottom">
-                    <div class="case-info">6 rarit • MAX</div>
-
-                    <button
-                        class="open-case-btn"
-                        onclick="openCase('legendary')">
-                        100,000 🪙
-                    </button>
-                </div>
-
-            </article>
+            </div>
 
         </div>
 
     </section>
 
+
     <!-- STORAGE -->
 
-    <section class="storage" id="storage">
+    <section class="storage">
 
-        <div class="section-title">
-            <h2>Storage</h2>
-            <span id="storageCount">0 items</span>
-        </div>
+        <div class="storage-head">
 
-        <div class="storage-panel">
-
-            <div class="storage-top">
-
-                <div class="storage-title">
-                    Your Collection
-                </div>
-
-                <div class="storage-count">
-                    Itemy, které jsi získal
-                </div>
-
+            <div class="section-title">
+                🎒 STORAGE
             </div>
 
             <div
-                class="inventory"
-                id="inventory">
+                id="storageCount"
+                style="color:#8f899e;font-size:13px">
+                0 itemů
             </div>
 
+        </div>
+
+        <div
+            class="inventory"
+            id="inventory">
         </div>
 
     </section>
 
 </main>
 
-<!-- OPENING MODAL -->
+
+<!-- VECTOR RAYS -->
 
 <div
-    class="modal"
-    id="openingModal">
-
-    <div class="opening-window">
-
-        <div class="opening-head">
-
-            <strong id="openingTitle">
-                Opening Case
-            </strong>
-
-            <button
-                class="close"
-                onclick="closeOpening()">
-                ×
-            </button>
-
-        </div>
-
-        <div class="opening-content">
-
-            <div
-                class="opening-case-name"
-                id="openingSubtitle">
-                CASE OPENING
-            </div>
-
-            <div class="reel-wrap">
-
-                <div class="pointer"></div>
-                <div class="pointer-bottom"></div>
-
-                <div
-                    class="reel"
-                    id="reel">
-                </div>
-
-            </div>
-
-            <div
-                class="opening-status"
-                id="openingStatus">
-                Ready?
-            </div>
-
-            <button
-                class="open-btn"
-                id="startOpeningBtn"
-                onclick="startOpening()">
-                OPEN CASE
-            </button>
-
-        </div>
-
-    </div>
-
+    class="rays"
+    id="rays">
 </div>
 
-<!-- RESULT -->
+
+<!-- FLASH -->
 
 <div
-    class="result-overlay"
-    id="resultOverlay">
-
-    <div
-        class="result"
-        id="resultCard">
-
-        <div class="result-small">
-            YOU UNBOXED
-        </div>
-
-        <div
-            class="result-icon"
-            id="resultIcon">
-        </div>
-
-        <div
-            class="result-name"
-            id="resultName">
-            Diamond Sword
-        </div>
-
-        <div
-            class="result-rarity"
-            id="resultRarity">
-            LEGENDARY
-        </div>
-
-        <div
-            class="result-value"
-            id="resultValue">
-            Value: 10,000 🪙
-        </div>
-
-        <div class="result-buttons">
-
-            <button
-                class="keep-btn"
-                onclick="keepResult()">
-                KEEP
-            </button>
-
-            <button
-                class="sell-result-btn"
-                onclick="sellResult()">
-                SELL
-            </button>
-
-        </div>
-
-    </div>
-
+    class="flash"
+    id="flash">
 </div>
+
+
+<!-- TOAST -->
 
 <div
     class="toast"
     id="toast">
 </div>
 
+
+<!-- OPENING -->
+
+<div
+    class="overlay"
+    id="openingOverlay">
+
+    <div
+        class="opening"
+        id="openingBox">
+
+        <button
+            class="close"
+            onclick="closeOpening()">
+            ✕
+        </button>
+
+
+        <div
+            class="opening-title"
+            id="openingTitle">
+            OPEN CASE
+        </div>
+
+
+        <div
+            class="opening-sub"
+            id="openingSub">
+            Hledám tvůj drop...
+        </div>
+
+
+        <div class="reel-wrap">
+
+            <div class="marker"></div>
+
+            <div
+                class="reel"
+                id="reel">
+            </div>
+
+        </div>
+
+
+        <div
+            class="reveal"
+            id="reveal">
+
+            <div
+                class="countdown"
+                id="countdown">
+                5
+            </div>
+
+            <div class="reveal-label">
+                ODHALENÍ RARITY
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- RESULT -->
+
+<div
+    class="overlay result-overlay"
+    id="resultOverlay">
+
+    <div
+        class="result-card"
+        id="resultCard">
+
+        <div
+            class="result-icon"
+            id="resultIcon">
+        </div>
+
+
+        <div
+            class="result-rarity"
+            id="resultRarity">
+        </div>
+
+
+        <div
+            class="result-name"
+            id="resultName">
+        </div>
+
+
+        <div
+            class="result-value"
+            id="resultValue">
+        </div>
+
+
+        <div class="result-actions">
+
+            <button
+                class="keep"
+                onclick="keepResult()">
+                🎒 KEEP
+            </button>
+
+            <button
+                class="sell"
+                onclick="sellResult()">
+                🪙 SELL
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
 <script>
 
 /* =========================================================
-   GAME DATA
+   TEXTURE DATABASE
+
+   Všechny soubory patří do:
+
+   assets/
+
 ========================================================= */
 
-const rarities = {
+const TEXTURES = {
+
+    "Dirt Block":
+        "dirt.png",
+
+    "Grass Block":
+        "grass_block.png",
+
+    "Cobblestone":
+        "cobblestone.png",
+
+    "Stick":
+        "stick.png",
+
+    "Apple":
+        "apple.png",
+
+    "Stone Sword":
+        "stone_sword.png",
+
+    "Wooden Pickaxe":
+        "wooden_pickaxe.png",
+
+    "Torch":
+        "torch.png",
+
+    "Iron Ingot":
+        "iron_ingot.png",
+
+    "Bow":
+        "bow.png",
+
+    "Shield":
+        "shield.png",
+
+    "Diamond":
+        "diamond.png",
+
+    "Diamond Sword":
+        "diamond_sword.png",
+
+    "Enchanted Diamond Sword":
+        "diamond_sword.png",
+
+    "Stone":
+        "stone.png",
+
+    "Coal":
+        "coal.png",
+
+    "Iron Nugget":
+        "iron_nugget.png",
+
+    "Iron Sword":
+        "iron_sword.png",
+
+    "Iron Pickaxe":
+        "iron_pickaxe.png",
+
+    "Gold Ingot":
+        "gold_ingot.png",
+
+    "Enchanted Bow":
+        "bow.png",
+
+    "Diamond Armor":
+        "diamond_chestplate.png",
+
+    "Netherite Sword":
+        "netherite_sword.png",
+
+    "Netherrack":
+        "netherrack.png",
+
+    "Soul Sand":
+        "soul_sand.png",
+
+    "Quartz":
+        "quartz.png",
+
+    "Blaze Rod":
+        "blaze_rod.png",
+
+    "Magma Cream":
+        "magma_cream.png",
+
+    "Ghast Tear":
+        "ghast_tear.png",
+
+    "Netherite Scrap":
+        "netherite_scrap.png",
+
+    "Netherite Ingot":
+        "netherite_ingot.png",
+
+    "Netherite Armor":
+        "netherite_chestplate.png",
+
+    "Enchanted Netherite Sword":
+        "netherite_sword.png",
+
+    "Diamond Pickaxe":
+        "diamond_pickaxe.png",
+
+    "Diamond Axe":
+        "diamond_axe.png",
+
+    "Enchanted Diamond Bow":
+        "bow.png",
+
+    "Enchanted Diamond Armor":
+        "diamond_chestplate.png",
+
+    "God Diamond Sword":
+        "diamond_sword.png",
+
+    "Ender Pearl":
+        "ender_pearl.png",
+
+    "Chorus Fruit":
+        "chorus_fruit.png",
+
+    "Shulker Shell":
+        "shulker_shell.png",
+
+    "Dragon Breath":
+        "dragon_breath.png",
+
+    "Ender Eye":
+        "ender_eye.png",
+
+    "Elytra":
+        "elytra.png",
+
+    "Enchanted Elytra":
+        "elytra.png",
+
+    "Dragon Egg":
+        "dragon_egg.png",
+
+    "Diamond Block":
+        "diamond_block.png",
+
+    "The Legendary Sword":
+        "netherite_sword.png",
+
+    "Enchanted Netherite Armor":
+        "netherite_chestplate.png"
+};
+
+
+/* =========================================================
+   RARITIES
+========================================================= */
+
+const RARITIES = {
 
     common:{
-        name:"Common",
-        class:"common",
-        color:"#b7b7c5"
+        name:"COMMON",
+        color:"#b8b8b8",
+        weight:50
     },
 
     uncommon:{
-        name:"Uncommon",
-        class:"uncommon",
-        color:"#4ade80"
+        name:"UNCOMMON",
+        color:"#55e36d",
+        weight:25
     },
 
     rare:{
-        name:"Rare",
-        class:"rare",
-        color:"#60a5fa"
+        name:"RARE",
+        color:"#4d9dff",
+        weight:15
     },
 
     epic:{
-        name:"Epic",
-        class:"epic",
-        color:"#c084fc"
+        name:"EPIC",
+        color:"#b85cff",
+        weight:8
     },
 
     legendary:{
-        name:"Legendary",
-        class:"legendary",
-        color:"#facc15"
+        name:"LEGENDARY",
+        color:"#ffd43b",
+        weight:1.8
     },
 
     mythic:{
         name:"MYTHIC",
-        class:"mythic",
-        color:"#fb7185"
+        color:"#ff4d8d",
+        weight:.2
     }
 
 };
 
 
-/*
-    Probability values.
-    They add up to 100.
-*/
-
-const odds = {
-
-    common:50,
-    uncommon:25,
-    rare:15,
-    epic:8,
-    legendary:1.8,
-    mythic:.2
-
-};
-
-
 /* =========================================================
-   ITEM DATABASE
-========================================================= */
-
-const ITEMS = {
-
-grass:[
-
-    {name:"Dirt Block",rarity:"common",value:10,type:"dirt"},
-    {name:"Grass Block",rarity:"common",value:15,type:"grass"},
-    {name:"Cobblestone",rarity:"common",value:20,type:"stone"},
-    {name:"Stick",rarity:"common",value:25,type:"stick"},
-    {name:"Apple",rarity:"common",value:35,type:"apple"},
-
-    {name:"Stone Sword",rarity:"uncommon",value:70,type:"sword"},
-    {name:"Wooden Pickaxe",rarity:"uncommon",value:85,type:"pickaxe"},
-    {name:"Torch",rarity:"uncommon",value:95,type:"torch"},
-
-    {name:"Iron Ingot",rarity:"rare",value:250,type:"iron"},
-    {name:"Bow",rarity:"rare",value:300,type:"bow"},
-    {name:"Shield",rarity:"rare",value:350,type:"shield"},
-
-    {name:"Diamond",rarity:"epic",value:900,type:"diamond"},
-
-    {name:"Diamond Sword",rarity:"legendary",value:3000,type:"diamondSword"},
-
-    {name:"Enchanted Diamond Sword",rarity:"mythic",value:15000,type:"diamondSword"}
-
-],
-
-stone:[
-
-    {name:"Stone",rarity:"common",value:25,type:"stone"},
-    {name:"Coal",rarity:"common",value:30,type:"coal"},
-    {name:"Iron Nugget",rarity:"common",value:40,type:"iron"},
-
-    {name:"Iron Ingot",rarity:"uncommon",value:100,type:"iron"},
-    {name:"Iron Sword",rarity:"uncommon",value:140,type:"sword"},
-    {name:"Iron Pickaxe",rarity:"uncommon",value:170,type:"pickaxe"},
-
-    {name:"Gold Ingot",rarity:"rare",value:350,type:"gold"},
-    {name:"Shield",rarity:"rare",value:400,type:"shield"},
-    {name:"Enchanted Bow",rarity:"rare",value:500,type:"bow"},
-
-    {name:"Diamond",rarity:"epic",value:1200,type:"diamond"},
-
-    {name:"Diamond Armor",rarity:"legendary",value:6000,type:"armor"},
-
-    {name:"Netherite Sword",rarity:"mythic",value:25000,type:"netheriteSword"}
-
-],
-
-nether:[
-
-    {name:"Netherrack",rarity:"common",value:80,type:"stone"},
-    {name:"Soul Sand",rarity:"common",value:100,type:"stone"},
-    {name:"Quartz",rarity:"common",value:130,type:"quartz"},
-
-    {name:"Blaze Rod",rarity:"uncommon",value:300,type:"blaze"},
-    {name:"Gold Ingot",rarity:"uncommon",value:350,type:"gold"},
-    {name:"Magma Cream",rarity:"uncommon",value:450,type:"magma"},
-
-    {name:"Ghast Tear",rarity:"rare",value:1200,type:"pearl"},
-    {name:"Netherite Scrap",rarity:"rare",value:1800,type:"netherite"},
-
-    {name:"Netherite Ingot",rarity:"epic",value:5000,type:"netherite"},
-
-    {name:"Netherite Armor",rarity:"legendary",value:18000,type:"armor"},
-
-    {name:"Enchanted Netherite Sword",rarity:"mythic",value:75000,type:"netheriteSword"}
-
-],
-
-diamond:[
-
-    {name:"Diamond",rarity:"common",value:1000,type:"diamond"},
-
-    {name:"Diamond Pickaxe",rarity:"uncommon",value:1800,type:"pickaxe"},
-    {name:"Diamond Axe",rarity:"uncommon",value:2000,type:"pickaxe"},
-
-    {name:"Diamond Armor",rarity:"rare",value:5000,type:"armor"},
-    {name:"Enchanted Diamond Bow",rarity:"rare",value:6500,type:"bow"},
-
-    {name:"Enchanted Diamond Sword",rarity:"epic",value:9000,type:"diamondSword"},
-
-    {name:"Enchanted Diamond Armor",rarity:"legendary",value:25000,type:"armor"},
-
-    {name:"Netherite Ingot",rarity:"legendary",value:30000,type:"netherite"},
-
-    {name:"God Diamond Sword",rarity:"mythic",value:120000,type:"diamondSword"}
-
-],
-
-end:[
-
-    {name:"Ender Pearl",rarity:"common",value:3000,type:"pearl"},
-    {name:"Chorus Fruit",rarity:"common",value:3500,type:"apple"},
-
-    {name:"Shulker Shell",rarity:"uncommon",value:5000,type:"shell"},
-    {name:"Dragon Breath",rarity:"uncommon",value:6500,type:"pearl"},
-
-    {name:"Ender Eye",rarity:"rare",value:10000,type:"pearl"},
-
-    {name:"Elytra",rarity:"epic",value:25000,type:"elytra"},
-
-    {name:"Enchanted Elytra",rarity:"legendary",value:70000,type:"elytra"},
-
-    {name:"Dragon Egg",rarity:"mythic",value:250000,type:"egg"}
-
-],
-
-legendary:[
-
-    {name:"Diamond Block",rarity:"common",value:10000,type:"diamond"},
-
-    {name:"Netherite Ingot",rarity:"uncommon",value:30000,type:"netherite"},
-
-    {name:"Elytra",rarity:"rare",value:50000,type:"elytra"},
-
-    {name:"Enchanted Netherite Armor",rarity:"epic",value:100000,type:"armor"},
-
-    {name:"Dragon Egg",rarity:"legendary",value:250000,type:"egg"},
-
-    {name:"The Legendary Sword",rarity:"mythic",value:1000000,type:"netheriteSword"}
-
-]
-
-};
-
-
-/* =========================================================
-   CASE DATA
+   CASE DATABASE
 ========================================================= */
 
 const CASES = {
 
-grass:{
-    name:"Grass Case",
-    price:0
-},
 
-stone:{
-    name:"Stone Case",
-    price:250
-},
+    grass:{
 
-nether:{
-    name:"Nether Case",
-    price:1500
-},
+        name:"GRASS CASE",
 
-diamond:{
-    name:"Diamond Case",
-    price:5000
-},
+        price:0,
 
-end:{
-    name:"End Case",
-    price:25000
-},
+        gradient:
+            "linear-gradient(90deg,#55e36d,#b7ff55,#55e36d)",
 
-legendary:{
-    name:"Legendary Case",
-    price:100000
-}
+        desc:
+            "Základní bedna pro každého hráče.",
+
+        preview:[
+            "Dirt Block",
+            "Grass Block",
+            "Stone Sword",
+            "Apple",
+            "Diamond"
+        ],
+
+        items:[
+
+            ["Dirt Block","common",10],
+
+            ["Grass Block","common",15],
+
+            ["Cobblestone","common",20],
+
+            ["Stick","common",25],
+
+            ["Apple","common",35],
+
+            ["Stone Sword","uncommon",70],
+
+            ["Wooden Pickaxe","uncommon",85],
+
+            ["Torch","uncommon",95],
+
+            ["Iron Ingot","rare",250],
+
+            ["Bow","rare",300],
+
+            ["Shield","rare",350],
+
+            ["Diamond","epic",900],
+
+            ["Diamond Sword","legendary",3000],
+
+            ["Enchanted Diamond Sword","mythic",15000]
+
+        ]
+
+    },
+
+
+    stone:{
+
+        name:"STONE CASE",
+
+        price:250,
+
+        gradient:
+            "linear-gradient(90deg,#c6c6c6,#ffffff,#8c8c8c,#c6c6c6)",
+
+        desc:
+            "Lepší výbava a první diamanty.",
+
+        preview:[
+            "Stone",
+            "Iron Pickaxe",
+            "Gold Ingot",
+            "Diamond",
+            "Iron Sword"
+        ],
+
+        items:[
+
+            ["Stone","common",25],
+
+            ["Coal","common",30],
+
+            ["Iron Nugget","common",40],
+
+            ["Iron Ingot","uncommon",100],
+
+            ["Iron Sword","uncommon",140],
+
+            ["Iron Pickaxe","uncommon",170],
+
+            ["Gold Ingot","rare",350],
+
+            ["Shield","rare",400],
+
+            ["Enchanted Bow","rare",500],
+
+            ["Diamond","epic",1200],
+
+            ["Diamond Armor","legendary",6000],
+
+            ["Netherite Sword","mythic",25000]
+
+        ]
+
+    },
+
+
+    nether:{
+
+        name:"NETHER CASE",
+
+        price:1500,
+
+        gradient:
+            "linear-gradient(90deg,#ff3d25,#ff8a2a,#c91f26,#ff3d25)",
+
+        desc:
+            "Nether loot, blaze a pořádně žhavé dropy.",
+
+        preview:[
+            "Blaze Rod",
+            "Quartz",
+            "Magma Cream",
+            "Netherite Ingot",
+            "Netherite Sword"
+        ],
+
+        items:[
+
+            ["Netherrack","common",80],
+
+            ["Soul Sand","common",100],
+
+            ["Quartz","common",130],
+
+            ["Blaze Rod","uncommon",300],
+
+            ["Gold Ingot","uncommon",350],
+
+            ["Magma Cream","uncommon",450],
+
+            ["Ghast Tear","rare",1200],
+
+            ["Netherite Scrap","rare",1800],
+
+            ["Netherite Ingot","epic",5000],
+
+            ["Netherite Armor","legendary",18000],
+
+            ["Enchanted Netherite Sword","mythic",75000]
+
+        ]
+
+    },
+
+
+    diamond:{
+
+        name:"DIAMOND CASE",
+
+        price:5000,
+
+        gradient:
+            "linear-gradient(90deg,#38d8ff,#a5f4ff,#4c9cff,#38d8ff)",
+
+        desc:
+            "Diamantová výbava a pořádné enchanty.",
+
+        preview:[
+            "Diamond",
+            "Diamond Sword",
+            "Diamond Pickaxe",
+            "Elytra",
+            "Netherite Ingot"
+        ],
+
+        items:[
+
+            ["Diamond","common",1000],
+
+            ["Diamond Pickaxe","uncommon",1800],
+
+            ["Diamond Axe","uncommon",2000],
+
+            ["Diamond Armor","rare",5000],
+
+            ["Enchanted Diamond Bow","rare",6500],
+
+            ["Enchanted Diamond Sword","epic",9000],
+
+            ["Enchanted Diamond Armor","legendary",25000],
+
+            ["Netherite Ingot","legendary",30000],
+
+            ["God Diamond Sword","mythic",120000]
+
+        ]
+
+    },
+
+
+    end:{
+
+        name:"END CASE",
+
+        price:25000,
+
+        gradient:
+            "linear-gradient(90deg,#b95cff,#e6a4ff,#7644c9,#b95cff)",
+
+        desc:
+            "Loot z Endu. Elytra a Dragon Egg čekají.",
+
+        preview:[
+            "Ender Pearl",
+            "Shulker Shell",
+            "Ender Eye",
+            "Elytra",
+            "Dragon Egg"
+        ],
+
+        items:[
+
+            ["Ender Pearl","common",3000],
+
+            ["Chorus Fruit","common",3500],
+
+            ["Shulker Shell","uncommon",5000],
+
+            ["Dragon Breath","uncommon",6500],
+
+            ["Ender Eye","rare",10000],
+
+            ["Elytra","epic",25000],
+
+            ["Enchanted Elytra","legendary",70000],
+
+            ["Dragon Egg","mythic",250000]
+
+        ]
+
+    },
+
+
+    legendary:{
+
+        name:"LEGENDARY CASE",
+
+        price:100000,
+
+        gradient:
+            "linear-gradient(90deg,#ffd43b,#fff0a1,#ff9f1c,#ffd43b)",
+
+        desc:
+            "Nejvzácnější bedna. Milionový drop je možný.",
+
+        preview:[
+            "Diamond Block",
+            "Netherite Ingot",
+            "Elytra",
+            "Dragon Egg",
+            "The Legendary Sword"
+        ],
+
+        items:[
+
+            ["Diamond Block","common",10000],
+
+            ["Netherite Ingot","uncommon",30000],
+
+            ["Elytra","rare",50000],
+
+            ["Enchanted Netherite Armor","epic",100000],
+
+            ["Dragon Egg","legendary",250000],
+
+            ["The Legendary Sword","mythic",1000000]
+
+        ]
+
+    }
 
 };
 
 
 /* =========================================================
-   GAME STATE
+   STATE
 ========================================================= */
 
 let coins =
-    Number(localStorage.getItem("sfm_coins")) || 250;
+    Number(
+        localStorage.getItem("sfm_coins")
+    ) || 250;
+
 
 let inventory =
-    JSON.parse(localStorage.getItem("sfm_inventory") || "[]");
+    JSON.parse(
+        localStorage.getItem("sfm_inventory") || "[]"
+    );
+
+
+let openLevel =
+    Number(
+        localStorage.getItem("sfm_openLevel")
+    ) || 1;
+
+
+let luckLevel =
+    Number(
+        localStorage.getItem("sfm_luckLevel")
+    ) || 1;
+
 
 let currentCase = null;
-let currentResult = null;
-let opening = false;
+
+let currentResults = [];
+
+let openingBusy = false;
+
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+function $(id){
+    return document.getElementById(id);
+}
+
+
+function money(number){
+    return Number(number).toLocaleString("cs-CZ");
+}
+
+
+function escapeHtml(value){
+
+    return String(value).replace(
+        /[&<>"']/g,
+        char => ({
+            "&":"&amp;",
+            "<":"&lt;",
+            ">":"&gt;",
+            '"':"&quot;",
+            "'":"&#039;"
+        }[char])
+    );
+
+}
+
+
+/* =========================================================
+   NORMALIZE OLD STORAGE
+========================================================= */
+
+function normalizeItem(item){
+
+    return {
+
+        ...item,
+
+        texture:
+            item.texture ||
+            TEXTURES[item.name] ||
+            ""
+
+    };
+
+}
+
+
+inventory =
+    inventory.map(normalizeItem);
 
 
 /* =========================================================
@@ -1797,7 +2044,7 @@ function save(){
 
     localStorage.setItem(
         "sfm_coins",
-        String(coins)
+        coins
     );
 
     localStorage.setItem(
@@ -1805,77 +2052,33 @@ function save(){
         JSON.stringify(inventory)
     );
 
-}
+    localStorage.setItem(
+        "sfm_openLevel",
+        openLevel
+    );
 
+    localStorage.setItem(
+        "sfm_luckLevel",
+        luckLevel
+    );
 
-/* =========================================================
-   UI
-========================================================= */
-
-function updateUI(){
-
-    document.getElementById("coins").textContent =
-        coins.toLocaleString("en-US");
+    renderCoins();
 
     renderInventory();
 
-}
-
-updateUI();
-
-
-/* =========================================================
-   RANDOM RARITY
-========================================================= */
-
-function rollRarity(){
-
-    const random =
-        Math.random() * 100;
-
-    let total = 0;
-
-    for(const key of Object.keys(odds)){
-
-        total += odds[key];
-
-        if(random <= total){
-            return key;
-        }
-
-    }
-
-    return "common";
+    renderUpgrades();
 
 }
 
 
 /* =========================================================
-   GET ITEM
+   COINS
 ========================================================= */
 
-function getRandomItem(caseId){
+function renderCoins(){
 
-    const items =
-        ITEMS[caseId];
-
-    const rarity =
-        rollRarity();
-
-    const matching =
-        items.filter(
-            item => item.rarity === rarity
-        );
-
-    if(matching.length){
-        return matching[
-            Math.floor(Math.random()*matching.length)
-        ];
-    }
-
-    return items[
-        Math.floor(Math.random()*items.length)
-    ];
+    $("coinCount").textContent =
+        money(coins);
 
 }
 
@@ -1886,70 +2089,748 @@ function getRandomItem(caseId){
 
 function itemIcon(item){
 
-    const type =
-        item.type || "stone";
+    const texture =
+        item.texture ||
+        TEXTURES[item.name] ||
+        "";
 
-    if(type === "dirt")
-        return `<div class="item-pixel pixel-block dirt"></div>`;
+    const enchanted =
+        item.name
+            .toLowerCase()
+            .includes("enchanted")
+        ||
+        item.name
+            .toLowerCase()
+            .includes("god");
 
-    if(type === "grass")
-        return `<div class="item-pixel pixel-block grass"></div>`;
 
-    if(type === "stone")
-        return `<div class="item-pixel pixel-block stone-icon"></div>`;
+    return `
 
-    if(type === "iron")
-        return `<div class="item-pixel pixel-block iron"></div>`;
+        <img
 
-    if(type === "gold")
-        return `<div class="item-pixel pixel-block gold"></div>`;
+            class="item-texture ${enchanted ? "enchanted" : ""}"
 
-    if(type === "diamond")
-        return `<div class="item-pixel pixel-block diamond-icon"></div>`;
+            src="assets/${texture}"
 
-    if(type === "netherite")
-        return `<div class="item-pixel pixel-block netherite"></div>`;
+            alt="${escapeHtml(item.name)}"
 
-    if(type === "emerald")
-        return `<div class="item-pixel pixel-block emerald"></div>`;
+            draggable="false"
 
-    if(type === "obsidian")
-        return `<div class="item-pixel pixel-block obsidian"></div>`;
+        >
 
-    if(type === "tnt")
-        return `<div class="item-pixel pixel-block tnt"></div>`;
+    `;
 
-    if(type === "apple")
-        return `<div class="item-pixel apple-shape"></div>`;
+}
 
-    if(type === "pearl")
-        return `<div class="item-pixel pearl"></div>`;
 
-    if(type === "egg")
-        return `<div class="item-pixel egg"></div>`;
+/* =========================================================
+   RENDER CASES
+========================================================= */
 
-    if(type === "elytra")
-        return `<div class="item-pixel elytra"></div>`;
+function renderCases(){
 
-    if(
-        type === "sword" ||
-        type === "diamondSword" ||
-        type === "netheriteSword"
-    ){
+    $("cases").innerHTML =
+        Object.entries(CASES)
+        .map(
+            ([id,caseData]) => `
 
-        let cls = "sword-shape";
+                <article
+                    class="case"
+                    onclick="openCase('${id}')"
+                >
 
-        if(type === "diamondSword")
-            cls += " diamond-sword";
+                    <div class="case-top">
 
-        if(type === "netheriteSword")
-            cls += " netherite-sword";
+                        <div
+                            class="case-name"
+                            style="
+                                background-image:
+                                ${caseData.gradient}
+                            "
+                        >
+                            ${caseData.name}
+                        </div>
 
-        return `<div class="item-pixel"><div class="${cls}"></div></div>`;
+                        <div class="case-price">
+
+                            ${
+                                caseData.price === 0
+                                ?
+                                "FREE"
+                                :
+                                "🪙 " +
+                                money(caseData.price)
+                            }
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="preview">
+
+                        ${
+                            caseData.preview
+                            .map(
+                                name => `
+
+                                    <div class="mini-item">
+
+                                        ${itemIcon({
+                                            name,
+                                            texture:
+                                                TEXTURES[name]
+                                        })}
+
+                                    </div>
+
+                                `
+                            )
+                            .join("")
+                        }
+
+                    </div>
+
+
+                    <div class="case-desc">
+
+                        ${caseData.desc}
+
+                    </div>
+
+
+                    <button
+                        class="open-btn"
+                        onclick="
+                            event.stopPropagation();
+                            openCase('${id}')
+                        "
+                    >
+
+                        OPEN CASE
+
+                    </button>
+
+                </article>
+
+            `
+        )
+        .join("");
+
+}
+
+
+/* =========================================================
+   INVENTORY
+========================================================= */
+
+function renderInventory(){
+
+    $("storageCount").textContent =
+        `${inventory.length} itemů`;
+
+
+    if(!inventory.length){
+
+        $("inventory").innerHTML = `
+
+            <div class="empty">
+
+                Storage je zatím prázdný.
+                Otevři první bednu. 🎰
+
+            </div>
+
+        `;
+
+        return;
 
     }
 
-    return `<div class="item-pixel pixel-block stone-icon"></div>`;
+
+    $("inventory").innerHTML =
+
+        inventory
+        .slice()
+        .reverse()
+        .map(
+            (item,index) => {
+
+                const realIndex =
+                    inventory.length - 1 - index;
+
+
+                return `
+
+                    <div class="inv-item">
+
+                        ${itemIcon(item)}
+
+                        <div class="inv-name">
+
+                            ${escapeHtml(item.name)}
+
+                        </div>
+
+                        <div class="inv-value">
+
+                            🪙 ${money(item.value)}
+
+                        </div>
+
+                        <button
+                            class="sell-small"
+                            onclick="
+                                sellInventory(${realIndex})
+                            "
+                        >
+
+                            PRODAT
+
+                        </button>
+
+                    </div>
+
+                `;
+
+            }
+        )
+        .join("");
+
+}
+
+
+/* =========================================================
+   UPGRADES
+========================================================= */
+
+function renderUpgrades(){
+
+    $("openLevels").innerHTML =
+
+        [1,2,3,4,5]
+        .map(
+            level => `
+
+                <button
+                    class="
+                        upgrade-level
+                        ${openLevel === level ? "active" : ""}
+                    "
+                    onclick="
+                        buyOpenLevel(${level})
+                    "
+                >
+
+                    ×${level}
+
+                </button>
+
+            `
+        )
+        .join("");
+
+
+    $("luckLevels").innerHTML =
+
+        [1,2,3,4,5]
+        .map(
+            level => `
+
+                <button
+                    class="
+                        upgrade-level
+                        ${luckLevel === level ? "active" : ""}
+                    "
+                    onclick="
+                        buyLuckLevel(${level})
+                    "
+                >
+
+                    Luck ${level}
+
+                </button>
+
+            `
+        )
+        .join("");
+
+}
+
+
+/* =========================================================
+   UPGRADE COSTS
+========================================================= */
+
+function upgradeCost(type,level){
+
+    if(level <= 1){
+        return 0;
+    }
+
+
+    if(type === "open"){
+
+        return [
+            0,
+            500,
+            2500,
+            10000,
+            50000
+        ][level - 1];
+
+    }
+
+
+    return [
+        0,
+        750,
+        3500,
+        15000,
+        75000
+    ][level - 1];
+
+}
+
+
+/* =========================================================
+   OPEN MULTIPLIER
+========================================================= */
+
+function buyOpenLevel(level){
+
+    if(level <= openLevel){
+
+        showToast(
+            "Tento level už máš."
+        );
+
+        return;
+
+    }
+
+
+    if(level !== openLevel + 1){
+
+        showToast(
+            "Nejdřív kup předchozí level."
+        );
+
+        return;
+
+    }
+
+
+    const cost =
+        upgradeCost("open",level);
+
+
+    if(coins < cost){
+
+        showToast(
+            "Nemáš dost coinů."
+        );
+
+        return;
+
+    }
+
+
+    coins -= cost;
+
+    openLevel = level;
+
+    save();
+
+
+    showToast(
+        `Open Multiplier je nyní ×${level}!`
+    );
+
+}
+
+
+/* =========================================================
+   LUCK
+========================================================= */
+
+function buyLuckLevel(level){
+
+    if(level <= luckLevel){
+
+        showToast(
+            "Tento level už máš."
+        );
+
+        return;
+
+    }
+
+
+    if(level !== luckLevel + 1){
+
+        showToast(
+            "Nejdřív kup předchozí level."
+        );
+
+        return;
+
+    }
+
+
+    const cost =
+        upgradeCost("luck",level);
+
+
+    if(coins < cost){
+
+        showToast(
+            "Nemáš dost coinů."
+        );
+
+        return;
+
+    }
+
+
+    coins -= cost;
+
+    luckLevel = level;
+
+    save();
+
+
+    showToast(
+        `Luck ${level} aktivován!`
+    );
+
+}
+
+
+/* =========================================================
+   LUCK WEIGHTS
+========================================================= */
+
+function getWeights(){
+
+    const bonus =
+        [
+            0,
+            .15,
+            .32,
+            .55,
+            .82,
+            1.15
+        ][luckLevel];
+
+
+    return {
+
+        common:
+            Math.max(
+                18,
+                RARITIES.common.weight -
+                14 * bonus
+            ),
+
+        uncommon:
+            Math.max(
+                14,
+                RARITIES.uncommon.weight -
+                4 * bonus
+            ),
+
+        rare:
+            RARITIES.rare.weight +
+            7 * bonus,
+
+        epic:
+            RARITIES.epic.weight +
+            5 * bonus,
+
+        legendary:
+            RARITIES.legendary.weight +
+            3 * bonus,
+
+        mythic:
+            RARITIES.mythic.weight +
+            3 * bonus
+
+    };
+
+}
+
+
+/* =========================================================
+   ROLL RARITY
+========================================================= */
+
+function rollRarity(){
+
+    const weights =
+        getWeights();
+
+
+    const total =
+        Object.values(weights)
+        .reduce(
+            (a,b) => a+b,
+            0
+        );
+
+
+    let random =
+        Math.random() * total;
+
+
+    for(
+        const [rarity,weight]
+        of Object.entries(weights)
+    ){
+
+        random -= weight;
+
+
+        if(random <= 0){
+
+            return rarity;
+
+        }
+
+    }
+
+
+    return "common";
+
+}
+
+
+/* =========================================================
+   ITEM CREATION
+========================================================= */
+
+function makeItem(raw){
+
+    return normalizeItem({
+
+        name:raw[0],
+
+        rarity:raw[1],
+
+        value:raw[2],
+
+        texture:
+            TEXTURES[raw[0]] || ""
+
+    });
+
+}
+
+
+/* =========================================================
+   RANDOM ITEM
+========================================================= */
+
+function getRandomItem(caseId){
+
+    const items =
+        CASES[caseId].items;
+
+
+    for(
+        let tries=0;
+        tries<20;
+        tries++
+    ){
+
+        const rarity =
+            rollRarity();
+
+
+        const candidates =
+            items.filter(
+                item =>
+                    item[1] === rarity
+            );
+
+
+        if(candidates.length){
+
+            return makeItem(
+                candidates[
+                    Math.floor(
+                        Math.random() *
+                        candidates.length
+                    )
+                ]
+            );
+
+        }
+
+    }
+
+
+    return makeItem(
+        items[
+            Math.floor(
+                Math.random() *
+                items.length
+            )
+        ]
+    );
+
+}
+
+
+/* =========================================================
+   RARITY INDEX
+========================================================= */
+
+function rarityIndex(rarity){
+
+    return [
+
+        "common",
+        "uncommon",
+        "rare",
+        "epic",
+        "legendary",
+        "mythic"
+
+    ].indexOf(rarity);
+
+}
+
+
+/* =========================================================
+   REEL
+========================================================= */
+
+function buildReel(
+    winner,
+    caseId
+){
+
+    const reel =
+        $("reel");
+
+
+    reel.innerHTML = "";
+
+
+    const items =
+        CASES[caseId].items;
+
+
+    const count = 75;
+
+    const winnerIndex = 57;
+
+
+    for(
+        let i=0;
+        i<count;
+        i++
+    ){
+
+        const item =
+            i === winnerIndex
+            ?
+            winner
+            :
+            makeItem(
+                items[
+                    Math.floor(
+                        Math.random() *
+                        items.length
+                    )
+                ]
+            );
+
+
+        const card =
+            document.createElement(
+                "div"
+            );
+
+
+        card.className =
+            "reel-card";
+
+
+        card.innerHTML = `
+
+            ${itemIcon(item)}
+
+            <div
+                class="
+                    reel-rarity
+                    rarity-${item.rarity}
+                "
+            >
+
+                ${RARITIES[item.rarity].name}
+
+            </div>
+
+        `;
+
+
+        reel.appendChild(card);
+
+    }
+
+
+    requestAnimationFrame(() => {
+
+        const wrap =
+            reel.parentElement;
+
+
+        const winnerElement =
+            reel.children[winnerIndex];
+
+
+        const targetCenter =
+            wrap.clientWidth / 2;
+
+
+        const winnerCenter =
+            winnerElement.offsetLeft +
+            winnerElement.offsetWidth / 2;
+
+
+        const tinyJitter =
+            (Math.random() - .5) * 6;
+
+
+        reel.style.transition =
+            "none";
+
+
+        reel.style.transform =
+            "translateX(0)";
+
+
+        requestAnimationFrame(() => {
+
+            reel.style.transition =
+                "transform 5.7s cubic-bezier(.08,.72,.13,1)";
+
+
+            reel.style.transform =
+
+                `translateX(
+                    ${
+                        targetCenter -
+                        winnerCenter +
+                        tinyJitter
+                    }px
+                )`;
+
+        });
+
+    });
 
 }
 
@@ -1960,273 +2841,275 @@ function itemIcon(item){
 
 function openCase(caseId){
 
-    if(opening)
+    if(openingBusy){
+
         return;
 
-    const selected =
+    }
+
+
+    const caseData =
         CASES[caseId];
 
-    if(coins < selected.price){
 
-        toast(
-            "Nemáš dost coinů na tento case."
+    const totalCost =
+        caseData.price *
+        openLevel;
+
+
+    if(coins < totalCost){
+
+        showToast(
+            `Potřebuješ 🪙 ${money(totalCost)}.`
         );
 
         return;
 
     }
 
-    currentCase = caseId;
 
-    document.getElementById("openingModal")
-        .classList.add("active");
+    coins -= totalCost;
 
-    document.getElementById("openingTitle")
+    save();
+
+
+    currentCase =
+        caseId;
+
+
+    currentResults = [];
+
+
+    /*
+       ×1 / ×2 / ×3 / ×4 / ×5
+    */
+
+    for(
+        let i=0;
+        i<openLevel;
+        i++
+    ){
+
+        currentResults.push(
+            getRandomItem(caseId)
+        );
+
+    }
+
+
+    openingBusy = true;
+
+
+    $("openingOverlay")
+        .classList
+        .add("show");
+
+
+    $("openingTitle")
         .textContent =
-        selected.name;
+        `${caseData.name} • ×${openLevel}`;
 
-    document.getElementById("openingSubtitle")
+
+    $("openingSub")
         .textContent =
-        "CASE OPENING • ODDS READY";
+        "Reel se zastavuje...";
 
-    document.getElementById("openingStatus")
-        .textContent =
-        "Připraveno k otevření.";
 
-    document.getElementById("startOpeningBtn")
-        .disabled = false;
+    $("reveal")
+        .classList
+        .remove("show");
 
-    document.getElementById("startOpeningBtn")
-        .textContent =
-        selected.price === 0
-        ? "OPEN FREE"
-        : `OPEN • ${selected.price.toLocaleString()} 🪙`;
 
-    buildReel(null);
+    buildReel(
+        currentResults[0],
+        caseId
+    );
+
+
+    playOpenSound();
+
+
+    setTimeout(
+        () => {
+
+            startReveal(
+                currentResults[0].rarity
+            );
+
+        },
+        5700
+    );
 
 }
 
 
 /* =========================================================
-   CLOSE
+   RARITY REVEAL
 ========================================================= */
 
-function closeOpening(){
+function startReveal(rarity){
 
-    if(opening)
-        return;
-
-    document.getElementById("openingModal")
-        .classList.remove("active");
-
-}
+    const reveal =
+        $("reveal");
 
 
-/* =========================================================
-   BUILD REEL
-========================================================= */
+    const countdown =
+        $("countdown");
 
-function buildReel(winner){
 
-    const reel =
-        document.getElementById("reel");
+    reveal.classList.add(
+        "show"
+    );
 
-    reel.innerHTML = "";
 
-    const amount = 70;
+    let number = 5;
 
-    let winnerIndex = 54;
 
-    for(let i=0;i<amount;i++){
+    countdown.textContent =
+        number;
 
-        let item;
 
-        if(
-            winner &&
-            i === winnerIndex
-        ){
+    countdown.style.color =
+        RARITIES[rarity].color;
 
-            item = winner;
 
-        }else{
+    /*
+       5
+       4
+       3
+       2
+       1
+       *
+    */
 
-            item =
-                getRandomItem(currentCase);
+    const delays = [
+
+        700,
+        650,
+        570,
+        490,
+        400
+
+    ];
+
+
+    function step(){
+
+        number--;
+
+
+        if(number <= 0){
+
+            countdown.textContent =
+                "★";
+
+
+            setTimeout(
+                () => {
+
+                    finishOpening();
+
+                },
+                450
+            );
+
+
+            return;
 
         }
 
-        const card =
-            document.createElement("div");
 
-        card.className =
-            `reel-card ${rarities[item.rarity].class}`;
+        countdown.textContent =
+            number;
 
-        card.style.color =
-            rarities[item.rarity].color;
 
-        card.innerHTML = `
+        /*
+           Čím blíže k výsledku,
+           tím větší náznak rays.
+        */
 
-            <div class="item-icon">
-                ${itemIcon(item)}
-            </div>
+        const hint =
+            6 - number;
 
-            <div class="reel-card-name">
-                ${item.name}
-            </div>
 
-            <div class="reel-card-rarity">
-                ${rarities[item.rarity].name}
-            </div>
+        if(hint >= 1){
 
-        `;
+            triggerRays(
+                rarity,
+                Math.min(
+                    .18 +
+                    hint * .08,
+                    .55
+                ),
+                false
+            );
 
-        reel.appendChild(card);
+        }
+
+
+        playTick();
+
+
+        setTimeout(
+            step,
+            delays[5-number]
+        );
 
     }
 
-    /*
-        Put reel back to initial position.
-    */
 
-    reel.style.transition = "none";
-
-    reel.style.transform =
-        "translateX(0px)";
+    setTimeout(
+        step,
+        delays[0]
+    );
 
 }
 
 
 /* =========================================================
-   START OPENING
+   FINISH OPENING
 ========================================================= */
 
-function startOpening(){
-
-    if(opening)
-        return;
-
-    if(!currentCase)
-        return;
-
-    const selected =
-        CASES[currentCase];
-
-    if(coins < selected.price){
-
-        toast("Nemáš dost coinů.");
-
-        return;
-
-    }
-
-    opening = true;
-
-    coins -= selected.price;
-
-    save();
-    updateUI();
-
-    document.getElementById("startOpeningBtn")
-        .disabled = true;
-
-    document.getElementById("openingStatus")
-        .textContent =
-        "Opening...";
+function finishOpening(){
 
     /*
-        IMPORTANT:
-        Result is determined BEFORE animation.
+       U ×2+ vezmeme nejlepší raritu
+       pro hlavní reveal.
     */
 
-    currentResult =
-        getRandomItem(currentCase);
+    const best =
+        currentResults
+        .slice()
+        .sort(
+            (a,b) =>
+                rarityIndex(b.rarity) -
+                rarityIndex(a.rarity)
+        )[0];
 
-    buildReel(currentResult);
 
-    const reel =
-        document.getElementById("reel");
+    triggerRays(
+        best.rarity,
+        1,
+        true
+    );
 
-    const cardWidth = 145;
-    const gap = 9;
 
-    /*
-        On mobile cards are smaller.
-        Center is still approximately calculated
-        from actual reel width.
-    */
+    $("openingOverlay")
+        .classList
+        .remove("show");
 
-    const cards =
-        reel.querySelectorAll(".reel-card");
 
-    const winnerIndex = 54;
+    openingBusy = false;
 
-    const winner =
-        cards[winnerIndex];
 
-    const reelRect =
-        reel.parentElement.getBoundingClientRect();
+    setTimeout(
+        () => {
 
-    const winnerWidth =
-        winner.getBoundingClientRect().width;
+            showResult();
 
-    const targetCenter =
-        reelRect.width / 2;
-
-    const winnerCenter =
-        winnerIndex * (cardWidth + gap)
-        + winnerWidth / 2;
-
-    let translate =
-        targetCenter - winnerCenter;
-
-    /*
-        Add slight random final offset
-        for natural stopping.
-    */
-
-    translate +=
-        (Math.random() * 10) - 5;
-
-    requestAnimationFrame(()=>{
-
-        requestAnimationFrame(()=>{
-
-            reel.style.transition =
-                "transform 6.2s cubic-bezier(.08,.74,.11,1)";
-
-            reel.style.transform =
-                `translateX(${translate}px)`;
-
-        });
-
-    });
-
-    /*
-        Reveal after animation.
-    */
-
-    setTimeout(()=>{
-
-        opening = false;
-
-        document.getElementById("openingStatus")
-            .textContent =
-            "Drop získán!";
-
-        playRevealSound(
-            currentResult.rarity
-        );
-
-        createParticles(
-            rarities[currentResult.rarity].color
-        );
-
-        setTimeout(
-            showResult,
-            650
-        );
-
-    },6500);
+        },
+        420
+    );
 
 }
 
@@ -2237,41 +3120,129 @@ function startOpening(){
 
 function showResult(){
 
+    if(!currentResults.length){
+
+        return;
+
+    }
+
+
+    /*
+       Hlavní item je první / reel winner.
+    */
+
     const item =
-        currentResult;
+        currentResults[0];
 
-    const data =
-        rarities[item.rarity];
 
-    document.getElementById("resultOverlay")
-        .classList.add("active");
+    $("resultOverlay")
+        .classList
+        .add("show");
 
-    document.getElementById("resultIcon")
+
+    $("resultCard")
+        .style
+        .setProperty(
+            "--rarity-glow",
+            RARITIES[item.rarity].color
+        );
+
+
+    $("resultIcon")
         .innerHTML =
         itemIcon(item);
 
-    document.getElementById("resultName")
+
+    $("resultRarity")
         .textContent =
+        RARITIES[item.rarity].name;
+
+
+    $("resultRarity")
+        .style
+        .color =
+        RARITIES[item.rarity].color;
+
+
+    $("resultName")
+        .textContent =
+        openLevel > 1
+        ?
+        `${item.name} • ×${currentResults.length}`
+        :
         item.name;
 
-    const rarity =
-        document.getElementById("resultRarity");
 
-    rarity.textContent =
-        data.name;
-
-    rarity.className =
-        `result-rarity ${data.class}`;
-
-    document.getElementById("resultValue")
-        .textContent =
-        `Value: ${item.value.toLocaleString()} 🪙`;
-
-    document.getElementById("resultCard")
-        .style.setProperty(
-            "--result-glow",
-            `${data.color}22`
+    const total =
+        currentResults.reduce(
+            (sum,item) =>
+                sum + item.value,
+            0
         );
+
+
+    $("resultValue")
+        .textContent =
+        `Hodnota dropů: 🪙 ${money(total)}`;
+
+
+    /*
+       Přehled ostatních dropů.
+    */
+
+    const old =
+        document.getElementById(
+            "resultSub"
+        );
+
+
+    if(old){
+
+        old.remove();
+
+    }
+
+
+    if(currentResults.length > 1){
+
+        const sub =
+            document.createElement(
+                "div"
+            );
+
+
+        sub.id =
+            "resultSub";
+
+
+        sub.style.cssText = `
+
+            color:#8d879b;
+
+            font-size:12px;
+
+            margin-top:-13px;
+
+            margin-bottom:15px;
+
+            line-height:1.7;
+
+        `;
+
+
+        sub.textContent =
+            currentResults
+            .map(
+                item =>
+                    `${RARITIES[item.rarity].name} • ${item.name}`
+            )
+            .join(" | ");
+
+
+        $("resultValue")
+            .after(sub);
+
+    }
 
 }
 
@@ -2282,23 +3253,36 @@ function showResult(){
 
 function keepResult(){
 
-    if(!currentResult)
-        return;
+    /*
+       DŮLEŽITÉ:
 
-    inventory.push({
-        ...currentResult,
-        id:Date.now() +
-            Math.random()
-    });
+       Uložíme přesně ty objekty,
+       které padly.
+
+       Žádný nový RNG.
+    */
+
+    inventory.push(
+        ...currentResults.map(
+            item => ({
+                ...item
+            })
+        )
+    );
+
 
     save();
 
-    updateUI();
+
+    const amount =
+        currentResults.length;
+
 
     closeResult();
 
-    toast(
-        `${currentResult.name} uložen do Storage.`
+
+    showToast(
+        `${amount} dropů uloženo do Storage.`
     );
 
 }
@@ -2310,25 +3294,61 @@ function keepResult(){
 
 function sellResult(){
 
-    if(!currentResult)
-        return;
+    const amount =
+        currentResults.reduce(
+            (sum,item) =>
+                sum + item.value,
+            0
+        );
 
-    coins +=
-        currentResult.value;
+
+    coins += amount;
+
 
     save();
 
-    updateUI();
-
-    const name =
-        currentResult.name;
-
-    currentResult = null;
 
     closeResult();
 
-    toast(
-        `Prodáno za ${coins.toLocaleString()} 🪙`
+
+    showToast(
+        `Prodáno za 🪙 ${money(amount)}.`
+    );
+
+}
+
+
+/* =========================================================
+   SELL INVENTORY
+========================================================= */
+
+function sellInventory(index){
+
+    const item =
+        inventory[index];
+
+
+    if(!item){
+
+        return;
+
+    }
+
+
+    inventory.splice(
+        index,
+        1
+    );
+
+
+    coins += item.value;
+
+
+    save();
+
+
+    showToast(
+        `${item.name} prodán za 🪙 ${money(item.value)}.`
     );
 
 }
@@ -2340,147 +3360,37 @@ function sellResult(){
 
 function closeResult(){
 
-    document.getElementById("resultOverlay")
-        .classList.remove("active");
+    $("resultOverlay")
+        .classList
+        .remove("show");
 
-    document.getElementById("openingModal")
-        .classList.remove("active");
 
-    currentResult = null;
+    currentResults = [];
+
     currentCase = null;
 
 }
 
 
 /* =========================================================
-   INVENTORY
+   CLOSE OPENING
 ========================================================= */
 
-function renderInventory(){
+function closeOpening(){
 
-    const inventoryElement =
-        document.getElementById("inventory");
-
-    const count =
-        document.getElementById("storageCount");
-
-    count.textContent =
-        `${inventory.length} item${inventory.length === 1 ? "" : "s"}`;
-
-    if(!inventory.length){
-
-        inventoryElement.innerHTML = `
-
-            <div style="
-                grid-column:1/-1;
-                padding:55px 20px;
-                text-align:center;
-                color:#77778e;
-            ">
-
-                <div style="
-                    font-size:35px;
-                    margin-bottom:10px;
-                ">
-                    🎒
-                </div>
-
-                <strong>
-                    Storage je zatím prázdný
-                </strong>
-
-                <div style="
-                    margin-top:7px;
-                    font-size:12px;
-                ">
-                    Otevři svůj první case.
-                </div>
-
-            </div>
-
-        `;
+    if(openingBusy){
 
         return;
 
     }
 
-    inventoryElement.innerHTML =
-        inventory.map(
-            (item,index)=>`
 
-                <div class="inv-item">
-
-                    <div
-                        class="item-icon"
-                        style="height:75px"
-                    >
-                        ${itemIcon(item)}
-                    </div>
-
-                    <div class="inv-name">
-                        ${item.name}
-                    </div>
-
-                    <div class="inv-rarity ${rarities[item.rarity].class}">
-                        ${rarities[item.rarity].name}
-                    </div>
-
-                    <div class="inv-value">
-                        ${item.value.toLocaleString()} 🪙
-                    </div>
-
-                    <button
-                        class="sell-btn"
-                        onclick="sellInventoryItem(${index})"
-                    >
-                        SELL
-                    </button>
-
-                </div>
-
-            `
-        ).join("");
-
-}
+    $("openingOverlay")
+        .classList
+        .remove("show");
 
 
-/* =========================================================
-   SELL INVENTORY
-========================================================= */
-
-function sellInventoryItem(index){
-
-    const item =
-        inventory[index];
-
-    if(!item)
-        return;
-
-    coins +=
-        item.value;
-
-    inventory.splice(index,1);
-
-    save();
-    updateUI();
-
-    toast(
-        `${item.name} prodán za ${item.value.toLocaleString()} 🪙`
-    );
-
-}
-
-
-/* =========================================================
-   SCROLL
-========================================================= */
-
-function scrollToStorage(){
-
-    document.getElementById("storage")
-        .scrollIntoView({
-            behavior:"smooth"
-        });
+    currentCase = null;
 
 }
 
@@ -2489,26 +3399,291 @@ function scrollToStorage(){
    TOAST
 ========================================================= */
 
-let toastTimeout;
+function showToast(text){
 
-function toast(message){
+    const toast =
+        $("toast");
 
-    const element =
-        document.getElementById("toast");
 
-    element.textContent =
-        message;
+    toast.textContent =
+        text;
 
-    element.classList.add("show");
 
-    clearTimeout(toastTimeout);
+    toast.classList.add(
+        "show"
+    );
 
-    toastTimeout =
-        setTimeout(()=>{
 
-            element.classList.remove("show");
+    clearTimeout(
+        toast._timer
+    );
 
-        },2500);
+
+    toast._timer =
+        setTimeout(
+            () => {
+
+                toast.classList.remove(
+                    "show"
+                );
+
+            },
+            2200
+        );
+
+}
+
+
+/* =========================================================
+   VECTOR RAYS
+========================================================= */
+
+function triggerRays(
+    rarity,
+    strength=1,
+    heavy=false
+){
+
+    const colors = {
+
+        common:
+            "#b8b8b8",
+
+        uncommon:
+            "#55e36d",
+
+        rare:
+            "#4d9dff",
+
+        epic:
+            "#b85cff",
+
+        legendary:
+            "#ffd43b",
+
+        mythic:
+            "#ff4d8d"
+
+    };
+
+
+    const rays =
+        $("rays");
+
+
+    rays.innerHTML =
+        "";
+
+
+    /*
+       Common
+       = 5
+
+       Uncommon
+       = 9
+
+       Rare
+       = 13
+
+       Epic
+       = 19
+
+       Legendary
+       = 28
+
+       Mythic
+       = 38
+    */
+
+    const amount =
+
+        rarity === "common"
+        ? 5
+
+        :
+
+        rarity === "uncommon"
+        ? 9
+
+        :
+
+        rarity === "rare"
+        ? 13
+
+        :
+
+        rarity === "epic"
+        ? 19
+
+        :
+
+        rarity === "legendary"
+        ? 28
+
+        :
+        38;
+
+
+    for(
+        let i=0;
+        i<amount;
+        i++
+    ){
+
+        const ray =
+            document.createElement(
+                "div"
+            );
+
+
+        ray.className =
+            "ray";
+
+
+        ray.style.setProperty(
+            "--rotation",
+            `${(360 / amount) * i}deg`
+        );
+
+
+        ray.style.background =
+            `
+                linear-gradient(
+                    180deg,
+                    transparent,
+                    ${colors[rarity]},
+                    transparent
+                )
+            `;
+
+
+        ray.style.opacity =
+            .15 +
+            strength * .7;
+
+
+        ray.style.height =
+            `${70 + Math.random()*60}vh`;
+
+
+        rays.appendChild(
+            ray
+        );
+
+    }
+
+
+    rays.classList.remove(
+        "show",
+        "animate"
+    );
+
+
+    void rays.offsetWidth;
+
+
+    rays.classList.add(
+        "show",
+        "animate"
+    );
+
+
+    setTimeout(
+        () => {
+
+            rays.classList.remove(
+                "show",
+                "animate"
+            );
+
+        },
+        heavy
+        ? 1550
+        : 700
+    );
+
+
+    /*
+       FULL REVEAL EFFECT
+    */
+
+    if(heavy){
+
+        const flash =
+            $("flash");
+
+
+        flash.classList.remove(
+            "go"
+        );
+
+
+        void flash.offsetWidth;
+
+
+        flash.classList.add(
+            "go"
+        );
+
+
+        /*
+           Legendary + Mythic
+           dostanou shake.
+        */
+
+        if(
+            rarity === "legendary" ||
+            rarity === "mythic"
+        ){
+
+            document.body
+                .classList
+                .remove("shake");
+
+
+            void document.body.offsetWidth;
+
+
+            document.body
+                .classList
+                .add("shake");
+
+
+            setTimeout(
+                () => {
+
+                    document.body
+                        .classList
+                        .remove("shake");
+
+                },
+                600
+            );
+
+        }
+
+
+        spawnParticles(
+            colors[rarity],
+
+            rarity === "mythic"
+            ? 85
+
+            :
+
+            rarity === "legendary"
+            ? 65
+
+            :
+
+            rarity === "epic"
+            ? 45
+
+            :
+            30
+        );
+
+    }
 
 }
 
@@ -2517,41 +3692,107 @@ function toast(message){
    PARTICLES
 ========================================================= */
 
-function createParticles(color){
+function spawnParticles(
+    color,
+    count
+){
 
-    for(let i=0;i<35;i++){
+    for(
+        let i=0;
+        i<count;
+        i++
+    ){
 
-        const p =
-            document.createElement("div");
+        const particle =
+            document.createElement(
+                "div"
+            );
 
-        p.className =
+
+        particle.className =
             "particle";
 
-        p.style.background =
+
+        particle.style.background =
             color;
 
-        p.style.left =
-            `${50 + (Math.random()*12-6)}%`;
 
-        p.style.top =
-            `${50 + (Math.random()*12-6)}%`;
+        particle.style.boxShadow =
+            `0 0 10px ${color}`;
 
-        p.style.setProperty(
-            "--x",
-            `${Math.random()*500-250}px`
+
+        particle.style.left =
+            "50%";
+
+
+        particle.style.top =
+            "50%";
+
+
+        document.body.appendChild(
+            particle
         );
 
-        p.style.setProperty(
-            "--y",
-            `${Math.random()*500-250}px`
-        );
 
-        document.body.appendChild(p);
+        const angle =
+            Math.random() *
+            Math.PI *
+            2;
 
-        setTimeout(
-            ()=>p.remove(),
-            1300
-        );
+
+        const distance =
+            100 +
+            Math.random() *
+            450;
+
+
+        particle.animate(
+
+            [
+
+                {
+                    transform:
+                        "translate(-50%,-50%) scale(.3)",
+
+                    opacity:1
+                },
+
+                {
+
+                    transform:
+                        `
+                            translate(
+                                calc(
+                                    -50% +
+                                    ${Math.cos(angle)*distance}px
+                                ),
+                                calc(
+                                    -50% +
+                                    ${Math.sin(angle)*distance}px
+                                )
+                            )
+                            scale(1.2)
+                        `,
+
+                    opacity:0
+
+                }
+
+            ],
+
+            {
+
+                duration:
+                    700 +
+                    Math.random()*700,
+
+                easing:
+                    "cubic-bezier(.1,.7,.2,1)"
+
+            }
+
+        ).onfinish =
+            () => particle.remove();
 
     }
 
@@ -2559,177 +3800,160 @@ function createParticles(color){
 
 
 /* =========================================================
-   AUDIO
+   AUDIO — TICK
 ========================================================= */
 
-let audioContext = null;
-
-function getAudio(){
-
-    if(!audioContext){
-
-        audioContext =
-            new (
-                window.AudioContext ||
-                window.webkitAudioContext
-            )();
-
-    }
-
-    return audioContext;
-
-}
-
-
-function tone(
-    frequency,
-    duration,
-    type="sine",
-    volume=.035
-){
+function playTick(){
 
     try{
 
         const ctx =
-            getAudio();
+            window._audio ||
+            (
+                window._audio =
+                    new AudioContext()
+            );
+
 
         const oscillator =
             ctx.createOscillator();
 
+
         const gain =
             ctx.createGain();
 
+
         oscillator.type =
-            type;
+            "square";
+
 
         oscillator.frequency.value =
-            frequency;
+            850;
+
 
         gain.gain.setValueAtTime(
-            volume,
+            .035,
             ctx.currentTime
         );
 
+
         gain.gain.exponentialRampToValueAtTime(
             .001,
-            ctx.currentTime + duration
+            ctx.currentTime + .055
         );
 
-        oscillator.connect(gain);
-        gain.connect(ctx.destination);
+
+        oscillator.connect(
+            gain
+        );
+
+
+        gain.connect(
+            ctx.destination
+        );
+
 
         oscillator.start();
 
+
         oscillator.stop(
-            ctx.currentTime + duration
+            ctx.currentTime + .06
         );
 
-    }catch(e){}
+    }
+
+    catch(error){}
 
 }
 
 
-/*
-    Small tick sequence during reel.
-*/
+/* =========================================================
+   AUDIO — OPEN
+========================================================= */
 
-let tickTimer = null;
+function playOpenSound(){
 
-function startTicks(){
+    try{
 
-    let ticks = 0;
-
-    clearInterval(tickTimer);
-
-    tickTimer =
-        setInterval(()=>{
-
-            tone(
-                450 + ticks * 3,
-                .035,
-                "square",
-                .018
+        const ctx =
+            window._audio ||
+            (
+                window._audio =
+                    new AudioContext()
             );
 
-            ticks++;
 
-            if(ticks > 25){
+        const oscillator =
+            ctx.createOscillator();
 
-                clearInterval(tickTimer);
 
-            }
+        const gain =
+            ctx.createGain();
 
-        },145);
+
+        oscillator.type =
+            "sawtooth";
+
+
+        oscillator.frequency.setValueAtTime(
+            120,
+            ctx.currentTime
+        );
+
+
+        oscillator.frequency.exponentialRampToValueAtTime(
+            520,
+            ctx.currentTime + 1.2
+        );
+
+
+        gain.gain.setValueAtTime(
+            .04,
+            ctx.currentTime
+        );
+
+
+        gain.gain.exponentialRampToValueAtTime(
+            .001,
+            ctx.currentTime + 1.3
+        );
+
+
+        oscillator.connect(
+            gain
+        );
+
+
+        gain.connect(
+            ctx.destination
+        );
+
+
+        oscillator.start();
+
+
+        oscillator.stop(
+            ctx.currentTime + 1.35
+        );
+
+    }
+
+    catch(error){}
 
 }
 
 
 /* =========================================================
-   REVEAL SOUND
+   INITIALIZE
 ========================================================= */
 
-function playRevealSound(rarity){
+renderCases();
 
-    if(rarity === "mythic"){
+renderUpgrades();
 
-        tone(180,.15,"sawtooth",.05);
+renderInventory();
 
-        setTimeout(
-            ()=>tone(360,.25,"sine",.055),
-            130
-        );
-
-        setTimeout(
-            ()=>tone(720,.4,"sine",.06),
-            280
-        );
-
-        return;
-
-    }
-
-    if(rarity === "legendary"){
-
-        tone(300,.12,"sine",.04);
-
-        setTimeout(
-            ()=>tone(600,.3,"sine",.05),
-            130
-        );
-
-        return;
-
-    }
-
-    if(rarity === "epic"){
-
-        tone(350,.1,"sine",.035);
-
-        setTimeout(
-            ()=>tone(700,.22,"sine",.04),
-            100
-        );
-
-        return;
-
-    }
-
-    tone(
-        440,
-        .16,
-        "sine",
-        .03
-    );
-
-}
-
-
-/* =========================================================
-   START TICKS WHEN OPENING
-========================================================= */
-
-const originalStartOpening =
-    startOpening;
+renderCoins();
 
 </script>
 
