@@ -59,7 +59,6 @@
       from {
         transform: translate(0, 0);
       }
-
       to {
         transform: translate(100px, 80px);
       }
@@ -69,7 +68,6 @@
       from {
         transform: translate(0, 0);
       }
-
       to {
         transform: translate(-100px, -80px);
       }
@@ -667,9 +665,7 @@
 
     section {
       width: min(1100px, calc(100% - 40px));
-
       margin: auto;
-
       padding: 120px 0;
     }
 
@@ -1171,7 +1167,7 @@
     /* REPUTATION */
 
     .reputation-section {
-      margin-top: 35px;
+      padding-top: 80px;
     }
 
     .reputation-card {
@@ -1214,11 +1210,6 @@
       letter-spacing: 4px;
       color: #a970ff;
       margin-bottom: 12px;
-    }
-
-    .reputation-heading {
-      font-size: clamp(32px, 5vw, 48px);
-      margin-bottom: 15px;
     }
 
     .reputation-score {
@@ -1383,6 +1374,13 @@
       margin-top: 22px;
 
       width: 100%;
+
+      border: 1px solid rgba(255,255,255,0.18);
+
+      cursor: pointer;
+
+      font-family: inherit;
+      font-size: 15px;
     }
 
     .reputation-status {
@@ -1725,6 +1723,10 @@
           80px 0;
       }
 
+      .reputation-section {
+        padding-top: 60px;
+      }
+
       footer {
         flex-direction:
           column;
@@ -1803,30 +1805,42 @@
       }
 
       .reputation-card {
-        padding: 35px 18px;
+        padding:
+          35px 18px;
       }
 
       .reputation-form {
-        padding: 20px 16px;
+        padding:
+          20px 16px;
       }
 
       .reputation-score {
-        flex-direction: column;
-        gap: 5px;
+        flex-direction:
+          column;
+
+        gap:
+          5px;
       }
 
       .reputation-stars {
-        font-size: 25px;
+        font-size:
+          25px;
       }
 
       .rating-selector label {
-        font-size: 31px;
+        font-size:
+          31px;
       }
 
       .reputation-item-top {
-        align-items: flex-start;
-        flex-direction: column;
-        gap: 5px;
+        align-items:
+          flex-start;
+
+        flex-direction:
+          column;
+
+        gap:
+          5px;
       }
 
       .snowflake {
@@ -1897,6 +1911,12 @@
       <li>
         <a href="#community">
           Komunita
+        </a>
+      </li>
+
+      <li>
+        <a href="#reputation">
+          Reputace
         </a>
       </li>
 
@@ -2274,154 +2294,162 @@
 
       </div>
 
-      <!-- REPUTATION -->
+    </section>
 
-      <section
-        class="reputation-section"
-        id="reputation">
+    <!-- REPUTATION -->
 
-        <div class="glass reputation-card">
+    <section
+      class="reputation-section"
+      id="reputation">
 
-          <div class="reputation-header">
+      <div class="section-title">
 
-            <div class="reputation-title">
-              REPUTACE
-            </div>
+        <span>
+          03 — REPUTACE
+        </span>
 
-            <h2 class="reputation-heading">
-              Reputace od vás
-            </h2>
+        <h2>
+          Co o mně říká komunita
+        </h2>
 
-            <div class="reputation-score">
+      </div>
 
-              <div
-                class="reputation-stars"
-                id="averageStars">
-                ☆☆☆☆☆
-              </div>
+      <div class="glass reputation-card">
 
-              <div
-                class="reputation-number"
-                id="averageScore">
-                0.0/5
-              </div>
+        <div class="reputation-header">
 
+          <div class="reputation-title">
+            REPUTACE OD VÁS
+          </div>
+
+          <div class="reputation-score">
+
+            <div
+              class="reputation-stars"
+              id="averageStars">
+              ☆☆☆☆☆
             </div>
 
             <div
-              class="reputation-count"
-              id="reputationCount">
-              Zatím žádné hodnocení
+              class="reputation-number"
+              id="averageScore">
+              0.0/5
             </div>
 
           </div>
-
-          <!-- FORM -->
-
-          <div class="reputation-form">
-
-            <label for="reputationMessage">
-              Napiš reputaci
-            </label>
-
-            <textarea
-              id="reputationMessage"
-              class="reputation-input"
-              maxlength="500"
-              placeholder="Např. Je to dobrý YouTuber, jeho videa mě baví..."></textarea>
-
-            <div class="rating-area">
-
-              <label class="rating-label">
-                Tvoje hodnocení
-              </label>
-
-              <div class="rating-selector">
-
-                <input
-                  type="radio"
-                  id="star5"
-                  name="rating"
-                  value="5">
-
-                <label for="star5">
-                  ★
-                </label>
-
-                <input
-                  type="radio"
-                  id="star4"
-                  name="rating"
-                  value="4">
-
-                <label for="star4">
-                  ★
-                </label>
-
-                <input
-                  type="radio"
-                  id="star3"
-                  name="rating"
-                  value="3">
-
-                <label for="star3">
-                  ★
-                </label>
-
-                <input
-                  type="radio"
-                  id="star2"
-                  name="rating"
-                  value="2">
-
-                <label for="star2">
-                  ★
-                </label>
-
-                <input
-                  type="radio"
-                  id="star1"
-                  name="rating"
-                  value="1">
-
-                <label for="star1">
-                  ★
-                </label>
-
-              </div>
-
-            </div>
-
-            <button
-              type="button"
-              class="btn reputation-submit"
-              id="reputationSubmit">
-              Odeslat reputaci
-            </button>
-
-            <div
-              class="reputation-status"
-              id="reputationStatus">
-              Supabase zatím není připojené.
-            </div>
-
-          </div>
-
-          <!-- PUBLIC REVIEWS -->
 
           <div
-            class="reputation-list"
-            id="reputationList">
-
-            <div class="reputation-empty">
-              Zatím tu není žádná reputace.
-            </div>
-
+            class="reputation-count"
+            id="reputationCount">
+            Zatím žádné hodnocení
           </div>
 
         </div>
 
-      </section>
+        <!-- FORM -->
+
+        <div class="reputation-form">
+
+          <label for="reputationMessage">
+            Napiš reputaci
+          </label>
+
+          <textarea
+            id="reputationMessage"
+            class="reputation-input"
+            maxlength="500"
+            placeholder="Např. Je to dobrý YouTuber, jeho videa mě baví..."></textarea>
+
+          <div class="rating-area">
+
+            <label class="rating-label">
+              Tvoje hodnocení
+            </label>
+
+            <div class="rating-selector">
+
+              <input
+                type="radio"
+                id="star5"
+                name="rating"
+                value="5">
+
+              <label for="star5">
+                ★
+              </label>
+
+              <input
+                type="radio"
+                id="star4"
+                name="rating"
+                value="4">
+
+              <label for="star4">
+                ★
+              </label>
+
+              <input
+                type="radio"
+                id="star3"
+                name="rating"
+                value="3">
+
+              <label for="star3">
+                ★
+              </label>
+
+              <input
+                type="radio"
+                id="star2"
+                name="rating"
+                value="2">
+
+              <label for="star2">
+                ★
+              </label>
+
+              <input
+                type="radio"
+                id="star1"
+                name="rating"
+                value="1">
+
+              <label for="star1">
+                ★
+              </label>
+
+            </div>
+
+          </div>
+
+          <button
+            type="button"
+            class="btn reputation-submit"
+            id="reputationSubmit">
+            Odeslat reputaci
+          </button>
+
+          <div
+            class="reputation-status"
+            id="reputationStatus">
+            Formulář je připravený.
+          </div>
+
+        </div>
+
+        <!-- PUBLIC REVIEWS -->
+
+        <div
+          class="reputation-list"
+          id="reputationList">
+
+          <div class="reputation-empty">
+            Zatím tu není žádná reputace.
+          </div>
+
+        </div>
+
+      </div>
 
     </section>
 
