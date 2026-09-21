@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="cs">
 <head>
@@ -23,10 +24,6 @@
       font-family: Arial, Helvetica, sans-serif;
       overflow-x: hidden;
     }
-
-    /* =========================================
-       BACKGROUND PURPLE GLOW
-       ========================================= */
 
     body::before {
       content: "";
@@ -78,9 +75,7 @@
       }
     }
 
-    /* =========================================
-       NAVIGATION
-       ========================================= */
+    /* NAVIGATION */
 
     nav {
       position: fixed;
@@ -89,9 +84,11 @@
       transform: translateX(-50%);
       width: min(1100px, calc(100% - 40px));
       height: 65px;
+
       display: flex;
       align-items: center;
       justify-content: space-between;
+
       padding: 0 25px;
 
       background: rgba(20, 15, 28, 0.55);
@@ -133,6 +130,7 @@
     nav a {
       display: inline-block;
       text-decoration: none;
+
       color: rgba(255,255,255,0.75);
 
       padding: 10px 15px;
@@ -140,14 +138,13 @@
 
       border: 1px solid transparent;
 
-      background:
-        rgba(255,255,255,0.025);
+      background: rgba(255,255,255,0.025);
 
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
 
       transition:
-        transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1),
+        transform 0.25s ease,
         color 0.25s ease,
         background 0.25s ease,
         border-color 0.25s ease,
@@ -161,11 +158,9 @@
     nav a:hover {
       color: white;
 
-      background:
-        rgba(140,60,255,0.14);
+      background: rgba(140,60,255,0.14);
 
-      border-color:
-        rgba(180,120,255,0.28);
+      border-color: rgba(180,120,255,0.28);
 
       box-shadow:
         0 0 25px rgba(124,44,255,0.2),
@@ -174,9 +169,7 @@
       transform: scale(1.06);
     }
 
-    /* =========================================
-       HERO
-       ========================================= */
+    /* HERO */
 
     .hero {
       min-height: 100vh;
@@ -201,13 +194,11 @@
       padding: 9px 16px;
       margin-bottom: 25px;
 
-      border:
-        1px solid rgba(180,120,255,0.3);
+      border: 1px solid rgba(180,120,255,0.3);
 
       border-radius: 100px;
 
-      background:
-        rgba(130,50,255,0.08);
+      background: rgba(130,50,255,0.08);
 
       color: #cda8ff;
 
@@ -217,7 +208,7 @@
         0 0 30px rgba(130,50,255,0.12);
 
       transition:
-        transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1),
+        transform 0.25s ease,
         box-shadow 0.25s ease,
         background 0.25s ease;
     }
@@ -225,8 +216,7 @@
     .badge:hover {
       transform: scale(1.045);
 
-      background:
-        rgba(130,50,255,0.13);
+      background: rgba(130,50,255,0.13);
 
       box-shadow:
         0 0 35px rgba(130,50,255,0.2);
@@ -261,12 +251,8 @@
 
       cursor: default;
 
-      transform: scale(1);
-
-      transform-origin: center center;
-
       transition:
-        transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1),
+        transform 0.28s ease,
         filter 0.28s ease;
     }
 
@@ -284,25 +270,17 @@
 
       transform: scale(1);
 
-      transform-origin: center center;
-
       transition:
-        transform 0.18s cubic-bezier(0.2, 0.8, 0.2, 1),
+        transform 0.18s ease,
         filter 0.18s ease;
 
-      will-change:
-        transform,
-        filter;
+      will-change: transform, filter;
     }
 
     .interactive-letter.glow {
       filter:
-        drop-shadow(
-          0 0 10px rgba(190,130,255,0.85)
-        )
-        drop-shadow(
-          0 0 25px rgba(124,44,255,0.55)
-        );
+        drop-shadow(0 0 10px rgba(190,130,255,0.85))
+        drop-shadow(0 0 25px rgba(124,44,255,0.55));
     }
 
     .hero p {
@@ -310,8 +288,7 @@
 
       max-width: 650px;
 
-      color:
-        rgba(255,255,255,0.55);
+      color: rgba(255,255,255,0.55);
 
       font-size: 19px;
 
@@ -328,9 +305,7 @@
       flex-wrap: wrap;
     }
 
-    /* =========================================
-       GLASS BUTTONS
-       ========================================= */
+    /* BUTTONS */
 
     .btn,
     .watch {
@@ -347,8 +322,7 @@
 
       text-decoration: none;
 
-      color:
-        rgba(255,255,255,0.9);
+      color: rgba(255,255,255,0.9);
 
       background:
         linear-gradient(
@@ -358,8 +332,7 @@
           rgba(125,45,255,0.075)
         );
 
-      border:
-        1px solid rgba(255,255,255,0.18);
+      border: 1px solid rgba(255,255,255,0.18);
 
       backdrop-filter:
         blur(22px) saturate(145%);
@@ -382,7 +355,7 @@
       overflow: hidden;
 
       transition:
-        transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1),
+        transform 0.25s ease,
         color 0.25s ease,
         background 0.25s ease,
         border-color 0.25s ease,
@@ -408,11 +381,10 @@
           transparent 100%
         );
 
-      transform:
-        translateX(-125%);
+      transform: translateX(-125%);
 
       transition:
-        transform 0.65s cubic-bezier(0.2,0.8,0.2,1);
+        transform 0.65s ease;
 
       pointer-events: none;
 
@@ -470,20 +442,13 @@
     .btn:hover::before,
     .watch:hover::before,
     nav a:hover::before {
-      transform:
-        translateX(125%);
+      transform: translateX(125%);
     }
 
     .btn:active,
     .watch:active,
     nav a:active {
-      transform:
-        scale(0.97);
-
-      box-shadow:
-        0 5px 18px rgba(0,0,0,0.3),
-        0 0 22px rgba(140,60,255,0.2),
-        inset 0 2px 8px rgba(0,0,0,0.16);
+      transform: scale(0.97);
     }
 
     .btn {
@@ -500,30 +465,19 @@
         );
     }
 
-    .btn.secondary:hover {
-      background:
-        rgba(140,60,255,0.13);
-
-      border-color:
-        rgba(180,120,255,0.3);
-
-      box-shadow:
-        0 10px 35px rgba(0,0,0,0.25),
-        0 0 25px rgba(140,60,255,0.2);
-    }
-
-    /* =========================================
-       LIVE SUBSCRIBER COUNTER
-       ========================================= */
+    /* SUBSCRIBER */
 
     .subscriber-card {
       width: min(520px, 100%);
       margin: 32px auto 0;
+
       padding: 18px 22px;
 
       display: flex;
+
       align-items: center;
       justify-content: space-between;
+
       gap: 20px;
 
       position: relative;
@@ -537,8 +491,7 @@
           rgba(124,44,255,0.09)
         );
 
-      border:
-        1px solid rgba(255,255,255,0.13);
+      border: 1px solid rgba(255,255,255,0.13);
 
       border-radius: 20px;
 
@@ -593,19 +546,24 @@
 
     .subscriber-info {
       text-align: left;
+
       position: relative;
+
       z-index: 2;
+
       min-width: 0;
+
       flex: 1;
     }
 
     .subscriber-label {
       display: flex;
+
       align-items: center;
+
       gap: 8px;
 
-      color:
-        rgba(255,255,255,0.5);
+      color: rgba(255,255,255,0.5);
 
       font-size: 12px;
 
@@ -616,14 +574,9 @@
       margin-bottom: 3px;
     }
 
-    .subscriber-icon {
-      font-size: 18px;
-    }
-
-    /* TubeScope widget */
-
     .subscriber-widget {
       width: 100%;
+
       max-width: 330px;
 
       height: 65px;
@@ -637,6 +590,7 @@
 
     .subscriber-widget iframe {
       width: 320px;
+
       height: 100px;
 
       max-width: 100%;
@@ -650,21 +604,20 @@
 
     .live-status {
       display: flex;
+
       align-items: center;
+
       gap: 8px;
 
       padding: 8px 11px;
 
       border-radius: 100px;
 
-      background:
-        rgba(50,255,130,0.055);
+      background: rgba(50,255,130,0.055);
 
-      border:
-        1px solid rgba(80,255,150,0.16);
+      border: 1px solid rgba(80,255,150,0.16);
 
-      color:
-        rgba(160,255,195,0.85);
+      color: rgba(160,255,195,0.85);
 
       font-size: 11px;
 
@@ -673,6 +626,7 @@
       letter-spacing: 1px;
 
       position: relative;
+
       z-index: 2;
 
       white-space: nowrap;
@@ -682,12 +636,12 @@
 
     .live-dot {
       width: 7px;
+
       height: 7px;
 
       border-radius: 50%;
 
-      background:
-        #50ff91;
+      background: #50ff91;
 
       box-shadow:
         0 0 8px rgba(80,255,145,0.9),
@@ -698,8 +652,7 @@
     }
 
     @keyframes livePulse {
-      0%,
-      100% {
+      0%, 100% {
         transform: scale(1);
         opacity: 1;
       }
@@ -710,13 +663,10 @@
       }
     }
 
-    /* =========================================
-       SECTIONS
-       ========================================= */
+    /* SECTIONS */
 
     section {
-      width:
-        min(1100px, calc(100% - 40px));
+      width: min(1100px, calc(100% - 40px));
 
       margin: auto;
 
@@ -737,17 +687,6 @@
       text-transform: uppercase;
 
       letter-spacing: 3px;
-
-      transition:
-        transform 0.25s ease,
-        text-shadow 0.25s ease;
-    }
-
-    .section-title span:hover {
-      transform: scale(1.05);
-
-      text-shadow:
-        0 0 20px rgba(169,112,255,0.5);
     }
 
     .section-title h2 {
@@ -765,24 +704,9 @@
 
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-
-      transition:
-        transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1),
-        filter 0.25s ease;
     }
 
-    .section-title h2:hover {
-      transform: scale(1.025);
-
-      filter:
-        drop-shadow(
-          0 0 15px rgba(124,44,255,0.3)
-        );
-    }
-
-    /* =========================================
-       GLASS CARDS
-       ========================================= */
+    /* GLASS */
 
     .glass {
       background:
@@ -804,7 +728,7 @@
         inset 0 0 30px rgba(255,255,255,0.015);
 
       transition:
-        transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1),
+        transform 0.28s ease,
         border-color 0.28s ease,
         box-shadow 0.28s ease;
     }
@@ -820,9 +744,7 @@
         0 0 50px rgba(130,50,255,0.1);
     }
 
-    /* =========================================
-       ABOUT
-       ========================================= */
+    /* ABOUT */
 
     .about {
       display: grid;
@@ -841,17 +763,6 @@
       font-size: 28px;
 
       margin-bottom: 20px;
-
-      transition:
-        transform 0.25s ease,
-        text-shadow 0.25s ease;
-    }
-
-    .about-card h3:hover {
-      transform: scale(1.025);
-
-      text-shadow:
-        0 0 20px rgba(255,255,255,0.15);
     }
 
     .about-card p {
@@ -863,9 +774,7 @@
       font-size: 16px;
     }
 
-    /* =========================================
-       STATS
-       ========================================= */
+    /* STATS */
 
     .stats {
       display: grid;
@@ -890,7 +799,7 @@
         1px solid rgba(255,255,255,0.06);
 
       transition:
-        transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1),
+        transform 0.25s ease,
         background 0.25s ease,
         border-color 0.25s ease,
         box-shadow 0.25s ease;
@@ -924,9 +833,7 @@
       font-size: 13px;
     }
 
-    /* =========================================
-       PROJECTS
-       ========================================= */
+    /* PROJECTS */
 
     .projects {
       display: grid;
@@ -970,13 +877,21 @@
     }
 
     .project-icon {
-      font-size: 35px;
+      width: 72px;
+
+      height: 72px;
+
+      object-fit: contain;
+
+      display: block;
 
       margin-bottom: 25px;
 
+      font-size: 42px;
+
       transition:
-        transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1),
-        filter 0.25s ease;
+        transform 0.3s ease,
+        filter 0.3s ease;
     }
 
     .project:hover .project-icon {
@@ -993,14 +908,6 @@
       font-size: 22px;
 
       margin-bottom: 12px;
-
-      transition:
-        transform 0.25s ease;
-    }
-
-    .project:hover h3 {
-      transform:
-        scale(1.025);
     }
 
     .project p {
@@ -1012,25 +919,34 @@
       font-size: 14px;
     }
 
-    /* =========================================
-       GAME PROJECT
-       ========================================= */
+    /* COMING SOON */
 
-    .game-project {
+    .coming-soon {
       background:
         radial-gradient(
           circle at 80% 10%,
-          rgba(124,44,255,0.16),
+          rgba(124,44,255,0.12),
           transparent 45%
         ),
         rgba(255,255,255,0.045);
-
-      border-color:
-        rgba(160,90,255,0.16);
     }
 
-    .game-project::after {
-      content: "PLAY";
+    .coming-soon .project-icon {
+      object-fit: contain;
+
+      filter:
+        drop-shadow(
+          0 0 12px rgba(170,100,255,0.25)
+        );
+    }
+
+    .coming-soon h3 {
+      color:
+        rgba(255,255,255,0.92);
+    }
+
+    .coming-soon::after {
+      content: "SOON";
 
       position: absolute;
 
@@ -1049,69 +965,7 @@
       pointer-events: none;
     }
 
-    .game-project:hover {
-      border-color:
-        rgba(180,120,255,0.4);
-
-      box-shadow:
-        0 25px 75px rgba(0,0,0,0.4),
-        0 0 55px rgba(124,44,255,0.18);
-    }
-
-    .game-project .project-icon {
-      filter:
-        drop-shadow(
-          0 0 10px rgba(124,44,255,0.3)
-        );
-    }
-
-    /* =========================================
-       CASE ICON
-       ========================================= */
-
-    .case-icon {
-      width: 72px;
-      height: 72px;
-
-      object-fit: contain;
-
-      display: block;
-
-      margin-bottom: 18px;
-
-      filter:
-        drop-shadow(
-          0 0 10px rgba(255,190,40,0.25)
-        )
-        drop-shadow(
-          0 0 25px rgba(124,44,255,0.18)
-        );
-
-      transform: scale(1);
-
-      transition:
-        transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1),
-        filter 0.3s ease;
-
-      image-rendering: pixelated;
-
-      position: relative;
-
-      z-index: 2;
-    }
-
-    .game-project:hover .case-icon {
-      transform:
-        scale(1.16) rotate(-2deg);
-
-      filter:
-        drop-shadow(
-          0 0 12px rgba(255,205,60,0.5)
-        )
-        drop-shadow(
-          0 0 28px rgba(124,44,255,0.3)
-        );
-    }
+    /* CASE PROJECT */
 
     .case-project {
       background:
@@ -1136,17 +990,48 @@
         0.13;
     }
 
-    .case-project::after {
-      content:
-        "OPEN";
+    .case-icon {
+      width: 72px;
 
-      color:
-        rgba(255,205,90,0.55);
+      height: 72px;
+
+      object-fit: contain;
+
+      display: block;
+
+      margin-bottom: 18px;
+
+      filter:
+        drop-shadow(
+          0 0 10px rgba(255,190,40,0.25)
+        )
+        drop-shadow(
+          0 0 25px rgba(124,44,255,0.18)
+        );
+
+      transition:
+        transform 0.3s ease,
+        filter 0.3s ease;
+
+      image-rendering: pixelated;
+
+      position: relative;
+
+      z-index: 2;
     }
 
-    /* =========================================
-       RGB TEXT
-       ========================================= */
+    .game-project:hover .case-icon {
+      transform:
+        scale(1.16) rotate(-2deg);
+
+      filter:
+        drop-shadow(
+          0 0 12px rgba(255,205,60,0.5)
+        )
+        drop-shadow(
+          0 0 28px rgba(124,44,255,0.3)
+        );
+    }
 
     .survive-rgb {
       background:
@@ -1180,14 +1065,6 @@
 
       animation:
         surviveRGB 4s linear infinite;
-
-      filter:
-        drop-shadow(
-          0 0 8px rgba(255,0,255,0.25)
-        )
-        drop-shadow(
-          0 0 18px rgba(0,255,255,0.15)
-        );
     }
 
     @keyframes surviveRGB {
@@ -1217,9 +1094,7 @@
       font-size: 14px;
     }
 
-    /* =========================================
-       COMMUNITY
-       ========================================= */
+    /* COMMUNITY */
 
     .community {
       padding: 60px 40px;
@@ -1264,18 +1139,6 @@
         clamp(35px, 5vw, 55px);
 
       margin-bottom: 20px;
-
-      transition:
-        transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1),
-        text-shadow 0.25s ease;
-    }
-
-    .community h2:hover {
-      transform:
-        scale(1.025);
-
-      text-shadow:
-        0 0 25px rgba(170,100,255,0.3);
     }
 
     .community p {
@@ -1298,9 +1161,7 @@
         relative;
     }
 
-    /* =========================================
-       FOOTER
-       ========================================= */
+    /* FOOTER */
 
     footer {
       width:
@@ -1332,28 +1193,9 @@
     }
 
     footer strong {
-      display:
-        inline-block;
-
       color:
         rgba(255,255,255,0.7);
-
-      transition:
-        transform 0.25s ease,
-        color 0.25s ease;
     }
-
-    footer strong:hover {
-      transform:
-        scale(1.05);
-
-      color:
-        white;
-    }
-
-    /* =========================================
-       LAYERING
-       ========================================= */
 
     main,
     footer {
@@ -1369,9 +1211,7 @@
         100;
     }
 
-    /* =========================================
-       PURPLE SNOW
-       ========================================= */
+    /* PURPLE SNOW */
 
     .purple-snow {
       position:
@@ -1394,9 +1234,6 @@
 
       z-index:
         50;
-
-      opacity:
-        1;
     }
 
     .purple-snow::before {
@@ -1420,9 +1257,6 @@
           rgba(200,120,255,0.03),
           transparent 28%
         );
-
-      pointer-events:
-        none;
     }
 
     .snowflake {
@@ -1520,38 +1354,9 @@
       }
     }
 
-    /* =========================================
-       PERFORMANCE
-       ========================================= */
-
-    @media (hover: hover) and (pointer: fine) {
-
-      .glass,
-      .btn,
-      .watch,
-      nav a,
-      .badge,
-      .stat,
-      .project-icon,
-      .case-icon,
-      .section-title span,
-      .section-title h2,
-      .about-card h3,
-      .project h3,
-      .community h2,
-      footer strong,
-      .subscriber-card {
-        will-change:
-          transform;
-      }
-    }
-
-    /* =========================================
-       RESPONSIVE
-       ========================================= */
+    /* RESPONSIVE */
 
     @media (max-width: 1000px) {
-
       .projects {
         grid-template-columns:
           repeat(2, 1fr);
@@ -1636,9 +1441,6 @@
 
         gap:
           8px;
-
-        align-items:
-          center;
       }
 
       .subscriber-label {
@@ -1680,10 +1482,6 @@
       }
     }
 
-    /* =========================================
-       REDUCED MOTION
-       ========================================= */
-
     @media (prefers-reduced-motion: reduce) {
 
       .purple-snow {
@@ -1709,13 +1507,13 @@
 
 <body>
 
-  <!-- PURPLE SNOW CONTAINER -->
   <div
     class="purple-snow"
     aria-hidden="true">
   </div>
 
   <!-- NAVIGATION -->
+
   <nav>
 
     <div class="logo">
@@ -1752,10 +1550,10 @@
 
   </nav>
 
-  <!-- MAIN -->
   <main>
 
     <!-- HERO -->
+
     <section
       class="hero"
       id="home">
@@ -1763,7 +1561,7 @@
       <div class="hero-content">
 
         <div class="badge">
-          🟣 Vítej na mém oficiálním webu
+          Vítej na mém webu
         </div>
 
         <h1 id="interactiveTitle">
@@ -1771,8 +1569,9 @@
         </h1>
 
         <p>
-          Tvořím videa, hraju Minecraft, pracuju na vlastních projektech
-          a buduju komunitu lidí, kteří jsou u toho se mnou.
+          Jsem Houska a točím hlavně Minecraft.
+          Kromě videí občas dělám vlastní projekty,
+          hraju si s různými nápady a stavím věci pro komunitu.
         </p>
 
         <div class="buttons">
@@ -1780,26 +1579,26 @@
           <a
             class="btn"
             href="#about">
-            Poznat mě
+            O mně
           </a>
 
           <a
             class="btn secondary"
-            href="https://youtube.com/@houskacze_0?si=rwNOlnAdam7Yi_MG"
+            href="https://youtube.com/@houskacze_0"
             target="_blank"
             rel="noopener">
-            ▶ YouTube
+            YouTube
           </a>
 
         </div>
 
         <!-- LIVE SUBSCRIBERS -->
+
         <div class="subscriber-card">
 
           <div class="subscriber-info">
 
             <div class="subscriber-label">
-              <span class="subscriber-icon">👥</span>
               Odběratelé
             </div>
 
@@ -1834,6 +1633,7 @@
     </section>
 
     <!-- ABOUT -->
+
     <section id="about">
 
       <div class="section-title">
@@ -1853,19 +1653,18 @@
         <div class="glass about-card">
 
           <h3>
-            Čau, jsem Houska 👋
+            Čau, jsem Houska.
           </h3>
 
           <p>
-            Jsem český YouTuber a tvůrce, který se nejvíc věnuje
-            Minecraftu, hraní, videím a různým vlastním projektům.
-            Baví mě nejen samotné hraní, ale hlavně vytvářet věci,
-            které mají vlastní styl.
+            Jsem český YouTuber a většinu času se motám kolem Minecraftu.
+            Natáčím videa, stříhám je a zkouším různé nápady,
+            které mě zrovna napadnou.
           </p>
 
           <p style="margin-top:18px;">
-            Tohle místo vzniklo jako centrum pro moje projekty,
-            videa a hlavně komunitu.
+            Web jsem si udělal hlavně proto, abych měl všechno
+            na jednom místě. Videa, projekty a věci, na kterých zrovna dělám.
           </p>
 
         </div>
@@ -1877,32 +1676,32 @@
           </h3>
 
           <p>
-            🎬 Natáčím a edituju videa<br>
-            🎮 Hraju Minecraft a další hry<br>
-            💻 Vytvářím vlastní projekty<br>
-            🧩 Pracuju na serverech a pluginech<br>
-            💜 Buduju komunitu
+            Natáčím a edituju videa.<br>
+            Hraju hlavně Minecraft.<br>
+            Dělám vlastní projekty a hry.<br>
+            Pracuju na serverech a pluginech.<br>
+            A samozřejmě se snažím posouvat dál.
           </p>
 
           <div class="stats">
 
             <div class="stat">
-              <strong>🎬</strong>
+              <strong>01</strong>
               <span>Content Creator</span>
             </div>
 
             <div class="stat">
-              <strong>🎮</strong>
-              <span>Gamer</span>
+              <strong>02</strong>
+              <span>Gaming</span>
             </div>
 
             <div class="stat">
-              <strong>💻</strong>
-              <span>Developer</span>
+              <strong>03</strong>
+              <span>Development</span>
             </div>
 
             <div class="stat">
-              <strong>💜</strong>
+              <strong>04</strong>
               <span>Community</span>
             </div>
 
@@ -1915,6 +1714,7 @@
     </section>
 
     <!-- PROJECTS -->
+
     <section id="projects">
 
       <div class="section-title">
@@ -1936,7 +1736,11 @@
         <div class="glass project">
 
           <div class="project-icon">
-            ⛏️
+            <img
+              src="minecraft.png"
+              alt="Minecraft"
+              style="width:72px;height:72px;object-fit:contain;"
+              onerror="this.style.display='none';">
           </div>
 
           <h3>
@@ -1944,14 +1748,14 @@
           </h3>
 
           <p>
-            Minecraft videa, experimenty, minihry,
-            servery a různé šílenosti, které mě zrovna napadnou.
+            Minecraft videa, servery, minihry a další věci,
+            které kolem Minecraftu zrovna řeším.
           </p>
 
           <a
             class="watch"
             href="minecraft.html">
-            🗄️ Moje Minecraft projekty
+            Moje Minecraft projekty
           </a>
 
         </div>
@@ -1961,7 +1765,10 @@
         <div class="glass project">
 
           <div class="project-icon">
-            💻
+            <img
+              src="otaznik.png"
+              alt="Vlastní projekty"
+              style="width:72px;height:72px;object-fit:contain;">
           </div>
 
           <h3>
@@ -1969,8 +1776,8 @@
           </h3>
 
           <p>
-            Pracuju na vlastních hrách, serverech,
-            pluginech a dalších věcech mimo samotná videa.
+            Hry, servery, pluginy a další věci,
+            které vznikají mimo moje běžná videa.
           </p>
 
         </div>
@@ -1980,7 +1787,11 @@
         <div class="glass project">
 
           <div class="project-icon">
-            🎬
+            <img
+              src="youtube.png"
+              alt="YouTube"
+              style="width:72px;height:72px;object-fit:contain;"
+              onerror="this.style.display='none';">
           </div>
 
           <h3>
@@ -1988,65 +1799,63 @@
           </h3>
 
           <p>
-            Tvořím zábavný obsah a snažím se každé video
-            posunout o kus dál.
+            Tady najdeš moje videa. Nejčastěji Minecraft,
+            ale občas se objeví i něco jiného.
           </p>
 
           <a
             class="watch"
             href="youtube.html">
-            ▶ Moje videa
+            Moje videa
           </a>
 
         </div>
 
-        <!-- REFLEX CHALLENGE -->
+        <!-- COMING SOON 1 -->
 
-        <div class="glass project game-project">
+        <div class="glass project coming-soon">
 
           <div class="project-icon">
-            🎯
+
+            <img
+              src="otaznik.png"
+              alt="Již brzy"
+              style="width:72px;height:72px;object-fit:contain;">
+
           </div>
 
           <h3>
-            Reflex Challenge
+            Již brzy
           </h3>
 
           <p>
-            Otestuj svoje reflexy. Klikni na fialový orb
-            co nejrychleji a zjisti, jakou získáš raritu.
+            Na tomhle projektu se ještě pracuje.
+            Zatím nebudu prozrazovat, co přesně to bude.
           </p>
-
-          <a
-            class="watch"
-            href="game.html">
-            ⚡ Zahrát si
-          </a>
 
         </div>
 
-        <!-- YOUTUBER GAME -->
+        <!-- COMING SOON 2 -->
 
-        <div class="glass project game-project">
+        <div class="glass project coming-soon">
 
           <div class="project-icon">
-            🎥
+
+            <img
+              src="otaznik.png"
+              alt="Již brzy"
+              style="width:72px;height:72px;object-fit:contain;">
+
           </div>
 
           <h3>
-            YouTuber Game
+            Již brzy
           </h3>
 
           <p>
-            Staň se YouTuberem. Natáčej videa, sbírej views,
-            lajky a subscribery a postupně si odemykej lepší vybavení.
+            Další projekt je momentálně ve vývoji.
+            Až bude hotový, objeví se právě tady.
           </p>
-
-          <a
-            class="watch"
-            href="https://houskq.github.io/youtuber-game.html">
-            🎮 Zahrát si
-          </a>
 
         </div>
 
@@ -2065,14 +1874,14 @@
           </h3>
 
           <p>
-            Otevírej Minecraft cases, získávej vzácné itemy,
-            ukládej je do Storage a prodávej svoje dropy za coiny.
+            Otevírej Minecraft cases, získávej itemy,
+            ukládej je do Storage a prodávej svoje dropy.
           </p>
 
           <a
             class="watch"
             href="https://houskq.github.io/survive-from-minecraft.html">
-            🎁 Otevřít cases
+            Otevřít cases
           </a>
 
         </div>
@@ -2082,17 +1891,18 @@
     </section>
 
     <!-- COMMUNITY -->
+
     <section id="community">
 
       <div class="glass community">
 
         <h2>
-          Přidej se ke komunitě 💜
+          Přidej se ke komunitě
         </h2>
 
         <p>
-          Chceš být u nových videí, projektů a dalších věcí?
-          Přidej se ke komunitě a buď součástí toho, co společně tvoříme.
+          Pokud chceš být u nových videí a projektů,
+          můžeš se přidat na Discord nebo mě sledovat na YouTube.
         </p>
 
         <div class="buttons">
@@ -2102,15 +1912,15 @@
             href="https://discord.com/"
             target="_blank"
             rel="noopener">
-            💬 Discord
+            Discord
           </a>
 
           <a
             class="btn secondary"
-            href="https://www.youtube.com/"
+            href="https://youtube.com/@houskacze_0"
             target="_blank"
             rel="noopener">
-            ▶ YouTube
+            YouTube
           </a>
 
         </div>
@@ -2122,6 +1932,7 @@
   </main>
 
   <!-- FOOTER -->
+
   <footer>
 
     <div>
@@ -2132,16 +1943,14 @@
     </div>
 
     <div>
-      Made with 💜
+      HouskaCze_0
     </div>
 
   </footer>
 
   <script>
 
-    /* =========================================
-       INTERACTIVE TITLE
-       ========================================= */
+    /* INTERACTIVE TITLE */
 
     const title =
       document.getElementById(
@@ -2271,9 +2080,7 @@
 
     }
 
-    /* =========================================
-       PURPLE SNOW GENERATOR
-       ========================================= */
+    /* PURPLE SNOW */
 
     const snowContainer =
       document.querySelector(
@@ -2361,3 +2168,4 @@
 
 </body>
 </html>
+```
