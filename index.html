@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="cs">
 <head>
@@ -153,6 +152,10 @@
         background 0.25s ease,
         border-color 0.25s ease,
         box-shadow 0.25s ease;
+
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
     }
 
     nav a:hover {
@@ -189,6 +192,7 @@
 
     .hero-content {
       max-width: 900px;
+      width: 100%;
     }
 
     .badge {
@@ -506,6 +510,204 @@
       box-shadow:
         0 10px 35px rgba(0,0,0,0.25),
         0 0 25px rgba(140,60,255,0.2);
+    }
+
+    /* =========================================
+       LIVE SUBSCRIBER COUNTER
+       ========================================= */
+
+    .subscriber-card {
+      width: min(520px, 100%);
+      margin: 32px auto 0;
+      padding: 18px 22px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+
+      position: relative;
+      overflow: hidden;
+
+      background:
+        linear-gradient(
+          135deg,
+          rgba(255,255,255,0.09),
+          rgba(255,255,255,0.035) 45%,
+          rgba(124,44,255,0.09)
+        );
+
+      border:
+        1px solid rgba(255,255,255,0.13);
+
+      border-radius: 20px;
+
+      backdrop-filter:
+        blur(25px) saturate(150%);
+
+      -webkit-backdrop-filter:
+        blur(25px) saturate(150%);
+
+      box-shadow:
+        0 15px 45px rgba(0,0,0,0.25),
+        0 0 35px rgba(124,44,255,0.10),
+        inset 0 1px 0 rgba(255,255,255,0.14);
+
+      transition:
+        transform 0.3s ease,
+        border-color 0.3s ease,
+        box-shadow 0.3s ease;
+    }
+
+    .subscriber-card::before {
+      content: "";
+
+      position: absolute;
+
+      width: 180px;
+      height: 180px;
+
+      left: -100px;
+      top: -100px;
+
+      background: #7c2cff;
+
+      filter: blur(70px);
+
+      opacity: 0.12;
+
+      pointer-events: none;
+    }
+
+    .subscriber-card:hover {
+      transform: translateY(-3px) scale(1.015);
+
+      border-color:
+        rgba(180,120,255,0.3);
+
+      box-shadow:
+        0 20px 55px rgba(0,0,0,0.32),
+        0 0 45px rgba(124,44,255,0.18),
+        inset 0 1px 0 rgba(255,255,255,0.18);
+    }
+
+    .subscriber-info {
+      text-align: left;
+      position: relative;
+      z-index: 2;
+      min-width: 0;
+      flex: 1;
+    }
+
+    .subscriber-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      color:
+        rgba(255,255,255,0.5);
+
+      font-size: 12px;
+
+      text-transform: uppercase;
+
+      letter-spacing: 2px;
+
+      margin-bottom: 3px;
+    }
+
+    .subscriber-icon {
+      font-size: 18px;
+    }
+
+    /* TubeScope widget */
+
+    .subscriber-widget {
+      width: 100%;
+      max-width: 330px;
+
+      height: 65px;
+
+      overflow: hidden;
+
+      position: relative;
+
+      margin-left: -3px;
+    }
+
+    .subscriber-widget iframe {
+      width: 320px;
+      height: 100px;
+
+      max-width: 100%;
+
+      border: 0;
+
+      display: block;
+
+      background: transparent;
+    }
+
+    .live-status {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      padding: 8px 11px;
+
+      border-radius: 100px;
+
+      background:
+        rgba(50,255,130,0.055);
+
+      border:
+        1px solid rgba(80,255,150,0.16);
+
+      color:
+        rgba(160,255,195,0.85);
+
+      font-size: 11px;
+
+      font-weight: 800;
+
+      letter-spacing: 1px;
+
+      position: relative;
+      z-index: 2;
+
+      white-space: nowrap;
+
+      flex-shrink: 0;
+    }
+
+    .live-dot {
+      width: 7px;
+      height: 7px;
+
+      border-radius: 50%;
+
+      background:
+        #50ff91;
+
+      box-shadow:
+        0 0 8px rgba(80,255,145,0.9),
+        0 0 15px rgba(80,255,145,0.5);
+
+      animation:
+        livePulse 1.4s ease-in-out infinite;
+    }
+
+    @keyframes livePulse {
+      0%,
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+
+      50% {
+        transform: scale(0.65);
+        opacity: 0.55;
+      }
     }
 
     /* =========================================
@@ -1337,7 +1539,8 @@
       .about-card h3,
       .project h3,
       .community h2,
-      footer strong {
+      footer strong,
+      .subscriber-card {
         will-change:
           transform;
       }
@@ -1425,6 +1628,49 @@
       .community {
         padding:
           45px 25px;
+      }
+
+      .subscriber-card {
+        padding:
+          14px;
+
+        gap:
+          8px;
+
+        align-items:
+          center;
+      }
+
+      .subscriber-label {
+        font-size:
+          10px;
+
+        letter-spacing:
+          1.5px;
+      }
+
+      .subscriber-widget {
+        max-width:
+          245px;
+
+        height:
+          58px;
+      }
+
+      .subscriber-widget iframe {
+        width:
+          245px;
+
+        height:
+          90px;
+      }
+
+      .live-status {
+        padding:
+          7px 9px;
+
+        font-size:
+          9px;
       }
 
       .snowflake {
@@ -1544,6 +1790,42 @@
             rel="noopener">
             ▶ YouTube
           </a>
+
+        </div>
+
+        <!-- LIVE SUBSCRIBERS -->
+        <div class="subscriber-card">
+
+          <div class="subscriber-info">
+
+            <div class="subscriber-label">
+              <span class="subscriber-icon">👥</span>
+              Odběratelé
+            </div>
+
+            <div class="subscriber-widget">
+
+              <iframe
+                src="https://tube-scope.com/embed/counter/houskacze_0?theme=dark&size=compact"
+                title="HouskaCze_0 - Live počet odběratelů"
+                width="320"
+                height="100"
+                frameborder="0"
+                scrolling="no"
+                loading="lazy">
+              </iframe>
+
+            </div>
+
+          </div>
+
+          <div class="live-status">
+
+            <span class="live-dot"></span>
+
+            LIVE
+
+          </div>
 
         </div>
 
@@ -2079,4 +2361,3 @@
 
 </body>
 </html>
-```
