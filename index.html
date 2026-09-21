@@ -1167,7 +1167,7 @@
     /* REPUTATION */
 
     .reputation-section {
-      padding-top: 80px;
+      padding-top: 40px;
     }
 
     .reputation-card {
@@ -1210,6 +1210,12 @@
       letter-spacing: 4px;
       color: #a970ff;
       margin-bottom: 12px;
+    }
+
+    .reputation-heading {
+      font-size: 25px;
+      margin-bottom: 16px;
+      color: rgba(255,255,255,0.92);
     }
 
     .reputation-score {
@@ -1383,6 +1389,12 @@
       font-size: 15px;
     }
 
+    .reputation-submit:disabled {
+      opacity: 0.55;
+      cursor: wait;
+      transform: none !important;
+    }
+
     .reputation-status {
       margin-top: 12px;
 
@@ -1393,6 +1405,14 @@
       font-size: 13px;
 
       text-align: center;
+    }
+
+    .reputation-status.success {
+      color: rgba(150,255,190,0.85);
+    }
+
+    .reputation-status.error {
+      color: rgba(255,130,150,0.9);
     }
 
     .reputation-list {
@@ -1724,7 +1744,7 @@
       }
 
       .reputation-section {
-        padding-top: 60px;
+        padding-top: 40px;
       }
 
       footer {
@@ -2322,6 +2342,10 @@
             REPUTACE OD VÁS
           </div>
 
+          <div class="reputation-heading">
+            Reputace od vás
+          </div>
+
           <div class="reputation-score">
 
             <div
@@ -2340,7 +2364,8 @@
 
           <div
             class="reputation-count"
-            id="reputationCount">
+            id="reputationCount"
+            aria-live="polite">
             Zatím žádné hodnocení
           </div>
 
@@ -2358,7 +2383,8 @@
             id="reputationMessage"
             class="reputation-input"
             maxlength="500"
-            placeholder="Např. Je to dobrý YouTuber, jeho videa mě baví..."></textarea>
+            placeholder="Např. Je to dobrý YouTuber, jeho videa mě baví..."
+            aria-label="Text reputace"></textarea>
 
           <div class="rating-area">
 
@@ -2431,8 +2457,9 @@
 
           <div
             class="reputation-status"
-            id="reputationStatus">
-            Formulář je připravený.
+            id="reputationStatus"
+            aria-live="polite">
+            Načítám reputace...
           </div>
 
         </div>
@@ -2444,7 +2471,7 @@
           id="reputationList">
 
           <div class="reputation-empty">
-            Zatím tu není žádná reputace.
+            Načítám reputace...
           </div>
 
         </div>
@@ -2472,7 +2499,26 @@
 
   </footer>
 
+  <!-- SUPABASE -->
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
   <script>
+
+    /* SUPABASE */
+
+    const SUPABASE_URL =
+      "https://mqiwnnrtvpxriwqeoavl.supabase.co";
+
+    const SUPABASE_KEY =
+      "sb_publishable_AvZoT2GXOq7uy8LiyQVWLw_VOrGjcqh";
+
+    const supabaseClient =
+      supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+      );
+
 
     /* INTERACTIVE TITLE */
 
@@ -2604,6 +2650,7 @@
 
     }
 
+
     /* PURPLE SNOW */
 
     const snowContainer =
@@ -2688,59 +2735,596 @@
 
     }
 
-    /* REPUTATION FRONTEND */
+
+    /* REPUTATION SYSTEM */
 
     const reputationSubmit =
       document.getElementById(
         "reputationSubmit"
       );
 
-    if (reputationSubmit) {
+    const reputationMessage =
+      document.getElementById(
+        "reputationMessage"
+      );
 
-      reputationSubmit.addEventListener(
-        "click",
-        () => {
+    const reputationStatus =
+      document.getElementById(
+        "reputationStatus"
+      );
 
-          const message =
-            document.getElementById(
-              "reputationMessage"
-            ).value.trim();
+    const reputationList =
+      document.getElementById(
+        "reputationList"
+      );
 
-          const selectedRating =
-            document.querySelector(
-              'input[name="rating"]:checked'
+    const averageStars =
+      document.getElementById(
+        "averageStars"
+      );
+
+    const averageScore =
+      document.getElementById(
+        "averageScore"
+      );
+
+    const reputationCount =
+      document.getElementById(
+        "reputationCount"
+      );
+
+
+    function createStars(rating) {
+
+      const rounded =
+        Math.round(Number(rating));
+
+      let result = "";
+
+      for (let i = 1; i <= 5; i++) {
+
+        result +=
+          i <= rounded
+            ? "★"
+            : "☆";
+
+      }
+
+      return result;
+
+    }
+
+
+    function formatDate(dateString) {
+
+      const date =
+        new Date(dateString);
+
+      if (
+        Number.isNaN(
+          date.getTime()
+        )
+      ) {
+        return "";
+      }
+
+      return date.toLocaleDateString(
+        "cs-CZ",
+        {
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric"
+        }
+      );
+
+    }
+
+
+    function setStatus(
+      message,
+      type = ""
+    ) {
+
+      if (!reputationStatus) {
+        return;
+      }
+
+      reputationStatus.textContent =
+        message;
+
+      reputationStatus.className =
+        "reputation-status";
+
+      if (type) {
+        reputationStatus.classList.add(
+          type
+        );
+      }
+
+    }
+
+
+    function renderReputations(
+      reputations
+    ) {
+
+      if (!reputationList) {
+        return;
+      }
+
+      reputationList.innerHTML = "";
+
+      if (
+        !reputations ||
+        reputations.length === 0
+      ) {
+
+        const empty =
+          document.createElement("div");
+
+        empty.className =
+          "reputation-empty";
+
+        empty.textContent =
+          "Zatím tu není žádná reputace.";
+
+        reputationList.appendChild(
+          empty
+        );
+
+        if (averageStars) {
+          averageStars.textContent =
+            "☆☆☆☆☆";
+        }
+
+        if (averageScore) {
+          averageScore.textContent =
+            "0.0/5";
+        }
+
+        if (reputationCount) {
+          reputationCount.textContent =
+            "Zatím žádné hodnocení";
+        }
+
+        return;
+
+      }
+
+
+      const ratings =
+        reputations
+          .map(item =>
+            Number(item.rating)
+          )
+          .filter(rating =>
+            rating >= 1 &&
+            rating <= 5
+          );
+
+
+      const total =
+        ratings.reduce(
+          (sum, rating) =>
+            sum + rating,
+          0
+        );
+
+      const average =
+        ratings.length
+          ? total / ratings.length
+          : 0;
+
+
+      if (averageStars) {
+
+        averageStars.textContent =
+          createStars(average);
+
+      }
+
+
+      if (averageScore) {
+
+        averageScore.textContent =
+          `${average.toFixed(1)}/5`;
+
+      }
+
+
+      if (reputationCount) {
+
+        const count =
+          reputations.length;
+
+        reputationCount.textContent =
+          count === 1
+            ? "1 hodnocení"
+            : `${count} hodnocení`;
+
+      }
+
+
+      reputations.forEach(
+        reputation => {
+
+          const item =
+            document.createElement("div");
+
+          item.className =
+            "reputation-item";
+
+
+          const top =
+            document.createElement("div");
+
+          top.className =
+            "reputation-item-top";
+
+
+          const stars =
+            document.createElement("div");
+
+          stars.className =
+            "reputation-item-stars";
+
+          stars.textContent =
+            createStars(
+              Number(
+                reputation.rating
+              )
             );
 
-          const status =
-            document.getElementById(
-              "reputationStatus"
+
+          const date =
+            document.createElement("div");
+
+          date.className =
+            "reputation-item-date";
+
+          date.textContent =
+            formatDate(
+              reputation.created_at
             );
 
-          if (!message) {
 
-            status.textContent =
-              "Nejdřív napiš reputaci.";
+          const text =
+            document.createElement("div");
 
-            return;
+          text.className =
+            "reputation-item-text";
 
-          }
+          /*
+           * textContent místo innerHTML.
+           * Díky tomu se případný HTML kód
+           * z reputace nevykoná jako HTML/JS.
+           */
 
-          if (!selectedRating) {
+          text.textContent =
+            reputation.message;
 
-            status.textContent =
-              "Vyber hodnocení od 1 do 5 hvězdiček.";
 
-            return;
+          top.appendChild(
+            stars
+          );
 
-          }
+          top.appendChild(
+            date
+          );
 
-          status.textContent =
-            "Reputace je připravená k odeslání. Supabase zatím není připojené.";
+          item.appendChild(
+            top
+          );
+
+          item.appendChild(
+            text
+          );
+
+          reputationList.appendChild(
+            item
+          );
 
         }
       );
 
     }
+
+
+    async function loadReputations() {
+
+      try {
+
+        const {
+          data,
+          error
+        } =
+          await supabaseClient
+            .from("reputations")
+            .select(
+              "id,message,rating,created_at"
+            )
+            .order(
+              "created_at",
+              {
+                ascending: false
+              }
+            )
+            .limit(50);
+
+
+        if (error) {
+
+          console.error(
+            "Supabase SELECT error:",
+            error
+          );
+
+          if (reputationList) {
+
+            reputationList.innerHTML = "";
+
+            const errorBox =
+              document.createElement(
+                "div"
+              );
+
+            errorBox.className =
+              "reputation-empty";
+
+            errorBox.textContent =
+              "Reputace se nepodařilo načíst.";
+
+            reputationList.appendChild(
+              errorBox
+            );
+
+          }
+
+          setStatus(
+            "Nepodařilo se načíst reputace.",
+            "error"
+          );
+
+          return;
+
+        }
+
+
+        renderReputations(
+          data || []
+        );
+
+        setStatus(
+          "Reputace jsou načtené."
+        );
+
+      } catch (error) {
+
+        console.error(
+          "Reputation loading error:",
+          error
+        );
+
+        setStatus(
+          "Nepodařilo se připojit k databázi.",
+          "error"
+        );
+
+      }
+
+    }
+
+
+    async function submitReputation() {
+
+      if (
+        !reputationMessage ||
+        !reputationSubmit
+      ) {
+        return;
+      }
+
+
+      const message =
+        reputationMessage.value.trim();
+
+
+      const selectedRating =
+        document.querySelector(
+          'input[name="rating"]:checked'
+        );
+
+
+      if (!message) {
+
+        setStatus(
+          "Nejdřív napiš reputaci.",
+          "error"
+        );
+
+        reputationMessage.focus();
+
+        return;
+
+      }
+
+
+      if (message.length > 500) {
+
+        setStatus(
+          "Reputace může mít maximálně 500 znaků.",
+          "error"
+        );
+
+        return;
+
+      }
+
+
+      if (!selectedRating) {
+
+        setStatus(
+          "Vyber hodnocení od 1 do 5 hvězdiček.",
+          "error"
+        );
+
+        return;
+
+      }
+
+
+      const rating =
+        Number(
+          selectedRating.value
+        );
+
+
+      if (
+        !Number.isInteger(rating) ||
+        rating < 1 ||
+        rating > 5
+      ) {
+
+        setStatus(
+          "Neplatné hodnocení.",
+          "error"
+        );
+
+        return;
+
+      }
+
+
+      reputationSubmit.disabled =
+        true;
+
+      reputationSubmit.textContent =
+        "Odesílám...";
+
+      setStatus(
+        "Ukládám tvoji reputaci..."
+      );
+
+
+      try {
+
+        const {
+          error
+        } =
+          await supabaseClient
+            .from("reputations")
+            .insert([
+              {
+                message:
+                  message,
+                rating:
+                  rating
+              }
+            ]);
+
+
+        if (error) {
+
+          console.error(
+            "Supabase INSERT error:",
+            error
+          );
+
+          setStatus(
+            "Reputaci se nepodařilo odeslat. Zkus to znovu.",
+            "error"
+          );
+
+          return;
+
+        }
+
+
+        reputationMessage.value =
+          "";
+
+        const selected =
+          document.querySelector(
+            'input[name="rating"]:checked'
+          );
+
+        if (selected) {
+          selected.checked =
+            false;
+        }
+
+
+        setStatus(
+          "Reputace byla úspěšně odeslána.",
+          "success"
+        );
+
+
+        await loadReputations();
+
+      } catch (error) {
+
+        console.error(
+          "Reputation submit error:",
+          error
+        );
+
+        setStatus(
+          "Nastala chyba při odesílání reputace.",
+          "error"
+        );
+
+      } finally {
+
+        reputationSubmit.disabled =
+          false;
+
+        reputationSubmit.textContent =
+          "Odeslat reputaci";
+
+      }
+
+    }
+
+
+    if (reputationSubmit) {
+
+      reputationSubmit.addEventListener(
+        "click",
+        submitReputation
+      );
+
+    }
+
+
+    if (reputationMessage) {
+
+      reputationMessage.addEventListener(
+        "keydown",
+        event => {
+
+          if (
+            event.key === "Enter" &&
+            (event.ctrlKey || event.metaKey)
+          ) {
+
+            event.preventDefault();
+
+            submitReputation();
+
+          }
+
+        }
+      );
+
+    }
+
+
+    /*
+     * Načteme reputace při otevření webu.
+     */
+
+    loadReputations();
 
   </script>
 
