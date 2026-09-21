@@ -689,6 +689,17 @@
       color: white;
     }
 
+
+    main,
+    footer {
+      position: relative;
+      z-index: 60;
+    }
+
+    body > nav {
+      z-index: 100;
+    }
+
     @media (hover: hover) and (pointer: fine) {
       .glass,
       .btn,
@@ -747,6 +758,184 @@
       }
     }
 
+
+    /* =========================================
+       GLASS BUTTONS + PURPLE SNOW
+       ========================================= */
+
+    .btn,
+    .watch,
+    nav a {
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      background:
+        linear-gradient(
+          135deg,
+          rgba(255,255,255,0.12),
+          rgba(255,255,255,0.045) 45%,
+          rgba(125,45,255,0.075)
+        );
+      border: 1px solid rgba(255,255,255,0.18);
+      box-shadow:
+        0 8px 30px rgba(0,0,0,0.22),
+        inset 0 1px 0 rgba(255,255,255,0.16),
+        inset 0 -1px 0 rgba(255,255,255,0.04),
+        0 0 0 1px rgba(125,45,255,0.04);
+      backdrop-filter: blur(22px) saturate(145%);
+      -webkit-backdrop-filter: blur(22px) saturate(145%);
+    }
+
+    .btn::before,
+    .watch::before,
+    nav a::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(
+          115deg,
+          transparent 0%,
+          transparent 35%,
+          rgba(255,255,255,0.16) 48%,
+          transparent 61%,
+          transparent 100%
+        );
+      transform: translateX(-125%);
+      transition: transform 0.65s cubic-bezier(0.2,0.8,0.2,1);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .btn::after,
+    .watch::after,
+    nav a::after {
+      content: "";
+      position: absolute;
+      inset: 1px;
+      border-radius: inherit;
+      background: linear-gradient(
+        180deg,
+        rgba(255,255,255,0.08),
+        transparent 38%
+      );
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .btn:hover,
+    .watch:hover,
+    nav a:hover {
+      background:
+        linear-gradient(
+          135deg,
+          rgba(255,255,255,0.17),
+          rgba(140,60,255,0.13) 55%,
+          rgba(255,255,255,0.07)
+        );
+      border-color: rgba(205,165,255,0.48);
+      box-shadow:
+        0 12px 38px rgba(0,0,0,0.32),
+        0 0 32px rgba(140,60,255,0.28),
+        inset 0 1px 0 rgba(255,255,255,0.22),
+        inset 0 0 20px rgba(170,100,255,0.06);
+    }
+
+    .btn:hover::before,
+    .watch:hover::before,
+    nav a:hover::before {
+      transform: translateX(125%);
+    }
+
+    .btn:active,
+    .watch:active,
+    nav a:active {
+      transform: scale(0.97);
+      box-shadow:
+        0 5px 18px rgba(0,0,0,0.3),
+        0 0 22px rgba(140,60,255,0.2),
+        inset 0 2px 8px rgba(0,0,0,0.16);
+    }
+
+    .btn.secondary {
+      background:
+        linear-gradient(
+          135deg,
+          rgba(255,255,255,0.09),
+          rgba(255,255,255,0.035)
+        );
+    }
+
+    /* Falling purple snow */
+    .purple-snow {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 50;
+      opacity: 1;
+    }
+
+    .purple-snow::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(150,80,255,0.035), transparent 25%),
+        radial-gradient(circle at 80% 70%, rgba(200,120,255,0.03), transparent 28%);
+      pointer-events: none;
+    }
+
+    .snowflake {
+      position: absolute;
+      top: -30px;
+      left: 0;
+      width: var(--size);
+      height: var(--size);
+      border-radius: 50%;
+      background:
+        radial-gradient(
+          circle,
+          rgba(245,225,255,var(--alpha)) 0%,
+          rgba(202,155,255,calc(var(--alpha) * 0.85)) 45%,
+          rgba(142,70,255,0) 100%
+        );
+      box-shadow:
+        0 0 5px rgba(210,160,255,0.75),
+        0 0 12px rgba(150,70,255,0.55),
+        0 0 22px rgba(124,44,255,0.25);
+      animation:
+        snowFall var(--duration) linear var(--delay) infinite,
+        snowSway var(--sway) ease-in-out var(--delay) infinite alternate;
+      will-change: transform;
+    }
+
+    @keyframes snowFall {
+      from {
+        transform: translate3d(0,-35px,0);
+      }
+      to {
+        transform: translate3d(var(--drift),110vh,0);
+      }
+    }
+
+    @keyframes snowSway {
+      from {
+        margin-left: -18px;
+      }
+      to {
+        margin-left: 18px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .purple-snow {
+        display: none;
+      }
+    }
+
     @media (prefers-reduced-motion: reduce) {
       *,
       *::before,
@@ -760,6 +949,8 @@
 </head>
 
 <body>
+
+  <div class="purple-snow" aria-hidden="true"></div>
 
 <nav>
   <div class="logo">HouskaCze_0</div>
