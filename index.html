@@ -894,6 +894,13 @@
         filter 0.3s ease;
     }
 
+    .project-icon img {
+      width: 72px;
+      height: 72px;
+      object-fit: contain;
+      display: block;
+    }
+
     .project:hover .project-icon {
       transform:
         scale(1.12);
@@ -1159,6 +1166,326 @@
     .community .buttons {
       position:
         relative;
+    }
+
+    /* REPUTATION */
+
+    .reputation-section {
+      margin-top: 35px;
+    }
+
+    .reputation-card {
+      padding: 45px 40px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .reputation-card::before {
+      content: "";
+
+      position: absolute;
+
+      width: 350px;
+      height: 220px;
+
+      left: 50%;
+      top: 0;
+
+      transform: translateX(-50%);
+
+      background: #7c2cff;
+
+      filter: blur(120px);
+
+      opacity: 0.10;
+
+      pointer-events: none;
+    }
+
+    .reputation-header {
+      position: relative;
+      z-index: 2;
+    }
+
+    .reputation-title {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      color: #a970ff;
+      margin-bottom: 12px;
+    }
+
+    .reputation-heading {
+      font-size: clamp(32px, 5vw, 48px);
+      margin-bottom: 15px;
+    }
+
+    .reputation-score {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      margin-bottom: 8px;
+    }
+
+    .reputation-number {
+      font-size: 30px;
+      font-weight: 900;
+      color: white;
+    }
+
+    .reputation-stars {
+      display: inline-flex;
+      gap: 3px;
+      color: #b982ff;
+      font-size: 28px;
+      letter-spacing: 1px;
+    }
+
+    .reputation-count {
+      color: rgba(255,255,255,0.42);
+      font-size: 13px;
+    }
+
+    .reputation-form {
+      position: relative;
+      z-index: 2;
+
+      max-width: 700px;
+
+      margin: 35px auto 0;
+
+      padding: 25px;
+
+      border-radius: 22px;
+
+      background: rgba(255,255,255,0.035);
+
+      border: 1px solid rgba(255,255,255,0.07);
+
+      text-align: left;
+    }
+
+    .reputation-form label {
+      display: block;
+
+      color: rgba(255,255,255,0.72);
+
+      font-size: 13px;
+
+      font-weight: 700;
+
+      margin-bottom: 10px;
+    }
+
+    .reputation-input {
+      width: 100%;
+
+      min-height: 110px;
+
+      resize: vertical;
+
+      padding: 15px 16px;
+
+      border-radius: 15px;
+
+      border: 1px solid rgba(255,255,255,0.10);
+
+      outline: none;
+
+      background: rgba(0,0,0,0.22);
+
+      color: white;
+
+      font-family: Arial, Helvetica, sans-serif;
+
+      font-size: 14px;
+
+      line-height: 1.5;
+
+      transition:
+        border-color 0.25s ease,
+        box-shadow 0.25s ease,
+        background 0.25s ease;
+    }
+
+    .reputation-input::placeholder {
+      color: rgba(255,255,255,0.3);
+    }
+
+    .reputation-input:focus {
+      border-color: rgba(180,120,255,0.45);
+
+      background: rgba(20,10,35,0.35);
+
+      box-shadow:
+        0 0 25px rgba(124,44,255,0.10);
+    }
+
+    .rating-area {
+      margin-top: 20px;
+    }
+
+    .rating-label {
+      margin-bottom: 9px;
+    }
+
+    .rating-selector {
+      display: flex;
+
+      flex-direction: row-reverse;
+
+      justify-content: flex-end;
+
+      gap: 4px;
+    }
+
+    .rating-selector input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .rating-selector label {
+      cursor: pointer;
+
+      font-size: 34px;
+
+      line-height: 1;
+
+      color: rgba(255,255,255,0.18);
+
+      margin: 0;
+
+      transition:
+        color 0.15s ease,
+        transform 0.15s ease,
+        filter 0.15s ease;
+    }
+
+    .rating-selector label:hover {
+      transform: scale(1.15);
+    }
+
+    .rating-selector label:hover,
+    .rating-selector label:hover ~ label,
+    .rating-selector input:checked ~ label {
+      color: #c084ff;
+
+      filter:
+        drop-shadow(
+          0 0 8px rgba(180,120,255,0.55)
+        );
+    }
+
+    .reputation-submit {
+      margin-top: 22px;
+
+      width: 100%;
+    }
+
+    .reputation-status {
+      margin-top: 12px;
+
+      min-height: 20px;
+
+      color: rgba(255,255,255,0.5);
+
+      font-size: 13px;
+
+      text-align: center;
+    }
+
+    .reputation-list {
+      position: relative;
+
+      z-index: 2;
+
+      max-width: 850px;
+
+      margin: 35px auto 0;
+
+      display: flex;
+
+      flex-direction: column;
+
+      gap: 12px;
+
+      text-align: left;
+    }
+
+    .reputation-item {
+      padding: 20px 22px;
+
+      background: rgba(255,255,255,0.035);
+
+      border: 1px solid rgba(255,255,255,0.07);
+
+      border-radius: 18px;
+
+      transition:
+        transform 0.22s ease,
+        border-color 0.22s ease,
+        background 0.22s ease;
+    }
+
+    .reputation-item:hover {
+      transform: translateY(-2px);
+
+      border-color: rgba(180,120,255,0.20);
+
+      background: rgba(140,60,255,0.055);
+    }
+
+    .reputation-item-top {
+      display: flex;
+
+      align-items: center;
+
+      justify-content: space-between;
+
+      gap: 15px;
+
+      margin-bottom: 8px;
+    }
+
+    .reputation-item-stars {
+      color: #b982ff;
+
+      font-size: 17px;
+
+      letter-spacing: 1px;
+    }
+
+    .reputation-item-date {
+      color: rgba(255,255,255,0.25);
+
+      font-size: 11px;
+    }
+
+    .reputation-item-text {
+      color: rgba(255,255,255,0.62);
+
+      font-size: 14px;
+
+      line-height: 1.6;
+
+      word-break: break-word;
+    }
+
+    .reputation-empty {
+      padding: 25px;
+
+      border: 1px dashed rgba(255,255,255,0.10);
+
+      border-radius: 18px;
+
+      color: rgba(255,255,255,0.35);
+
+      text-align: center;
+
+      font-size: 14px;
     }
 
     /* FOOTER */
@@ -1475,6 +1802,33 @@
           9px;
       }
 
+      .reputation-card {
+        padding: 35px 18px;
+      }
+
+      .reputation-form {
+        padding: 20px 16px;
+      }
+
+      .reputation-score {
+        flex-direction: column;
+        gap: 5px;
+      }
+
+      .reputation-stars {
+        font-size: 25px;
+      }
+
+      .rating-selector label {
+        font-size: 31px;
+      }
+
+      .reputation-item-top {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 5px;
+      }
+
       .snowflake {
         box-shadow:
           0 0 4px rgba(210,160,255,0.65),
@@ -1738,9 +2092,7 @@
           <div class="project-icon">
             <img
               src="minecraft.png"
-              alt="Minecraft"
-              style="width:72px;height:72px;object-fit:contain;"
-              onerror="this.style.display='none';">
+              alt="Minecraft">
           </div>
 
           <h3>
@@ -1767,8 +2119,7 @@
           <div class="project-icon">
             <img
               src="otaznik.png"
-              alt="Vlastní projekty"
-              style="width:72px;height:72px;object-fit:contain;">
+              alt="Vlastní projekty">
           </div>
 
           <h3>
@@ -1789,9 +2140,7 @@
           <div class="project-icon">
             <img
               src="youtube.png"
-              alt="YouTube"
-              style="width:72px;height:72px;object-fit:contain;"
-              onerror="this.style.display='none';">
+              alt="YouTube">
           </div>
 
           <h3>
@@ -1819,8 +2168,7 @@
 
             <img
               src="otaznik.png"
-              alt="Již brzy"
-              style="width:72px;height:72px;object-fit:contain;">
+              alt="Již brzy">
 
           </div>
 
@@ -1843,8 +2191,7 @@
 
             <img
               src="otaznik.png"
-              alt="Již brzy"
-              style="width:72px;height:72px;object-fit:contain;">
+              alt="Již brzy">
 
           </div>
 
@@ -1926,6 +2273,155 @@
         </div>
 
       </div>
+
+      <!-- REPUTATION -->
+
+      <section
+        class="reputation-section"
+        id="reputation">
+
+        <div class="glass reputation-card">
+
+          <div class="reputation-header">
+
+            <div class="reputation-title">
+              REPUTACE
+            </div>
+
+            <h2 class="reputation-heading">
+              Reputace od vás
+            </h2>
+
+            <div class="reputation-score">
+
+              <div
+                class="reputation-stars"
+                id="averageStars">
+                ☆☆☆☆☆
+              </div>
+
+              <div
+                class="reputation-number"
+                id="averageScore">
+                0.0/5
+              </div>
+
+            </div>
+
+            <div
+              class="reputation-count"
+              id="reputationCount">
+              Zatím žádné hodnocení
+            </div>
+
+          </div>
+
+          <!-- FORM -->
+
+          <div class="reputation-form">
+
+            <label for="reputationMessage">
+              Napiš reputaci
+            </label>
+
+            <textarea
+              id="reputationMessage"
+              class="reputation-input"
+              maxlength="500"
+              placeholder="Např. Je to dobrý YouTuber, jeho videa mě baví..."></textarea>
+
+            <div class="rating-area">
+
+              <label class="rating-label">
+                Tvoje hodnocení
+              </label>
+
+              <div class="rating-selector">
+
+                <input
+                  type="radio"
+                  id="star5"
+                  name="rating"
+                  value="5">
+
+                <label for="star5">
+                  ★
+                </label>
+
+                <input
+                  type="radio"
+                  id="star4"
+                  name="rating"
+                  value="4">
+
+                <label for="star4">
+                  ★
+                </label>
+
+                <input
+                  type="radio"
+                  id="star3"
+                  name="rating"
+                  value="3">
+
+                <label for="star3">
+                  ★
+                </label>
+
+                <input
+                  type="radio"
+                  id="star2"
+                  name="rating"
+                  value="2">
+
+                <label for="star2">
+                  ★
+                </label>
+
+                <input
+                  type="radio"
+                  id="star1"
+                  name="rating"
+                  value="1">
+
+                <label for="star1">
+                  ★
+                </label>
+
+              </div>
+
+            </div>
+
+            <button
+              type="button"
+              class="btn reputation-submit"
+              id="reputationSubmit">
+              Odeslat reputaci
+            </button>
+
+            <div
+              class="reputation-status"
+              id="reputationStatus">
+              Supabase zatím není připojené.
+            </div>
+
+          </div>
+
+          <!-- PUBLIC REVIEWS -->
+
+          <div
+            class="reputation-list"
+            id="reputationList">
+
+            <div class="reputation-empty">
+              Zatím tu není žádná reputace.
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
 
     </section>
 
@@ -2161,6 +2657,60 @@
         );
 
       }
+
+    }
+
+    /* REPUTATION FRONTEND */
+
+    const reputationSubmit =
+      document.getElementById(
+        "reputationSubmit"
+      );
+
+    if (reputationSubmit) {
+
+      reputationSubmit.addEventListener(
+        "click",
+        () => {
+
+          const message =
+            document.getElementById(
+              "reputationMessage"
+            ).value.trim();
+
+          const selectedRating =
+            document.querySelector(
+              'input[name="rating"]:checked'
+            );
+
+          const status =
+            document.getElementById(
+              "reputationStatus"
+            );
+
+          if (!message) {
+
+            status.textContent =
+              "Nejdřív napiš reputaci.";
+
+            return;
+
+          }
+
+          if (!selectedRating) {
+
+            status.textContent =
+              "Vyber hodnocení od 1 do 5 hvězdiček.";
+
+            return;
+
+          }
+
+          status.textContent =
+            "Reputace je připravená k odeslání. Supabase zatím není připojené.";
+
+        }
+      );
 
     }
 
