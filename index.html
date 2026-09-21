@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="cs">
 <head>
@@ -23,6 +24,10 @@
       font-family: Arial, Helvetica, sans-serif;
       overflow-x: hidden;
     }
+
+    /* =========================================
+       BACKGROUND PURPLE GLOW
+       ========================================= */
 
     body::before {
       content: "";
@@ -74,6 +79,10 @@
       }
     }
 
+    /* =========================================
+       NAVIGATION
+       ========================================= */
+
     nav {
       position: fixed;
       top: 20px;
@@ -85,21 +94,33 @@
       align-items: center;
       justify-content: space-between;
       padding: 0 25px;
+
       background: rgba(20, 15, 28, 0.55);
       border: 1px solid rgba(255,255,255,0.1);
       border-radius: 22px;
+
       backdrop-filter: blur(25px);
       -webkit-backdrop-filter: blur(25px);
+
       box-shadow:
         0 10px 40px rgba(0,0,0,0.4),
         0 0 30px rgba(124,44,255,0.08);
+
       z-index: 100;
     }
 
     .logo {
       font-size: 20px;
       font-weight: 800;
-      background: linear-gradient(90deg, #ffffff, #c084ff, #7c2cff);
+
+      background:
+        linear-gradient(
+          90deg,
+          #ffffff,
+          #c084ff,
+          #7c2cff
+        );
+
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
@@ -114,12 +135,18 @@
       display: inline-block;
       text-decoration: none;
       color: rgba(255,255,255,0.75);
+
       padding: 10px 15px;
       border-radius: 14px;
+
       border: 1px solid transparent;
-      background: rgba(255,255,255,0.025);
+
+      background:
+        rgba(255,255,255,0.025);
+
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
+
       transition:
         transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1),
         color 0.25s ease,
@@ -130,20 +157,33 @@
 
     nav a:hover {
       color: white;
-      background: rgba(140,60,255,0.14);
-      border-color: rgba(180,120,255,0.28);
+
+      background:
+        rgba(140,60,255,0.14);
+
+      border-color:
+        rgba(180,120,255,0.28);
+
       box-shadow:
         0 0 25px rgba(124,44,255,0.2),
         inset 0 0 15px rgba(255,255,255,0.03);
+
       transform: scale(1.06);
     }
 
+    /* =========================================
+       HERO
+       ========================================= */
+
     .hero {
       min-height: 100vh;
+
       display: flex;
       align-items: center;
       justify-content: center;
+
       text-align: center;
+
       padding: 120px 20px 80px;
     }
 
@@ -153,14 +193,25 @@
 
     .badge {
       display: inline-block;
+
       padding: 9px 16px;
       margin-bottom: 25px;
-      border: 1px solid rgba(180,120,255,0.3);
+
+      border:
+        1px solid rgba(180,120,255,0.3);
+
       border-radius: 100px;
-      background: rgba(130,50,255,0.08);
+
+      background:
+        rgba(130,50,255,0.08);
+
       color: #cda8ff;
+
       font-size: 14px;
-      box-shadow: 0 0 30px rgba(130,50,255,0.12);
+
+      box-shadow:
+        0 0 30px rgba(130,50,255,0.12);
+
       transition:
         transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1),
         box-shadow 0.25s ease,
@@ -169,31 +220,47 @@
 
     .badge:hover {
       transform: scale(1.045);
-      background: rgba(130,50,255,0.13);
-      box-shadow: 0 0 35px rgba(130,50,255,0.2);
+
+      background:
+        rgba(130,50,255,0.13);
+
+      box-shadow:
+        0 0 35px rgba(130,50,255,0.2);
     }
 
     .hero h1 {
       font-size: clamp(55px, 9vw, 110px);
       line-height: 0.95;
+
       font-weight: 900;
       letter-spacing: -5px;
-      background: linear-gradient(
-        120deg,
-        #ffffff 10%,
-        #d7b8ff 45%,
-        #7c2cff 85%
-      );
+
+      background:
+        linear-gradient(
+          120deg,
+          #ffffff 10%,
+          #d7b8ff 45%,
+          #7c2cff 85%
+        );
+
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      text-shadow: 0 0 80px rgba(124,44,255,0.2);
+
+      text-shadow:
+        0 0 80px rgba(124,44,255,0.2);
+
       display: inline-flex;
       align-items: center;
       justify-content: center;
+
       white-space: nowrap;
+
       cursor: default;
+
       transform: scale(1);
+
       transform-origin: center center;
+
       transition:
         transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1),
         filter 0.28s ease;
@@ -201,58 +268,115 @@
 
     .hero h1.title-hover {
       transform: scale(1.045);
-      filter: drop-shadow(0 0 18px rgba(124,44,255,0.25));
+
+      filter:
+        drop-shadow(
+          0 0 18px rgba(124,44,255,0.25)
+        );
     }
 
     .interactive-letter {
       display: inline-block;
+
       transform: scale(1);
+
       transform-origin: center center;
+
       transition:
         transform 0.18s cubic-bezier(0.2, 0.8, 0.2, 1),
         filter 0.18s ease;
-      will-change: transform, filter;
+
+      will-change:
+        transform,
+        filter;
     }
 
     .interactive-letter.glow {
       filter:
-        drop-shadow(0 0 10px rgba(190,130,255,0.85))
-        drop-shadow(0 0 25px rgba(124,44,255,0.55));
+        drop-shadow(
+          0 0 10px rgba(190,130,255,0.85)
+        )
+        drop-shadow(
+          0 0 25px rgba(124,44,255,0.55)
+        );
     }
 
     .hero p {
       margin: 30px auto;
+
       max-width: 650px;
-      color: rgba(255,255,255,0.55);
+
+      color:
+        rgba(255,255,255,0.55);
+
       font-size: 19px;
+
       line-height: 1.7;
     }
 
     .buttons {
       display: flex;
+
       justify-content: center;
+
       gap: 15px;
+
       flex-wrap: wrap;
     }
+
+    /* =========================================
+       GLASS BUTTONS
+       ========================================= */
 
     .btn,
     .watch {
       display: inline-flex;
+
       align-items: center;
       justify-content: center;
+
       padding: 13px 20px;
+
       min-width: 150px;
+
       border-radius: 16px;
+
       text-decoration: none;
-      color: rgba(255,255,255,0.9);
-      background: rgba(255,255,255,0.055);
-      border: 1px solid rgba(255,255,255,0.12);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
+
+      color:
+        rgba(255,255,255,0.9);
+
+      background:
+        linear-gradient(
+          135deg,
+          rgba(255,255,255,0.12),
+          rgba(255,255,255,0.045) 45%,
+          rgba(125,45,255,0.075)
+        );
+
+      border:
+        1px solid rgba(255,255,255,0.18);
+
+      backdrop-filter:
+        blur(22px) saturate(145%);
+
+      -webkit-backdrop-filter:
+        blur(22px) saturate(145%);
+
       box-shadow:
-        0 8px 30px rgba(0,0,0,0.2),
-        inset 0 0 20px rgba(255,255,255,0.025);
+        0 8px 30px rgba(0,0,0,0.22),
+        inset 0 1px 0 rgba(255,255,255,0.16),
+        inset 0 -1px 0 rgba(255,255,255,0.04),
+        0 0 0 1px rgba(125,45,255,0.04);
+
       font-weight: 700;
+
+      position: relative;
+
+      isolation: isolate;
+
+      overflow: hidden;
+
       transition:
         transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1),
         color 0.25s ease,
@@ -261,16 +385,101 @@
         box-shadow 0.25s ease;
     }
 
+    .btn::before,
+    .watch::before,
+    nav a::before {
+      content: "";
+
+      position: absolute;
+
+      inset: 0;
+
+      background:
+        linear-gradient(
+          115deg,
+          transparent 0%,
+          transparent 35%,
+          rgba(255,255,255,0.16) 48%,
+          transparent 61%,
+          transparent 100%
+        );
+
+      transform:
+        translateX(-125%);
+
+      transition:
+        transform 0.65s cubic-bezier(0.2,0.8,0.2,1);
+
+      pointer-events: none;
+
+      z-index: -1;
+    }
+
+    .btn::after,
+    .watch::after,
+    nav a::after {
+      content: "";
+
+      position: absolute;
+
+      inset: 1px;
+
+      border-radius: inherit;
+
+      background:
+        linear-gradient(
+          180deg,
+          rgba(255,255,255,0.08),
+          transparent 38%
+        );
+
+      pointer-events: none;
+
+      z-index: -1;
+    }
+
     .btn:hover,
-    .watch:hover {
+    .watch:hover,
+    nav a:hover {
       transform: scale(1.045);
+
       color: white;
-      background: rgba(140,60,255,0.16);
-      border-color: rgba(180,120,255,0.35);
+
+      background:
+        linear-gradient(
+          135deg,
+          rgba(255,255,255,0.17),
+          rgba(140,60,255,0.13) 55%,
+          rgba(255,255,255,0.07)
+        );
+
+      border-color:
+        rgba(205,165,255,0.48);
+
       box-shadow:
-        0 10px 35px rgba(0,0,0,0.3),
-        0 0 30px rgba(140,60,255,0.25),
-        inset 0 0 20px rgba(255,255,255,0.04);
+        0 12px 38px rgba(0,0,0,0.32),
+        0 0 32px rgba(140,60,255,0.28),
+        inset 0 1px 0 rgba(255,255,255,0.22),
+        inset 0 0 20px rgba(170,100,255,0.06);
+    }
+
+    .btn:hover::before,
+    .watch:hover::before,
+    nav a:hover::before {
+      transform:
+        translateX(125%);
+    }
+
+    .btn:active,
+    .watch:active,
+    nav a:active {
+      transform:
+        scale(0.97);
+
+      box-shadow:
+        0 5px 18px rgba(0,0,0,0.3),
+        0 0 22px rgba(140,60,255,0.2),
+        inset 0 2px 8px rgba(0,0,0,0.16);
     }
 
     .btn {
@@ -279,21 +488,36 @@
     }
 
     .btn.secondary {
-      background: rgba(255,255,255,0.045);
-      border-color: rgba(255,255,255,0.12);
+      background:
+        linear-gradient(
+          135deg,
+          rgba(255,255,255,0.09),
+          rgba(255,255,255,0.035)
+        );
     }
 
     .btn.secondary:hover {
-      background: rgba(140,60,255,0.13);
-      border-color: rgba(180,120,255,0.3);
+      background:
+        rgba(140,60,255,0.13);
+
+      border-color:
+        rgba(180,120,255,0.3);
+
       box-shadow:
         0 10px 35px rgba(0,0,0,0.25),
         0 0 25px rgba(140,60,255,0.2);
     }
 
+    /* =========================================
+       SECTIONS
+       ========================================= */
+
     section {
-      width: min(1100px, calc(100% - 40px));
+      width:
+        min(1100px, calc(100% - 40px));
+
       margin: auto;
+
       padding: 120px 0;
     }
 
@@ -303,10 +527,15 @@
 
     .section-title span {
       display: inline-block;
+
       color: #a970ff;
+
       font-size: 14px;
+
       text-transform: uppercase;
+
       letter-spacing: 3px;
+
       transition:
         transform 0.25s ease,
         text-shadow 0.25s ease;
@@ -314,15 +543,27 @@
 
     .section-title span:hover {
       transform: scale(1.05);
-      text-shadow: 0 0 20px rgba(169,112,255,0.5);
+
+      text-shadow:
+        0 0 20px rgba(169,112,255,0.5);
     }
 
     .section-title h2 {
       margin-top: 10px;
-      font-size: clamp(35px, 5vw, 55px);
-      background: linear-gradient(90deg, white, #b982ff);
+
+      font-size:
+        clamp(35px, 5vw, 55px);
+
+      background:
+        linear-gradient(
+          90deg,
+          white,
+          #b982ff
+        );
+
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
+
       transition:
         transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1),
         filter 0.25s ease;
@@ -330,18 +571,36 @@
 
     .section-title h2:hover {
       transform: scale(1.025);
-      filter: drop-shadow(0 0 15px rgba(124,44,255,0.3));
+
+      filter:
+        drop-shadow(
+          0 0 15px rgba(124,44,255,0.3)
+        );
     }
 
+    /* =========================================
+       GLASS CARDS
+       ========================================= */
+
     .glass {
-      background: rgba(255,255,255,0.045);
-      border: 1px solid rgba(255,255,255,0.09);
+      background:
+        rgba(255,255,255,0.045);
+
+      border:
+        1px solid rgba(255,255,255,0.09);
+
       border-radius: 28px;
-      backdrop-filter: blur(25px);
-      -webkit-backdrop-filter: blur(25px);
+
+      backdrop-filter:
+        blur(25px);
+
+      -webkit-backdrop-filter:
+        blur(25px);
+
       box-shadow:
         0 20px 70px rgba(0,0,0,0.3),
         inset 0 0 30px rgba(255,255,255,0.015);
+
       transition:
         transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1),
         border-color 0.28s ease,
@@ -350,15 +609,25 @@
 
     .glass:hover {
       transform: scale(1.025);
-      border-color: rgba(170,100,255,0.25);
+
+      border-color:
+        rgba(170,100,255,0.25);
+
       box-shadow:
         0 25px 75px rgba(0,0,0,0.4),
         0 0 50px rgba(130,50,255,0.1);
     }
 
+    /* =========================================
+       ABOUT
+       ========================================= */
+
     .about {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+
+      grid-template-columns:
+        1fr 1fr;
+
       gap: 25px;
     }
 
@@ -368,7 +637,9 @@
 
     .about-card h3 {
       font-size: 28px;
+
       margin-bottom: 20px;
+
       transition:
         transform 0.25s ease,
         text-shadow 0.25s ease;
@@ -376,27 +647,46 @@
 
     .about-card h3:hover {
       transform: scale(1.025);
-      text-shadow: 0 0 20px rgba(255,255,255,0.15);
+
+      text-shadow:
+        0 0 20px rgba(255,255,255,0.15);
     }
 
     .about-card p {
-      color: rgba(255,255,255,0.55);
+      color:
+        rgba(255,255,255,0.55);
+
       line-height: 1.8;
+
       font-size: 16px;
     }
 
+    /* =========================================
+       STATS
+       ========================================= */
+
     .stats {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+
+      grid-template-columns:
+        1fr 1fr;
+
       gap: 15px;
+
       margin-top: 30px;
     }
 
     .stat {
       padding: 20px;
-      background: rgba(255,255,255,0.035);
+
+      background:
+        rgba(255,255,255,0.035);
+
       border-radius: 18px;
-      border: 1px solid rgba(255,255,255,0.06);
+
+      border:
+        1px solid rgba(255,255,255,0.06);
+
       transition:
         transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1),
         background 0.25s ease,
@@ -406,76 +696,123 @@
 
     .stat:hover {
       transform: scale(1.045);
-      background: rgba(140,60,255,0.08);
-      border-color: rgba(180,120,255,0.2);
-      box-shadow: 0 0 25px rgba(124,44,255,0.1);
+
+      background:
+        rgba(140,60,255,0.08);
+
+      border-color:
+        rgba(180,120,255,0.2);
+
+      box-shadow:
+        0 0 25px rgba(124,44,255,0.1);
     }
 
     .stat strong {
       display: block;
+
       font-size: 25px;
+
       color: #b982ff;
     }
 
     .stat span {
-      color: rgba(255,255,255,0.45);
+      color:
+        rgba(255,255,255,0.45);
+
       font-size: 13px;
     }
 
+    /* =========================================
+       PROJECTS
+       ========================================= */
+
     .projects {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+
+      grid-template-columns:
+        repeat(4, 1fr);
+
       gap: 20px;
     }
 
     .project {
       padding: 30px;
+
       min-height: 250px;
+
       position: relative;
+
       overflow: hidden;
     }
 
     .project::before {
       content: "";
+
       position: absolute;
+
       width: 150px;
       height: 150px;
+
       right: -70px;
       top: -70px;
-      background: #7c2cff;
-      filter: blur(70px);
+
+      background:
+        #7c2cff;
+
+      filter:
+        blur(70px);
+
       opacity: 0.25;
+
       pointer-events: none;
     }
 
     .project-icon {
       font-size: 35px;
+
       margin-bottom: 25px;
+
       transition:
         transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1),
         filter 0.25s ease;
     }
 
     .project:hover .project-icon {
-      transform: scale(1.12);
-      filter: drop-shadow(0 0 12px rgba(180,120,255,0.45));
+      transform:
+        scale(1.12);
+
+      filter:
+        drop-shadow(
+          0 0 12px rgba(180,120,255,0.45)
+        );
     }
 
     .project h3 {
       font-size: 22px;
+
       margin-bottom: 12px;
-      transition: transform 0.25s ease;
+
+      transition:
+        transform 0.25s ease;
     }
 
     .project:hover h3 {
-      transform: scale(1.025);
+      transform:
+        scale(1.025);
     }
 
     .project p {
-      color: rgba(255,255,255,0.48);
+      color:
+        rgba(255,255,255,0.48);
+
       line-height: 1.6;
+
       font-size: 14px;
     }
+
+    /* =========================================
+       GAME PROJECT
+       ========================================= */
 
     .game-project {
       background:
@@ -485,66 +822,93 @@
           transparent 45%
         ),
         rgba(255,255,255,0.045);
-      border-color: rgba(160,90,255,0.16);
+
+      border-color:
+        rgba(160,90,255,0.16);
     }
 
     .game-project::after {
       content: "PLAY";
+
       position: absolute;
+
       right: 20px;
       bottom: 18px;
+
       font-size: 11px;
+
       font-weight: 900;
+
       letter-spacing: 2px;
-      color: rgba(192,132,255,0.45);
+
+      color:
+        rgba(192,132,255,0.45);
+
       pointer-events: none;
     }
 
     .game-project:hover {
-      border-color: rgba(180,120,255,0.4);
+      border-color:
+        rgba(180,120,255,0.4);
+
       box-shadow:
         0 25px 75px rgba(0,0,0,0.4),
         0 0 55px rgba(124,44,255,0.18);
     }
 
     .game-project .project-icon {
-      filter: drop-shadow(0 0 10px rgba(124,44,255,0.3));
-    }
-
-    .watch {
-      margin-top: 20px;
-      min-width: auto;
-      padding: 11px 17px;
-      font-size: 14px;
+      filter:
+        drop-shadow(
+          0 0 10px rgba(124,44,255,0.3)
+        );
     }
 
     /* =========================================
-       MINECRAFT CASE OPENING ICON
+       CASE ICON
        ========================================= */
 
     .case-icon {
       width: 72px;
       height: 72px;
+
       object-fit: contain;
+
       display: block;
+
       margin-bottom: 18px;
+
       filter:
-        drop-shadow(0 0 10px rgba(255,190,40,0.25))
-        drop-shadow(0 0 25px rgba(124,44,255,0.18));
+        drop-shadow(
+          0 0 10px rgba(255,190,40,0.25)
+        )
+        drop-shadow(
+          0 0 25px rgba(124,44,255,0.18)
+        );
+
       transform: scale(1);
+
       transition:
         transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1),
         filter 0.3s ease;
+
       image-rendering: pixelated;
+
       position: relative;
+
       z-index: 2;
     }
 
     .game-project:hover .case-icon {
-      transform: scale(1.16) rotate(-2deg);
+      transform:
+        scale(1.16) rotate(-2deg);
+
       filter:
-        drop-shadow(0 0 12px rgba(255,205,60,0.5))
-        drop-shadow(0 0 28px rgba(124,44,255,0.3));
+        drop-shadow(
+          0 0 12px rgba(255,205,60,0.5)
+        )
+        drop-shadow(
+          0 0 28px rgba(124,44,255,0.3)
+        );
     }
 
     .case-project {
@@ -563,144 +927,403 @@
     }
 
     .case-project::before {
-      background: #ffb52e;
-      opacity: 0.13;
+      background:
+        #ffb52e;
+
+      opacity:
+        0.13;
     }
 
     .case-project::after {
-      content: "OPEN";
-      color: rgba(255,205,90,0.55);
+      content:
+        "OPEN";
+
+      color:
+        rgba(255,205,90,0.55);
     }
 
-    /* RGB EFEKT */
+    /* =========================================
+       RGB TEXT
+       ========================================= */
 
     .survive-rgb {
-      background: linear-gradient(
-        90deg,
-        #ff0000,
-        #ff7a00,
-        #ffff00,
-        #00ff66,
-        #00ffff,
-        #0088ff,
-        #7c2cff,
-        #ff00ff,
-        #ff0000
-      );
+      background:
+        linear-gradient(
+          90deg,
+          #ff0000,
+          #ff7a00,
+          #ffff00,
+          #00ff66,
+          #00ffff,
+          #0088ff,
+          #7c2cff,
+          #ff00ff,
+          #ff0000
+        );
 
-      background-size: 300% auto;
+      background-size:
+        300% auto;
 
-      -webkit-background-clip: text;
-      background-clip: text;
+      -webkit-background-clip:
+        text;
 
-      -webkit-text-fill-color: transparent;
-      color: transparent;
+      background-clip:
+        text;
 
-      animation: surviveRGB 4s linear infinite;
+      -webkit-text-fill-color:
+        transparent;
+
+      color:
+        transparent;
+
+      animation:
+        surviveRGB 4s linear infinite;
 
       filter:
-        drop-shadow(0 0 8px rgba(255,0,255,0.25))
-        drop-shadow(0 0 18px rgba(0,255,255,0.15));
+        drop-shadow(
+          0 0 8px rgba(255,0,255,0.25)
+        )
+        drop-shadow(
+          0 0 18px rgba(0,255,255,0.15)
+        );
     }
 
     @keyframes surviveRGB {
       0% {
-        background-position: 0% center;
+        background-position:
+          0% center;
       }
 
       50% {
-        background-position: 100% center;
+        background-position:
+          100% center;
       }
 
       100% {
-        background-position: 200% center;
+        background-position:
+          200% center;
       }
     }
 
+    .watch {
+      margin-top: 20px;
+
+      min-width: auto;
+
+      padding: 11px 17px;
+
+      font-size: 14px;
+    }
+
+    /* =========================================
+       COMMUNITY
+       ========================================= */
+
     .community {
       padding: 60px 40px;
+
       text-align: center;
+
       position: relative;
+
       overflow: hidden;
     }
 
     .community::before {
       content: "";
+
       position: absolute;
+
       width: 400px;
       height: 200px;
+
       left: 50%;
       top: 50%;
-      transform: translate(-50%, -50%);
-      background: #7c2cff;
-      filter: blur(130px);
-      opacity: 0.15;
+
+      transform:
+        translate(-50%, -50%);
+
+      background:
+        #7c2cff;
+
+      filter:
+        blur(130px);
+
+      opacity:
+        0.15;
+
       pointer-events: none;
     }
 
     .community h2 {
       position: relative;
-      font-size: clamp(35px, 5vw, 55px);
+
+      font-size:
+        clamp(35px, 5vw, 55px);
+
       margin-bottom: 20px;
+
       transition:
         transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1),
         text-shadow 0.25s ease;
     }
 
     .community h2:hover {
-      transform: scale(1.025);
-      text-shadow: 0 0 25px rgba(170,100,255,0.3);
+      transform:
+        scale(1.025);
+
+      text-shadow:
+        0 0 25px rgba(170,100,255,0.3);
     }
 
     .community p {
       position: relative;
+
       max-width: 600px;
-      margin: auto auto 30px;
-      color: rgba(255,255,255,0.5);
-      line-height: 1.7;
+
+      margin:
+        auto auto 30px;
+
+      color:
+        rgba(255,255,255,0.5);
+
+      line-height:
+        1.7;
     }
 
     .community .buttons {
-      position: relative;
+      position:
+        relative;
     }
 
+    /* =========================================
+       FOOTER
+       ========================================= */
+
     footer {
-      width: min(1100px, calc(100% - 40px));
-      margin: auto;
-      padding: 35px 0 50px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-top: 1px solid rgba(255,255,255,0.07);
-      color: rgba(255,255,255,0.35);
-      font-size: 13px;
+      width:
+        min(1100px, calc(100% - 40px));
+
+      margin:
+        auto;
+
+      padding:
+        35px 0 50px;
+
+      display:
+        flex;
+
+      justify-content:
+        space-between;
+
+      align-items:
+        center;
+
+      border-top:
+        1px solid rgba(255,255,255,0.07);
+
+      color:
+        rgba(255,255,255,0.35);
+
+      font-size:
+        13px;
     }
 
     footer strong {
-      display: inline-block;
-      color: rgba(255,255,255,0.7);
+      display:
+        inline-block;
+
+      color:
+        rgba(255,255,255,0.7);
+
       transition:
         transform 0.25s ease,
         color 0.25s ease;
     }
 
     footer strong:hover {
-      transform: scale(1.05);
-      color: white;
+      transform:
+        scale(1.05);
+
+      color:
+        white;
     }
 
+    /* =========================================
+       LAYERING
+       ========================================= */
 
     main,
     footer {
-      position: relative;
-      z-index: 60;
+      position:
+        relative;
+
+      z-index:
+        60;
     }
 
     body > nav {
-      z-index: 100;
+      z-index:
+        100;
     }
 
+    /* =========================================
+       PURPLE SNOW
+       ========================================= */
+
+    .purple-snow {
+      position:
+        fixed;
+
+      inset:
+        0;
+
+      width:
+        100%;
+
+      height:
+        100%;
+
+      pointer-events:
+        none;
+
+      overflow:
+        hidden;
+
+      z-index:
+        50;
+
+      opacity:
+        1;
+    }
+
+    .purple-snow::before {
+      content:
+        "";
+
+      position:
+        absolute;
+
+      inset:
+        0;
+
+      background:
+        radial-gradient(
+          circle at 20% 20%,
+          rgba(150,80,255,0.035),
+          transparent 25%
+        ),
+        radial-gradient(
+          circle at 80% 70%,
+          rgba(200,120,255,0.03),
+          transparent 28%
+        );
+
+      pointer-events:
+        none;
+    }
+
+    .snowflake {
+      position:
+        absolute;
+
+      top:
+        -30px;
+
+      left:
+        0;
+
+      width:
+        var(--size);
+
+      height:
+        var(--size);
+
+      border-radius:
+        50%;
+
+      background:
+        radial-gradient(
+          circle,
+          rgba(
+            245,
+            225,
+            255,
+            var(--alpha)
+          ) 0%,
+          rgba(
+            202,
+            155,
+            255,
+            calc(var(--alpha) * 0.85)
+          ) 45%,
+          rgba(
+            142,
+            70,
+            255,
+            0
+          ) 100%
+        );
+
+      box-shadow:
+        0 0 5px rgba(210,160,255,0.75),
+        0 0 12px rgba(150,70,255,0.55),
+        0 0 22px rgba(124,44,255,0.25);
+
+      animation:
+        snowFall
+          var(--duration)
+          linear
+          var(--delay)
+          infinite,
+        snowSway
+          var(--sway)
+          ease-in-out
+          var(--delay)
+          infinite alternate;
+
+      will-change:
+        transform;
+    }
+
+    @keyframes snowFall {
+      from {
+        transform:
+          translate3d(
+            0,
+            -35px,
+            0
+          );
+      }
+
+      to {
+        transform:
+          translate3d(
+            var(--drift),
+            110vh,
+            0
+          );
+      }
+    }
+
+    @keyframes snowSway {
+      from {
+        margin-left:
+          -18px;
+      }
+
+      to {
+        margin-left:
+          18px;
+      }
+    }
+
+    /* =========================================
+       PERFORMANCE
+       ========================================= */
+
     @media (hover: hover) and (pointer: fine) {
+
       .glass,
       .btn,
       .watch,
@@ -715,234 +1338,124 @@
       .project h3,
       .community h2,
       footer strong {
-        will-change: transform;
+        will-change:
+          transform;
       }
     }
 
+    /* =========================================
+       RESPONSIVE
+       ========================================= */
+
     @media (max-width: 1000px) {
+
       .projects {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns:
+          repeat(2, 1fr);
       }
     }
 
     @media (max-width: 800px) {
+
       nav {
-        width: calc(100% - 20px);
-        top: 10px;
+        width:
+          calc(100% - 20px);
+
+        top:
+          10px;
       }
 
       nav ul {
-        display: none;
+        display:
+          none;
       }
 
       .hero h1 {
-        letter-spacing: -3px;
+        letter-spacing:
+          -3px;
       }
 
       .about {
-        grid-template-columns: 1fr;
+        grid-template-columns:
+          1fr;
       }
 
       .projects {
-        grid-template-columns: 1fr;
+        grid-template-columns:
+          1fr;
       }
 
       section {
-        padding: 80px 0;
+        padding:
+          80px 0;
       }
 
       footer {
-        flex-direction: column;
-        gap: 15px;
-        text-align: center;
+        flex-direction:
+          column;
+
+        gap:
+          15px;
+
+        text-align:
+          center;
       }
     }
 
+    @media (max-width: 500px) {
+
+      .hero h1 {
+        font-size:
+          clamp(42px, 13vw, 70px);
+
+        letter-spacing:
+          -2px;
+      }
+
+      .hero p {
+        font-size:
+          16px;
+      }
+
+      .about-card {
+        padding:
+          28px;
+      }
+
+      .community {
+        padding:
+          45px 25px;
+      }
+
+      .snowflake {
+        box-shadow:
+          0 0 4px rgba(210,160,255,0.65),
+          0 0 9px rgba(150,70,255,0.45);
+      }
+    }
 
     /* =========================================
-       GLASS BUTTONS + PURPLE SNOW
+       REDUCED MOTION
        ========================================= */
 
-    .btn,
-    .watch,
-    nav a {
-      position: relative;
-      isolation: isolate;
-      overflow: hidden;
-      background:
-        linear-gradient(
-          135deg,
-          rgba(255,255,255,0.12),
-          rgba(255,255,255,0.045) 45%,
-          rgba(125,45,255,0.075)
-        );
-      border: 1px solid rgba(255,255,255,0.18);
-      box-shadow:
-        0 8px 30px rgba(0,0,0,0.22),
-        inset 0 1px 0 rgba(255,255,255,0.16),
-        inset 0 -1px 0 rgba(255,255,255,0.04),
-        0 0 0 1px rgba(125,45,255,0.04);
-      backdrop-filter: blur(22px) saturate(145%);
-      -webkit-backdrop-filter: blur(22px) saturate(145%);
-    }
-
-    .btn::before,
-    .watch::before,
-    nav a::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background:
-        linear-gradient(
-          115deg,
-          transparent 0%,
-          transparent 35%,
-          rgba(255,255,255,0.16) 48%,
-          transparent 61%,
-          transparent 100%
-        );
-      transform: translateX(-125%);
-      transition: transform 0.65s cubic-bezier(0.2,0.8,0.2,1);
-      pointer-events: none;
-      z-index: -1;
-    }
-
-    .btn::after,
-    .watch::after,
-    nav a::after {
-      content: "";
-      position: absolute;
-      inset: 1px;
-      border-radius: inherit;
-      background: linear-gradient(
-        180deg,
-        rgba(255,255,255,0.08),
-        transparent 38%
-      );
-      pointer-events: none;
-      z-index: -1;
-    }
-
-    .btn:hover,
-    .watch:hover,
-    nav a:hover {
-      background:
-        linear-gradient(
-          135deg,
-          rgba(255,255,255,0.17),
-          rgba(140,60,255,0.13) 55%,
-          rgba(255,255,255,0.07)
-        );
-      border-color: rgba(205,165,255,0.48);
-      box-shadow:
-        0 12px 38px rgba(0,0,0,0.32),
-        0 0 32px rgba(140,60,255,0.28),
-        inset 0 1px 0 rgba(255,255,255,0.22),
-        inset 0 0 20px rgba(170,100,255,0.06);
-    }
-
-    .btn:hover::before,
-    .watch:hover::before,
-    nav a:hover::before {
-      transform: translateX(125%);
-    }
-
-    .btn:active,
-    .watch:active,
-    nav a:active {
-      transform: scale(0.97);
-      box-shadow:
-        0 5px 18px rgba(0,0,0,0.3),
-        0 0 22px rgba(140,60,255,0.2),
-        inset 0 2px 8px rgba(0,0,0,0.16);
-    }
-
-    .btn.secondary {
-      background:
-        linear-gradient(
-          135deg,
-          rgba(255,255,255,0.09),
-          rgba(255,255,255,0.035)
-        );
-    }
-
-    /* Falling purple snow */
-    .purple-snow {
-      position: fixed;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      overflow: hidden;
-      z-index: 50;
-      opacity: 1;
-    }
-
-    .purple-snow::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(circle at 20% 20%, rgba(150,80,255,0.035), transparent 25%),
-        radial-gradient(circle at 80% 70%, rgba(200,120,255,0.03), transparent 28%);
-      pointer-events: none;
-    }
-
-    .snowflake {
-      position: absolute;
-      top: -30px;
-      left: 0;
-      width: var(--size);
-      height: var(--size);
-      border-radius: 50%;
-      background:
-        radial-gradient(
-          circle,
-          rgba(245,225,255,var(--alpha)) 0%,
-          rgba(202,155,255,calc(var(--alpha) * 0.85)) 45%,
-          rgba(142,70,255,0) 100%
-        );
-      box-shadow:
-        0 0 5px rgba(210,160,255,0.75),
-        0 0 12px rgba(150,70,255,0.55),
-        0 0 22px rgba(124,44,255,0.25);
-      animation:
-        snowFall var(--duration) linear var(--delay) infinite,
-        snowSway var(--sway) ease-in-out var(--delay) infinite alternate;
-      will-change: transform;
-    }
-
-    @keyframes snowFall {
-      from {
-        transform: translate3d(0,-35px,0);
-      }
-      to {
-        transform: translate3d(var(--drift),110vh,0);
-      }
-    }
-
-    @keyframes snowSway {
-      from {
-        margin-left: -18px;
-      }
-      to {
-        margin-left: 18px;
-      }
-    }
-
     @media (prefers-reduced-motion: reduce) {
+
       .purple-snow {
-        display: none;
+        display:
+          none;
       }
-    }
 
-    @media (prefers-reduced-motion: reduce) {
       *,
       *::before,
       *::after {
-        scroll-behavior: auto !important;
-        transition-duration: 0.01ms !important;
-        animation-duration: 0.01ms !important;
+        scroll-behavior:
+          auto !important;
+
+        transition-duration:
+          0.01ms !important;
+
+        animation-duration:
+          0.01ms !important;
       }
     }
   </style>
@@ -950,403 +1463,620 @@
 
 <body>
 
-  <div class="purple-snow" aria-hidden="true"></div>
+  <!-- PURPLE SNOW CONTAINER -->
+  <div
+    class="purple-snow"
+    aria-hidden="true">
+  </div>
 
-<nav>
-  <div class="logo">HouskaCze_0</div>
+  <!-- NAVIGATION -->
+  <nav>
 
-  <ul>
-    <li><a href="#home">Domů</a></li>
-    <li><a href="#about">O mně</a></li>
-    <li><a href="#projects">Projekty</a></li>
-    <li><a href="#community">Komunita</a></li>
-  </ul>
-</nav>
-
-<main>
-
-  <section class="hero" id="home">
-
-    <div class="hero-content">
-
-      <div class="badge">
-        🟣 Vítej na mém oficiálním webu
-      </div>
-
-      <h1 id="interactiveTitle">HouskaCze_0</h1>
-
-      <p>
-        Tvořím videa, hraju Minecraft, pracuju na vlastních projektech
-        a buduju komunitu lidí, kteří jsou u toho se mnou.
-      </p>
-
-      <div class="buttons">
-
-        <a class="btn" href="#about">
-          Poznat mě
-        </a>
-
-        <a
-          class="btn secondary"
-          href="https://youtube.com/@houskacze_0?si=rwNOlnAdam7Yi_MG"
-          target="_blank"
-          rel="noopener">
-          ▶ YouTube
-        </a>
-
-      </div>
-
+    <div class="logo">
+      HouskaCze_0
     </div>
 
-  </section>
+    <ul>
 
-  <section id="about">
+      <li>
+        <a href="#home">
+          Domů
+        </a>
+      </li>
 
-    <div class="section-title">
-      <span>01 — O MNĚ</span>
-      <h2>Kdo jsem?</h2>
-    </div>
+      <li>
+        <a href="#about">
+          O mně
+        </a>
+      </li>
 
-    <div class="about">
+      <li>
+        <a href="#projects">
+          Projekty
+        </a>
+      </li>
 
-      <div class="glass about-card">
+      <li>
+        <a href="#community">
+          Komunita
+        </a>
+      </li>
 
-        <h3>Čau, jsem Houska 👋</h3>
+    </ul>
+
+  </nav>
+
+  <!-- MAIN -->
+  <main>
+
+    <!-- HERO -->
+    <section
+      class="hero"
+      id="home">
+
+      <div class="hero-content">
+
+        <div class="badge">
+          🟣 Vítej na mém oficiálním webu
+        </div>
+
+        <h1 id="interactiveTitle">
+          HouskaCze_0
+        </h1>
 
         <p>
-          Jsem český YouTuber a tvůrce, který se nejvíc věnuje
-          Minecraftu, hraní, videím a různým vlastním projektům.
-          Baví mě nejen samotné hraní, ale hlavně vytvářet věci,
-          které mají vlastní styl.
+          Tvořím videa, hraju Minecraft, pracuju na vlastních projektech
+          a buduju komunitu lidí, kteří jsou u toho se mnou.
         </p>
 
-        <p style="margin-top:18px;">
-          Tohle místo vzniklo jako centrum pro moje projekty,
-          videa a hlavně komunitu.
-        </p>
+        <div class="buttons">
+
+          <a
+            class="btn"
+            href="#about">
+            Poznat mě
+          </a>
+
+          <a
+            class="btn secondary"
+            href="https://youtube.com/@houskacze_0?si=rwNOlnAdam7Yi_MG"
+            target="_blank"
+            rel="noopener">
+            ▶ YouTube
+          </a>
+
+        </div>
 
       </div>
 
-      <div class="glass about-card">
+    </section>
 
-        <h3>Co dělám?</h3>
+    <!-- ABOUT -->
+    <section id="about">
 
-        <p>
-          🎬 Natáčím a edituju videa<br>
-          🎮 Hraju Minecraft a další hry<br>
-          💻 Vytvářím vlastní projekty<br>
-          🧩 Pracuju na serverech a pluginech<br>
-          💜 Buduju komunitu
-        </p>
+      <div class="section-title">
 
-        <div class="stats">
+        <span>
+          01 — O MNĚ
+        </span>
 
-          <div class="stat">
-            <strong>🎬</strong>
-            <span>Content Creator</span>
-          </div>
+        <h2>
+          Kdo jsem?
+        </h2>
 
-          <div class="stat">
-            <strong>🎮</strong>
-            <span>Gamer</span>
-          </div>
+      </div>
 
-          <div class="stat">
-            <strong>💻</strong>
-            <span>Developer</span>
-          </div>
+      <div class="about">
 
-          <div class="stat">
-            <strong>💜</strong>
-            <span>Community</span>
+        <div class="glass about-card">
+
+          <h3>
+            Čau, jsem Houska 👋
+          </h3>
+
+          <p>
+            Jsem český YouTuber a tvůrce, který se nejvíc věnuje
+            Minecraftu, hraní, videím a různým vlastním projektům.
+            Baví mě nejen samotné hraní, ale hlavně vytvářet věci,
+            které mají vlastní styl.
+          </p>
+
+          <p style="margin-top:18px;">
+            Tohle místo vzniklo jako centrum pro moje projekty,
+            videa a hlavně komunitu.
+          </p>
+
+        </div>
+
+        <div class="glass about-card">
+
+          <h3>
+            Co dělám?
+          </h3>
+
+          <p>
+            🎬 Natáčím a edituju videa<br>
+            🎮 Hraju Minecraft a další hry<br>
+            💻 Vytvářím vlastní projekty<br>
+            🧩 Pracuju na serverech a pluginech<br>
+            💜 Buduju komunitu
+          </p>
+
+          <div class="stats">
+
+            <div class="stat">
+              <strong>🎬</strong>
+              <span>Content Creator</span>
+            </div>
+
+            <div class="stat">
+              <strong>🎮</strong>
+              <span>Gamer</span>
+            </div>
+
+            <div class="stat">
+              <strong>💻</strong>
+              <span>Developer</span>
+            </div>
+
+            <div class="stat">
+              <strong>💜</strong>
+              <span>Community</span>
+            </div>
+
           </div>
 
         </div>
 
       </div>
 
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects">
+
+      <div class="section-title">
+
+        <span>
+          02 — PROJEKTY
+        </span>
+
+        <h2>
+          Na čem pracuju
+        </h2>
+
+      </div>
+
+      <div class="projects">
+
+        <!-- MINECRAFT -->
+
+        <div class="glass project">
+
+          <div class="project-icon">
+            ⛏️
+          </div>
+
+          <h3>
+            Minecraft
+          </h3>
+
+          <p>
+            Minecraft videa, experimenty, minihry,
+            servery a různé šílenosti, které mě zrovna napadnou.
+          </p>
+
+          <a
+            class="watch"
+            href="minecraft.html">
+            🗄️ Moje Minecraft projekty
+          </a>
+
+        </div>
+
+        <!-- VLASTNÍ PROJEKTY -->
+
+        <div class="glass project">
+
+          <div class="project-icon">
+            💻
+          </div>
+
+          <h3>
+            Vlastní projekty
+          </h3>
+
+          <p>
+            Pracuju na vlastních hrách, serverech,
+            pluginech a dalších věcech mimo samotná videa.
+          </p>
+
+        </div>
+
+        <!-- YOUTUBE -->
+
+        <div class="glass project">
+
+          <div class="project-icon">
+            🎬
+          </div>
+
+          <h3>
+            YouTube
+          </h3>
+
+          <p>
+            Tvořím zábavný obsah a snažím se každé video
+            posunout o kus dál.
+          </p>
+
+          <a
+            class="watch"
+            href="youtube.html">
+            ▶ Moje videa
+          </a>
+
+        </div>
+
+        <!-- REFLEX CHALLENGE -->
+
+        <div class="glass project game-project">
+
+          <div class="project-icon">
+            🎯
+          </div>
+
+          <h3>
+            Reflex Challenge
+          </h3>
+
+          <p>
+            Otestuj svoje reflexy. Klikni na fialový orb
+            co nejrychleji a zjisti, jakou získáš raritu.
+          </p>
+
+          <a
+            class="watch"
+            href="game.html">
+            ⚡ Zahrát si
+          </a>
+
+        </div>
+
+        <!-- YOUTUBER GAME -->
+
+        <div class="glass project game-project">
+
+          <div class="project-icon">
+            🎥
+          </div>
+
+          <h3>
+            YouTuber Game
+          </h3>
+
+          <p>
+            Staň se YouTuberem. Natáčej videa, sbírej views,
+            lajky a subscribery a postupně si odemykej lepší vybavení.
+          </p>
+
+          <a
+            class="watch"
+            href="https://houskq.github.io/youtuber-game.html">
+            🎮 Zahrát si
+          </a>
+
+        </div>
+
+        <!-- MINECRAFT CASE OPENING -->
+
+        <div
+          class="glass project game-project case-project">
+
+          <img
+            class="case-icon"
+            src="Open-Chest.png"
+            alt="Minecraft Case Opening">
+
+          <h3 class="survive-rgb">
+            Minecraft Case Opening
+          </h3>
+
+          <p>
+            Otevírej Minecraft cases, získávej vzácné itemy,
+            ukládej je do Storage a prodávej svoje dropy za coiny.
+          </p>
+
+          <a
+            class="watch"
+            href="https://houskq.github.io/survive-from-minecraft.html">
+            🎁 Otevřít cases
+          </a>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- COMMUNITY -->
+    <section id="community">
+
+      <div class="glass community">
+
+        <h2>
+          Přidej se ke komunitě 💜
+        </h2>
+
+        <p>
+          Chceš být u nových videí, projektů a dalších věcí?
+          Přidej se ke komunitě a buď součástí toho, co společně tvoříme.
+        </p>
+
+        <div class="buttons">
+
+          <a
+            class="btn"
+            href="https://discord.com/"
+            target="_blank"
+            rel="noopener">
+            💬 Discord
+          </a>
+
+          <a
+            class="btn secondary"
+            href="https://www.youtube.com/"
+            target="_blank"
+            rel="noopener">
+            ▶ YouTube
+          </a>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+
+    <div>
+      © 2026
+      <strong>
+        HouskaCze_0
+      </strong>
     </div>
 
-  </section>
-
-  <section id="projects">
-
-    <div class="section-title">
-      <span>02 — PROJEKTY</span>
-      <h2>Na čem pracuju</h2>
+    <div>
+      Made with 💜
     </div>
 
-    <div class="projects">
+  </footer>
 
-      <!-- MINECRAFT -->
+  <script>
 
-      <div class="glass project">
+    /* =========================================
+       INTERACTIVE TITLE
+       ========================================= */
 
-        <div class="project-icon">⛏️</div>
+    const title =
+      document.getElementById(
+        "interactiveTitle"
+      );
 
-        <h3>Minecraft</h3>
+    if (title) {
 
-        <p>
-          Minecraft videa, experimenty, minihry,
-          servery a různé šílenosti, které mě zrovna napadnou.
-        </p>
+      const text =
+        title.textContent.trim();
 
-        <a
-          class="watch"
-          href="minecraft.html">
-          🗄️ Moje Minecraft projekty
-        </a>
+      title.innerHTML = "";
 
-      </div>
+      [...text].forEach(character => {
 
+        const letter =
+          document.createElement("span");
 
-      <!-- VLASTNÍ PROJEKTY -->
+        letter.className =
+          "interactive-letter";
 
-      <div class="glass project">
+        letter.textContent =
+          character === " "
+            ? "\u00A0"
+            : character;
 
-        <div class="project-icon">💻</div>
+        title.appendChild(letter);
 
-        <h3>Vlastní projekty</h3>
+      });
 
-        <p>
-          Pracuju na vlastních hrách, serverech,
-          pluginech a dalších věcech mimo samotná videa.
-        </p>
+      const letters =
+        [
+          ...title.querySelectorAll(
+            ".interactive-letter"
+          )
+        ];
 
-      </div>
+      title.addEventListener(
+        "mouseenter",
+        () => {
 
+          title.classList.add(
+            "title-hover"
+          );
 
-      <!-- YOUTUBE -->
-
-      <div class="glass project">
-
-        <div class="project-icon">🎬</div>
-
-        <h3>YouTube</h3>
-
-        <p>
-          Tvořím zábavný obsah a snažím se každé video
-          posunout o kus dál.
-        </p>
-
-        <a
-          class="watch"
-          href="youtube.html">
-          ▶ Moje videa
-        </a>
-
-      </div>
-
-
-      <!-- REFLEX CHALLENGE -->
-
-      <div class="glass project game-project">
-
-        <div class="project-icon">🎯</div>
-
-        <h3>Reflex Challenge</h3>
-
-        <p>
-          Otestuj svoje reflexy. Klikni na fialový orb
-          co nejrychleji a zjisti, jakou získáš raritu.
-        </p>
-
-        <a
-          class="watch"
-          href="game.html">
-          ⚡ Zahrát si
-        </a>
-
-      </div>
-
-
-      <!-- YOUTUBER GAME -->
-
-      <div class="glass project game-project">
-
-        <div class="project-icon">🎥</div>
-
-        <h3>YouTuber Game</h3>
-
-        <p>
-          Staň se YouTuberem. Natáčej videa, sbírej views,
-          lajky a subscribery a postupně si odemykej lepší vybavení.
-        </p>
-
-        <a
-          class="watch"
-          href="https://houskq.github.io/youtuber-game.html">
-          🎮 Zahrát si
-        </a>
-
-      </div>
-
-
-      <!-- MINECRAFT CASE OPENING -->
-
-      <div class="glass project game-project case-project">
-
-        <img
-          class="case-icon"
-          src="Open-Chest.png"
-          alt="Minecraft Case Opening">
-
-        <h3 class="survive-rgb">
-          Minecraft Case Opening
-        </h3>
-
-        <p>
-          Otevírej Minecraft cases, získávej vzácné itemy,
-          ukládej je do Storage a prodávej svoje dropy za coiny.
-        </p>
-
-        <a
-          class="watch"
-          href="https://houskq.github.io/survive-from-minecraft.html">
-          🎁 Otevřít cases
-        </a>
-
-      </div>
-
-    </div>
-
-  </section>
-
-  <section id="community">
-
-    <div class="glass community">
-
-      <h2>Přidej se ke komunitě 💜</h2>
-
-      <p>
-        Chceš být u nových videí, projektů a dalších věcí?
-        Přidej se ke komunitě a buď součástí toho, co společně tvoříme.
-      </p>
-
-      <div class="buttons">
-
-        <a
-          class="btn"
-          href="https://discord.com/"
-          target="_blank"
-          rel="noopener">
-          💬 Discord
-        </a>
-
-        <a
-          class="btn secondary"
-          href="https://www.youtube.com/"
-          target="_blank"
-          rel="noopener">
-          ▶ YouTube
-        </a>
-
-      </div>
-
-    </div>
-
-  </section>
-
-</main>
-
-<footer>
-
-  <div>
-    © 2026 <strong>HouskaCze_0</strong>
-  </div>
-
-  <div>
-    Made with 💜
-  </div>
-
-</footer>
-
-<script>
-  const title = document.getElementById("interactiveTitle");
-
-  if (title) {
-
-    const text = title.textContent.trim();
-
-    title.innerHTML = "";
-
-    [...text].forEach(character => {
-
-      const letter = document.createElement("span");
-
-      letter.className = "interactive-letter";
-
-      letter.textContent =
-        character === " " ? "\u00A0" : character;
-
-      title.appendChild(letter);
-
-    });
-
-    const letters =
-      [...title.querySelectorAll(".interactive-letter")];
-
-    title.addEventListener("mouseenter", () => {
-      title.classList.add("title-hover");
-    });
-
-    title.addEventListener("mousemove", event => {
-
-      letters.forEach(letter => {
-
-        const rect = letter.getBoundingClientRect();
-
-        const centerX =
-          rect.left + rect.width / 2;
-
-        const centerY =
-          rect.top + rect.height / 2;
-
-        const distance = Math.hypot(
-          event.clientX - centerX,
-          event.clientY - centerY
-        );
-
-        const radius = 110;
-
-        const strength = Math.max(
-          0,
-          1 - distance / radius
-        );
-
-        const scale =
-          1 + strength * 0.30;
-
-        letter.style.transform =
-          `scale(${scale})`;
-
-        if (strength > 0.65) {
-          letter.classList.add("glow");
-        } else {
-          letter.classList.remove("glow");
         }
+      );
 
-      });
+      title.addEventListener(
+        "mousemove",
+        event => {
 
-    });
+          letters.forEach(letter => {
 
-    title.addEventListener("mouseleave", () => {
+            const rect =
+              letter.getBoundingClientRect();
 
-      title.classList.remove("title-hover");
+            const centerX =
+              rect.left +
+              rect.width / 2;
 
-      letters.forEach(letter => {
+            const centerY =
+              rect.top +
+              rect.height / 2;
 
-        letter.style.transform =
-          "scale(1)";
+            const distance =
+              Math.hypot(
+                event.clientX - centerX,
+                event.clientY - centerY
+              );
 
-        letter.classList.remove("glow");
+            const radius =
+              110;
 
-      });
+            const strength =
+              Math.max(
+                0,
+                1 - distance / radius
+              );
 
-    });
+            const scale =
+              1 + strength * 0.30;
 
-  }
-</script>
+            letter.style.transform =
+              `scale(${scale})`;
+
+            if (strength > 0.65) {
+
+              letter.classList.add(
+                "glow"
+              );
+
+            } else {
+
+              letter.classList.remove(
+                "glow"
+              );
+
+            }
+
+          });
+
+        }
+      );
+
+      title.addEventListener(
+        "mouseleave",
+        () => {
+
+          title.classList.remove(
+            "title-hover"
+          );
+
+          letters.forEach(letter => {
+
+            letter.style.transform =
+              "scale(1)";
+
+            letter.classList.remove(
+              "glow"
+            );
+
+          });
+
+        }
+      );
+
+    }
+
+    /* =========================================
+       PURPLE SNOW GENERATOR
+       ========================================= */
+
+    const snowContainer =
+      document.querySelector(
+        ".purple-snow"
+      );
+
+    if (snowContainer) {
+
+      const SNOW_COUNT = 75;
+
+      for (
+        let i = 0;
+        i < SNOW_COUNT;
+        i++
+      ) {
+
+        const snowflake =
+          document.createElement(
+            "span"
+          );
+
+        snowflake.className =
+          "snowflake";
+
+        const size =
+          Math.random() * 5 + 2;
+
+        const alpha =
+          Math.random() * 0.55 + 0.35;
+
+        const duration =
+          Math.random() * 8 + 7;
+
+        const delay =
+          Math.random() * -15;
+
+        const sway =
+          Math.random() * 3 + 2;
+
+        const drift =
+          Math.random() * 180 - 90;
+
+        snowflake.style.setProperty(
+          "--size",
+          `${size}px`
+        );
+
+        snowflake.style.setProperty(
+          "--alpha",
+          alpha
+        );
+
+        snowflake.style.setProperty(
+          "--duration",
+          `${duration}s`
+        );
+
+        snowflake.style.setProperty(
+          "--delay",
+          `${delay}s`
+        );
+
+        snowflake.style.setProperty(
+          "--sway",
+          `${sway}s`
+        );
+
+        snowflake.style.setProperty(
+          "--drift",
+          `${drift}px`
+        );
+
+        snowflake.style.left =
+          `${Math.random() * 100}%`;
+
+        snowContainer.appendChild(
+          snowflake
+        );
+
+      }
+
+    }
+
+  </script>
 
 </body>
 </html>
+```
